@@ -204,6 +204,9 @@ gradle-app.setting
 # application properties
 application.properties
 
+# vs code setting
+.vscode/settings.json
+
 # End of https://www.toptal.com/developers/gitignore/api/java,gradle,intellij,visualstudiocode,react
 
 .idea/jpa-buddy.xml
