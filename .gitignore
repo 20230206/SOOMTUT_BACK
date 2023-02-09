@@ -205,3 +205,17 @@ gradle-app.setting
 application.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/java,gradle,intellij,visualstudiocode,react
+
+.idea/jpa-buddy.xml
+
+.idea/misc.xml
+
+.idea/modules.xml
+
+.idea/modules/soomtut.iml
+
+.idea/modules/soomtut.main.iml
+
+.idea/modules/soomtut.test.iml
+
+.idea/vcs.xml
