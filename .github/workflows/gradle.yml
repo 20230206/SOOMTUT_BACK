@@ -29,15 +29,21 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+
+    - name: Shutdown Ubuntu MySQL (SUDO)
+      run: sudo service mysql stop
+
     - name: Setup MySQL
       uses: samin/mysql-action@v1
       with:
         character set server: 'utf8' 
-        mysql database: 'localspace' 
+        mysql database: 'jdbc:mysql://localhost:3306/tutoring?createDatabaseIfNotExist=true&serverTimezone=UTC&characterEncoding=UTF-8' 
         mysql user: 'root'
         mysql password: ${{ secrets.MYSQL_PASSWORD }} # github Secret 탭에서 설정하세요!
+
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
