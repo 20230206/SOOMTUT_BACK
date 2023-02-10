@@ -10,7 +10,7 @@ public enum ErrorCode {
     INVALID_AUTH_TOKEN("권한 정보가 없는 토큰입니다"),
     INVALID_TOKEN("토큰이 유효하지 않습니다."),
     AUTHORIZATION("작성자만 수정/삭제할 수 있습니다."),
-    DUPLICATED_USERNAME("중복된 email 입니다"),
+    DUPLICATED_EMAIL("중복된 email 입니다"),
     DUPLICATED_NICKNAME("중복된 닉네임 입니다"),
     NOT_FOUND_USER("회원을 찾을 수 없습니다."),
     INVALID_PASSWORD("비밀번호가 틀렸습니다."),
