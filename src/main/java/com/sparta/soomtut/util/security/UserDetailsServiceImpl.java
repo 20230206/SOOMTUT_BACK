@@ -17,8 +17,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final MemberRepository memberRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Member member = memberRepository.findByUsername(username)
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Member member = memberRepository.findByEmail(email)
 			.orElseThrow(
 				() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "올바른 토큰이 아닙니다."));
 		return new UserDetailsImpl(member);

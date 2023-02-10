@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.stereotype.Component;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Component
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
     private static final SecurityExceptionDto exceptionDto = 
             new SecurityExceptionDto(HttpStatus.FORBIDDEN.value(), SecurityExceptionDto.ResponseMessage.FORBBIDEN);
