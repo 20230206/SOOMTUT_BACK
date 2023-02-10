@@ -4,21 +4,32 @@
 
     margin: auto;
     
-    display: grid;
-    place-items: center;
     
     border: 2px solid;
     border-radius: 5px;
 }
 
+.formbox {
+    position: relative;
+    transform: translateX(15%) translateY(8%);
+            
+    display: grid;
+    place-items: center;
+
+    width: 300px;
+    height: 500px;
+
+    border: 2px solid;
+    border-radius: 5px;
+
+    padding-top: 10vh;
+
+}
+
 .title{
     font-size : 25px;
     font-weight: bold;
-    place-items: center;
-    align-items: center;
 
-    position:relative;
-    transform: translateX(-50%);
 }
 
 .group {
@@ -46,7 +57,7 @@
 
     border-radius: 10px;
 
-    margin-top: 10px;
+    margin-top: 30px;
     margin-bottom: 10px;
 }
 
