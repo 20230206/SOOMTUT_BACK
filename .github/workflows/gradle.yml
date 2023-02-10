@@ -37,7 +37,7 @@ jobs:
       uses: samin/mysql-action@v1
       with:
         character set server: 'utf8' 
-        mysql database: 'jdbc:mysql://localhost:3306/tutoring?createDatabaseIfNotExist=true&serverTimezone=UTC&characterEncoding=UTF-8' 
+        mysql database: 'test' 
         mysql user: 'root'
         mysql password: ${{ secrets.MYSQL_PASSWORD }} # github Secret 탭에서 설정하세요!
 
