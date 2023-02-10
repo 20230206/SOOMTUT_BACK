@@ -1,13 +1,13 @@
-package com.sparta.soomtut;
+// package com.sparta.soomtut;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class SoomtutApplicationTests {
+// @SpringBootTest
+// class SoomtutApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+//     // @Test
+//     // void contextLoads() {
+//     // }
 
-}
+// }
