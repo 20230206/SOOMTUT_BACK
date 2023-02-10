@@ -1,9 +1,12 @@
 package com.sparta.soomtut.config;
 
 import com.sparta.soomtut.util.jwt.JwtProvider;
+import com.sparta.soomtut.util.jwt.JwtAuthenticationFilter;
+import com.sparta.soomtut.util.security.AccessDeniedHandlerImpl;
+import com.sparta.soomtut.util.security.UserDetailsServiceImpl;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,29 +20,43 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig implements WebMvcConfigurer {
     private final JwtProvider jwtProvider;
+    private final UserDetailsServiceImpl userDetailsService;
 
     public static final String ALLOWED_METHOD_NAMES = "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH";
+
+	@Bean
+	public JwtAuthenticationFilter jwtVerificationFilter() {
+		return new JwtAuthenticationFilter(jwtProvider, userDetailsService);
+	}
+
+    @Bean
+    public AccessDeniedHandlerImpl accessDeniedHandler() {
+        return new AccessDeniedHandlerImpl();
+    }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                .requestMatchers("/**");
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.httpBasic().disable()
                 .csrf().disable()
-                .formLogin().disable()
-//                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .formLogin().loginPage("http://localhost:3000/signin")
                 .and()
-                .authorizeHttpRequests()
-                .requestMatchers("/").permitAll()
-                .anyRequest().authenticated();
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                    .authorizeHttpRequests()
+                    .requestMatchers("/**").permitAll()
+                    .anyRequest().authenticated();
+
+        http.exceptionHandling().authenticationEntryPoint(null)
+                                .accessDeniedHandler(accessDeniedHandler());
 
         return http.build();
     }

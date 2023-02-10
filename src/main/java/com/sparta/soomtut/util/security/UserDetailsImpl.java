@@ -1,16 +1,18 @@
 package com.sparta.soomtut.util.security;
 
 import com.sparta.soomtut.entity.Member;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-@RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
     private final Member member;
+
+    public UserDetailsImpl(Member member) {
+        this.member = member;
+    }
 
     public Member getMember(){
         return member;
