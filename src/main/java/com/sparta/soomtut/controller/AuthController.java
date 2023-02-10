@@ -1,5 +1,8 @@
 package com.sparta.soomtut.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,13 +23,19 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping(value = "/signin")
-    public void SignIn(
-            /*SignIn Request*/
+    public ResponseEntity<?> signin(
+        /*SignIn Request*/ @RequestBody SigninRequestDto requestDto
+        
     )
     {
         // Service
+        SigninResponseDto response = authService.signin(requestDto);
+        var message = "Method[signin] has called by front";
 
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("msg", message);
         // return
+        return ResponseEntity.ok().header("Authrization", response.getToken()).body(dataMap);
     }
 
     @PostMapping(value = "/signinkakao")
@@ -40,7 +49,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "/signup")
-    public ResponseEntity<?> signUp(
+    public ResponseEntity<?> signup(
         /*SignUp Request*/@RequestBody SignupRequestDto requestDto
     )
     {
