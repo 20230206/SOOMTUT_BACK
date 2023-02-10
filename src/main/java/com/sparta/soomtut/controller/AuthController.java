@@ -1,16 +1,23 @@
 package com.sparta.soomtut.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sparta.soomtut.dto.*;
+import com.sparta.soomtut.service.interfaces.AuthService;
+import com.sparta.soomtut.service.interfaces.MemberService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 public class AuthController {
+    private final MemberService memberService;
+    private final AuthService authService;
 
     @PostMapping(value = "/signin")
     public void SignIn(
@@ -33,15 +40,15 @@ public class AuthController {
     }
 
     @PostMapping(value = "/signup")
-    public String SignUp(
-            /*SignUp Request*/
-            @RequestBody SignupRequestDto requestDto
+    public ResponseEntity<?> signUp(
+        /*SignUp Request*/@RequestBody SignupRequestDto requestDto
     )
     {
         // Service
-        System.out.println(requestDto.getUsername() + requestDto.getEmail() + requestDto.getPassword());
+        authService.signup(requestDto);
+        var data = "Method[signUp] has called by front";
         // return
-        return "Method: [Sign Up] called";
+        return ResponseEntity.ok().body(data);
     }
 
     @PostMapping(value = "/signupkakao")

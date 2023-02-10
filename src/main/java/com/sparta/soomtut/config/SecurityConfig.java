@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +31,11 @@ public class SecurityConfig implements WebMvcConfigurer {
     
 
     public static final String ALLOWED_METHOD_NAMES = "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH";
-
+    
+    @Bean PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    
 	@Bean
 	public JwtAuthenticationFilter jwtVerificationFilter() {
 		return new JwtAuthenticationFilter(jwtProvider, userDetailsService);
