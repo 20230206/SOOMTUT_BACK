@@ -1,13 +1,24 @@
 package com.sparta.soomtut.controller;
 
+import com.sparta.soomtut.service.impl.MemberServiceImpl;
+import com.sparta.soomtut.util.security.UserDetailsImpl;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 public class MemberController  {
     /*
      MemberServiceImpl
      ReviewServiceImpl
      */
+
+    private MemberServiceImpl memberService;
+
+
 
     @GetMapping(value = "/member/{memberId}/mypage/nickname")
     public String getNickname(
@@ -20,15 +31,16 @@ public class MemberController  {
         return "";
     }
 
-    @PutMapping(value = "/member/{memberId}/mypage/nickname")
-    public String setNickname(
-        @RequestParam Long memberId
+    @PutMapping(value = "/member/mypage/nickname")
+    public ResponseEntity<?> setNickname(
+            @RequestBody String nickname,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
         /* RequestBody */
     ) {
         // Service
-
+        String msg = memberService.updateNickname(nickname,userDetails.getMember());
         // return
-        return "";
+        return ResponseEntity.status(HttpStatus.OK).body(msg) ;
     }
 
 
