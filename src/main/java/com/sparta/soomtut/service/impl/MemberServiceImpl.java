@@ -34,4 +34,16 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.existsByNickname(nickname);    
     }
 
+    @Transactional
+    public String updateNickname(String nickname, Member member){
+
+        Member foundMember = memberRepository.findById(member.getId()).orElseThrow(
+                () -> new IllegalArgumentException("등록된 사용자가 없습니다!")
+        );
+
+        foundMember.updateNickName(nickname);
+
+        return "수정이 완료되었습니다!";
+    }
+
 }

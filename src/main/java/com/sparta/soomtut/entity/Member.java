@@ -21,6 +21,9 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String nickname;
+
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -47,7 +50,9 @@ public class Member {
     private String image;
 
 
+
     public Member(String email, String password, String nickname) {
+
         this.email = email;
         this.password = password;
         this.nickname = nickname;
@@ -56,5 +61,9 @@ public class Member {
         this.starRating = 0.0f;
         this.level = 0;
         this.image = Constants.STANDARD_USER_IMAGE;
+    }
+
+    public void updateNickName(String nickname) {
+        this.nickname = nickname;
     }
 }
