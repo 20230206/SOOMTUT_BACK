@@ -1,17 +1,57 @@
 .wrapper {
-    width: 600px;
+    width: 400px;
     height: 90vh;
-
-    border: 2px solid;
-    border-radius: 5px;
 
     margin: auto;
     
     display: grid;
     place-items: center;
+    
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.title{
+    font-size : 25px;
+    font-weight: bold;
+    place-items: center;
+    align-items: center;
+
+    position:relative;
+    transform: translateX(-50%);
+}
+
+.group {
+    margin-top: 10px;
 }
 
 .label {
     font-size : 20px;
     font-weight: bold;
+}
+
+.input {
+    width: 250px;
+    height: 40px;
+}
+
+.summit {
+    width: 250px;
+    height: 55px;
+    
+    background-color:#4E57De;
+    color: #FFFFFF;
+
+    font-size: 22px;
+
+    border-radius: 10px;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.kakao {
+    width: 250px;
+
+    border-radius: 10px;
 }
