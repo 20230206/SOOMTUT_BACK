@@ -11,9 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Component
 public class AuthdenticationEntryPointImpl implements AuthenticationEntryPoint {
     private static final SecurityExceptionDto exceptionDto = 
             new SecurityExceptionDto(HttpStatus.UNAUTHORIZED.value(), SecurityExceptionDto.ResponseMessage.UNAUTHORIZED);
