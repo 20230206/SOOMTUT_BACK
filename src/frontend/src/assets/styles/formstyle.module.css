@@ -1,0 +1,17 @@
+.wrapper {
+    width: 600px;
+    height: 90vh;
+
+    border: 2px solid;
+    border-radius: 5px;
+
+    margin: auto;
+    
+    display: grid;
+    place-items: center;
+}
+
+.label {
+    font-size : 20px;
+    font-weight: bold;
+}
