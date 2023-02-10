@@ -1,15 +1,14 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 import styles from "../assets/styles/formstyle.module.css"
+import logo from "../assets/images/logo.png"
 
 function SignupForm() {
     return (
         <div className={styles.wrapper}>
          <div className={styles.formbox}>
-          <text className={styles.title} style={{color:"#4E57DE"}}> SOOMTUT </text>
-          <br></br>
+          <img src={logo} style={{width:"220px"}} alt="logo"/>
           <text className={styles.title}>회원가입</text>
-          <br></br>
           <br></br>
            <Form>
             <Form.Group className={styles.Group}>

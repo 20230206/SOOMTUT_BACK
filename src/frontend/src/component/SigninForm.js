@@ -4,15 +4,14 @@ import styles from "../assets/styles/formstyle.module.css"
 
 import { Link } from "react-router-dom"
 import kakao from "../assets/images/kakaosignup.png"
+import logo from "../assets/images/logo.png"
 
 function SigninForm() {
        return (
         <div className={styles.wrapper}>
          <div className={styles.formbox}>
-          <text className={styles.title} style={{color:"#4E57DE"}}> SOOMTUT </text>
-          <br></br>
+          <img src={logo} style={{width:"220px"}} alt="logo"/>
           <text className={styles.title}>로그인</text>
-          <br></br>
           <br></br>
            <Form>
             <Form.Group className={styles.Group}>

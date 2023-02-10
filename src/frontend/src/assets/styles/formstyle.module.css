@@ -3,10 +3,6 @@
     height: 90vh;
 
     margin: auto;
-    
-    
-    border: 2px solid;
-    border-radius: 5px;
 }
 
 .formbox {
@@ -22,14 +18,12 @@
     border: 2px solid;
     border-radius: 5px;
 
-    padding-top: 10vh;
-
+    padding-top: 5vh;
 }
 
 .title{
     font-size : 25px;
-    font-weight: bold;
-
+    font-weight: 1000;
 }
 
 .group {
@@ -65,4 +59,6 @@
     width: 250px;
 
     border-radius: 10px;
+
+    margin-bottom: 20px;
 }
