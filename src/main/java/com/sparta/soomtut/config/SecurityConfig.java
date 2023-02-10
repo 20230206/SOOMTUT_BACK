@@ -3,6 +3,7 @@ package com.sparta.soomtut.config;
 import com.sparta.soomtut.util.jwt.JwtProvider;
 import com.sparta.soomtut.util.jwt.JwtAuthenticationFilter;
 import com.sparta.soomtut.util.security.AccessDeniedHandlerImpl;
+import com.sparta.soomtut.util.security.AuthdenticationEntryPointImpl;
 import com.sparta.soomtut.util.security.UserDetailsServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,9 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 public class SecurityConfig implements WebMvcConfigurer {
     private final JwtProvider jwtProvider;
     private final UserDetailsServiceImpl userDetailsService;
+    private final AccessDeniedHandlerImpl accessDeniedHandler;
+    private final AuthdenticationEntryPointImpl authdenticationEntryPoint;
+    
 
     public static final String ALLOWED_METHOD_NAMES = "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH";
 
@@ -30,11 +34,6 @@ public class SecurityConfig implements WebMvcConfigurer {
 	public JwtAuthenticationFilter jwtVerificationFilter() {
 		return new JwtAuthenticationFilter(jwtProvider, userDetailsService);
 	}
-
-    @Bean
-    public AccessDeniedHandlerImpl accessDeniedHandler() {
-        return new AccessDeniedHandlerImpl();
-    }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -55,8 +54,8 @@ public class SecurityConfig implements WebMvcConfigurer {
                     .requestMatchers("/**").permitAll()
                     .anyRequest().authenticated();
 
-        http.exceptionHandling().authenticationEntryPoint(null)
-                                .accessDeniedHandler(accessDeniedHandler());
+        http.exceptionHandling().authenticationEntryPoint(authdenticationEntryPoint)
+                                .accessDeniedHandler(accessDeniedHandler);
 
         return http.build();
     }
