@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import axios from "axios";
+
+
 import styles from "../assets/styles/formstyle.module.css"
 import logo from "../assets/images/logo.png"
 
@@ -12,16 +15,27 @@ function SignupForm() {
     const [isValidNickname, setValidNickname] = useState(false);
     const [isValidPassword, setValidPassword] = useState(false);
 
+    const [dupleEmail, setDupleEmail] = useState(false);
+    const [dupleNickname, setDupleNickname] = useState(false);
 
     const InputEmail = (event) => {
         setValidEmail(CheckEmail(event))
         setEmail(event.target.value)
     }
+
     const CheckEmail = (event) => {
         // 중복검사
-        var regex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/
-        return regex.test(event.target.value)
+        var regex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{3,3}$/
+        var isRegex =  regex.test(event.target.value);
+        if(isRegex) { 
+            EmailDupleCheck(event.target.value);
+            console.log("regex :" + isRegex)
+            console.log("duple :" + dupleEmail)
+        }
+        
+        return isRegex;
     }
+        
 
     const InputNickname = (event) => {
         setValidNickname(CheckNickname(event))
@@ -31,8 +45,12 @@ function SignupForm() {
     const CheckNickname = (event) => {
         // 중복검사
         const regex = /^[가-힣a-zA-Z0-9]{4,10}$/
-        console.log(regex.test(event.target.value));
-        return regex.test(event.target.value)
+        var isRegex =  regex.test(event.target.value);
+        if(isRegex) { 
+            isRegex = isRegex && !NicknameDupleCheck(event.target.value)
+            console.log(isRegex)
+        }
+        return isRegex;
     }
 
     const InputPassword = (event) => {
@@ -43,6 +61,48 @@ function SignupForm() {
     const CheckPassword = (event) => {
         var regex = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/;
         return regex.test(event.target.value);
+    }
+
+    const EmailDupleCheck = (input) => {
+        var data = '';
+
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `http://localhost:8080/signup/check?email=${input}`,
+            headers: { },
+            data : data
+        };
+
+        axios(config)
+        .then(function (response) {
+            console.log("response.data : " + response.data)
+            setDupleEmail(response.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
+    const NicknameDupleCheck = (input) => {
+        var data = '';
+
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `http://localhost:8080/signup/check?nickname=${input}`,
+            headers: { },
+            data : data
+        };
+
+        axios(config)
+        .then(function (response) {
+            console.log("response.data : " + response.data)
+            setDupleNickname(response.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
 
     return (
@@ -64,8 +124,8 @@ function SignupForm() {
               <br />
              <Form.Text
               className="text-muted"
-              style={isValidEmail ? {color:"green"} : {color:"red"}}>
-                 {isValidEmail ? "가입 가능한 이메일입니다" : "가입 불가능한 이메일입니다." }
+              style={isValidEmail && !dupleEmail ? {color:"green"} : {color:"red"}}>
+                 {isValidEmail && !dupleEmail ? "가입 가능한 이메일입니다" : "가입 불가능한 이메일입니다." }
              </Form.Text>
             </Form.Group>
     
@@ -81,8 +141,8 @@ function SignupForm() {
              <br />
              <Form.Text
               className="text-muted"
-              style={isValidNickname ? {color:"green"} : {color:"red"}}>
-                 {isValidNickname? "사용 가능한 닉네임입니다." : "사용 불가능한 닉네임입니다."}
+              style={isValidNickname && !dupleNickname ? {color:"green"} : {color:"red"}}>
+                 {isValidNickname && !dupleNickname ? "사용 가능한 닉네임입니다." : "사용 불가능한 닉네임입니다."}
              </Form.Text>
             </Form.Group>
     
