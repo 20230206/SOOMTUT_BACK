@@ -4,7 +4,7 @@ import SignupForm from "../component/SignupForm"
 function Signup () {
     return (
         <div>
-            <SignupForm />
+         <SignupForm />
         </div>
     );
 }

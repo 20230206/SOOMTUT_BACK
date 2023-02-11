@@ -137,7 +137,7 @@ function SignupForm() {
           
     }
 
-    const handleSummit = (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
     }
 
@@ -147,7 +147,7 @@ function SignupForm() {
           <img src={logo} style={{width:"220px"}} alt="logo" />
           <p className={styles.title}>회원가입</p>
           <br />
-           <Form onSubmit={handleSummit}>
+           <Form onSubmit={handleSubmit}>
             <Form.Group className={styles.Group}>
              <Form.Label className={styles.label}>Email</Form.Label>
              <br />

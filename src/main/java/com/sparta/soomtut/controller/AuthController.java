@@ -26,7 +26,7 @@ public class AuthController {
 
     @PostMapping(value = "/signin")
     public ResponseEntity<?> signin(
-        /*SignIn Request*/ @RequestBody SigninRequestDto requestDto
+        @RequestBody SigninRequestDto requestDto
         
     )
     {
@@ -37,7 +37,7 @@ public class AuthController {
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("msg", message);
         // return
-        return ResponseEntity.ok().header("Authrization", response.getToken()).body(dataMap);
+        return ResponseEntity.ok().header("Authorization", response.getToken()).body(dataMap);
     }
 
     @PostMapping(value = "/signinkakao")
@@ -52,7 +52,7 @@ public class AuthController {
 
     @PostMapping(value = "/signup")
     public ResponseEntity<?> signup(
-        /*SignUp Request*/@RequestBody SignupRequestDto requestDto
+        @RequestBody SignupRequestDto requestDto
     )
     {
         // Service
