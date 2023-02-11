@@ -5,8 +5,11 @@ import axios from "axios";
 
 import styles from "../assets/styles/formstyle.module.css"
 import logo from "../assets/images/logo.png"
+import { useNavigate } from "react-router-dom";
 
 function SignupForm() {
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState("");
     const [nickname, setNickname] = useState("");
     const [password, setPassword] = useState("");
@@ -29,8 +32,6 @@ function SignupForm() {
         var isRegex =  regex.test(event.target.value);
         if(isRegex) { 
             EmailDupleCheck(event.target.value);
-            console.log("regex :" + isRegex)
-            console.log("duple :" + dupleEmail)
         }
         
         return isRegex;
@@ -59,7 +60,7 @@ function SignupForm() {
     }
 
     const CheckPassword = (event) => {
-        var regex = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/;
+        var regex = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]).*$/;
         return regex.test(event.target.value);
     }
 
@@ -76,7 +77,6 @@ function SignupForm() {
 
         axios(config)
         .then(function (response) {
-            console.log("response.data : " + response.data)
             setDupleEmail(response.data)
         })
         .catch(function (error) {
@@ -105,13 +105,49 @@ function SignupForm() {
         });
     }
 
+    function SubmitAccount(nickname, email, password) {
+        console.log("Method[SubmitAccount] has called")
+
+        var data = JSON.stringify({
+            "nickname": nickname,
+            "email": email,
+            "password": password
+          });
+          
+          var config = {
+            method: 'post',
+          maxBodyLength: Infinity,
+            url: 'http://localhost:8080/signup',
+            headers: { 
+              'Content-Type': 'application/json'
+            },
+            data : data
+          };
+          
+          axios(config)
+          .then(function (response) {
+            console.log(JSON.stringify(response.data));
+            alert("회원가입에 성공하였습니다.")
+            navigate("/");
+
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          
+    }
+
+    const handleSummit = (event) => {
+        event.preventDefault();
+    }
+
     return (
         <div className={styles.wrapper}>
          <div className={styles.formbox}>
           <img src={logo} style={{width:"220px"}} alt="logo" />
-          <text className={styles.title}>회원가입</text>
+          <p className={styles.title}>회원가입</p>
           <br />
-           <Form>
+           <Form onSubmit={handleSummit}>
             <Form.Group className={styles.Group}>
              <Form.Label className={styles.label}>Email</Form.Label>
              <br />
@@ -162,8 +198,8 @@ function SignupForm() {
                  {isValidPassword? "사용 가능한 비밀번호입니다." : "사용 불가능한 비밀번호입니다."}
              </Form.Text>
             </Form.Group>
-                
-            <Button className={styles.summit} variant="primary" type="submit">
+            {/* onClick={SubmitAccount(nickname, email, password)} */}
+            <Button className={styles.summit} variant="primary" type="submit" onClick={() => SubmitAccount(nickname,email,password)}>
             가입하기
             </Button>
            </Form>
