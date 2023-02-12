@@ -36,6 +36,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
 
+    @Override
     @Transactional
     public String updateNickname(String nickname, Member member){
 
@@ -43,33 +44,33 @@ public class MemberServiceImpl implements MemberService{
 
         return "수정이 완료되었습니다!";
     }
-
+    @Override
     @Transactional
     public String getNickname(Member member) {
 
         return member.getNickname();
 
     }
-
+    @Override
     @Transactional
     public String getLocation(Member member) {
 
         return locationService.getLocation(member).getAddress();
 
     }
-
+    @Override
     @Transactional
     public LocalDate getSignupDate(Member member) {
 
         return member.getCreatedAt();
 
     }
-
+    @Override
     @Transactional
     public int getLevel(Member member) {
         return member.getLevel();
     }
-
+    @Override
     @Transactional
     public String getImage(Member member) {
         return member.getImage();
