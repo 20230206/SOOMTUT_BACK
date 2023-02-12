@@ -35,53 +35,38 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.existsByNickname(nickname);    
     }
 
-    @Override
-    @Transactional
-    public Member findMemberById(Long memberId){
-        Member foundMember = memberRepository.findById(memberId).orElseThrow(
-                () -> new IllegalArgumentException("등록된 사용자가 없습니다!")
-        );
-        return foundMember;
-    }
 
     @Transactional
     public String updateNickname(String nickname, Member member){
 
-        Member foundMember = findMemberById(member.getId());
-
-        foundMember.updateNickName(nickname);
+        member.updateNickName(nickname);
 
         return "수정이 완료되었습니다!";
     }
 
     public String getNickname(Member member) {
 
-        Member foundMember = findMemberById(member.getId());
-        return foundMember.getNickname();
+        return member.getNickname();
 
     }
 
     public String getLocation(Member member) {
-        Member foundMember = findMemberById(member.getId());
 
-        return locationService.getLocation(foundMember).getAddress();
+        return locationService.getLocation(member).getAddress();
 
     }
 
     public LocalDate getSignupDate(Member member) {
-        Member foundMember  = findMemberById(member.getId());
 
-        return foundMember.getCreatedAt();
+        return member.getCreatedAt();
 
     }
 
     public int getLevel(Member member) {
-        Member foundMember  = findMemberById(member.getId());
-        return foundMember.getLevel();
+        return member.getLevel();
     }
 
     public String getImage(Member member) {
-        Member foundMember  = findMemberById(member.getId());
-        return foundMember.getImage();
+        return member.getImage();
     }
 }

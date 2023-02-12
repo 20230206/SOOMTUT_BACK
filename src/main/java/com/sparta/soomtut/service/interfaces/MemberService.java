@@ -11,6 +11,4 @@ public interface MemberService {
     boolean existsMemberByEmail(String email);
     boolean existsMemberByNickname(String nickname);
 
-
-    Member findMemberById(Long memberId);
 }

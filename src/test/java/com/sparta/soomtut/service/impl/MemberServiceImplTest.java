@@ -36,12 +36,10 @@ class MemberServiceImplTest {
     void updateNickname() {
 
         Member member = new Member("user@user.com","asd12345","user1");
-        given(memberRepository.findById(any())).willReturn(Optional.ofNullable(member));
 
         String msg = memberService.updateNickname("new nickname",member);
 
         assertThat(msg).isEqualTo("수정이 완료되었습니다!");
-        verify(memberRepository,times(1)).findById(member.getId());
         assertThat(member.getNickname()).isEqualTo("new nickname");
 
     }
@@ -50,10 +48,9 @@ class MemberServiceImplTest {
     @DisplayName("닉네임 가져오기")
     void getNickname(){
         Member member = new Member("user@user.com","asd12345","user1");
-        given(memberRepository.findById(member.getId())).willReturn(Optional.ofNullable(member));
         //given(memberService.findMemberById(member.getId())).willReturn(member);
-
-        assertThat(memberService.findMemberById(member.getId()).getNickname()).isEqualTo(member.getNickname());
+        String nickName = memberService.getNickname(member);
+        assertThat(member.getNickname()).isEqualTo(nickName);
 
     }
 
@@ -62,14 +59,9 @@ class MemberServiceImplTest {
     void getLocation(){
         Member member = new Member("user@user.com","asd12345","user1");
         Location location = new Location(1L,member,"서울",3f,3f);
-        given(memberRepository.findById(member.getId())).willReturn(Optional.ofNullable(member));
-        //given(memberService.findMemberById(member.getId())).willReturn(member);
         given(locationService.getLocation(member)).willReturn(location);
-        //given(locationRepository.findByMemberId(anyLong())).willReturn(location);
-        //given(locationRepository.findByMemberId(member.getId())).willReturn(location);
         String address = memberService.getLocation(member);
         assertThat(address).isEqualTo("서울");
-        //verify(locationRepository,times(1)).findByMemberId(anyLong());
 
     }
 
@@ -77,7 +69,6 @@ class MemberServiceImplTest {
     @DisplayName("가입일자 가져오기")
     void getSignupDate(){
         Member member = new Member("user@user.com","asd12345","user1");
-        given(memberRepository.findById(member.getId())).willReturn(Optional.ofNullable(member));
         LocalDate signupDate = memberService.getSignupDate(member);
 
         assertThat(signupDate).isEqualTo(member.getCreatedAt());
@@ -88,7 +79,6 @@ class MemberServiceImplTest {
     @DisplayName("레벨 가져오기")
     void getLevel(){
         Member member = new Member("user@user.com","asd12345","user1");
-        given(memberRepository.findById(member.getId())).willReturn(Optional.ofNullable(member));
         int level = memberService.getLevel(member);
         assertThat(level).isEqualTo(0);
 
@@ -98,7 +88,6 @@ class MemberServiceImplTest {
     @DisplayName("이미지 가져오기")
     void getImage(){
         Member member = new Member("user@user.com","asd12345","user1");
-        given(memberRepository.findById(member.getId())).willReturn(Optional.ofNullable(member));
         String image = memberService.getImage(member);
         assertThat(image).isEqualTo(member.getImage());
 

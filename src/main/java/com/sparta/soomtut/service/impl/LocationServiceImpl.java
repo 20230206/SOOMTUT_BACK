@@ -17,10 +17,9 @@ public class LocationServiceImpl implements LocationService {
     @Override
     @Transactional
     public Location findMemberLocation(Long memberId){
-        Location location = locationRepository.findByMemberId(memberId);
-        if(location==null){
-            throw new IllegalArgumentException("위치 정보값이 없습니다!");
-        }
+        Location location = locationRepository.findByMemberId(memberId).orElseThrow(
+                () -> new IllegalArgumentException("위치 정보 값이 없습니다!")
+        );
         return location;
     }
 
