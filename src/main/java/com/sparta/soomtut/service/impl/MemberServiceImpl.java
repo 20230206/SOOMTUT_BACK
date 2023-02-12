@@ -40,11 +40,12 @@ public class MemberServiceImpl implements MemberService{
 
 
     @Transactional
-    public String updateNickname(String nickname, Member member){
+    public String updateNickname(String nickname, Member member) {
 
         member.updateNickName(nickname);
 
         return "수정이 완료되었습니다!";
+    }
 
     @Override
     @Transactional(readOnly = true)
