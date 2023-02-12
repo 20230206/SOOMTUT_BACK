@@ -1,0 +1,26 @@
+.wrapper {
+    min-width: 1380px;
+    display: flex;
+}
+
+.logo {
+    text-decoration: none;
+    color: #4E57DE;
+    width: 220px;
+}
+
+.signin {
+    position:fixed;
+    right: 175px;
+    text-decoration: none;
+    color: #1A1A1A;
+    font-size: 22px;
+}
+
+.signup {
+    position:fixed;
+    right: 25px;
+    text-decoration: none;
+    color: #1A1A1A;
+    font-size: 22px;
+}

@@ -25,7 +25,7 @@ public class JwtProvider {
     
     public static final String AUTHORIZATION_HEADER = "Authorization"; // Header에 들어가는 key 값
     public static final String AUTHORIZATION_KEY = "auth"; // 사용자 권한의 key 값
-    private static final String BEARER_PREFIX = "Bearer"; // Token 앞에 붙는 식별자
+    private static final String BEARER_PREFIX = "Bearer "; // Token 앞에 붙는 식별자
     private static final long TOKEN_TIME = 60 * 60 * 1000L; // Token 만료 시간
 
 
