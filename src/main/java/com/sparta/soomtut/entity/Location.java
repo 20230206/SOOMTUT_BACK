@@ -1,13 +1,14 @@
 package com.sparta.soomtut.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 // lombok
 @Getter
 @NoArgsConstructor
-
+@AllArgsConstructor
 // jpa
 @Entity
 public class Location {

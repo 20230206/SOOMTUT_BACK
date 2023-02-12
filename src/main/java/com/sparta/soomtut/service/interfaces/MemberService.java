@@ -2,6 +2,7 @@ package com.sparta.soomtut.service.interfaces;
 
 import com.sparta.soomtut.entity.Member;
 
+
 public interface MemberService {
 
     
@@ -9,4 +10,7 @@ public interface MemberService {
     Member saveMember(Member member);
     boolean existsMemberByEmail(String email);
     boolean existsMemberByNickname(String nickname);
+
+
+    Member findMemberById(Long memberId);
 }

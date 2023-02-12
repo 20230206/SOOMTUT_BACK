@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequiredArgsConstructor
 public class MemberController  {
@@ -20,15 +22,15 @@ public class MemberController  {
 
 
 
-    @GetMapping(value = "/member/{memberId}/mypage/nickname")
-    public String getNickname(
-            @RequestParam Long memberId
+    @GetMapping(value = "/member/mypage/nickname")
+    public ResponseEntity<?> getNickname(
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         // Service
-
+        String nickname = memberService.getNickname(userDetails.getMember());
         // return
 
-        return "";
+        return ResponseEntity.status(HttpStatus.OK).body(nickname);
     }
 
     @PutMapping(value = "/member/mypage/nickname")
@@ -66,15 +68,16 @@ public class MemberController  {
         return "";
     }
 
-    @GetMapping(value = "/member/{memberId}/mypage/location")
-    public String getLocation(
-            @RequestParam Long memberId
+    @GetMapping(value = "/member/mypage/location")
+    public ResponseEntity<?> getLocation(
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         // Service
 
+        String location = memberService.getLocation(userDetails.getMember());
         // return
 
-        return "";
+        return ResponseEntity.status(HttpStatus.OK).body(location);
     }
 
     @PutMapping(value = "/member/{memberId}/mypage/location")
@@ -88,37 +91,37 @@ public class MemberController  {
         return "";
     }
 
-    @GetMapping(value = "/member/{memberId}/mypage/signupdate")
-    public String getSignupDate(
-            @RequestParam Long memberId
+    @GetMapping(value = "/member/mypage/signupdate")
+    public ResponseEntity<?> getSignupDate(
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         // Service
-
+        LocalDate signupDate = memberService.getSignupDate(userDetails.getMember());
         // return
 
-        return "";
+        return ResponseEntity.status(HttpStatus.OK).body(signupDate);
     }
 
-    @GetMapping(value = "/member/{memberId}/mypage/level")
-    public String getLevel(
-            @RequestParam Long memberId
+    @GetMapping(value = "/member/mypage/level")
+    public ResponseEntity<?> getLevel(
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         // Service
-
+        int level = memberService.getLevel(userDetails.getMember());
         // return
 
-        return "";
+        return ResponseEntity.status(HttpStatus.OK).body(level);
     }
 
-    @GetMapping(value = "/member/{memberId}/mypage/image")
-    public String getImage(
-            @RequestParam Long memberId
+    @GetMapping(value = "/member/mypage/image")
+    public ResponseEntity<?> getImage(
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         // Service
-
+        String image = memberService.getImage(userDetails.getMember());
         // return
 
-        return "";
+        return ResponseEntity.status(HttpStatus.OK).body(image);
     }
 
     @GetMapping(value = "/member/{memberId}/mypage/star")
