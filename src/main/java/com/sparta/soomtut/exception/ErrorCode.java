@@ -15,6 +15,8 @@ public enum ErrorCode {
     NOT_FOUND_USER("회원을 찾을 수 없습니다."),
     INVALID_PASSWORD("비밀번호가 틀렸습니다."),
 
+    EMPTY_POST("게시글이 존재하지 않습니다."),
+
     EMPTY_FILE("파일이 없습니다."),
     NOT_IMAGE_FILE("이미지 파일이 아닙니다."),
     NOT_FOUND_CLASS("해당 수업을 찾을 수 없습니다."),
