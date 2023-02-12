@@ -3,13 +3,17 @@ package com.sparta.soomtut.service.impl;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.sparta.soomtut.dto.SigninRequestDto;
+import com.sparta.soomtut.dto.SigninResponseDto;
 import com.sparta.soomtut.dto.SignupRequestDto;
 import com.sparta.soomtut.entity.Member;
+import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.MemberService;
+import com.sparta.soomtut.util.jwt.JwtProvider;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 // lombok
@@ -21,6 +25,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
 
     @Override
     @Transactional
@@ -30,12 +35,35 @@ public class AuthServiceImpl implements AuthService {
         String nickname = requestDto.getNickname();
 
         if(memberService.existsMemberByEmail(email))
-            throw new IllegalArgumentException("중복되는 email이 존재합니다.");
+            throw new IllegalArgumentException(ErrorCode.DUPLICATED_EMAIL.getMessage());
         
         if(memberService.existsMemberByNickname(nickname))
-            throw new IllegalArgumentException("중복되는 닉네임이 존해합니다.");
+            throw new IllegalArgumentException(ErrorCode.DUPLICATED_NICKNAME.getMessage());
 
         Member member = new Member(email, password, nickname);
         memberService.saveMember(member);
+    }
+
+    @Override
+    @Transactional
+    public SigninResponseDto signin(SigninRequestDto requestDto) {
+        String email = requestDto.getEmail();      
+        String password = requestDto.getPassword();
+        
+        Member member = memberService.findMemberByEmail(email);
+
+        if(!isMatchedPassword(password, member)) {
+            throw new IllegalArgumentException(ErrorCode.INVALID_PASSWORD.getMessage());
+        }
+
+        // 토큰 생성
+        String token = jwtProvider.createToken(member.getEmail(), member.getMemberRole());
+        
+        return SigninResponseDto.builder().token(token).build();
+    }
+
+
+    private boolean isMatchedPassword(String input, Member member) {
+        return passwordEncoder.matches(input, member.getPassword());
     }
 }

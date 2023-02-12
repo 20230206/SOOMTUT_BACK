@@ -11,8 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class SignupRequestDto {
-    private String nickname;
-    private String email;
-    private String password;
+public class SigninResponseDto {
+    private String token;
+    
 }
