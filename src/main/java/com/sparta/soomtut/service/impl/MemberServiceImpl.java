@@ -44,28 +44,33 @@ public class MemberServiceImpl implements MemberService{
         return "수정이 완료되었습니다!";
     }
 
+    @Transactional
     public String getNickname(Member member) {
 
         return member.getNickname();
 
     }
 
+    @Transactional
     public String getLocation(Member member) {
 
         return locationService.getLocation(member).getAddress();
 
     }
 
+    @Transactional
     public LocalDate getSignupDate(Member member) {
 
         return member.getCreatedAt();
 
     }
 
+    @Transactional
     public int getLevel(Member member) {
         return member.getLevel();
     }
 
+    @Transactional
     public String getImage(Member member) {
         return member.getImage();
     }
