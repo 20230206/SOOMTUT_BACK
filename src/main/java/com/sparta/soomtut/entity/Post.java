@@ -14,6 +14,8 @@ public class Post {
 
     private Long tutorId;
 
+    private String tutorNickname;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -23,6 +25,7 @@ public class Post {
 
     @Column(nullable = false)
     private int fee;
+
 
     public Post(Long tutorId, String content, Category category, int fee) {
         this.tutorId = tutorId;
