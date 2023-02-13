@@ -1,5 +1,6 @@
 package com.sparta.soomtut.entity;
 
+import com.sparta.soomtut.util.constants.Constants;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,8 @@ public class Post {
 
     private Long tutorId;
 
-    private String tutorNickname;
+    // 임시
+    private String image;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -26,12 +28,12 @@ public class Post {
     @Column(nullable = false)
     private int fee;
 
-
     public Post(Long tutorId, String content, Category category, int fee) {
         this.tutorId = tutorId;
         this.category = category;
         this.content = content;
         this.fee = fee;
+        this.image = Constants.STANDARD_USER_IMAGE;
     }
 
 }
