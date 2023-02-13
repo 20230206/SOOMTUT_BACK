@@ -2,7 +2,7 @@ package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.dto.CreateReviewRequestDto;
 import com.sparta.soomtut.entity.Member;
-import com.sparta.soomtut.entity.TuitionRequest
+import com.sparta.soomtut.entity.TuitionRequest;
 
 import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.repository.MemberRepository;
