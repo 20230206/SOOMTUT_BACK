@@ -1,8 +1,11 @@
 package com.sparta.soomtut.service.impl;
 
+import com.sparta.soomtut.dto.CreateReviewRequestDto;
 import com.sparta.soomtut.entity.Location;
 import com.sparta.soomtut.entity.Member;
+import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.repository.MemberRepository;
+import com.sparta.soomtut.repository.ReviewRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +17,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -23,13 +26,19 @@ import static org.mockito.Mockito.verify;
 class MemberServiceImplTest {
 
     @Mock
-    MemberRepository memberRepository;
+    ReviewRepository reviewRepository;
 
     @Mock
     LocationServiceImpl locationService;
 
     @InjectMocks
     MemberServiceImpl memberService;
+
+    @Mock
+    ReviewServiceImpl reviewService;
+
+    @Mock
+    PostServiceImpl postService;
 
     @Test
     @DisplayName("유저 닉네임 업데이트(성공)")
@@ -91,7 +100,26 @@ class MemberServiceImplTest {
         String image = memberService.getImage(member);
         assertThat(image).isEqualTo(member.getImage());
 
+
     }
+
+    @Test
+    @DisplayName("수강 후기 작성(MemberService)")
+    void createReview(){
+        Long postId = 1L;
+        Long tutorId = 1L;
+        Member member = new Member("user@user.com","asd12345","user1");
+        CreateReviewRequestDto createReviewRequestDto = CreateReviewRequestDto.builder().review_content("굿!").star_rating(3f).build();
+
+        given(reviewService.checkTuitionState(1L,member.getId())).willReturn(true);
+        given(postService.getTutorId(postId)).willReturn(tutorId);
+
+        String msg = memberService.createReview(postId,createReviewRequestDto,member);
+       // verify(reviewRepository,times(1)).save(isA(Review.class));
+        assertThat(msg).isEqualTo("수강후기 작성이 완료되었습니다!");
+    }
+
+
 
 
 
