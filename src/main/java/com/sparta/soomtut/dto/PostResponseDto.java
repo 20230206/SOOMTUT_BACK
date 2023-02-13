@@ -12,7 +12,7 @@ public class PostResponseDto {
     private String location;
     public PostResponseDto(Post post, String nickName, String location) {
         this.category = post.getCategory();
-        this.image = "기본 이미지 주소";
+        this.image = post.getImage();
         this.fee = post.getFee();
         this.tutorNickname = nickName ;
         this.location = location;

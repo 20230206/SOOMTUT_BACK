@@ -14,6 +14,9 @@ public class Post {
 
     private Long tutorId;
 
+    // 임시
+    private String image;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -29,6 +32,7 @@ public class Post {
         this.category = category;
         this.content = content;
         this.fee = fee;
+        this.image = "Contants.STANDARD_USER_IMAGE";
     }
 
 }
