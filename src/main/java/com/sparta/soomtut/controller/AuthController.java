@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -64,11 +67,13 @@ public class AuthController {
 
     @PostMapping(value = "/signupkakao")
     public void SignUpKakao(
-            /*SignUp Request*/
+        /*SignUp Request*/
+        @AuthenticationPrincipal OAuth2User oAuth2User
     )
     {
         // Service
-
+        Map<String, Object> attributes = oAuth2User.getAttributes();
+        System.out.println(attributes.toString());
         // return
     }
     
