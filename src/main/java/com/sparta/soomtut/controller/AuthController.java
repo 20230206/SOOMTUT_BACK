@@ -1,8 +1,10 @@
 package com.sparta.soomtut.controller;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.sparta.soomtut.dto.*;
 import com.sparta.soomtut.service.interfaces.AuthService;
@@ -43,14 +46,16 @@ public class AuthController {
         return ResponseEntity.ok().header("Authorization", response.getToken()).body(dataMap);
     }
 
-    @PostMapping(value = "/signinkakao")
-    public void SignInForKakao(
-            /*SignIn Request*/
+    @GetMapping(value = "/kakaosignin")
+    public ResponseEntity<?> SignInForKakao(
+        Authentication authentication
+        /*SignIn Request*/
     )
     {
-        // Service
-
-        // return
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:8080/login/oauth2/code/kakao"));
+        System.out.println("Method[kakaosignin] has called by front");
+        return ResponseEntity.ok().headers(headers).body(null);
     }
 
     @PostMapping(value = "/signup")
@@ -72,8 +77,7 @@ public class AuthController {
     )
     {
         // Service
-        Map<String, Object> attributes = oAuth2User.getAttributes();
-        System.out.println(attributes.toString());
+
         // return
     }
     

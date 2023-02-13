@@ -47,7 +47,10 @@ public class Member {
     @Column
     private String image;
 
+    @Column 
     private String provider;
+
+    @Column
     private String providerId;
 
 
@@ -62,6 +65,8 @@ public class Member {
         this.starRating = 0.0f;
         this.level = 0;
         this.image = Constants.STANDARD_USER_IMAGE;
+        this.provider = null;
+        this.providerId = null;
     }
 
     @Builder(builderClassName = "OAuth2Register", builderMethodName = "oauth2Register")

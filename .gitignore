@@ -203,6 +203,7 @@ gradle-app.setting
 
 # application properties
 application.properties
+application-oauth.properties
 
 # vs code setting
 .vscode/settings.json

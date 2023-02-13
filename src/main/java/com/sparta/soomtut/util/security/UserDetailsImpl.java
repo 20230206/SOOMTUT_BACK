@@ -24,8 +24,6 @@ public class UserDetailsImpl implements UserDetails, OAuth2User {
 
     private Member member;
     private Map<String, Object> attributes;
-    private Map<String, Object> attributesAccount;
-    private Map<String, Object> attributesProfile;
 
     // UserDetails: FormLogin 사용 시
     public UserDetailsImpl(Member member) {
@@ -36,9 +34,6 @@ public class UserDetailsImpl implements UserDetails, OAuth2User {
     public UserDetailsImpl(Member member, Map<String, Object> attributes){
         this.member = member;
         this.attributes = attributes;
-        this.attributesAccount = (Map<String, Object>) attributes.get("kakao_account");
-        this.attributesProfile = (Map<String, Object>) attributesAccount.get("profile");
-
     }
 
     public Member getMember(){
@@ -88,18 +83,8 @@ public class UserDetailsImpl implements UserDetails, OAuth2User {
         return this.attributes;
     }
 
-    public String getProviderId() {
-        return attributes.get("id").toString();
-    }
-
-    public String getProvider() {
-        return "kakao";
-    }
-
     @Override
     public String getName() {
-        return this.attributes.get("sub").toString();
+        return null;
     }
-
-
 }
