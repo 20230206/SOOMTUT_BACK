@@ -1,5 +1,6 @@
 package com.sparta.soomtut.controller;
 
+import com.sparta.soomtut.dto.FavPostDto;
 import com.sparta.soomtut.service.interfaces.FavMemberPostService;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -43,16 +44,11 @@ public class PostController {
         }
     }
 
-//    @PostMapping(value = "/bookmark")
-//    public void bookMark(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        {
-//            favMemberPostService.updateOfFavPost(postId,userDetails.getMember());
-//        }
-//    }
     //즐겨찾기 추가 및 취소
     @PostMapping(value = "/bookmark")
     public ResponseEntity<String> bookMark(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return new ResponseEntity<>(favMemberPostService.updateOfFavPost(postId,userDetails.getMember()),HttpStatus.OK);
+        FavPostDto favPostDto = new FavPostDto(postId,userDetails.getMember());
+        return new ResponseEntity<>(favMemberPostService.updateOfFavPost(favPostDto),HttpStatus.OK);
     }
 
 }

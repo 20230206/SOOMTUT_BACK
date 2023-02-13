@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 @Entity
@@ -27,13 +24,8 @@ public class Post {
     @Column(nullable = false)
     private int fee;
 
-    //수업글의 즐겨찾기 리스트
-    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-    @OrderBy("createdAt desc ")//정순
-    private final List<FavMemberPost> postFavList = new ArrayList<>();
-
     //즐겨찾기 수
-    @Column(nullable = true)
+    @Column(nullable = false)
     private int favorit;
 
     public Post(Long tutorId, String content, Category category, int fee) {

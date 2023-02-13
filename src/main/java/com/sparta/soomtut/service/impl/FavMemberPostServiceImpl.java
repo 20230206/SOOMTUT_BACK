@@ -1,11 +1,11 @@
 package com.sparta.soomtut.service.impl;
 
+import com.sparta.soomtut.dto.FavPostDto;
 import com.sparta.soomtut.entity.FavMemberPost;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Post;
 import com.sparta.soomtut.exception.FavNotFoundException;
 import com.sparta.soomtut.repository.FavMemberPostRepository;
-import com.sparta.soomtut.repository.PostRepsority;
 import com.sparta.soomtut.service.interfaces.FavMemberPostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,15 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class FavMemberPostServiceImpl implements FavMemberPostService {
-
-    private final PostRepsority postRepsority;
     private final FavMemberPostRepository favMemberPostRepository;
 
     //즐겨찾기 업데이트
     @Transactional
-    public String updateOfFavPost(Long id, Member member){
-        Post post = postRepsority.findById(id).orElseThrow(FavNotFoundException::new);
-        if(!hasFavPost(post,member)){
+    public String updateOfFavPost(FavPostDto favPostDto){
+        Long Id = favPostDto.getId();
+        Member member = favPostDto.getMember();
+        Post post = favPostDto.getPost();
+
+        if(!hasFavPost(Id,member)){
             //메소드에 값을 가지고 있지 않다면 post에 favorit 카운트+1 그리고 favMemberPost에 저장
             post.increFavCount();
             return createFavPost(post, member);
@@ -45,7 +46,7 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
         return "SUCCESS_UnFavPost";
     }
     //글과 멤버의 값을 가지고 있다면 true 아니라면 false 용도의 함수
-    public boolean hasFavPost(Post post, Member member){
-        return favMemberPostRepository.findByPostAndMember(post, member).isPresent(); //Optional 값을 가지고 있다면 ture 아니면 false
+    public boolean hasFavPost(Long id, Member member){
+        return favMemberPostRepository.existsByPostIdAndMember(id, member); //Optional 값을 가지고 있다면 ture 아니면 false ->existsBy로 변경
     }
 }
