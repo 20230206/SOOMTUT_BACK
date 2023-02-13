@@ -1,5 +1,6 @@
 package com.sparta.soomtut.controller;
 
+import com.sparta.soomtut.dto.CreateReviewRequestDto;
 import com.sparta.soomtut.service.impl.MemberServiceImpl;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -151,16 +152,18 @@ public class MemberController  {
 
 
     // 리뷰 생성
-    @GetMapping(value = "/board/{postId}")
-    public String createReview(
-            @RequestParam Long postId
+    @PostMapping(value = "/board/{postId}")
+    public ResponseEntity<?> createReview(
+            @RequestParam Long postId,
+            @RequestBody CreateReviewRequestDto reviewRequestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
             /* UserDetails */
     ) {
         // Service
-
+        String msg = memberService.createReview(postId,reviewRequestDto,userDetails.getMember());
         // return
 
-        return "";
+        return ResponseEntity.status(HttpStatus.CREATED).body(msg);
     }
 
 }
