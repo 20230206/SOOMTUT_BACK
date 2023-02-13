@@ -1,5 +1,6 @@
 package com.sparta.soomtut.entity;
 
+import com.sparta.soomtut.util.constants.Constants;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,7 @@ public class Post {
         this.category = category;
         this.content = content;
         this.fee = fee;
-        this.image = "Contants.STANDARD_USER_IMAGE";
+        this.image = Constants.STANDARD_USER_IMAGE;
     }
 
 }
