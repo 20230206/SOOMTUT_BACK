@@ -6,6 +6,7 @@ import com.sparta.soomtut.repository.LocationRepository;
 import com.sparta.soomtut.repository.MemberRepository;
 import com.sparta.soomtut.repository.PostRepository;
 import com.sparta.soomtut.service.interfaces.BoardService;
+import com.sparta.soomtut.service.interfaces.LocationService;
 import com.sparta.soomtut.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class BoardServiceImpl implements BoardService {
 
     private final PostRepository postRepository;
     private final MemberService memberService;
-    private final LocationRepository locationRepository;
+    private final LocationService locationService;
 
     @Override
     @Transactional(readOnly = true)
@@ -29,19 +30,19 @@ public class BoardServiceImpl implements BoardService {
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
         posts.forEach(post -> postResponseDtoList.add(new PostResponseDto(post,
                 memberService.findMemberById(memberId).getNickname(),
-                locationRepository.findByMemberId(memberId).get().getAddress()
+                locationService.findMemberLocation(memberId).getAddress()
                 )));
         return postResponseDtoList;
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<PostResponseDto> getAllPost() {
         List<Post> posts = postRepository.findAll();
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
         posts.forEach(post -> postResponseDtoList.add(new PostResponseDto(post,
-                memberRepository.findById(post.getTutorId()).get().getNickname(),
-                locationRepository.findByMemberId(post.getTutorId()).get().getAddress()
+                memberService.findMemberById(post.getTutorId()).getNickname(),
+                locationService.findMemberLocation(post.getTutorId()).getAddress()
         )));
         return postResponseDtoList;
     }
