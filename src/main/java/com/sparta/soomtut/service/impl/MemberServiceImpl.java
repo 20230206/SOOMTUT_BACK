@@ -1,14 +1,14 @@
 package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.entity.Member;
+import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.repository.MemberRepository;
 import com.sparta.soomtut.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
-import com.sparta.soomtut.dto.SigninRequestDto;
-
+import java.util.Optional;
 
 
 @Service
@@ -19,6 +19,14 @@ public class MemberServiceImpl implements MemberService{
 
 
     // repository 지원 함수
+
+
+    @Override
+    @Transactional
+    public Member findMemberById(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage()));
+    }
+
     @Override
     @Transactional
     public Member saveMember(Member member){
