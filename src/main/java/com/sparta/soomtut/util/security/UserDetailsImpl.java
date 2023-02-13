@@ -1,15 +1,20 @@
 package com.sparta.soomtut.util.security;
 
 import com.sparta.soomtut.entity.Member;
+import com.sparta.soomtut.enums.MemberRole;
+
 
 import lombok.Getter;
 import lombok.ToString;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Map;
 
 // lombok
@@ -38,7 +43,10 @@ public class UserDetailsImpl implements UserDetails, OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        MemberRole role = member.getMemberRole();
+        Set<SimpleGrantedAuthority> set = new HashSet<>();
+        set.add(new SimpleGrantedAuthority(role.toString()));
+        return set;
     }
 
     @Override
