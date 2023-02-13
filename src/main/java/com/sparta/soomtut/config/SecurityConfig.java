@@ -52,9 +52,21 @@ public class SecurityConfig implements WebMvcConfigurer {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.httpBasic().disable()
                 .csrf().disable()
-                .formLogin().loginPage("http://localhost:3000/signin")
-                .and()
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .formLogin(login -> login
+                    .loginPage("http://localhost:3000/signin")
+                    .defaultSuccessUrl("http://localhost:3000/")
+                    .permitAll()
+                    )
+                .oauth2Login(login -> login
+                    .loginPage("http://localhost:3000/signin")
+                    .defaultSuccessUrl("http://localhost:3000/")
+                    .permitAll()
+                );
+            
+                
+                
+        
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authorizeHttpRequests()
                     .requestMatchers("/**").permitAll()

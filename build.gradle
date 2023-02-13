@@ -19,24 +19,35 @@ repositories {
 }
 
 dependencies {
+    // Spring-boot
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    // Thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
+    // lombok
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // Mysql Driver
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // Security
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
+    // OAuth2
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:2.6.2'
+
+    // JWT
     implementation group: 'org.json', name: 'json', version: '20220924'
     compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 
+    // GSON
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
 }
 
