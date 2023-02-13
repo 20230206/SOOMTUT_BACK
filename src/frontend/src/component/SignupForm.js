@@ -27,7 +27,6 @@ function SignupForm() {
     }
 
     const CheckEmail = (event) => {
-        // 중복검사
         var regex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{3,3}$/
         var isRegex =  regex.test(event.target.value);
         if(isRegex) { 
@@ -44,7 +43,6 @@ function SignupForm() {
     }
 
     const CheckNickname = (event) => {
-        // 중복검사
         const regex = /^[가-힣a-zA-Z0-9]{4,10}$/
         var isRegex =  regex.test(event.target.value);
         if(isRegex) { 
@@ -60,7 +58,7 @@ function SignupForm() {
     }
 
     const CheckPassword = (event) => {
-        var regex = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]).*$/;
+        var regex = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[{}[\]/?.,;:|)*~`!^\-+<>@#$%&\\=('"]).*$/;
         return regex.test(event.target.value);
     }
 
