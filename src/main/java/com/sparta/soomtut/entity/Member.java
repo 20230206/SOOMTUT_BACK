@@ -4,6 +4,7 @@ import com.sparta.soomtut.enums.MemberRole;
 import com.sparta.soomtut.util.constants.Constants;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -46,10 +47,13 @@ public class Member {
     @Column
     private String image;
 
+    private String provider;
+    private String providerId;
 
 
+
+    @Builder(builderClassName = "UserDetailRegister", builderMethodName = "userDetailRegister")
     public Member(String email, String password, String nickname) {
-
         this.email = email;
         this.password = password;
         this.nickname = nickname;
@@ -58,6 +62,20 @@ public class Member {
         this.starRating = 0.0f;
         this.level = 0;
         this.image = Constants.STANDARD_USER_IMAGE;
+    }
+
+    @Builder(builderClassName = "OAuth2Register", builderMethodName = "oauth2Register")
+    public Member(String email, String password, String nickname, String provider, String providerId) {
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+        this.memberRole =  MemberRole.MEMBER;
+        this.createdAt = LocalDate.now();
+        this.starRating = 0.0f;
+        this.level = 0;
+        this.image = Constants.STANDARD_USER_IMAGE;
+        this.provider = provider;
+        this.providerId = providerId;
     }
 
     public void updateNickName(String nickname) {
