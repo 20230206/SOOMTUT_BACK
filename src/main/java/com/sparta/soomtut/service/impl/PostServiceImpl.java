@@ -41,7 +41,7 @@ public class PostServiceImpl {
         Post post = postRepository.findByPostId(postId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.EMPTY_POST.getMessage())
         );
-        postRepository.delete(post);
+        postRepository.deleteById(postId);
     }
 
 }
