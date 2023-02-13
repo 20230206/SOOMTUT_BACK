@@ -10,7 +10,7 @@ public interface MemberService {
 
     
     // Repository 지원 함수
-    Optional<Member> findMemberById(Long memberId);
+    Member findMemberById(Long memberId);
     Member findMemberByEmail(String email);
     Member saveMember(Member member);
     boolean existsMemberByEmail(String email);

@@ -1,6 +1,7 @@
 package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.entity.Member;
+import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.repository.MemberRepository;
 import com.sparta.soomtut.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,8 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     @Transactional
-    public Optional<Member> findMemberById(Long memberId) {
-        return memberRepository.findById(memberId);
+    public Member findMemberById(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage()));
     }
 
     @Override

@@ -28,7 +28,7 @@ public class BoardServiceImpl implements BoardService {
         List<Post> posts = postRepository.findAllByTutorId(memberId);
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
         posts.forEach(post -> postResponseDtoList.add(new PostResponseDto(post,
-                memberService.findMemberById(memberId).get().getNickname(),
+                memberService.findMemberById(memberId).getNickname(),
                 locationRepository.findByMemberId(memberId).get().getAddress()
                 )));
         return postResponseDtoList;
