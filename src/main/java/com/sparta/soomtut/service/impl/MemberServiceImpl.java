@@ -7,8 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
-import com.sparta.soomtut.dto.SigninRequestDto;
-
+import java.util.Optional;
 
 
 @Service
@@ -19,6 +18,14 @@ public class MemberServiceImpl implements MemberService{
 
 
     // repository 지원 함수
+
+
+    @Override
+    @Transactional
+    public Optional<Member> findMemberById(Long memberId) {
+        return memberRepository.findById(memberId);
+    }
+
     @Override
     @Transactional
     public Member saveMember(Member member){
