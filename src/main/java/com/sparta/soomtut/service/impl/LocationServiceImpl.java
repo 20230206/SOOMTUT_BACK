@@ -2,6 +2,7 @@ package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.entity.Location;
 import com.sparta.soomtut.entity.Member;
+import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.repository.LocationRepository;
 import com.sparta.soomtut.service.interfaces.LocationService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class LocationServiceImpl implements LocationService {
     @Transactional
     public Location findMemberLocation(Long memberId){
         Location location = locationRepository.findByMemberId(memberId).orElseThrow(
-                () -> new IllegalArgumentException("위치 정보 값이 없습니다!")
+                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_LOCATION.getMessage())
         );
         return location;
     }
