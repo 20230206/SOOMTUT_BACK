@@ -1,16 +1,20 @@
 package com.sparta.soomtut.controller;
 
 import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
+import com.sparta.soomtut.dto.request.PageRequestDto;
+import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.service.interfaces.MemberService;
 
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -165,6 +169,13 @@ public class MemberController  {
         // return
 
         return ResponseEntity.status(HttpStatus.CREATED).body(msg);
+    }
+
+    //리뷰 조회
+    @GetMapping(value = "/review")
+    public Page<Review> getReview(@ModelAttribute PageRequestDto pageRequest, @AuthenticationPrincipal UserDetailsImpl userDetails){
+
+        return memberService.getReview(pageRequest,userDetails.getMember());
     }
 
 }
