@@ -1,6 +1,7 @@
 package com.sparta.soomtut.util.security;
 
 import com.sparta.soomtut.entity.Member;
+import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Member member = memberRepository.findByEmail(email)
 			.orElseThrow(
-				() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "올바른 토큰이 아닙니다."));
+				() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorCode.INVALID_TOKEN.getMessage()));
 		return new UserDetailsImpl(member);
     }
 
