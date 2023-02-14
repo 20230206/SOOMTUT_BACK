@@ -46,9 +46,9 @@ public class PostController {
 
     //즐겨찾기 추가 및 취소
     @PostMapping(value = "/bookmark")
-    public ResponseEntity<String> bookMark(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<FavPostDto> bookMark(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         FavPostDto favPostDto = new FavPostDto(postId,userDetails.getMember());
-        return new ResponseEntity<>(favMemberPostService.updateOfFavPost(favPostDto),HttpStatus.OK);
+        return ResponseEntity.ok().body(favPostDto);
     }
 
 }
