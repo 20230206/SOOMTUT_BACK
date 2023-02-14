@@ -1,13 +1,20 @@
 package com.sparta.soomtut.controller;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.sparta.soomtut.dto.FavPostDto;
+import com.sparta.soomtut.service.interfaces.FavMemberPostService;
+import com.sparta.soomtut.util.security.UserDetailsImpl;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@RequiredArgsConstructor
 public class PostController {
+
+    private final FavMemberPostService favMemberPostService;
 
     @PostMapping(value = "/createpost")
     public void CreatePost() {
@@ -37,13 +44,11 @@ public class PostController {
         }
     }
 
+    //즐겨찾기 추가 및 취소
     @PostMapping(value = "/bookmark")
-    public void bookMark() {
-        {
-            // Service
-
-            // return
-        }
+    public ResponseEntity<FavPostDto> bookMark(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        FavPostDto favPostDto = new FavPostDto(postId,userDetails.getMember());
+        return ResponseEntity.ok().body(favPostDto);
     }
 
 }
