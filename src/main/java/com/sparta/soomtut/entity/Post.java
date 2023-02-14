@@ -1,5 +1,6 @@
 package com.sparta.soomtut.entity;
 
+import com.sparta.soomtut.util.constants.Constants;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,9 @@ public class Post {
     private Long id;
 
     private Long tutorId;
+
+    // 임시
+    private String image;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -33,8 +37,8 @@ public class Post {
         this.category = category;
         this.content = content;
         this.fee = fee;
-        //즐겨찾기 수
         this.favorit = 0;
+        this.image = Constants.STANDARD_USER_IMAGE;
     }
 
     public void increFavCount(){this.favorit += 1;}

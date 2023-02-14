@@ -5,14 +5,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-//lombok
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+public class CreateReviewRequestDto {
 
-public class SignupRequestDto {
-    private String nickname;
-    private String email;
-    private String password;
+
+    private float star_rating;
+
+    private String review_content;
+
+
 }
