@@ -5,6 +5,7 @@ import com.sparta.soomtut.util.jwt.JwtAuthenticationFilter;
 import com.sparta.soomtut.util.security.AccessDeniedHandlerImpl;
 import com.sparta.soomtut.util.security.AuthdenticationEntryPointImpl;
 import com.sparta.soomtut.util.security.UserDetailsServiceImpl;
+import com.sparta.soomtut.util.security.oauth2.OAuth2UserServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 public class SecurityConfig implements WebMvcConfigurer {
     private final JwtProvider jwtProvider;
     private final UserDetailsServiceImpl userDetailsService;
+    private final OAuth2UserServiceImpl oAuth2UserService;
     private final AccessDeniedHandlerImpl accessDeniedHandler;
     private final AuthdenticationEntryPointImpl authdenticationEntryPoint;
     
@@ -44,21 +46,28 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                .requestMatchers("/**");
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.httpBasic().disable()
-                .csrf().disable()
-                .formLogin().loginPage("http://localhost:3000/signin")
-                .and()
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                    .authorizeHttpRequests()
-                    .requestMatchers("/**").permitAll()
-                    .anyRequest().authenticated();
+            .csrf().disable()
+            .formLogin(login -> login
+                .loginPage("http://localhost:3000/signin")
+                .defaultSuccessUrl("http://localhost:3000/")
+                .permitAll()
+                )
+            .oauth2Login(login -> login
+                .userInfoEndpoint()                                                   // 로그인 성공 후 사용자 정보 획득
+                .userService(oAuth2UserService)                                       // 사용자 정보 처리 서비스 로직
+            );
+        
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+                .authorizeHttpRequests()
+                .requestMatchers("/**").permitAll()
+                .anyRequest().authenticated();
 
         http.exceptionHandling().authenticationEntryPoint(authdenticationEntryPoint)
                                 .accessDeniedHandler(accessDeniedHandler);

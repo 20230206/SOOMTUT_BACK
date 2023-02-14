@@ -17,7 +17,6 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final LocationServiceImpl locationService;
 
-
     // repository 지원 함수
 
 
@@ -45,7 +44,6 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.existsByNickname(nickname);
     }
 
-
     @Override
     @Transactional
     public String updateNickname(String nickname, Member member) {
@@ -53,15 +51,6 @@ public class MemberServiceImpl implements MemberService{
         member.updateNickName(nickname);
 
         return "수정이 완료되었습니다!";
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Member findMemberByEmail(String email) {
-        return memberRepository.findByEmail(email).orElseThrow(
-            () -> new IllegalArgumentException("등록된 사용자가 없습니다!")
-        );
-
     }
 
     @Override
@@ -94,5 +83,33 @@ public class MemberServiceImpl implements MemberService{
     @Transactional
     public String getImage(Member member) {
         return member.getImage();
+    }
+    
+    // repository 지원 함수
+    @Override
+    @Transactional
+    public Member saveMember(Member member){
+        return memberRepository.save(member);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsMemberByEmail(String email) {
+        return memberRepository.existsByEmail(email);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsMemberByNickname(String nickname) {
+        return memberRepository.existsByNickname(nickname);    
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Member findMemberByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(
+            () -> new IllegalArgumentException("등록된 사용자가 없습니다!")
+        );
+
     }
 }

@@ -3,7 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import styles from "../assets/styles/formstyle.module.css"
 import axios from "axios";
 
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import kakao from "../assets/images/kakaosignup.png"
 import logo from "../assets/images/logo.png"
 
@@ -26,31 +26,53 @@ function SigninForm() {
             "password": password
             });
             
-            var config = {
-            method: 'post',
-            maxBodyLength: Infinity,
-            url: 'http://localhost:8080/signin',
-            headers: { 
-                'Content-Type': 'application/json'
-            },
-            data : data
-            };
-            
-            axios(config)
-            .then(function (response) {
-                //console.log(JSON.stringify(response.data));
-                console.log(response.headers.get("Authorization"));
-                localStorage.setItem('Authorization', JSON.stringify(response.headers.get("Authorization")))
-                navigate("/");
-            })
-            .catch(function (error) {
-            console.log(error);
-            });
+        var config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'http://localhost:8080/signin',
+        headers: { 
+            'Content-Type': 'application/json'
+        },
+        data : data
+        };
+        
+        axios(config)
+        .then(function (response) {
+            //console.log(JSON.stringify(response.data));
+            console.log(response.headers.get("Authorization"));
+            localStorage.setItem('Authorization', JSON.stringify(response.headers.get("Authorization")))
+            navigate("/");
+        })
+        .catch(function (error) {
+        console.log(error);
+        });
             
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
+    }
+
+    const KakaoSignin = () => {
+        var data = '';
+
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:8080/oauth2/authorization/kakao',
+            headers: { 
+                'Content-Type': 'application/json'
+            },
+            data : data
+            };
+
+        axios(config)
+        .then(function (response) {
+            console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+        console.log(error);
+        });
     }
 
     return (
@@ -89,7 +111,7 @@ function SigninForm() {
             </Button>
             </Form>
         
-            <Link to="/signupkakao"> <img src={kakao} className={styles.kakao} alt="kakaosignup" /> </Link>
+            <Link to="http://localhost:8080/oauth2/authorization/kakao" ><Button> <img src={kakao} className={styles.kakao} alt="kakaosignup"/> </Button></Link>
             </div>
         </div>
     );
