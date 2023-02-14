@@ -3,8 +3,9 @@ package com.sparta.soomtut.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,13 +44,14 @@ public class AuthController {
         return ResponseEntity.ok().header("Authorization", response.getToken()).body(dataMap);
     }
 
-    @GetMapping(value = "/kakaosignin")
+    @PostMapping(value = "/login/oauth2/code/kakao")
     public ResponseEntity<?> SignInForKakao(
-        Authentication authentication
+        @RequestParam("code") String code
         /*SignIn Request*/
-    )
+    ) throws JsonProcessingException 
     {
-        System.out.println("Method[kakaosignin] has called by front");
+        System.out.println(code);
+        System.out.println("Method[kakaosignin] has called by kakao");
         return ResponseEntity.ok().body(null);
     }
 

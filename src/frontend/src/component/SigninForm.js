@@ -112,6 +112,7 @@ function SigninForm() {
             </Form>
         
             <Link to="http://localhost:8080/oauth2/authorization/kakao" ><Button> <img src={kakao} className={styles.kakao} alt="kakaosignup"/> </Button></Link>
+            <Link to="http://localhost:8080/oauth2/authorization/google" ><Button> Google </Button></Link>
             </div>
         </div>
     );

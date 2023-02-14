@@ -53,6 +53,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .permitAll()
                 )
             .oauth2Login(login -> login
+                .defaultSuccessUrl("http://localhost:3000/")
                 .userInfoEndpoint()                                                   // 로그인 성공 후 사용자 정보 획득
                 .userService(oAuth2UserService)                                       // 사용자 정보 처리 서비스 로직
             );

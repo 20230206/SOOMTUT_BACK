@@ -48,9 +48,19 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
         
         String email = attributes.get("email").toString();
 
-        Member member = memberRepository.findByProviderAndProviderId(provider, providerId).orElse(
-            Member.oauth2Register().email(email).nickname(nickname).password(password).provider(provider).providerId(providerId).build()
-        );
+        Member member = memberRepository.findByProviderAndOauthEmail(provider, email).orElseGet( () ->
+                memberRepository.save(    
+                    Member.oauth2Register()
+                            .email(email)
+                            .nickname(nickname)
+                            .password(password)
+                            .provider(provider)
+                            .oauthEmail(email)
+                            .build()
+                )
+            );
+
+        // access token 발급 위치?
 
         return new UserDetailsImpl(member, attributes);
     }
