@@ -10,6 +10,7 @@ public class PostResponseDto {
     private int fee;
     private String tutorNickname;
     private String location;
+
     public PostResponseDto(Post post, String nickName, String location) {
         this.category = post.getCategory();
         this.image = post.getImage();

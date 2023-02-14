@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface BoardService {
     public List<PostResponseDto> getMyPosts(Long memberId);
+
+    List<PostResponseDto> getAllPost();
 }
