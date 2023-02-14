@@ -22,12 +22,8 @@ public class BoardController   {
     }
 
     @GetMapping("/boardAll")
-    public List<Post> getAllPost(){
-
-        //service
-
-        //return
-        return new ArrayList<>();
+    public ResponseEntity<List<PostResponseDto>> getAllPost(){
+        return ResponseEntity.status(HttpStatus.OK).body(boardService.getAllPost());
     }
 
     
