@@ -20,14 +20,14 @@ public class PostController {
         return postService.createPost(userDetails.getMember(), postRequestDto);
     }
 
-    @PutMapping(value = "/updatepost")
-    public PostResponseDto updatePost(@PathVariable Long postId, @RequestBody UpdatePostRequestDto updatePostRequestDto) {
-        return postService.updatePost(postId, updatePostRequestDto);
+    @PutMapping(value = "/updatepost/{postId}")
+    public PostResponseDto updatePost(@PathVariable Long postId, @RequestBody UpdatePostRequestDto updatePostRequestDto , @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return postService.updatePost(postId, updatePostRequestDto, userDetails.getMember());
     }
 
-    @DeleteMapping(value = "/deletepost")
-    public void deletePost(@PathVariable Long postId) {
-        postService.deletePost(postId);
+    @DeleteMapping(value = "/deletepost/{postId}")
+    public void deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        postService.deletePost(postId, userDetails.getMember());
     }
 
     @PostMapping(value = "/bookmark")

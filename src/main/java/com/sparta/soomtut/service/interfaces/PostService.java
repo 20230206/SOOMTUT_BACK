@@ -6,11 +6,11 @@ import com.sparta.soomtut.dto.response.PostResponseDto;
 import com.sparta.soomtut.entity.Member;
 
 public interface PostService {
-    // 글작성
+//     글작성
     PostResponseDto createPost(Member member, PostRequestDto postRequestDto);
 
-    // 글수정
-    PostResponseDto updatePost(Long postId, UpdatePostRequestDto updatePostRequestDto);
+//     글수정
+    PostResponseDto updatePost(Long postId, UpdatePostRequestDto updatePostRequestDto, Member member);
 
-    void deletePost(Long postId);
+    void deletePost(Long postId, Member member);
 }
