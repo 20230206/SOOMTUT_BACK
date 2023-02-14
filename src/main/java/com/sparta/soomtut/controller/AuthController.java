@@ -52,10 +52,8 @@ public class AuthController {
         /*SignIn Request*/
     )
     {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:8080/login/oauth2/code/kakao"));
         System.out.println("Method[kakaosignin] has called by front");
-        return ResponseEntity.ok().headers(headers).body(null);
+        return ResponseEntity.ok().body(null);
     }
 
     @PostMapping(value = "/signup")

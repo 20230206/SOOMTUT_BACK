@@ -52,22 +52,22 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.httpBasic().disable()
-                .csrf().disable()
-                .formLogin(login -> login
-                    .loginPage("http://localhost:3000/signin")
-                    .defaultSuccessUrl("http://localhost:3000/")
-                    .permitAll()
-                    )
-                .oauth2Login(login -> login
-                    .userInfoEndpoint()                                                   // 로그인 성공 후 사용자 정보 획득
-                    .userService(oAuth2UserService)                                       // 사용자 정보 처리 서비스 로직
-                );
+            .csrf().disable()
+            .formLogin(login -> login
+                .loginPage("http://localhost:3000/signin")
+                .defaultSuccessUrl("http://localhost:3000/")
+                .permitAll()
+                )
+            .oauth2Login(login -> login
+                .userInfoEndpoint()                                                   // 로그인 성공 후 사용자 정보 획득
+                .userService(oAuth2UserService)                                       // 사용자 정보 처리 서비스 로직
+            );
         
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                    .authorizeHttpRequests()
-                    .requestMatchers("/**").permitAll()
-                    .anyRequest().authenticated();
+            .and()
+                .authorizeHttpRequests()
+                .requestMatchers("/**").permitAll()
+                .anyRequest().authenticated();
 
         http.exceptionHandling().authenticationEntryPoint(authdenticationEntryPoint)
                                 .accessDeniedHandler(accessDeniedHandler);

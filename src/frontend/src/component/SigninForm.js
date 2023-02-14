@@ -3,7 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import styles from "../assets/styles/formstyle.module.css"
 import axios from "axios";
 
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import kakao from "../assets/images/kakaosignup.png"
 import logo from "../assets/images/logo.png"
 
@@ -59,7 +59,7 @@ function SigninForm() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:8080/login/oauth2/code/kakao',
+            url: 'http://localhost:8080/oauth2/authorization/kakao',
             headers: { 
                 'Content-Type': 'application/json'
             },
@@ -111,7 +111,7 @@ function SigninForm() {
             </Button>
             </Form>
         
-            <Button onClick={() => KakaoSignin()}> <img src={kakao} className={styles.kakao} alt="kakaosignup"/> </Button>
+            <Link to="http://localhost:8080/oauth2/authorization/kakao" ><Button> <img src={kakao} className={styles.kakao} alt="kakaosignup"/> </Button></Link>
             </div>
         </div>
     );
