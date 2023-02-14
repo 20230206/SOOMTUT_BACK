@@ -223,3 +223,9 @@ application-oauth.properties
 .idea/modules/soomtut.test.iml
 
 .idea/vcs.xml
+
+.idea/.name
+
+.idea/compiler.xml
+
+.idea/jarRepositories.xml
