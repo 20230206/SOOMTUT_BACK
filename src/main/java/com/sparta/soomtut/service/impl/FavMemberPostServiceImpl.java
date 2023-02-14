@@ -44,13 +44,13 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
     //즐겨찾기 취소
     @Transactional
     public String removeFavPost(Post post, Member member){
-        FavMemberPost favMemberPost = favMemberPostRepository.findByPostAndMember(post,member)
+        FavMemberPost favMemberPost = favMemberPostRepository.findByPostIdAndMemberId(post.getId(),member.getId())
                 .orElseThrow(FavNotFoundException::new);
         favMemberPostRepository.delete(favMemberPost);
         return "SUCCESS_UnFavPost";
     }
     //글과 멤버의 값을 가지고 있다면 true 아니라면 false 용도의 함수
     public boolean hasFavPost(Long id, Member member){
-        return favMemberPostRepository.existsByPostIdAndMember(id, member); //Optional 값을 가지고 있다면 ture 아니면 false ->existsBy로 변경
+        return favMemberPostRepository.existsByPostIdAndMemberId(id, member.getId()); //Optional 값을 가지고 있다면 ture 아니면 false ->existsBy로 변경
     }
 }

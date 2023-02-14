@@ -35,7 +35,7 @@ public class PostServiceImpl implements PostService {
     // 게시글 수정
     @Transactional
     public PostResponseDto updatePost(Long postId, UpdatePostRequestDto updatePostRequestDto, Member member) {
-        Post post = postRepository.findByPostId(postId).orElseThrow(
+        Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
         );
 
@@ -52,7 +52,7 @@ public class PostServiceImpl implements PostService {
     //게시글 삭제
     @Transactional
     public void deletePost(Long postId, Member member) {
-        Post post = postRepository.findByPostId(postId).orElseThrow(
+        Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
         );
 

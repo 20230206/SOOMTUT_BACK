@@ -24,8 +24,10 @@ import lombok.RequiredArgsConstructor;
 // jpa
 @Service
 public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-    private MemberRepository memberRepository;
-    private PasswordEncoder passwordEncoder;
+    
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     public OAuth2User loadUser(OAuth2UserRequest request) throws OAuth2AuthenticationException {
         OAuth2User user = new DefaultOAuth2UserService().loadUser(request);

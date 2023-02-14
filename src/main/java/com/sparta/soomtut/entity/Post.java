@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postId;
+    private Long id;
 
     private Long tutorId;
 
@@ -34,7 +34,7 @@ public class Post {
     private Member member;
 
     @Column
-    private Category category;
+    private Long categoryId;
 
     //즐겨찾기 수
     @Column(nullable = false)
@@ -54,9 +54,9 @@ public class Post {
       this.fee = updatePostRequestDto.getFee();
     }
 
-    public Post(Long tutorId, String content, Category category, int fee) {
+    public Post(Long tutorId, String content, Long categoryId, int fee) {
         this.tutorId = tutorId;
-        this.category = category;
+        this.categoryId = categoryId;
         this.content = content;
         this.fee = fee;
         this.favorit = 0;
