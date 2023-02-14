@@ -1,6 +1,7 @@
 package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.entity.Post;
+import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.repository.PostRepository;
 import com.sparta.soomtut.service.interfaces.PostService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public Post findPostById(Long postId){
        Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("찾으시는 게시물이 없습니다!")
+                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage())
         );
 
         return post;
