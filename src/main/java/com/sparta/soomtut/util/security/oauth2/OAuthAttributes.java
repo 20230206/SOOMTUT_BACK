@@ -35,10 +35,10 @@ public enum OAuthAttributes {
         var account = (Map<String, Object>)(attributes.get("kakao_account"));
         var profile = (Map<String, Object>)(account.get("profile"));
         res.put("attributes", account);
-        res.put("providerid", account.get("id").toString());
+        res.put("providerid", attributes.get("id").toString());
         res.put("provider", "kakao");
         res.put("email", account.get("email").toString());
-        res.put("name", profile.get("name").toString());
+        res.put("name", profile.get("nickname").toString());
         return res;
     });
 
