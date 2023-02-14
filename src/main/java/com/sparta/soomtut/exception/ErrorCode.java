@@ -13,6 +13,7 @@ public enum ErrorCode {
     DUPLICATED_EMAIL("중복된 email 입니다"),
     DUPLICATED_NICKNAME("중복된 닉네임 입니다"),
     NOT_FOUND_USER("회원을 찾을 수 없습니다."),
+    NOT_FOUND_LOCATION("위치 정보를 찾을 수 없습니다."),
     INVALID_PASSWORD("비밀번호가 틀렸습니다."),
 
     NOT_FOUND_POST("게시글이 존재하지 않습니다."),
