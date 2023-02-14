@@ -1,5 +1,6 @@
 package com.sparta.soomtut.entity;
 
+import com.sparta.soomtut.dto.request.PostRequestDto;
 import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -17,7 +18,6 @@ public class Post {
 
     private Long tutorId;
 
-    private String member;
 
     @Column
     private String image;
@@ -25,9 +25,6 @@ public class Post {
     @Column(nullable = false)
     private String title;
 
-//    @ManyToOne
-//    @JoinColumn(name = "category_id")
-//    private Category category;
 
     @Column(nullable = false)
     private String content;
@@ -35,12 +32,16 @@ public class Post {
     @Column(nullable = false)
     private int fee;
 
-    public Post(String member, String title, String image, String content, int fee) {
-        this.member = member;
-        this.title = title;
-        this.image = image;
-        this.content = content;
-        this.fee = fee;
+    @ManyToOne
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
+
+
+        public Post(PostRequestDto postRequestDto, Member member) {
+        this.title = postRequestDto.getTitle();
+        this.image = postRequestDto.getImage();
+        this.content = postRequestDto.getContent();
+        this.fee = postRequestDto.getFee();
     }
 
     public void update(UpdatePostRequestDto updatePostRequestDto) {
