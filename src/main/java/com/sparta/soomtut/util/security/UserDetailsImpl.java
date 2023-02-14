@@ -40,6 +40,10 @@ public class UserDetailsImpl implements UserDetails, OAuth2User {
         return member;
     }
 
+    public Long getMemberId(){
+        return member.getId();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         MemberRole role = member.getMemberRole();

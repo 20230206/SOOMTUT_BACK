@@ -8,15 +8,10 @@ import com.sparta.soomtut.entity.Post;
 import com.sparta.soomtut.enums.MemberRole;
 import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.repository.PostRepository;
-import com.sparta.soomtut.service.interfaces.PostService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.sparta.soomtut.entity.Post;
-import com.sparta.soomtut.repository.PostRepository;
 import com.sparta.soomtut.service.interfaces.PostService;
+import com.sparta.soomtut.service.interfaces.LocationService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+    private final LocationService locationService;
 
 
     // 게시글 작성
@@ -70,7 +66,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public Post findPostById(Long postId){
        Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("찾으시는 게시물이 없습니다!")
+                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage())
         );
 
         return post;
@@ -81,5 +77,13 @@ public class PostServiceImpl implements PostService {
 
         return findPostById(postId).getTutorId();
 
+    }
+
+    @Override
+    public PostResponseDto getMyPost(Member member) {
+        Post post = postRepository.findByTutorId(member.getId())
+                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage()));
+        PostResponseDto postResponseDto = new PostResponseDto(post, member.getNickname(), locationService.findMemberLocation(member.getId()).getAddress());
+        return postResponseDto;
     }
 }

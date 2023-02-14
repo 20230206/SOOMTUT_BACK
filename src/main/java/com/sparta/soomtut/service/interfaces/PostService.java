@@ -1,5 +1,6 @@
 package com.sparta.soomtut.service.interfaces;
 
+import com.sparta.soomtut.entity.Post;
 import com.sparta.soomtut.dto.request.PostRequestDto;
 import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
@@ -16,5 +17,5 @@ public interface PostService {
 
     Post findPostById(Long postId);
     Long getTutorId(Long postId);
-
+    PostResponseDto getMyPost(Member member);
 }

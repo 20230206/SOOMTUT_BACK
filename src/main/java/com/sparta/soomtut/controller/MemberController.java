@@ -19,7 +19,7 @@ public class MemberController  {
      ReviewServiceImpl
      */
 
-    private MemberServiceImpl memberService;
+    private final MemberServiceImpl memberService;
 
 
 
