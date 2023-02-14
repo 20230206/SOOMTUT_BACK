@@ -1,7 +1,8 @@
 package com.sparta.soomtut.controller;
 
-import com.sparta.soomtut.dto.CreateReviewRequestDto;
-import com.sparta.soomtut.service.impl.MemberServiceImpl;
+import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
+import com.sparta.soomtut.service.interfaces.MemberService;
+
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class MemberController  {
      ReviewServiceImpl
      */
 
-    private final MemberServiceImpl memberService;
+    private final MemberService memberService;
 
 
 

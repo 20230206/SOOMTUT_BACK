@@ -6,8 +6,6 @@ import com.sparta.soomtut.util.constants.Constants;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.sql.Update;
-import org.springframework.stereotype.Component;
 
 @Getter
 @NoArgsConstructor
@@ -35,6 +33,12 @@ public class Post {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    @Column
+    private Category category;
+
+    //즐겨찾기 수
+    @Column(nullable = false)
+    private int favorit;
 
     public Post(PostRequestDto postRequestDto, Member member) {
       this.title = postRequestDto.getTitle();
@@ -49,11 +53,6 @@ public class Post {
       this.content = updatePostRequestDto.getContent();
       this.fee = updatePostRequestDto.getFee();
     }
-
-
-    //즐겨찾기 수
-    @Column(nullable = false)
-    private int favorit;
 
     public Post(Long tutorId, String content, Category category, int fee) {
         this.tutorId = tutorId;

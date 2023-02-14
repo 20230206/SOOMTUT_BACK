@@ -1,6 +1,6 @@
 package com.sparta.soomtut.service.impl;
 
-import com.sparta.soomtut.dto.CreateReviewRequestDto;
+import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.entity.TuitionRequest;
 import com.sparta.soomtut.enums.TuitionState;
@@ -10,8 +10,6 @@ import com.sparta.soomtut.service.interfaces.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

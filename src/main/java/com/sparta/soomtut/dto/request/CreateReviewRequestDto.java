@@ -1,4 +1,4 @@
-package com.sparta.soomtut.dto;
+package com.sparta.soomtut.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

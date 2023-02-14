@@ -1,4 +1,4 @@
-package com.sparta.soomtut.dto;
+package com.sparta.soomtut.dto.request;
 
 import com.sparta.soomtut.entity.Member;
 import lombok.Getter;

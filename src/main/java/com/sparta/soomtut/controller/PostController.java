@@ -1,15 +1,11 @@
 package com.sparta.soomtut.controller;
 
 import com.sparta.soomtut.entity.Member;
+import com.sparta.soomtut.dto.request.FavPostDto;
 import com.sparta.soomtut.dto.request.PostRequestDto;
 import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
-import com.sparta.soomtut.dto.FavPostDto;
-
-import com.sparta.soomtut.service.impl.BoardServiceImpl;
-import com.sparta.soomtut.service.impl.PostServiceImpl;
 import com.sparta.soomtut.service.interfaces.PostService;
-import com.sparta.soomtut.service.interfaces.FavMemberPostService;
 
 
 import com.sparta.soomtut.util.security.UserDetailsImpl;
@@ -20,22 +16,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 
 @RestController
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
-    private final FavMemberPostService favMemberPostService;
 
     @PostMapping(value = "/createpost")
     public void CreatePost() {
-        {
-            // Service
+        
+        // Service
 
-            // return
-        }
+        // return
+    }
 
     @PostMapping(value = "/createpost")
     public PostResponseDto createPost(@RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {

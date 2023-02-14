@@ -1,9 +1,7 @@
 package com.sparta.soomtut.service.impl;
 
-import com.sparta.soomtut.dto.PostResponseDto;
+import com.sparta.soomtut.dto.response.PostResponseDto;
 import com.sparta.soomtut.entity.Post;
-import com.sparta.soomtut.repository.LocationRepository;
-import com.sparta.soomtut.repository.MemberRepository;
 import com.sparta.soomtut.repository.PostRepository;
 import com.sparta.soomtut.service.interfaces.BoardService;
 import com.sparta.soomtut.service.interfaces.LocationService;

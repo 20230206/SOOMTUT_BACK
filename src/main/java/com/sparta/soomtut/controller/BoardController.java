@@ -1,6 +1,6 @@
 package com.sparta.soomtut.controller;
 
-import com.sparta.soomtut.dto.PostResponseDto;
+import com.sparta.soomtut.dto.response.PostResponseDto;
 import com.sparta.soomtut.service.impl.BoardServiceImpl;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 import org.springframework.http.HttpStatus;
@@ -9,7 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import com.sparta.soomtut.entity.Post;
+
 import java.util.*;
 @RestController
 public class BoardController   {

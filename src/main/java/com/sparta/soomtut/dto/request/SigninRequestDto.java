@@ -1,4 +1,4 @@
-package com.sparta.soomtut.dto;
+package com.sparta.soomtut.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,9 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class SignupRequestDto {
-    private String nickname;
+public class SigninRequestDto {
     private String email;
     private String password;
 }

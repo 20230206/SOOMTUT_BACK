@@ -1,6 +1,6 @@
 package com.sparta.soomtut.service.impl;
 
-import com.sparta.soomtut.dto.FavPostDto;
+import com.sparta.soomtut.dto.request.FavPostDto;
 import com.sparta.soomtut.entity.FavMemberPost;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Post;

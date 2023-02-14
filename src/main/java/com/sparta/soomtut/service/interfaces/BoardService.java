@@ -1,6 +1,6 @@
 package com.sparta.soomtut.service.interfaces;
 
-import com.sparta.soomtut.dto.PostResponseDto;
+import com.sparta.soomtut.dto.response.PostResponseDto;
 
 import java.util.List;
 

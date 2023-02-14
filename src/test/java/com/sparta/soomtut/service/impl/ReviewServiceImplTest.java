@@ -1,6 +1,6 @@
 package com.sparta.soomtut.service.impl;
 
-import com.sparta.soomtut.dto.CreateReviewRequestDto;
+import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.entity.TuitionRequest;
 import com.sparta.soomtut.enums.TuitionState;

@@ -11,9 +11,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.sparta.soomtut.dto.SignupRequestDto;
-import com.sparta.soomtut.dto.SigninRequestDto;
-import com.sparta.soomtut.dto.SigninResponseDto;
+import com.sparta.soomtut.dto.request.SigninRequestDto;
+import com.sparta.soomtut.dto.request.SignupRequestDto;
+import com.sparta.soomtut.dto.response.SigninResponseDto;
 import com.sparta.soomtut.repository.MemberRepository;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.util.jwt.JwtProvider;

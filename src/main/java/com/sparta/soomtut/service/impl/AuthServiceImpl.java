@@ -5,9 +5,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sparta.soomtut.dto.SigninRequestDto;
-import com.sparta.soomtut.dto.SigninResponseDto;
-import com.sparta.soomtut.dto.SignupRequestDto;
+import com.sparta.soomtut.dto.request.SigninRequestDto;
+import com.sparta.soomtut.dto.request.SignupRequestDto;
+import com.sparta.soomtut.dto.response.SigninResponseDto;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.service.interfaces.AuthService;
