@@ -16,6 +16,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Pageable;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
@@ -85,5 +89,11 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage()));
         PostResponseDto postResponseDto = new PostResponseDto(post, member.getNickname(), locationService.findMemberLocation(member.getId()).getAddress());
         return postResponseDto;
+    }
+
+    @Transactional
+    @Override
+    public List<PostResponseDto> getMyPosts(Pageable pageable){
+        return postRepository.findAll(pageable).stream().map(PostResponseDto::new).collect(Collectors.toList());
     }
 }

@@ -6,6 +6,9 @@ import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
 import com.sparta.soomtut.entity.Member;
 
+import java.awt.print.Pageable;
+import java.util.List;
+
 public interface PostService {
 //     글작성
     PostResponseDto createPost(Member member, PostRequestDto postRequestDto);
@@ -18,4 +21,5 @@ public interface PostService {
     Post findPostById(Long postId);
     Long getTutorId(Long postId);
     PostResponseDto getMyPost(Member member);
+    List<PostResponseDto> getMyPosts(Pageable pageable);
 }

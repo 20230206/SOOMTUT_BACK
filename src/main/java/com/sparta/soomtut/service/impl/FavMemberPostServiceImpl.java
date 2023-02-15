@@ -1,9 +1,11 @@
 package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.dto.request.FavPostDto;
+import com.sparta.soomtut.dto.response.PostResponseDto;
 import com.sparta.soomtut.entity.FavMemberPost;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Post;
+import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.exception.FavNotFoundException;
 import com.sparta.soomtut.repository.FavMemberPostRepository;
 import com.sparta.soomtut.service.interfaces.FavMemberPostService;
@@ -12,12 +14,31 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Pageable;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class FavMemberPostServiceImpl implements FavMemberPostService {
     private final FavMemberPostRepository favMemberPostRepository;
     private final PostService postService;
 
+    //즐겨찾기 특정 Id 조회
+    @Transactional
+    @Override
+    public PostResponseDto findFavPost(Long id){
+        Post post = postService.findPostById(id);
+        FavMemberPost favMemberPost = favMemberPostRepository.findByPostId(post.getId())
+                .orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_FAVPOST.getMessage()));
+        return new PostResponseDto(favMemberPost.getPost());
+    }
+    //즐겨찾기 전체 조회
+    @Transactional
+    @Override
+    public List<PostResponseDto> findAllFavPosts(Pageable pageable){
+        return postService.getMyPosts(pageable).stream().map(PostResponseDto::new).collect(Collectors.toList());
+    }
     //즐겨찾기 업데이트
     @Transactional
     @Override

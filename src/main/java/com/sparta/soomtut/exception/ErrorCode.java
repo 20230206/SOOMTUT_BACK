@@ -22,6 +22,8 @@ public enum ErrorCode {
     NOT_IMAGE_FILE("이미지 파일이 아닙니다."),
     NOT_FOUND_CLASS("해당 수업을 찾을 수 없습니다."),
 
+    NOT_FOUND_FAVPOST("해당 즐겨찾기를 찾을 수 없습니다"),
+
 //    NOT_EXIST_CATEGORY("카테고리가 존재하지 않습니다."),
 //    DUPLICATED_CATEGORY("중복된 카테고리 입니다."),
 //    NOT_CHILD_CATEGORY("현재 카테고리에 생성할 수 없습니다."),
