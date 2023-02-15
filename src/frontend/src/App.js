@@ -9,7 +9,7 @@ import Signin from "./routes/Signin";
 import Signup from "./routes/Signup";
 import SetSignin from "./routes/SetSignin"
 import MyPage from "./routes/MyPage";
-import FavList from "./routes/FavList";
+import ListForm from "./routes/ListForm";
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/setsignin/:access" element={<SetSignin />} />
           <Route path="/mypage" element={<MyPage />} />
-          <Route path="/mypage/favlist" element={<FavList />} />
+          <Route path="/mypage/favlist" element={<ListForm />} />
       </Routes>
     </Router>
   );

@@ -1,0 +1,82 @@
+.wrapper {
+    width: 820px;
+    border: 2px solid;
+    border-radius: 5px;
+
+    margin: auto;
+}
+
+.headbox{
+    width: 800px;
+    height: 120px;
+
+    border: 2px solid;
+    margin: 10px auto 0px auto;
+
+    display: flex;
+    align-items: center;
+}
+
+.retbutton{
+    margin-left: 10px;
+    width: 80px;
+    height: 80px;
+
+    font-size: 24px;
+}
+
+.headtext{
+    font-size: 24px;
+}
+
+.headtextbox{
+    width: 600px;
+
+    text-align: center;
+}
+
+.listbox{
+    width: 800px;
+
+    border: 2px solid;
+
+    margin: 10px auto 20px auto;
+
+}
+
+.itembox{
+    width: 780px;
+    height: 180px;
+
+    border: 2px solid;
+    margin: 5px auto 5px auto;
+
+    display: flex;
+    align-items: center;
+}
+
+.itemimagebox {
+    width: 144px;
+    height: 144px;
+
+    border: 2px solid;
+    border-radius: 5px;
+    margin-left: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.itemdiscriptionbox {
+    width: 600px;
+    height: 144px;
+
+    border: 2px solid;
+    border-radius: 5px;
+    margin: auto;
+}
+
+.discriptiontext{
+    margin-left: 10px;
+}
