@@ -9,6 +9,7 @@ import logo from '../assets/images/logo.png'
 function SoomtutNavbar() {
     const [signin, setSignin] = useState(false)
     const [token, setToken] = useState(null)
+    const [name, setName] = useState("...");
 
     const subscribe = () => {
         setToken(localStorage.getItem('Authorization'));
@@ -61,8 +62,9 @@ function SoomtutNavbar() {
            <Navbar.Brand href="#">
             <img src={logo} className={styles.logo} alt='logo' />
            </Navbar.Brand>
+           {signin ? <h1 className={styles.name}>{name}님 안녕하세요</h1> : null}
            {signin ? <Nav.Link className={styles.signin} onClick={() => signout()}> 로그아웃 </Nav.Link> : <Nav.Link className={styles.signin} href="/signin"> 로그인 </Nav.Link> }
-           {signin ? <Nav.Link className={styles.signup} href="/signup"> 마이페이지 </Nav.Link>  : <Nav.Link className={styles.signup} href="/signup"> 회원가입 </Nav.Link> }
+           {signin ? <Nav.Link className={styles.signup} href="/mypage"> 마이페이지 </Nav.Link>  : <Nav.Link className={styles.signup} href="/signup"> 회원가입 </Nav.Link> }
           </Container>
          </Navbar>
          <hr />

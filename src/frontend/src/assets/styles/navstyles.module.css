@@ -24,3 +24,11 @@
     color: #1A1A1A;
     font-size: 22px;
 }
+
+.name {
+    position:fixed;
+    right: 310px;
+    top: 5px;
+    font-size: 16px;
+    font-weight: lighter;
+}
