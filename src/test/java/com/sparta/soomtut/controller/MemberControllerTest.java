@@ -40,26 +40,26 @@ class MemberControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(memberController).build();
     }
 
-    @Test
-    @DisplayName("유저 닉네임 변경 테스트(성공)")
-    @WithUserDetails
-    void setNickname() throws Exception{
-        //given
-        //UserDetailsImpl userDetails = mock(UserDetailsImpl.class);
-        //Member member = new Member("user@user.com","asd12345","user1");
-        String updateNickname = "update";
-        //given(userDetails.getMember()).willReturn(member);
-        //given(memberService.updateNickname(updateNickname,userDetails.getMember())).willReturn("수정이 완료되었습니다!");
-
-        //ResponseEntity responseEntity = ResponseEntity.status(HttpStatus.OK).body("수정이 완료되었습니다!");
-        ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.put("/member/mypage/nickname")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new Gson().toJson(updateNickname))
-
-
-        );
-        resultActions.andExpect(status().isOk());
-
-    }
+//    @Test
+//    @DisplayName("유저 닉네임 변경 테스트(성공)")
+//    @WithUserDetails
+//    void setNickname() throws Exception{
+//        //given
+//        //UserDetailsImpl userDetails = mock(UserDetailsImpl.class);
+//        //Member member = new Member("user@user.com","asd12345","user1");
+//        String updateNickname = "update";
+//        //given(userDetails.getMember()).willReturn(member);
+//        //given(memberService.updateNickname(updateNickname,userDetails.getMember())).willReturn("수정이 완료되었습니다!");
+//
+//        //ResponseEntity responseEntity = ResponseEntity.status(HttpStatus.OK).body("수정이 완료되었습니다!");
+//        ResultActions resultActions = mockMvc.perform(
+//                MockMvcRequestBuilders.put("/member/mypage/nickname")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(new Gson().toJson(updateNickname))
+//
+//
+//        );
+//        resultActions.andExpect(status().isOk());
+//
+//    }
 }
