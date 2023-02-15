@@ -56,8 +56,8 @@ public class SecurityConfig implements WebMvcConfigurer {
                 )
             .oauth2Login(login -> login
                 .successHandler(successHandler)
-                .userInfoEndpoint()                                                   // 로그인 성공 후 사용자 정보 획득
-                .userService(oAuth2UserService)                                       // 사용자 정보 처리 서비스 로직
+                .userInfoEndpoint()             // 로그인 성공 후 사용자 정보 획득
+                .userService(oAuth2UserService) // 사용자 정보 처리 서비스 로직
             );
         
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
