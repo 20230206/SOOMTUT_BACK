@@ -5,13 +5,14 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 // 더보기 기능 추가
-function ListForm() {
+function ListForm(props) {
+    
     return (
         <div>
             <div className={styles.wrapper}>
                 <div className={styles.headbox}>
                     <Link to="/mypage"> <Button className={styles.retbutton}> 돌아가기 </Button> </Link>
-                    <div className={styles.headtextbox}><span className={styles.headtext}> 관심 목록 </span></div>
+                    <div className={styles.headtextbox}><span className={styles.headtext}> {props.title} </span></div>
                 </div>
                 <div className={styles.listbox}>
                     <div className={styles.itembox}>

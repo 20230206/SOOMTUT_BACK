@@ -28,9 +28,9 @@ function MyPage() {
                     <br /><br />
                     <span className={styles.infotextfont}> 나의 튜터링 </span>
                     <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/favlist"> 관심 목록 </Link></li>
-                    <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/"> 수강한 수업 목록 </Link></li>
-                    <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/"> 나의 수업 목록 </Link></li>
-                    <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/"> 채팅 목록 </Link></li>
+                    <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/myclassedlist"> 수강한 수업 목록 </Link></li>
+                    <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/myclasslist"> 나의 수업 목록 </Link></li>
+                    <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/chat"> 채팅 목록 </Link></li>
                     <br /><br />
                     <span className={styles.infotextfont}> 기타 </span>
                     <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/"> 내 위치 설정 </Link></li>
