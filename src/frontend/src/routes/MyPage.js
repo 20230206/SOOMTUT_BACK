@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../assets/styles/mypage.module.css"
 import { Button } from "react-bootstrap";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 
 function MyPage() {
 

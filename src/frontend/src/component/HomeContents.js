@@ -1,4 +1,5 @@
 import styles from "../assets/styles/homecontents.module.css"
+import { Link } from "react-router-dom";
 
 function HomeContents() {
     return (
@@ -9,7 +10,7 @@ function HomeContents() {
          </div>
          <br></br>
          <div className={styles.buttonbox}>
-            <button className={styles.button}> 나만의 튜터 찾기 </button>
+            <button className={styles.button}> <Link to="/posts">  나의 튜터 찾기 </Link> </button>  
             <button className={styles.button}> 내 주변의 튜터 찾기 </button>
          </div>
          <br></br>
