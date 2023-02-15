@@ -16,6 +16,9 @@ import com.sparta.soomtut.dto.response.SigninResponseDto;
 import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.MemberService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -80,5 +83,10 @@ public class AuthController {
 
     }
 
+    @GetMapping(value = "/validtoken")
+    public ResponseEntity<?> checkToken(HttpServletRequest request) {
+        var data = authService.checkToken(request);
+        return ResponseEntity.ok().body(data);
+    }
     
 }

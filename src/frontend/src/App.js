@@ -8,6 +8,7 @@ import Home from "./routes/Home"
 import Signin from "./routes/Signin";
 import Signup from "./routes/Signup";
 import SetSignin from "./routes/SetSignin"
+import MyPage from "./routes/MyPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/signin" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/setsignin/:access" element={<SetSignin />} />
+          <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </Router>
   );
