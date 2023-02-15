@@ -65,4 +65,18 @@ class ReviewServiceImplTest {
 
         assertThat(reviewService.checkTuitionState(anyLong(),anyLong())).isEqualTo(true);
     }
+
+    @Test
+    @DisplayName("Id로 리뷰찾기")
+    void findReviewById(){
+        Review review = new Review(1L,1L,3f,"굿");
+
+        given(reviewRepository.findById(anyLong())).willReturn(Optional.ofNullable(review));
+
+        Review foundReview = reviewService.findReviewById(anyLong());
+
+        assertThat(foundReview.getReview_content()).isEqualTo("굿");
+    }
+
+
 }

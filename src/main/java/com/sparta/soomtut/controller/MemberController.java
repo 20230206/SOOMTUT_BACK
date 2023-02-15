@@ -178,4 +178,14 @@ public class MemberController  {
         return memberService.getReview(pageRequest,userDetails.getMember());
     }
 
+    //리뷰 삭제
+    @PostMapping(value = "/review/{reviewId}")
+    public ResponseEntity<?> deleteReviewRequest(
+            @PathVariable Long reviewId
+
+    ){
+        String msg = memberService.deleteReviewRequest(reviewId);
+        return ResponseEntity.ok().body(msg);
+    }
+
 }

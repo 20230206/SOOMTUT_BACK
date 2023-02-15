@@ -5,6 +5,7 @@ import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.entity.TuitionRequest;
 import com.sparta.soomtut.enums.TuitionState;
+import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.repository.ReviewRepository;
 import com.sparta.soomtut.repository.TuitionRequestRepository;
 import com.sparta.soomtut.service.interfaces.ReviewService;
@@ -32,6 +33,14 @@ public class ReviewServiceImpl implements ReviewService {
         );
         return tuitionRequest;
     }
+    @Transactional
+    public Review findReviewById(Long reviewId){
+        return reviewRepository.findById(reviewId).orElseThrow(
+                ()-> new IllegalArgumentException(ErrorCode.NOT_FOUND_REVIEW.getMessage())
+        );
+    }
+
+
 
     @Override
     @Transactional(readOnly = true)
@@ -70,5 +79,10 @@ public class ReviewServiceImpl implements ReviewService {
         }
         return true;
 
+    }
+    @Override
+    public Review findReview(Long reviewId) {
+
+        return findReviewById(reviewId);
     }
 }

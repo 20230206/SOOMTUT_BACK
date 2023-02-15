@@ -5,20 +5,18 @@ import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.exception.ErrorCode;
-
 import com.sparta.soomtut.repository.MemberRepository;
-
 import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.service.interfaces.PostService;
-import com.sparta.soomtut.service.interfaces.LocationService;
 import com.sparta.soomtut.service.interfaces.ReviewService;
-
+import com.sparta.soomtut.service.interfaces.LocationService;
+import com.sparta.soomtut.service.interfaces.DeleteReviewRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDate;
-import java.util.Optional;
 
 
 @Service
@@ -29,6 +27,7 @@ public class MemberServiceImpl implements MemberService{
     private final PostService postService;
     private final ReviewService reviewService;
     private final LocationService locationService;
+    private final DeleteReviewRequestService deleteReviewRequestService;
 
     @Override
     public String updateNickname(String nickname, Member member) {
@@ -124,6 +123,11 @@ public class MemberServiceImpl implements MemberService{
     @Override
     @Transactional(readOnly = true)
     public Page<Review> getReview(PageRequestDto pageRequestDto, Member member) {
-        return reviewService.getReview(pageRequestDto,member.getId());
+        return reviewService.getReview(pageRequestDto, member.getId());
+    }
+
+    @Override
+    public String deleteReviewRequest(Long reviewId) {
+        return deleteReviewRequestService.deleteReviewRequest(reviewId);
     }
 }

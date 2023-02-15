@@ -21,6 +21,7 @@ public enum ErrorCode {
     EMPTY_FILE("파일이 없습니다."),
     NOT_IMAGE_FILE("이미지 파일이 아닙니다."),
     NOT_FOUND_CLASS("해당 수업을 찾을 수 없습니다."),
+    NOT_FOUND_REVIEW("해당 리뷰를 찾을 수 없습니다."),
 
 //    NOT_EXIST_CATEGORY("카테고리가 존재하지 않습니다."),
 //    DUPLICATED_CATEGORY("중복된 카테고리 입니다."),

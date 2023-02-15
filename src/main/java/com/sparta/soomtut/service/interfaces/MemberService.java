@@ -32,4 +32,5 @@ public interface MemberService {
 
     Page<Review> getReview(PageRequestDto pageRequestDto, Member member);
 
+    String deleteReviewRequest(Long reviewId);
 }
