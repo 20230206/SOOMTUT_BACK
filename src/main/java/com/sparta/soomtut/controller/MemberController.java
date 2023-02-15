@@ -180,7 +180,7 @@ public class MemberController  {
 
     //리뷰 삭제
     @PostMapping(value = "/review/{reviewId}")
-    public ResponseEntity<?> deleteReview(
+    public ResponseEntity<?> deleteReviewRequest(
             @PathVariable Long reviewId
 
     ){
