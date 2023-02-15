@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!--kakao서비스 이용을 위한 참조-->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6316a86b40c674ebf790e60e861e1731&libraries=services"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--주소 찾기 버튼을 클릭했을 때 진행할 Event-->
+    <script>
+        <!--address로 x,y값을 뽑아내기 위한 geocoder-->
+        var geocoder = new daum.maps.services.Geocoder();
+        var x;
+        var y;
+        var found_address;
+
+        function save_location(){
+            $.ajax({
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                url: "/location",
+                data: JSON.stringify(
+                    {
+                        "vectorX" : x,
+                        "vectorY" : y,
+                        "address" : found_address
+                    }
+                ),
+                success: function (response) {
+                    alert(response);
+
+                }
+            });
+        }
+        function sample5_execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    found_address = data.address; // 최종 주소 변수
+
+                    // 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById("sample5_address").value = found_address;
+                    // 주소로 상세 정보를 검색
+                    geocoder.addressSearch(data.address, function(results, status) {
+                        // 정상적으로 검색이 완료됐으면
+                        if (status === daum.maps.services.Status.OK) {
+                            var result = results[0]; //첫번째 결과의 값을 활용
+                             x = result.y;
+                             y = result.x;
+                            console.log("x :" +x + "y : " + y + "address : "+ found_address);
+                        }
+                    });
+                }
+            }).open();
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <input type="text" id="sample5_address" placeholder="주소">
+    <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+    <input type="button" onclick="save_location()" value="저장하기"><br>
+
+
+</body>
+</html>

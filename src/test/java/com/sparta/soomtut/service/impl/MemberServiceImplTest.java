@@ -61,7 +61,7 @@ class MemberServiceImplTest {
     @DisplayName("위치정보 가져오기")
     void getLocation(){
         Member member = new Member("user@user.com","asd12345","user1");
-        Location location = new Location(1L,member,"서울",3f,3f);
+        Location location = new Location(member,"서울",3f,3f);
         given(locationService.getLocation(member)).willReturn(location);
         String address = memberService.getLocation(member);
         assertThat(address).isEqualTo("서울");
