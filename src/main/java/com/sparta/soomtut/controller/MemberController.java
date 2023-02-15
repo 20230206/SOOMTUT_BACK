@@ -181,10 +181,10 @@ public class MemberController  {
     //리뷰 삭제
     @PostMapping(value = "/review/{reviewId}")
     public ResponseEntity<?> deleteReview(
-            @PathVariable Long reviewId,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
+            @PathVariable Long reviewId
+
     ){
-        String msg = memberService.deleteReviewRequest(reviewId,userDetails.getMember());
+        String msg = memberService.deleteReviewRequest(reviewId);
         return ResponseEntity.ok().body(msg);
     }
 
