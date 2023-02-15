@@ -51,7 +51,7 @@ public class Member {
     private String provider;
 
     @Column
-    private String providerId;
+    private String oauthEmail;
 
 
 
@@ -66,11 +66,11 @@ public class Member {
         this.level = 0;
         this.image = Constants.STANDARD_USER_IMAGE;
         this.provider = null;
-        this.providerId = null;
+        this.oauthEmail = null;
     }
 
     @Builder(builderClassName = "OAuth2Register", builderMethodName = "oauth2Register")
-    public Member(String email, String password, String nickname, String provider, String providerId) {
+    public Member(String email, String password, String nickname, String provider, String oauthEmail) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
@@ -80,7 +80,7 @@ public class Member {
         this.level = 0;
         this.image = Constants.STANDARD_USER_IMAGE;
         this.provider = provider;
-        this.providerId = providerId;
+        this.oauthEmail = oauthEmail;
     }
 
     public void updateNickName(String nickname) {

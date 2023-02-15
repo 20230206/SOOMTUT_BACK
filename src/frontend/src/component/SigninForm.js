@@ -8,6 +8,7 @@ import kakao from "../assets/images/kakaosignup.png"
 import logo from "../assets/images/logo.png"
 
 function SigninForm() {
+
     const navigate = useNavigate();
     
     const [email, setEmail] = useState("")
@@ -46,33 +47,10 @@ function SigninForm() {
         .catch(function (error) {
         console.log(error);
         });
-            
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-    }
-
-    const KakaoSignin = () => {
-        var data = '';
-
-        var config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: 'http://localhost:8080/oauth2/authorization/kakao',
-            headers: { 
-                'Content-Type': 'application/json'
-            },
-            data : data
-            };
-
-        axios(config)
-        .then(function (response) {
-            console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-        console.log(error);
-        });
     }
 
     return (
@@ -111,7 +89,8 @@ function SigninForm() {
             </Button>
             </Form>
         
-            <Link to="http://localhost:8080/oauth2/authorization/kakao" ><Button> <img src={kakao} className={styles.kakao} alt="kakaosignup"/> </Button></Link>
+            <Link to="http://localhost:8080/oauth2/authorization/kakao" > <img src={kakao} className={styles.kakao} alt="kakaosignup"/> </Link>
+            <Link to="http://localhost:8080/oauth2/authorization/google" ><Button> Google </Button></Link>
             </div>
         </div>
     );

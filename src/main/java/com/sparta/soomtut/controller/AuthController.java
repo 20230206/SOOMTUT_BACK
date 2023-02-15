@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,16 +40,6 @@ public class AuthController {
         return ResponseEntity.ok().header("Authorization", response.getToken()).body(dataMap);
     }
 
-    @GetMapping(value = "/kakaosignin")
-    public ResponseEntity<?> SignInForKakao(
-        Authentication authentication
-        /*SignIn Request*/
-    )
-    {
-        System.out.println("Method[kakaosignin] has called by front");
-        return ResponseEntity.ok().body(null);
-    }
-
     @PostMapping(value = "/signup")
     public ResponseEntity<?> signup(
         @RequestBody SignupRequestDto requestDto
@@ -65,17 +52,6 @@ public class AuthController {
         return ResponseEntity.ok().body(data);
     }
 
-    @PostMapping(value = "/signupkakao")
-    public void SignUpKakao(
-        /*SignUp Request*/
-        @AuthenticationPrincipal OAuth2User oAuth2User
-    )
-    {
-        // Service
-
-        // return
-    }
-    
     @GetMapping(value = "/signup/check")
     public ResponseEntity<?> checkduple (
         @RequestParam(required = false, value = "email") String email,

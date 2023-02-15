@@ -6,6 +6,7 @@ import com.sparta.soomtut.util.security.AccessDeniedHandlerImpl;
 import com.sparta.soomtut.util.security.AuthdenticationEntryPointImpl;
 import com.sparta.soomtut.util.security.UserDetailsServiceImpl;
 import com.sparta.soomtut.util.security.oauth2.OAuth2UserServiceImpl;
+import com.sparta.soomtut.util.security.oauth2.OAuth2AuthenticationSuccessHandlerImpl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +29,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     private final OAuth2UserServiceImpl oAuth2UserService;
     private final AccessDeniedHandlerImpl accessDeniedHandler;
     private final AuthdenticationEntryPointImpl authdenticationEntryPoint;
+    private final OAuth2AuthenticationSuccessHandlerImpl successHandler;
     
 
     public static final String ALLOWED_METHOD_NAMES = "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH";
@@ -53,6 +55,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .permitAll()
                 )
             .oauth2Login(login -> login
+                .successHandler(successHandler)
                 .userInfoEndpoint()                                                   // 로그인 성공 후 사용자 정보 획득
                 .userService(oAuth2UserService)                                       // 사용자 정보 처리 서비스 로직
             );

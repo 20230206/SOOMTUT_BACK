@@ -7,6 +7,7 @@ import {
 import Home from "./routes/Home"
 import Signin from "./routes/Signin";
 import Signup from "./routes/Signup";
+import SetSignin from "./routes/SetSignin"
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/setsignin/:access" element={<SetSignin />} />
       </Routes>
     </Router>
   );
