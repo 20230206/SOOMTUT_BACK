@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import styles from "../assets/styles/poststyle.module.css"
-import MyDropdown from "../component/MyDropdown";
 
 function CreatePost() {
     const [title, setTitle] = useState("");
@@ -45,7 +44,6 @@ function CreatePost() {
             </div>
 
             <div className={styles.categorybox}>
-                <MyDropdown />
             </div>
 
             <div className={styles.feebox}>

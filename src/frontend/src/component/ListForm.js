@@ -4,7 +4,6 @@ import styles from "../assets/styles/listpage.module.css"
 
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import MyDropdown from "./MyDropdown";
 import PostBoxInList from "./PostBoxInList";
 
 // 더보기 기능 추가
@@ -43,7 +42,6 @@ function ListForm(props) {
                     <Link to="/mypage"> <Button className={styles.retbutton}> 돌아가기 </Button> </Link>
                     <div className={styles.headtextbox}> 
                         { headType === 0 ? <span className={styles.headtext}> {props.title} </span> : null } 
-                        { headType === 1 ?  <MyDropdown />: null}
                     </div> 
                 </div>
                 <div className={styles.listbox} id="listbox">
