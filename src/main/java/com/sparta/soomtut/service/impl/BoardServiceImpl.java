@@ -1,7 +1,6 @@
 package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.dto.response.PostResponseDto;
-import com.sparta.soomtut.entity.Location;
 import com.sparta.soomtut.entity.Post;
 import com.sparta.soomtut.repository.PostRepository;
 import com.sparta.soomtut.service.interfaces.BoardService;
@@ -21,7 +20,6 @@ public class BoardServiceImpl implements BoardService {
     private final PostRepository postRepository;
     private final MemberService memberService;
     private final LocationService locationService;
-    private final CategoryService categoryService;
 
     @Override
     @Transactional(readOnly = true)
@@ -30,8 +28,7 @@ public class BoardServiceImpl implements BoardService {
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
         posts.forEach(post -> postResponseDtoList.add(new PostResponseDto(post,
                 memberService.findMemberById(memberId).getNickname(),
-                // locationService.findMemberLocation(memberId).getAddress()
-                Location.builder().address("address").build().getAddress()
+                locationService.findMemberLocation(memberId).getAddress()
                 )));
         return postResponseDtoList;
     }
@@ -43,8 +40,7 @@ public class BoardServiceImpl implements BoardService {
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
         posts.forEach(post -> postResponseDtoList.add(new PostResponseDto(post,
                 post.getMember().getNickname(),
-                // locationService.findMemberLocation(post.getMember().getId()).getAddress()
-                Location.builder().address("address").build().getAddress()
+                locationService.findMemberLocation(post.getMember().getId()).getAddress()
         )));
         return postResponseDtoList;
     }
@@ -56,8 +52,8 @@ public class BoardServiceImpl implements BoardService {
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
         posts.forEach(post -> postResponseDtoList.add(new PostResponseDto(post, 
         post.getMember().getNickname(),
-         Location.builder().address("address").build().getAddress())
-         ));
+        locationService.findMemberLocation(post.getMember().getId()).getAddress()
+        )));
         return postResponseDtoList;
     }
 

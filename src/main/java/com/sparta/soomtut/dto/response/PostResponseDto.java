@@ -1,6 +1,7 @@
 package com.sparta.soomtut.dto.response;
 
 import com.sparta.soomtut.entity.Post;
+import com.sparta.soomtut.entity.Location;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,7 +24,20 @@ public class PostResponseDto {
         this.categoryId = post.getCategoryId();
         this.image = post.getImage();
         this.fee = post.getFee();
+        this.tutorNickname = post.getMember().getNickname();
     }
+
+    public PostResponseDto(Post post, Location location) {
+        this.postId = post.getId();
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.categoryId = post.getCategoryId();
+        this.image = post.getImage();
+        this.fee = post.getFee();
+        this.tutorNickname = post.getMember().getNickname();
+        this.location = location.getAddress();
+    }
+
 
     public PostResponseDto(Post post, String nickName, String location) {
         this.postId = post.getId();

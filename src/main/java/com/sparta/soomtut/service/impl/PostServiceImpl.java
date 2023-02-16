@@ -33,10 +33,9 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public PostResponseDto getPost(Long postId) {
-        
-        return new PostResponseDto(postRepository.findById(postId).orElseThrow(
-            () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage()))
-        );
+        Post post = postRepository.findById(postId).orElseThrow(
+            () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage()));
+        return new PostResponseDto(post, locationService.findMemberLocation(post.getMember().getId()));
     }
 
     // 게시글 작성
@@ -45,7 +44,7 @@ public class PostServiceImpl implements PostService {
     public PostResponseDto createPost(Member member, PostRequestDto postRequestDto) {
         Post post = new Post(postRequestDto, member);
         postRepository.save(post);
-        return new PostResponseDto(post);
+        return new PostResponseDto(post, locationService.findMemberLocation(member.getId()));
     }
 
     // 게시글 수정

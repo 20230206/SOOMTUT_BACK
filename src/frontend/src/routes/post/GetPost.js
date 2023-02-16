@@ -20,12 +20,13 @@ function GetPost() {
         maxBodyLength: Infinity,
             url: `http://localhost:8080/posts/${postId}`,
             headers: { 
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMUB1c2VyLmNvbSIsImF1dGgiOiJNRU1CRVIiLCJleHAiOjE2NzY3NzM0NjYsImlhdCI6MTY3NjU1NzQ2Nn0.a2gfUZ9WWqSDd5Ouv7WHRjAFhnsJnDYcgLXzl43YBmY'
+            'Authorization': localStorage.getItem("Authorization")
             }
         };
         
         axios(config)
         .then(function (response) {
+            console.log(response.data)
             setPostdata(response.data)
         })
         .catch(function (error) {
@@ -79,8 +80,8 @@ function GetPost() {
                 <div className={styles.tutorinfobox} >
                     <div className={styles.tutorimagebox}> </div>
                     <div className={styles.tutordiscripbox}>
-                        <span> 아무개 </span> <br />
-                        <span> 인천 구월동 </span> <span> Lv.20 </span> <br />
+                        <span> {postdata.tutorNickname} </span> <br />
+                        <span> {postdata.location} </span> <span> LV20 </span> <br />
                     </div>
                 </div>
 
