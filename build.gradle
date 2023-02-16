@@ -49,6 +49,10 @@ dependencies {
 
     // GSON
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
+
+    //json
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.1'
+
 }
 
 tasks.named('test') {
