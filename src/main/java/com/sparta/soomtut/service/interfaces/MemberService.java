@@ -8,7 +8,6 @@ import com.sparta.soomtut.entity.Review;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 public interface MemberService {
 

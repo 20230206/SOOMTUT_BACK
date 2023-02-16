@@ -61,8 +61,8 @@ public class JwtProvider {
 
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER); // AUTHORIZATION_HEADER를 파라미터로 Header에 있는 Token 값을 가져온다
 
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
-            return bearerToken.substring(6);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX) && bearerToken.length() > 7) {
+            return bearerToken.substring(7);
         }
         return null;
     }

@@ -13,7 +13,6 @@
     place-items: center;
 
     width: 300px;
-    height: 550px;
 
     border: 2px solid;
     border-radius: 5px;
@@ -28,10 +27,11 @@
 
 .group {
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .label {
-    font-size : 20px;
+    font-size : 16px;
     font-weight: bold;
 }
 
@@ -61,4 +61,9 @@
     border-radius: 10px;
 
     margin-bottom: 20px;
+}
+
+.address{
+    font-size : 13px;
+    width: 200px;
 }

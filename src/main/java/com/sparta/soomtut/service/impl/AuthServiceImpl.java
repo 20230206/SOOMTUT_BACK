@@ -82,7 +82,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional(readOnly=true) 
     public boolean checkToken(HttpServletRequest request) {
-        boolean validation = jwtProvider.validateToken(request.getHeader("Authorization").substring(7));
+        String bearerToken = request.getHeader("Authorization");
+        boolean validation = false;
+        if(bearerToken.length()>7)
+            validation = jwtProvider.validateToken(bearerToken.substring(7));
         return validation;
     };
 }
