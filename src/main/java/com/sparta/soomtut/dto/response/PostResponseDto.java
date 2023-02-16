@@ -27,6 +27,9 @@ public class PostResponseDto {
     }
 
     public PostResponseDto(Post post, String nickName, String location) {
+        this.title = post.getTitle();
+        this.content = post.getContent();
+
         this.image = post.getImage();
         this.fee = post.getFee();
         this.tutorNickname = nickName ;

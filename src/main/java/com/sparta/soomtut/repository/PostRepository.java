@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository <Post, Long> {
     Optional<Post>findById(Long postId);
-    List<Post> findAllByTutorId(Long tutorId);
-    Optional<Post> findByTutorId(Long tutorId);
+    List<Post> findAllByMemberId(Long memberId);
+    Optional<Post> findByMemberId(Long memberId);
 
 }

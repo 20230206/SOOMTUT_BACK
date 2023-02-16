@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
+import ReactDOM from 'react-dom/client';
 import styles from "../assets/styles/listpage.module.css"
 
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import MyDropdown from "./MyDropdown";
+import PostBoxInList from "./PostBoxInList";
 
 // 더보기 기능 추가
 function ListForm(props) {
     const [headType, setHeadType] = useState(0);
+    const [data, setData] = useState([]);
 
     const HeadType = (options) => {
 
@@ -17,7 +20,21 @@ function ListForm(props) {
 
     useEffect(() => {
         HeadType(props.option)
+        setData(props.data)
     }, [])
+
+    useEffect(() => {
+        PostAppend(data);
+    }, [data])
+
+    const PostAppend = (data) => {
+        console.log(data);
+        const listbox = document.getElementById("listbox")
+        for(var i=0; i<data.length; i++) {
+            const element = React.createElement(<PostBoxInList data={data[i]} />)
+            ReactDOM.render(element, listbox)
+        }
+    }
 
     return (
         <div>
@@ -29,47 +46,7 @@ function ListForm(props) {
                         { headType === 1 ?  <MyDropdown />: null}
                     </div> 
                 </div>
-                <div className={styles.listbox}>
-                    <div className={styles.itembox}>
-                        <div className={styles.itemimagebox}> 이미지 </div>
-                        <div className={styles.itemdiscriptionbox}> 
-                            <p className={styles.discriptiontext}>수영 수업 합니다</p>
-                            <p className={styles.discriptiontext}>구월동</p>
-                            <p className={styles.discriptiontext}>30, 000원</p>
-                        </div>
-                    </div>
-                    <div className={styles.itembox}>
-                        <div className={styles.itemimagebox}> 이미지 </div>
-                        <div className={styles.itemdiscriptionbox}> 
-                            <p className={styles.discriptiontext}>수영 수업 합니다</p>
-                            <p className={styles.discriptiontext}>구월동</p>
-                            <p className={styles.discriptiontext}>30, 000원</p>
-                        </div>
-                    </div>
-                    <div className={styles.itembox}>
-                        <div className={styles.itemimagebox}> 이미지 </div>
-                        <div className={styles.itemdiscriptionbox}> 
-                            <p className={styles.discriptiontext}>수영 수업 합니다</p>
-                            <p className={styles.discriptiontext}>구월동</p>
-                            <p className={styles.discriptiontext}>30, 000원</p>
-                        </div>
-                    </div>
-                    <div className={styles.itembox}>
-                        <div className={styles.itemimagebox}> 이미지 </div>
-                        <div className={styles.itemdiscriptionbox}> 
-                            <p className={styles.discriptiontext}>수영 수업 합니다</p>
-                            <p className={styles.discriptiontext}>구월동</p>
-                            <p className={styles.discriptiontext}>30, 000원</p>
-                        </div>
-                    </div>
-                    <div className={styles.itembox}>
-                        <div className={styles.itemimagebox}> 이미지 </div>
-                        <div className={styles.itemdiscriptionbox}> 
-                            <p className={styles.discriptiontext}>수영 수업 합니다</p>
-                            <p className={styles.discriptiontext}>구월동</p>
-                            <p className={styles.discriptiontext}>30, 000원</p>
-                        </div>
-                    </div>
+                <div className={styles.listbox} id="listbox">
                 </div>
             </div>
         </div>
