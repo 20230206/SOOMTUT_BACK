@@ -3,7 +3,10 @@ import React, {
     useEffect
 } from "react";
 
-import { Button } from "react-bootstrap";
+import { 
+    Button,
+    Card
+} from "react-bootstrap";
 import { Link } from "react-router-dom"
 
 import styles from "../../assets/styles/mypage.module.css"
@@ -11,6 +14,7 @@ import axios from "axios"
 
 function MyPage() {
     const [myInfo, setMyInfo] = useState([]);
+    const [location, setLocation] = useState("서울특별시 서초구 반포동");
     const GetMyInfo = () => {
                 
         var config = {
@@ -37,6 +41,10 @@ function MyPage() {
         GetMyInfo();
     }, [])
 
+    const SetMyLocation = () => {
+        
+    }
+
     return (
         <div>
             <div className={styles.wrapper}>
@@ -45,7 +53,7 @@ function MyPage() {
                 </div>
                 <div className={styles.profilebox}>
                     <div className={styles.imagebox}>
-                        <img src={myInfo.profileImage}/>
+                        <img src={myInfo.profileImage} alt="profileImage"/>
                     </div>
                     <div className={styles.profiles}>
                         <div className={styles.profilename}> <span> {myInfo.nickname} </span></div>
@@ -64,10 +72,30 @@ function MyPage() {
                     <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/myclasslist"> 나의 수업 목록 </Link></li>
                     <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/chat"> 채팅 목록 </Link></li>
                     <br /><br />
-                    <span className={styles.infotextfont}> 기타 </span>
-                    <div>
-                        <Link to="/mypage/location" className={`${styles.infotextfont} ${styles.textmarginleft}`}> 내 위치 설정 </Link>
+
+
+                    <div  className={styles.mylocations}>
+                        <Card>
+                        <Card.Header className={styles.locationtitle}> 내 활동 지역 
+                            <Button
+                             className={styles.locationbutton}
+                             onClick={() => SetMyLocation()}
+                             > 위치 수정 </Button>
+                        </Card.Header>
+                        <Card.Body>
+                            <blockquote className="blockquote mb-0">
+                            <p>
+                                {location}
+                            </p>
+                            <footer className="blockquote-footer">
+                                Someone famous in <cite title="Source Title">Source Title</cite>
+                            </footer>
+                            </blockquote>
+                        </Card.Body>
+                        </Card>
+
                     </div>
+
                     <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/"> 회원 탈퇴 </Link></li>
 
 
