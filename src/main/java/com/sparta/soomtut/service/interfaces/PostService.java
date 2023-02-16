@@ -19,7 +19,7 @@ public interface PostService {
 
     void deletePost(Long postId, Member member);
 
-    String createCategory(CategoryRequestDto categoryRequestDto, Member member);
+    String createCategory(CategoryRequestDto categoryRequestDto);
 
     List<Category> getCategory();
 

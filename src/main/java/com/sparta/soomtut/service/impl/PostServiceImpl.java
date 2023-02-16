@@ -69,11 +69,10 @@ public class PostServiceImpl implements PostService {
     }
 
     //카테고리 생성
-    public String createCategory(CategoryRequestDto categoryRequestDto, Member member) {
+    public String createCategory(CategoryRequestDto categoryRequestDto) {
         Category category = new Category(categoryRequestDto);
 
-        if (member.getMemberRole() == MemberRole.ADMIN)
-            categoryRepository.save(category);
+        categoryRepository.save(category);
 
         return "카테고리 저장완료";
     }
