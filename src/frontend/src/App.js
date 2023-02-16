@@ -8,14 +8,16 @@ import Home from "./routes/Home"
 import Signin from "./routes/Signin";
 import Signup from "./routes/Signup";
 import SetSignin from "./routes/SetSignin"
-import MyPage from "./routes/MyPage";
-import MyFavList from "./routes/MyFavList";
-import MyClassList from "./routes/MyClassList";
-import MyClassedList from "./routes/MyClassedList";
-import MyChatList from "./routes/MyChatList";
-import PostList from "./routes/PostList";
-import MyLocation from "./component/MyLocation";
-import CreatePost from "./routes/CreatePost"
+
+import MyPage from "./routes/mypage/MyPage";
+import MyFavList from "./routes/mypage/MyFavList";
+import MyClassList from "./routes/mypage/MyClassList";
+import MyClassedList from "./routes/mypage/MyClassedList";
+import MyChatList from "./routes/mypage/MyChatList";
+
+import PostList from "./routes/post/PostList";
+import CreatePost from "./routes/post/CreatePost"
+import GetPost from "./routes/post/GetPost";
 
 
 function App() {
@@ -31,8 +33,8 @@ function App() {
           <Route path="/mypage/myclasslist" element={<MyClassList/>} />
           <Route path="/mypage/myclassedlist" element={<MyClassedList />} />
           <Route path="/mypage/chat" element={<MyChatList />} />
-          <Route path="/mypage/location" element={<MyLocation />} />
           <Route path="/posts" element={<PostList />} />
+          <Route path="/posts/:id" element={<GetPost />} />
           <Route path="/posts/create" element={<CreatePost />} />
       </Routes>
     </Router>

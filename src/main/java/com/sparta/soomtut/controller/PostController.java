@@ -29,6 +29,15 @@ public class PostController {
     private final PostService postService;
     private final FavMemberPostService favMemberPostService;
 
+    @GetMapping(value ="/posts/{postId}") 
+    public ResponseEntity<?> getPost(
+        @PathVariable Long postId,
+        @AuthenticationPrincipal UserDetailsImpl userDtails
+    )
+    {
+        PostResponseDto data = postService.getPost(postId);
+        return ResponseEntity.ok().body(data);
+    }
 
     @PostMapping(value = "/createpost")
     public PostResponseDto createPost(
@@ -75,5 +84,14 @@ public class PostController {
         Member member = userDetails.getMember();
         //return ResponseEntity.status(HttpStatus.OK).body(postService.getMyPost(userDetails.getMemberId()));
         return ResponseEntity.status(HttpStatus.OK).body(postService.getMyPost(member));
+    }
+
+    @GetMapping("/posts/{postId}/ismypost")
+    public ResponseEntity<?> isMyPost(
+        @PathVariable Long postId,
+        @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        boolean isMyPost = postService.isMyPost(postId, userDetails.getMember());
+        return ResponseEntity.ok().body(isMyPost);
     }
 }

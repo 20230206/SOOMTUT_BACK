@@ -2,6 +2,7 @@ package com.sparta.soomtut.service.interfaces;
 
 import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.dto.request.PageRequestDto;
+import com.sparta.soomtut.dto.response.MemberInfoResponseDto;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Review;
 import org.springframework.data.domain.Page;
@@ -33,4 +34,5 @@ public interface MemberService {
     Page<Review> getReview(PageRequestDto pageRequestDto, Member member);
 
     String deleteReviewRequest(Long reviewId);
+    MemberInfoResponseDto getMemberInfo(Member member);
 }

@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from "react";
-import ListForm from "../component/ListForm";
+import React, {
+    useState,
+    useEffect
+} from "react";
 
+import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
-import styles from "../assets/styles/listpage.module.css"
-import axios from "axios"
-import MyDropdown from "../component/MyDropdown";
-import { Link } from "react-router-dom";
-import PostBoxInList from "../component/PostBoxInList";
+import PostBoxInList from "../../component/PostBoxInList";
 
-function PostList() {
+import axios from "axios";
+import styles from "../../assets/styles/listpage.module.css"
+
+function MyClassList() {
     const [res, setRes] = useState([])
 
     const getPosts = () => {
-                
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: 'http://localhost:8080/boardAll',
+            url: `http://localhost:8080/board/myposts`,
             headers: { 
             'Authorization': localStorage.getItem("Authorization")
             }
@@ -33,21 +34,20 @@ function PostList() {
         });
   
     }
-
+    
+    
     useEffect(() => {
         getPosts();
     }, [])
-
-    // useEffect(() => {
-    //     console.log(res);
-    // }, [res])
-
+    
     return (
         <div>
             <div className={styles.wrapper}>
                 <div className={styles.headbox}>
                     <Link to="/mypage"> <Button className={styles.retbutton}> 돌아가기 </Button> </Link>
-                    <div className={styles.headtextbox}> <MyDropdown /> </div> 
+                    <div className={styles.headtextbox}> 
+                        <span className={styles.headtext}> 나의 수업 목록 </span>
+                    </div> 
                     <Link to="/posts/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
                 </div>
                 <div className={styles.listbox} id="listbox">
@@ -55,11 +55,11 @@ function PostList() {
                     { res.length >= 2  ? <PostBoxInList data={res[1]} /> : null }
                     { res.length >= 3  ? <PostBoxInList data={res[2]} /> : null }
                     { res.length >= 4  ? <PostBoxInList data={res[3]} /> : null }
-                    { res.length === 5 ? <PostBoxInList data={res[4]} /> : null }
+                    { res.length >= 5 ? <PostBoxInList data={res[4]} /> : null }
                 </div>
             </div>
         </div>
     );
 }
 
-export default PostList;
+export default MyClassList;

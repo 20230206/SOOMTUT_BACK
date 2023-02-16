@@ -19,7 +19,11 @@ public interface PostService {
 
     void deletePost(Long postId, Member member);
 
+    PostResponseDto getPost(Long postId);
+
     String createCategory(CategoryRequestDto categoryRequestDto);
+
+    boolean isMyPost(Long postId, Member member);
 
     List<Category> getCategory();
 

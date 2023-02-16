@@ -70,7 +70,9 @@
 
 .profilebutton{
     font-size:25px;
-    border: 2px solid;
+
+    position:relative;
+    transform: translateX(75%);
 }
 
 .infobox {

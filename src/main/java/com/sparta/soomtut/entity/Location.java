@@ -39,6 +39,7 @@ public class Location {
     }
 
     //위치정보 테스트를 위한 생성자
+    @Builder
     public Location(String address, float vectorX, float vectorY) {
         this.address = address;
         this.vectorX = vectorX;

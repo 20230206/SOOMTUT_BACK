@@ -22,12 +22,14 @@ public enum ErrorCode {
     NOT_IMAGE_FILE("이미지 파일이 아닙니다."),
     NOT_FOUND_CLASS("해당 수업을 찾을 수 없습니다."),
     NOT_FOUND_REVIEW("해당 리뷰를 찾을 수 없습니다."),
+    NOT_FOUND_CATEGORY("해당 카테고리를 찾을 수 없습니다."),
 
 //    NOT_EXIST_CATEGORY("카테고리가 존재하지 않습니다."),
 //    DUPLICATED_CATEGORY("중복된 카테고리 입니다."),
 //    NOT_CHILD_CATEGORY("현재 카테고리에 생성할 수 없습니다."),
 //    NOT_EMPTY_CATEGORY("상품이 등록된 카테고리는 삭제할 수 없습니다."),
     NOT_FIND_REQUEST("요청내용을 찾을 수 없습니다."),
+    
     DUPLICATED_CHATTING("이미 채팅방이 존재합니다."),
 
     ALREADY_REQUEST_SELLER("신청 가능한 상태가 아닙니다."),
