@@ -43,6 +43,7 @@ public class Post {
       this.image = postRequestDto.getImage();
       this.content = postRequestDto.getContent();
       this.fee = postRequestDto.getFee();
+      this.categoryId = postRequestDto.getCategory();
       this.member = member;
     }
 

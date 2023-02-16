@@ -7,5 +7,6 @@ public class PostRequestDto {
     private String title;
     private String image;
     private String content;
+    private Long category;
     private int fee;
 }
