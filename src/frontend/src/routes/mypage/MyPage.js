@@ -5,15 +5,19 @@ import React, {
 
 import { 
     Button,
-    Card
+    Card,
+    Modal
 } from "react-bootstrap";
 import { Link } from "react-router-dom"
 
 import styles from "../../assets/styles/mypage.module.css"
 import axios from "axios"
 
+import Postcode from '@actbase/react-daum-postcode';
+
 function MyPage() {
     const [myInfo, setMyInfo] = useState([]);
+  
     const [location, setLocation] = useState("서울특별시 서초구 반포동");
     const GetMyInfo = () => {
                 
@@ -28,7 +32,6 @@ function MyPage() {
         
         axios(config)
         .then(function (response) {
-            console.log(JSON.stringify(response.data));
             setMyInfo(response.data)
         })
         .catch(function (error) {
@@ -36,14 +39,18 @@ function MyPage() {
         });
   
     }
+    
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     useEffect(() => {
         GetMyInfo();
     }, [])
 
-    const SetMyLocation = () => {
-        
-    }
+    useEffect(() => {
+
+    }, [location])
 
     return (
         <div>
@@ -73,13 +80,27 @@ function MyPage() {
                     <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/chat"> 채팅 목록 </Link></li>
                     <br /><br />
 
+                    <Modal show={show} onHide={handleClose}>
+                    <Modal.Body style={{height:"540px"}}>
+                        <Postcode
+                        style={{ width: 460, height: 320 }}
+                        jsOptions={{ animation: true, hideMapBtn: true }}
+                        onSelected={data => {
+                            console.log(JSON.stringify(data))
+                            setLocation(data.address)
+                            
+                            handleClose();
+                        }}
+                        />
+                    </Modal.Body>
+                    </Modal>
 
                     <div  className={styles.mylocations}>
                         <Card>
                         <Card.Header className={styles.locationtitle}> 내 활동 지역 
                             <Button
                              className={styles.locationbutton}
-                             onClick={() => SetMyLocation()}
+                             onClick={() => handleShow()}
                              > 위치 수정 </Button>
                         </Card.Header>
                         <Card.Body>
