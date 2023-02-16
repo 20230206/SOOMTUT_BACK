@@ -41,7 +41,7 @@ public class PostServiceImpl implements PostService {
 
         // 작성자 또는 관리자만 수정가능
         if (member.getMemberRole() != MemberRole.ADMIN) {
-            if (!post.getMember().getId().equals(member.getId()))
+            if (!post.getTutorId().equals(member.getId()))
                 throw new IllegalArgumentException(ErrorCode.AUTHORIZATION.getMessage());
         }
 

@@ -15,7 +15,7 @@ import MyClassedList from "./routes/MyClassedList";
 import MyChatList from "./routes/MyChatList";
 import PostList from "./routes/PostList";
 import MyLocation from "./component/MyLocation";
-import Post from "./routes/Post"
+import CreatePost from "./routes/CreatePost"
 
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
           <Route path="/mypage/chat" element={<MyChatList />} />
           <Route path="/mypage/location" element={<MyLocation />} />
           <Route path="/posts" element={<PostList />} />
-          <Route path="/posts/create" element={<Post />} />
+          <Route path="/posts/create" element={<CreatePost />} />
       </Routes>
     </Router>
   );

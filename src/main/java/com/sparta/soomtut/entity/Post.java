@@ -15,6 +15,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Long tutorId;
 
     @Column
@@ -29,10 +30,6 @@ public class Post {
     @Column(nullable = false)
     private int fee;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
-
     @Column
     private Long categoryId;
 
@@ -45,6 +42,7 @@ public class Post {
       this.image = postRequestDto.getImage();
       this.content = postRequestDto.getContent();
       this.fee = postRequestDto.getFee();
+      this.tutorId = member.getId();
     }
 
     public void update(UpdatePostRequestDto updatePostRequestDto) {
