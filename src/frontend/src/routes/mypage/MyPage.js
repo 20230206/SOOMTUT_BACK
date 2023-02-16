@@ -1,3 +1,4 @@
+/*global kakao*/
 import React, {
     useState,
     useEffect
@@ -16,9 +17,13 @@ import axios from "axios"
 import Postcode from '@actbase/react-daum-postcode';
 
 function MyPage() {
+    var geocoder = new kakao.maps.services.Geocoder();
     const [myInfo, setMyInfo] = useState([]);
   
     const [location, setLocation] = useState("서울특별시 서초구 반포동");
+    const [posX, setPosX] = useState(37.365264512305174);
+    const [posY, setPosY] = useState(127.10676860117488);
+
     const GetMyInfo = () => {
                 
         var config = {
@@ -49,8 +54,36 @@ function MyPage() {
     }, [])
 
     useEffect(() => {
-
+        AddressToMapXY();
     }, [location])
+
+    useEffect(() => {
+        MoveMap();
+    }, [posX, posY])
+
+    const callback = (result, status) => {
+        if(status === kakao.maps.services.Status.OK) {
+            setPosX(result[0].y);
+            setPosY(result[0].x);
+        }
+    }
+
+    const AddressToMapXY = () => {
+        geocoder.addressSearch(location, callback);
+    }
+
+    const MoveMap = () => {
+        var container = document.getElementById('map');
+        var options = {
+            center: new kakao.maps.LatLng(posX, posY),
+            level: 4
+        };
+        var map = new kakao.maps.Map(container, options);
+    }
+
+    const ChangeLocation = () => {
+        
+    }
 
     return (
         <div>
@@ -109,7 +142,14 @@ function MyPage() {
                                 {location}
                             </p>
                             <footer className="blockquote-footer">
-                                Someone famous in <cite title="Source Title">Source Title</cite>
+                                
+                            <div style={{ display:'flex' }}>
+                                <div id="map" style={{
+                                        width:'400px',
+                                        height:'300px',
+                                }}> </div>
+                            </div>
+
                             </footer>
                             </blockquote>
                         </Card.Body>
