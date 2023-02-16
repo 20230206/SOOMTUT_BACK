@@ -33,13 +33,11 @@ public class AuthController {
         
     )
     {
-        // Service
         SigninResponseDto response = authService.signin(requestDto);
         var message = "Method[signin] has called by front";
 
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("msg", message);
-        // return
         return ResponseEntity.ok().header("Authorization", response.getToken()).body(dataMap);
     }
 
@@ -48,10 +46,8 @@ public class AuthController {
         @RequestBody SignupRequestDto requestDto
     )
     {
-        // Service
         authService.signup(requestDto);
         var data = "Method[signUp] has called by front";
-        // return
         return ResponseEntity.ok().body(data);
     }
 

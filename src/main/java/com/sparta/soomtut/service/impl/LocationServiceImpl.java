@@ -8,6 +8,8 @@ import com.sparta.soomtut.service.interfaces.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.sparta.soomtut.dto.request.LocationRequestDto;
+import com.sparta.soomtut.dto.request.SignupRequestDto;
 
 @RequiredArgsConstructor
 @Service
@@ -33,4 +35,27 @@ public class LocationServiceImpl implements LocationService {
 
         return findMemberLocation(member.getId());
     }
+
+    @Override
+    @Transactional
+    public Location updateLocation(LocationRequestDto locationRequestDto, Member member){ 
+
+            Location location = findMemberLocation(member.getId());
+            location.updateLocation(locationRequestDto);
+            
+        return location;
+    }
+
+
+    @Override
+    @Transactional
+    public Location saveLocation(SignupRequestDto requestDto, Member member) {
+        return locationRepository.save(Location.forNewMember()
+                    .member(member)
+                    .address(requestDto.getAddress())
+                    .vectorX(requestDto.getVectorX())
+                    .vectorY(requestDto.getVectorY())
+                    .build());
+    } 
+    
 }
