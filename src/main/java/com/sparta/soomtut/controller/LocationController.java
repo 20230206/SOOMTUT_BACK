@@ -18,7 +18,7 @@ public class LocationController {
     private final LocationService locationService;
 
     @Transactional
-    @PutMapping(value = "/location")
+    @PutMapping(value = "/updatelocation")
     public ResponseEntity<?> saveLocation(
         @RequestBody LocationRequestDto locationRequestDto,
         @AuthenticationPrincipal UserDetailsImpl userDetails

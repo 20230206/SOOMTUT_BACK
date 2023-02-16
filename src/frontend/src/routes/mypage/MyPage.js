@@ -38,6 +38,7 @@ function MyPage() {
         axios(config)
         .then(function (response) {
             setMyInfo(response.data)
+            setLocation(response.data.address)
         })
         .catch(function (error) {
             console.log(error);
@@ -81,8 +82,32 @@ function MyPage() {
         var map = new kakao.maps.Map(container, options);
     }
 
-    const ChangeLocation = () => {
-        
+    const ChangeLocation = (address) => {
+        var data = JSON.stringify({
+            "vectorX": posX,
+            "vectorY": posY,
+            "address": address
+          });
+          
+          var config = {
+            method: 'put',
+          maxBodyLength: Infinity,
+            url: 'http://localhost:8080/updatelocation',
+            headers: { 
+              'Authorization': localStorage.getItem("Authorization"), 
+              'Content-Type': 'application/json'
+            },
+            data : data
+          };
+          
+          axios(config)
+          .then(function (response) {
+            console.log(JSON.stringify(response.data));
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          
     }
 
     return (
@@ -121,6 +146,7 @@ function MyPage() {
                         onSelected={data => {
                             console.log(JSON.stringify(data))
                             setLocation(data.address)
+                            ChangeLocation(data.address)
                             
                             handleClose();
                         }}
