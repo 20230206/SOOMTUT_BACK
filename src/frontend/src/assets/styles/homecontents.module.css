@@ -1,6 +1,6 @@
 .wrapper {
     width: 1080px;
-    height: 90vh;
+    min-height: 680px;
     border: 1px solid;
     border-radius: 5px;
 
@@ -14,7 +14,7 @@
     border: 1px solid;
     border-radius: 5px;
 
-    margin: auto;
+    margin: 10px auto 0px auto;
 }
 
 .buttonbox {
@@ -24,13 +24,16 @@
     width: 600px;
     height: 100px;
 
-    margin: auto;
+    margin: 10px auto 0px auto;
 
     display: flex;
 }
 
-.button {
+.buttonboxitem {
     margin: auto;
+}
+
+.button {
     background-color: #4E57DE;
 
     color: white;
@@ -38,7 +41,6 @@
     width: 200px;
     height: 60px;
 
-    border: 1px solid;
     border-radius: 5px;
 }
 
@@ -48,5 +50,5 @@
 
     width: 600px;
     height: 200px;
-    margin: auto;
+    margin: 10px auto 0px auto;
 }

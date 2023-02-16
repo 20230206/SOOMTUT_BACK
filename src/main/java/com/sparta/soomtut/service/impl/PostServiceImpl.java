@@ -75,13 +75,13 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public Long getTutorId(Long postId) {
 
-        return findPostById(postId).getTutorId();
+        return findPostById(postId).getMember().getId();
 
     }
 
     @Override
     public PostResponseDto getMyPost(Member member) {
-        Post post = postRepository.findByTutorId(member.getId())
+        Post post = postRepository.findByMemberId(member.getId())
                 .orElseThrow(() -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage()));
         PostResponseDto postResponseDto = new PostResponseDto(post, member.getNickname(), locationService.findMemberLocation(member.getId()).getAddress());
         return postResponseDto;

@@ -15,8 +15,6 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long tutorId;
-
     @Column
     private String image;
 
@@ -45,6 +43,7 @@ public class Post {
       this.image = postRequestDto.getImage();
       this.content = postRequestDto.getContent();
       this.fee = postRequestDto.getFee();
+      this.member = member;
     }
 
     public void update(UpdatePostRequestDto updatePostRequestDto) {
@@ -54,8 +53,7 @@ public class Post {
       this.fee = updatePostRequestDto.getFee();
     }
 
-    public Post(Long tutorId, String content, Long categoryId, int fee) {
-        this.tutorId = tutorId;
+    public Post(String content, Long categoryId, int fee) {
         this.categoryId = categoryId;
         this.content = content;
         this.fee = fee;

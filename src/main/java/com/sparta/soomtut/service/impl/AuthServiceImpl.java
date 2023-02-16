@@ -14,6 +14,8 @@ import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.util.jwt.JwtProvider;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import lombok.RequiredArgsConstructor;
 
 // lombok
@@ -40,8 +42,7 @@ public class AuthServiceImpl implements AuthService {
         if(memberService.existsMemberByNickname(nickname))
             throw new IllegalArgumentException(ErrorCode.DUPLICATED_NICKNAME.getMessage());
 
-        Member member = new Member(email, password, nickname);
-        memberService.saveMember(member);
+        memberService.saveMember(Member.userDetailRegister().email(email).password(password).nickname(nickname).build());
     }
 
     @Override
@@ -66,4 +67,11 @@ public class AuthServiceImpl implements AuthService {
     private boolean isMatchedPassword(String input, Member member) {
         return passwordEncoder.matches(input, member.getPassword());
     }
+
+    @Override
+    @Transactional(readOnly=true) 
+    public boolean checkToken(HttpServletRequest request) {
+        boolean validation = jwtProvider.validateToken(request.getHeader("Authorization").substring(7));
+        return validation;
+    };
 }

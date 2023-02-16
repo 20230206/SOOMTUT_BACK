@@ -1,26 +1,13 @@
 .wrapper {
-    min-width: 1380px;
+    border-bottom: 1px solid;
+    margin-bottom: 5px;
+}
+
+.navmenu {
     display: flex;
+    justify-content: end;
 }
 
-.logo {
-    text-decoration: none;
-    color: #4E57DE;
-    width: 220px;
-}
-
-.signin {
-    position:fixed;
-    right: 175px;
-    text-decoration: none;
-    color: #1A1A1A;
-    font-size: 22px;
-}
-
-.signup {
-    position:fixed;
-    right: 25px;
-    text-decoration: none;
-    color: #1A1A1A;
-    font-size: 22px;
+.navmenuitem {
+    margin-left: 30px;
 }

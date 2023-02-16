@@ -27,7 +27,10 @@ public class PostController {
 
 
     @PostMapping(value = "/createpost")
-    public PostResponseDto createPost(@RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public PostResponseDto createPost(
+        @RequestBody PostRequestDto postRequestDto,
+        @AuthenticationPrincipal UserDetailsImpl userDetails)
+    {
         return postService.createPost(userDetails.getMember(), postRequestDto);
     }
 
