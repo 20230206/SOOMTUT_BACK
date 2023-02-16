@@ -28,9 +28,13 @@ public class BoardController   {
 
     @GetMapping("/boardAll")
     public ResponseEntity<List<PostResponseDto>> getAllPost(
-        @RequestParam(required = false, value = "category") String category
+        @RequestParam(required = false, value = "category") Long category
     ){
-        return ResponseEntity.status(HttpStatus.OK).body(boardService.getAllPost());
+        System.out.println(category);
+        List<PostResponseDto> data = new ArrayList<PostResponseDto>();
+        if(category == 0) data = boardService.getAllPost();
+        else data = boardService.getAllPost(category);
+        return ResponseEntity.status(HttpStatus.OK).body(data);
     }
 
     

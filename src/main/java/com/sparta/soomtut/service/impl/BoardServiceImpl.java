@@ -21,6 +21,7 @@ public class BoardServiceImpl implements BoardService {
     private final PostRepository postRepository;
     private final MemberService memberService;
     private final LocationService locationService;
+    private final CategoryService categoryService;
 
     @Override
     @Transactional(readOnly = true)
@@ -45,6 +46,18 @@ public class BoardServiceImpl implements BoardService {
                 // locationService.findMemberLocation(post.getMember().getId()).getAddress()
                 Location.builder().address("address").build().getAddress()
         )));
+        return postResponseDtoList;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PostResponseDto> getAllPost(Long category) {
+        List<Post> posts = postRepository.findAllByCategoryId(category);
+        List<PostResponseDto> postResponseDtoList = new ArrayList<>();
+        posts.forEach(post -> postResponseDtoList.add(new PostResponseDto(post, 
+        post.getMember().getNickname(),
+         Location.builder().address("address").build().getAddress())
+         ));
         return postResponseDtoList;
     }
 
