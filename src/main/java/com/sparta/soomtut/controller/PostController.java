@@ -85,4 +85,13 @@ public class PostController {
         //return ResponseEntity.status(HttpStatus.OK).body(postService.getMyPost(userDetails.getMemberId()));
         return ResponseEntity.status(HttpStatus.OK).body(postService.getMyPost(member));
     }
+
+    @GetMapping("/posts/{postId}/ismypost")
+    public ResponseEntity<?> isMyPost(
+        @PathVariable Long postId,
+        @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        boolean isMyPost = postService.isMyPost(postId, userDetails.getMember());
+        return ResponseEntity.ok().body(isMyPost);
+    }
 }

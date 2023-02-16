@@ -30,8 +30,8 @@ public class BoardServiceImpl implements BoardService {
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
         posts.forEach(post -> postResponseDtoList.add(new PostResponseDto(post,
                 memberService.findMemberById(memberId).getNickname(),
-                locationService.findMemberLocation(memberId).getAddress()
-                // Location.builder().address("address").build().getAddress()
+                // locationService.findMemberLocation(memberId).getAddress()
+                Location.builder().address("address").build().getAddress()
                 )));
         return postResponseDtoList;
     }

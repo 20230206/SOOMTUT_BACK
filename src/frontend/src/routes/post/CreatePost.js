@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Dropdown } from "react-bootstrap";
-import styles from "../assets/styles/poststyle.module.css"
+import styles from "../../assets/styles/poststyle.module.css"
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 

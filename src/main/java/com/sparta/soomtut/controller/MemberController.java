@@ -26,15 +26,21 @@ public class MemberController  {
     private final MemberService memberService;
 
 
+    @GetMapping(value = "/getmyinfo")
+    ResponseEntity<?> getMyInfo(
+        @AuthenticationPrincipal UserDetailsImpl userDetails
+    )
+    {
+        var data = memberService.getMemberInfo(userDetails.getMember());
+        return ResponseEntity.ok().body(data);
+    }
+
 
     @GetMapping(value = "/member/mypage/nickname")
     public ResponseEntity<?> getNickname(
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        // Service
         String nickname = memberService.getNickname(userDetails.getMember());
-        // return
-
         return ResponseEntity.status(HttpStatus.OK).body(nickname);
     }
 

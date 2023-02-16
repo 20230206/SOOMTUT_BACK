@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import ListForm from "../component/ListForm";
+import ListForm from "../../component/ListForm";
 
 import { Button, Dropdown, DropdownButton } from "react-bootstrap";
 
-import styles from "../assets/styles/listpage.module.css"
+import styles from "../../assets/styles/listpage.module.css"
 import axios from "axios"
 
 import { Link } from "react-router-dom";
-import PostBoxInList from "../component/PostBoxInList";
+import PostBoxInList from "../../component/PostBoxInList";
 
 const Category_List = [ 
     { id:0, name:"전체" },
@@ -65,7 +65,7 @@ function PostList() {
         <div>
             <div className={styles.wrapper}>
                 <div className={styles.headbox}>
-                    <Link to="/mypage"> <Button className={styles.retbutton}> 돌아가기 </Button> </Link>
+                    <Link to="/"> <Button className={styles.retbutton}> 돌아가기 </Button> </Link>
                     <div className={styles.headtextbox}> 
                     <Dropdown>
                     <Dropdown.Toggle  id="dropdown-basic"> {curCategory.name}
@@ -92,7 +92,7 @@ function PostList() {
                     { res.length >= 2  ? <PostBoxInList data={res[1]} /> : null }
                     { res.length >= 3  ? <PostBoxInList data={res[2]} /> : null }
                     { res.length >= 4  ? <PostBoxInList data={res[3]} /> : null }
-                    { res.length === 5 ? <PostBoxInList data={res[4]} /> : null }
+                    { res.length >= 5 ? <PostBoxInList data={res[4]} /> : null }
                 </div>
             </div>
         </div>

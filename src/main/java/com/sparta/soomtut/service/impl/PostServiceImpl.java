@@ -118,4 +118,15 @@ public class PostServiceImpl implements PostService {
         PostResponseDto postResponseDto = new PostResponseDto(post, member.getNickname(), locationService.findMemberLocation(member.getId()).getAddress());
         return postResponseDto;
     }
+
+    @Override
+    @Transactional(readOnly = true) 
+    public boolean isMyPost(Long postId, Member member)
+    {
+        Post post = postRepository.findById(postId).orElseThrow(
+            () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage())
+        );
+
+        return post.getMember().getId().equals(member.getId());
+    }
 }

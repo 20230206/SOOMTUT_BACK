@@ -23,6 +23,8 @@ public interface PostService {
 
     String createCategory(CategoryRequestDto categoryRequestDto);
 
+    boolean isMyPost(Long postId, Member member);
+
     List<Category> getCategory();
 
     Post findPostById(Long postId);

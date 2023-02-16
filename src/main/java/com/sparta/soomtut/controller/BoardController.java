@@ -21,8 +21,8 @@ public class BoardController   {
 
     private final BoardServiceImpl boardService;
 
-    @GetMapping("/board/{memberId}")
-    public ResponseEntity<List<PostResponseDto>> getMyPosts(@PathVariable Long memberId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    @GetMapping("/board/myposts")
+    public ResponseEntity<List<PostResponseDto>> getMyPosts(@AuthenticationPrincipal UserDetailsImpl userDetails){
         return ResponseEntity.status(HttpStatus.OK).body(boardService.getMyPosts(userDetails.getMember().getId()));
     }
 
