@@ -33,7 +33,7 @@ function MyPage() {
                     <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/chat"> 채팅 목록 </Link></li>
                     <br /><br />
                     <span className={styles.infotextfont}> 기타 </span>
-                    <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/"> 내 위치 설정 </Link></li>
+                    <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/location"> 내 위치 설정 </Link></li>
                     <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/"> 회원 탈퇴 </Link></li>
 
 

@@ -14,6 +14,8 @@ import MyClassList from "./routes/MyClassList";
 import MyClassedList from "./routes/MyClassedList";
 import MyChatList from "./routes/MyChatList";
 import PostList from "./routes/PostList";
+import MyLocation from "./component/MyLocation";
+import Post from "./routes/Post"
 
 
 function App() {
@@ -29,7 +31,9 @@ function App() {
           <Route path="/mypage/myclasslist" element={<MyClassList/>} />
           <Route path="/mypage/myclassedlist" element={<MyClassedList />} />
           <Route path="/mypage/chat" element={<MyChatList />} />
+          <Route path="/mypage/location" element={<MyLocation />} />
           <Route path="/posts" element={<PostList />} />
+          <Route path="/posts/create" element={<Post />} />
       </Routes>
     </Router>
   );

@@ -1,0 +1,87 @@
+.wrapper {
+    width: 820px;
+    min-height: 750px;
+
+    border: 2px solid;
+    border-radius: 5px;
+
+    margin: auto;
+}
+
+.headbox {
+    width: 800px;
+    height: 120px;
+
+    border: 2px solid;
+    border-radius: 5px;
+
+    margin: 10px auto 0px auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.headboxbutton {
+    width: 96px;
+    height: 96px;
+}
+
+.headboxtext {
+    width: 580px;
+    height: 96px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.imagebox {
+    width: 800px;
+    height: 400px;
+
+    border: 2px solid;
+    border-radius: 5px;
+
+    margin: 5px auto 0px auto;
+}
+
+.categorybox {
+    width: 800px;
+    height: 48px;
+    
+    border: 2px solid;
+    border-radius: 5px;
+    
+    margin: 5px auto 0px auto;
+}
+
+.feebox {
+    width: 800px;
+    height: 48px;
+    
+    margin: 5px auto 0px auto;
+}
+
+.feeinput {
+    width: 800px;
+    height: 48px;
+
+    border-radius: 5px;
+}
+
+.contentsbox {
+    width: 800px;
+    height: 600px;
+    
+    margin: 5px auto 5px auto;
+}
+
+.contentsinput {
+    width: 800px;
+    height: 600px;
+
+    border-radius: 5px;
+}

@@ -57,18 +57,32 @@ function SoomtutNavbar() {
     }
 
     return (
-        <div>
-         <Navbar fixed="top">
-          <Container className={styles.wrapper}>
-           <Navbar.Brand href="#">
-            <img src={logo} className={styles.logo} alt='logo' />
-           </Navbar.Brand>
-           {signin ? <h1 className={styles.name}>{name}님 안녕하세요</h1> : null}
-           {signin ? <Nav.Link className={styles.signin} onClick={() => signout()}> 로그아웃 </Nav.Link> : <Nav.Link className={styles.signin} href="/signin"> 로그인 </Nav.Link> }
-           {signin ? <Nav.Link className={styles.signup} href="/mypage"> 마이페이지 </Nav.Link>  : <Nav.Link className={styles.signup} href="/signup"> 회원가입 </Nav.Link> }
-          </Container>
+        <div className={styles.wrapper}>
+         <Navbar bg="white" variant="white">
+             <Container>
+             <Navbar.Brand href="#home">
+                 <img
+                 alt=""
+                 src={logo}
+                 width="240"
+                 className="d-inline-block align-top"
+                 />{' '}
+             </Navbar.Brand>
+                <div className={styles.navmenu}>
+                    {signin &&
+                        <Navbar.Text className={styles.navmenuitem}>{name}님 안녕하세요</Navbar.Text> 
+                    }
+                    {signin ? 
+                        <Nav.Link className={styles.navmenuitem} onClick={() => signout()}> 로그아웃 </Nav.Link> : 
+                        <Nav.Link className={styles.navmenuitem} href="/signin"> 로그인 </Nav.Link> 
+                    }
+                    {signin ? 
+                        <Nav.Link className={styles.navmenuitem} href="/mypage"> 마이페이지 </Nav.Link>  : 
+                        <Nav.Link className={styles.navmenuitem} href="/signup"> 회원가입 </Nav.Link> 
+                    }
+                </div>
+             </Container>
          </Navbar>
-         <hr />
         </div>
     );
 }
