@@ -29,8 +29,18 @@ public class PostServiceImpl implements PostService {
     private final LocationService locationService;
     private final CategoryRepository categoryRepository;
 
+    
+    @Override
+    @Transactional
+    public PostResponseDto getPost(Long postId) {
+        
+        return new PostResponseDto(postRepository.findById(postId).orElseThrow(
+            () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage()))
+        );
+    }
 
     // 게시글 작성
+    @Override
     @Transactional
     public PostResponseDto createPost(Member member, PostRequestDto postRequestDto) {
         Post post = new Post(postRequestDto, member);
@@ -39,6 +49,7 @@ public class PostServiceImpl implements PostService {
     }
 
     // 게시글 수정
+    @Override
     @Transactional
     public PostResponseDto updatePost(Long postId, UpdatePostRequestDto updatePostRequestDto, Member member) {
         Post post = postRepository.findById(postId).orElseThrow(
@@ -56,6 +67,7 @@ public class PostServiceImpl implements PostService {
     }
 
     //게시글 삭제
+    @Override
     @Transactional
     public void deletePost(Long postId, Member member) {
         Post post = postRepository.findById(postId).orElseThrow(

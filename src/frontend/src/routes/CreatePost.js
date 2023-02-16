@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Dropdown } from "react-bootstrap";
 import styles from "../assets/styles/poststyle.module.css"
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 const Category_List = [ 
     { id:0, name:"카테고리" },
@@ -18,6 +19,8 @@ const Category_List = [
 ];
 
 function CreatePost() {
+    const navigate = useNavigate();
+
     const [title, setTitle] = useState("");
     const InputTitle = (event) => {
         setTitle(event.target.value)
@@ -66,7 +69,7 @@ function CreatePost() {
           
           axios(config)
           .then(function (response) {
-            console.log(JSON.stringify(response.data));
+            navigate("/posts/"+response.data.postId)
           })
           .catch(function (error) {
             console.log(error);
@@ -77,9 +80,13 @@ function CreatePost() {
     return (
         <div className={styles.wrapper}>
             <div className={styles.headbox}>
-                <Button className={styles.headboxbutton}> 돌아가기 </Button>
+                <Link to="/posts"> <Button className={styles.headboxbutton}> 돌아가기 </Button> </Link>
                 <div className={styles.headboxtext}><span> 글쓰기 </span></div>
-                <Button className={styles.headboxbutton} onClick={() => RequestCreatePost()}> 완료 </Button>
+                <Button
+                 className={styles.headboxbutton}
+                 onClick={() => RequestCreatePost()}>
+                    완료
+                </Button>
             </div>
 
             <div className={styles.imagebox}>

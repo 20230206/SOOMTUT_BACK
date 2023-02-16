@@ -37,7 +37,12 @@
     align-items: center;
     text-align: center;
 }
+.headboxtextonRead {
+    width: 680px;
 
+    font-size: 36px;
+    font-weight: bold;
+}
 .imagebox {
     width: 800px;
     height: 400px;
@@ -46,6 +51,11 @@
     border-radius: 5px;
 
     margin: 5px auto 0px auto;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .titlebox {
@@ -94,7 +104,6 @@
 
 .contentsbox {
     width: 800px;
-    height: 600px;
     
     margin: 5px auto 5px auto;
 }
@@ -104,4 +113,71 @@
     height: 600px;
 
     border-radius: 5px;
+}
+
+.contentdescrip{
+    width: 800px;
+    min-height: 400px;
+    
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.tutorinfobox {
+    width: 800px;
+    height: 104px;
+
+    margin: 5px auto 5px auto;
+    border: 2px solid black;
+
+    display: flex;
+}
+
+.tutorimagebox{
+    width: 96px;
+    height: 96px;
+
+    margin: 2px 5px 2px 5px;
+
+    border: 2px solid black;
+    border-radius: 5px;
+
+}
+
+.tutordiscripbox {
+    width: 600px;
+    height: 96px;
+    
+    margin: 2px 5px 2px 5px;
+    
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.menubox {
+    width: 800px;
+    height: 102px;
+    
+    border: 2px solid black;
+    border-radius: 5px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 5px auto 5px auto;
+}
+
+.favbutton {
+    width: 200px;
+    height: 80px;
+    position:relative;
+    transform: translateX(-80%);
+}
+
+.chatbutton {
+    width: 200px;
+    height: 80px;
+    position:relative;
+    transform: translateX(80%);
 }

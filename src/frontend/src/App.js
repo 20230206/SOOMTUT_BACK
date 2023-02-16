@@ -16,6 +16,7 @@ import MyChatList from "./routes/MyChatList";
 import PostList from "./routes/PostList";
 import MyLocation from "./component/MyLocation";
 import CreatePost from "./routes/CreatePost"
+import GetPost from "./routes/GetPost";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <Route path="/mypage/chat" element={<MyChatList />} />
           <Route path="/mypage/location" element={<MyLocation />} />
           <Route path="/posts" element={<PostList />} />
+          <Route path="/posts/:id" element={<GetPost />} />
           <Route path="/posts/create" element={<CreatePost />} />
       </Routes>
     </Router>

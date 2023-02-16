@@ -19,6 +19,8 @@ public interface PostService {
 
     void deletePost(Long postId, Member member);
 
+    PostResponseDto getPost(Long postId);
+
     String createCategory(CategoryRequestDto categoryRequestDto);
 
     List<Category> getCategory();

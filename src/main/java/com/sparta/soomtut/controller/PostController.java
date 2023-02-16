@@ -29,6 +29,15 @@ public class PostController {
     private final PostService postService;
     private final FavMemberPostService favMemberPostService;
 
+    @GetMapping(value ="/posts/{postId}") 
+    public ResponseEntity<?> getPost(
+        @PathVariable Long postId,
+        @AuthenticationPrincipal UserDetailsImpl userDtails
+    )
+    {
+        PostResponseDto data = postService.getPost(postId);
+        return ResponseEntity.ok().body(data);
+    }
 
     @PostMapping(value = "/createpost")
     public PostResponseDto createPost(

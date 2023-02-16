@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class PostResponseDto {
+    private Long postId;
     private String title;
     private String content;
     private Long categoryId;
@@ -16,6 +17,7 @@ public class PostResponseDto {
     private String location;
 
     public PostResponseDto(Post post) {
+        this.postId = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
         this.categoryId = post.getCategoryId();
@@ -24,6 +26,7 @@ public class PostResponseDto {
     }
 
     public PostResponseDto(Post post, String nickName, String location) {
+        this.postId = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
         this.categoryId = post.getCategoryId();
