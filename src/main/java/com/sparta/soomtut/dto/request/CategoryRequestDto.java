@@ -7,5 +7,6 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 public class CategoryRequestDto {
+    private Long id;
     private String name;
 }
