@@ -46,9 +46,14 @@ public class AuthController {
         @RequestBody SignupRequestDto requestDto
     )
     {
-        authService.signup(requestDto);
-        var data = "Method[signUp] has called by front";
-        return ResponseEntity.ok().body(data);
+        var data = authService.signup(requestDto);
+        var message = "Method[signUp] has called by front";
+
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("data", data);
+        dataMap.put("msg", message);
+
+        return ResponseEntity.ok().body(dataMap);
     }
 
     @GetMapping(value = "/signup/check")
