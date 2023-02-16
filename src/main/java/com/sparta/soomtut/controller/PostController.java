@@ -49,10 +49,10 @@ public class PostController {
     }
 
     //카테고리 생성
-    //TODO: 관리자만 변경되도록 수정 완료
+    //TODO: 관리자만 변경되도록 수정
     @PostMapping(value = "/createCategory")
-    public ResponseEntity<?> createCategory(@RequestBody CategoryRequestDto categoryRequestDto, Member member) {
-        String category = postService.createCategory(categoryRequestDto, member);
+    public ResponseEntity<?> createCategory(@RequestBody CategoryRequestDto categoryRequestDto) {
+        String category = postService.createCategory(categoryRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(category);
     }
 
