@@ -7,7 +7,6 @@ import com.sparta.soomtut.dto.request.FavPostDto;
 import com.sparta.soomtut.dto.request.PostRequestDto;
 import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
-import com.sparta.soomtut.repository.CategoryRepository;
 import com.sparta.soomtut.service.interfaces.PostService;
 import com.sparta.soomtut.service.interfaces.FavMemberPostService;
 
