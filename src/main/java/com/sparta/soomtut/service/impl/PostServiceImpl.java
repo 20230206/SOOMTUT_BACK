@@ -1,12 +1,15 @@
 package com.sparta.soomtut.service.impl;
 
+import com.sparta.soomtut.dto.request.CategoryRequestDto;
 import com.sparta.soomtut.dto.request.PostRequestDto;
 import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
+import com.sparta.soomtut.entity.Category;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Post;
 import com.sparta.soomtut.enums.MemberRole;
 import com.sparta.soomtut.exception.ErrorCode;
+import com.sparta.soomtut.repository.CategoryRepository;
 import com.sparta.soomtut.repository.PostRepository;
 
 import com.sparta.soomtut.service.interfaces.PostService;
@@ -16,12 +19,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final LocationService locationService;
+    private final CategoryRepository categoryRepository;
 
 
     // 게시글 작성
@@ -60,6 +66,21 @@ public class PostServiceImpl implements PostService {
             postRepository.delete(post);
 
         postRepository.deleteById(postId);
+    }
+
+    //카테고리 생성
+    public String createCategory(CategoryRequestDto categoryRequestDto, Member member) {
+        Category category = new Category(categoryRequestDto);
+
+        if (member.getMemberRole() == MemberRole.ADMIN)
+            categoryRepository.save(category);
+
+        return "카테고리 저장완료";
+    }
+
+    public List<Category> getCategory() {
+        List<Category> category = categoryRepository.findAllBy();
+        return category;
     }
 
     @Override
