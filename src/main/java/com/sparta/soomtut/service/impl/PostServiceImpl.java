@@ -19,6 +19,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Pageable;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.List;
 
 @Service
@@ -119,6 +122,12 @@ public class PostServiceImpl implements PostService {
         return postResponseDto;
     }
 
+    @Transactional
+    @Override
+    public List<PostResponseDto> getMyPosts(Pageable pageable){
+        return postRepository.findAll(pageable).stream().map(PostResponseDto::new).collect(Collectors.toList());
+    }
+    
     @Override
     @Transactional(readOnly = true) 
     public boolean isMyPost(Long postId, Member member)

@@ -36,4 +36,11 @@ public class PostResponseDto {
         this.tutorNickname = nickName ;
         this.location = location;
     }
+
+    public PostResponseDto(PostResponseDto postResponseDto) {
+        this.image = postResponseDto.image;
+        this.fee = postResponseDto.fee;
+        this.location = postResponseDto.location;
+        this.tutorNickname = postResponseDto.tutorNickname;
+    }
 }
