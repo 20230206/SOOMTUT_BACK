@@ -8,7 +8,7 @@ import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
 import com.sparta.soomtut.entity.Member;
 
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface PostService {

@@ -1,9 +1,9 @@
 package com.sparta.soomtut.controller;
 
 import com.sparta.soomtut.dto.request.CategoryRequestDto;
+import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.entity.Category;
 import com.sparta.soomtut.entity.Member;
-import com.sparta.soomtut.dto.request.FavRequestDto;
 import com.sparta.soomtut.dto.request.PostRequestDto;
 import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
@@ -14,12 +14,13 @@ import com.sparta.soomtut.service.interfaces.FavMemberPostService;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 
@@ -92,8 +93,8 @@ public class PostController {
     }
     //즐겨찾기 전체 조회
     @GetMapping(value = "/bookmark")
-    public ResponseEntity<List<PostResponseDto>> getFindAllFavPost(Pageable pageable){
-        return ResponseEntity.ok().body(favMemberPostService.findAllFavPosts(pageable));
+    public ResponseEntity<List<PostResponseDto>> getFindAllFavPost(@ModelAttribute PageRequestDto pageRequest){
+        return ResponseEntity.ok().body(favMemberPostService.findAllFavPosts(pageRequest.toPageable()));
     }
     //즐겨찾기 특정 조회
     @GetMapping(value = "/bookmark/{postId}")

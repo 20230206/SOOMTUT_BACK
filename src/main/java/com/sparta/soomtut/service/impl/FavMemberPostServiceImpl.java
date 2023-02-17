@@ -1,12 +1,20 @@
 package com.sparta.soomtut.service.impl;
 
+import com.sparta.soomtut.dto.response.PostResponseDto;
 import com.sparta.soomtut.entity.FavMemberPost;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Post;
+import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.repository.FavMemberPostRepository;
 import com.sparta.soomtut.service.interfaces.FavMemberPostService;
 import com.sparta.soomtut.service.interfaces.PostService;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,10 +44,13 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
                 .orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_FAVPOST.getMessage()));
         return new PostResponseDto(favMemberPost.getPost());
     }
+
     //즐겨찾기 전체 조회
     @Transactional
     @Override
     public List<PostResponseDto> findAllFavPosts(Pageable pageable){
+        // PageRequest pageables = PageRequest.of(reqeust.getPage(), 5);
+
         return postService.getMyPosts(pageable).stream().map(PostResponseDto::new).collect(Collectors.toList());
     }
     

@@ -1,10 +1,9 @@
 package com.sparta.soomtut.service.interfaces;
 
 import com.sparta.soomtut.entity.Member;
-import com.sparta.soomtut.dto.request.FavPostDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
 
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 
