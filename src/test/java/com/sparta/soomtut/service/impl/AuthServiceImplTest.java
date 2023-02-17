@@ -13,9 +13,12 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import com.sparta.soomtut.dto.request.SigninRequestDto;
 import com.sparta.soomtut.dto.request.SignupRequestDto;
+import com.sparta.soomtut.dto.response.MemberInfoResponseDto;
 import com.sparta.soomtut.dto.response.SigninResponseDto;
+import com.sparta.soomtut.repository.LocationRepository;
 import com.sparta.soomtut.repository.MemberRepository;
 import com.sparta.soomtut.entity.Member;
+import com.sparta.soomtut.entity.Location;
 import com.sparta.soomtut.util.jwt.JwtProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,6 +37,9 @@ public class AuthServiceImplTest {
 
     @Mock
     private MemberRepository memberRepository;
+
+    @Mock
+    private LocationServiceImpl locationService;
 
     @Spy
     private BCryptPasswordEncoder passwordEncoder;
@@ -58,13 +64,32 @@ public class AuthServiceImplTest {
             .nickname("SignupSuccess")
             .email("user@user.com")
             .password("1q2w3e4r!")
+            .address("서울특별시 서초구 반포동")
+            .vectorX(0)
+            .vectorY(0)
             .build();
 
+        Member member = Member.userDetailRegister()
+                                .email("user@user.com")
+                                .password(passwordEncoder.encode("1q2w3e4r!"))
+                                .nickname("SignupSuccess")
+                                .build();
+
+        Location location = Location.forNewMember()
+                                .member(member)
+                                .address("서울특별시 서초구 반포동")
+                                .vectorX(0)
+                                .vectorY(0)
+                                .build();
+                                    
+
+        when(memberService.saveMember(any(Member.class))).thenReturn(member);
         when(memberService.existsMemberByEmail(any(String.class))).thenReturn(false);
         when(memberService.existsMemberByNickname(any(String.class))).thenReturn(false);
+        when(locationService.saveLocation(requestDto, member)).thenReturn(location);
 
         // when
-        authService.signup(requestDto);
+        MemberInfoResponseDto res = authService.signup(requestDto);
 
         // then
         // Hibernate: 

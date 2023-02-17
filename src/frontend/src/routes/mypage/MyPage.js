@@ -1,16 +1,29 @@
+/*global kakao*/
 import React, {
     useState,
     useEffect
 } from "react";
 
-import { Button } from "react-bootstrap";
+import { 
+    Button,
+    Card,
+    Modal
+} from "react-bootstrap";
 import { Link } from "react-router-dom"
 
 import styles from "../../assets/styles/mypage.module.css"
 import axios from "axios"
 
+import Postcode from '@actbase/react-daum-postcode';
+
 function MyPage() {
+    var geocoder = new kakao.maps.services.Geocoder();
     const [myInfo, setMyInfo] = useState([]);
+  
+    const [location, setLocation] = useState("서울특별시 서초구 반포동");
+    const [posX, setPosX] = useState(37.365264512305174);
+    const [posY, setPosY] = useState(127.10676860117488);
+
     const GetMyInfo = () => {
                 
         var config = {
@@ -24,18 +37,78 @@ function MyPage() {
         
         axios(config)
         .then(function (response) {
-            console.log(JSON.stringify(response.data));
             setMyInfo(response.data)
+            setLocation(response.data.address)
         })
         .catch(function (error) {
             console.log(error);
         });
   
     }
+    
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     useEffect(() => {
         GetMyInfo();
     }, [])
+
+    useEffect(() => {
+        AddressToMapXY();
+    }, [location])
+
+    useEffect(() => {
+        MoveMap();
+    }, [posX, posY])
+
+    const callback = (result, status) => {
+        if(status === kakao.maps.services.Status.OK) {
+            setPosX(result[0].y);
+            setPosY(result[0].x);
+        }
+    }
+
+    const AddressToMapXY = () => {
+        geocoder.addressSearch(location, callback);
+    }
+
+    const MoveMap = () => {
+        var container = document.getElementById('map');
+        var options = {
+            center: new kakao.maps.LatLng(posX, posY),
+            level: 4
+        };
+        var map = new kakao.maps.Map(container, options);
+    }
+
+    const ChangeLocation = (address) => {
+        var data = JSON.stringify({
+            "vectorX": posX,
+            "vectorY": posY,
+            "address": address
+          });
+          
+          var config = {
+            method: 'put',
+          maxBodyLength: Infinity,
+            url: 'http://localhost:8080/updatelocation',
+            headers: { 
+              'Authorization': localStorage.getItem("Authorization"), 
+              'Content-Type': 'application/json'
+            },
+            data : data
+          };
+          
+          axios(config)
+          .then(function (response) {
+            console.log(JSON.stringify(response.data));
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          
+    }
 
     return (
         <div>
@@ -45,7 +118,7 @@ function MyPage() {
                 </div>
                 <div className={styles.profilebox}>
                     <div className={styles.imagebox}>
-                        <img src={myInfo.profileImage}/>
+                        <img src={myInfo.profileImage} alt="profileImage"/>
                     </div>
                     <div className={styles.profiles}>
                         <div className={styles.profilename}> <span> {myInfo.nickname} </span></div>
@@ -64,10 +137,52 @@ function MyPage() {
                     <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/myclasslist"> 나의 수업 목록 </Link></li>
                     <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/mypage/chat"> 채팅 목록 </Link></li>
                     <br /><br />
-                    <span className={styles.infotextfont}> 기타 </span>
-                    <div>
-                        <Link to="/mypage/location" className={`${styles.infotextfont} ${styles.textmarginleft}`}> 내 위치 설정 </Link>
+
+                    <Modal show={show} onHide={handleClose}>
+                    <Modal.Body style={{height:"540px"}}>
+                        <Postcode
+                        style={{ width: 460, height: 320 }}
+                        jsOptions={{ animation: true, hideMapBtn: true }}
+                        onSelected={data => {
+                            console.log(JSON.stringify(data))
+                            setLocation(data.address)
+                            ChangeLocation(data.address)
+                            
+                            handleClose();
+                        }}
+                        />
+                    </Modal.Body>
+                    </Modal>
+
+                    <div  className={styles.mylocations}>
+                        <Card>
+                        <Card.Header className={styles.locationtitle}> 내 활동 지역 
+                            <Button
+                             className={styles.locationbutton}
+                             onClick={() => handleShow()}
+                             > 위치 수정 </Button>
+                        </Card.Header>
+                        <Card.Body>
+                            <blockquote className="blockquote mb-0">
+                            <p>
+                                {location}
+                            </p>
+                            <footer className="blockquote-footer">
+                                
+                            <div style={{ display:'flex' }}>
+                                <div id="map" style={{
+                                        width:'400px',
+                                        height:'300px',
+                                }}> </div>
+                            </div>
+
+                            </footer>
+                            </blockquote>
+                        </Card.Body>
+                        </Card>
+
                     </div>
+
                     <li className={`${styles.infotextfont} ${styles.textmarginleft}`}><Link to="/"> 회원 탈퇴 </Link></li>
 
 

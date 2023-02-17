@@ -39,9 +39,7 @@ function SigninForm() {
         
         axios(config)
         .then(function (response) {
-            //console.log(JSON.stringify(response.data));
-            console.log(response.headers.get("Authorization"));
-            localStorage.setItem('Authorization', JSON.stringify(response.headers.get("Authorization")))
+            localStorage.setItem('Authorization', response.headers.get("Authorization"))
             navigate("/");
         })
         .catch(function (error) {

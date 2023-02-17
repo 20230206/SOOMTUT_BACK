@@ -135,6 +135,6 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public MemberInfoResponseDto getMemberInfo(Member member) {
         
-        return MemberInfoResponseDto.toDto(member);
+        return MemberInfoResponseDto.toDto(member, locationService.findMemberLocation(member.getId()));
     }
 }

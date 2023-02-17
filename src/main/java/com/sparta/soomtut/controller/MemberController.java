@@ -18,11 +18,6 @@ import java.time.LocalDate;
 @RestController
 @RequiredArgsConstructor
 public class MemberController  {
-    /*
-     MemberServiceImpl
-     ReviewServiceImpl
-     */
-
     private final MemberService memberService;
 
 

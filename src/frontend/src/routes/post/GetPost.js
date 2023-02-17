@@ -20,7 +20,7 @@ function GetPost() {
         maxBodyLength: Infinity,
             url: `http://localhost:8080/posts/${postId}`,
             headers: { 
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMUB1c2VyLmNvbSIsImF1dGgiOiJNRU1CRVIiLCJleHAiOjE2NzY3NzM0NjYsImlhdCI6MTY3NjU1NzQ2Nn0.a2gfUZ9WWqSDd5Ouv7WHRjAFhnsJnDYcgLXzl43YBmY'
+            'Authorization': localStorage.getItem("Authorization")
             }
         };
         
@@ -55,13 +55,57 @@ function GetPost() {
         
     }
 
+    const GetFav = () => {
+        var config = {
+            method: 'get',
+          maxBodyLength: Infinity,
+            url: 'http://localhost:8080/posts/1/bookmark',
+            headers: { 
+              'Authorization': localStorage.getItem("Authorization")
+            }
+          };
+          
+          axios(config)
+          .then(function (response) {
+            setFav(response.data)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          
+    }
+
     useEffect(() => {
         GetPostInfo();
         GetPostIsMy();
+        GetFav();
     }, [ ])
 
     const RequestFav = () => {
-        setFav(!fav)
+        console.log(fav)
+        var data = JSON.stringify({
+            "curfav": true
+          });
+          
+          var config = {
+            method: 'post',
+          maxBodyLength: Infinity,
+            url: 'http://localhost:8080/posts/1/bookmark',
+            headers: { 
+              'Authorization': localStorage.getItem("Authorization"), 
+              'Content-Type': 'application/json'
+            },
+            data : data
+          };
+          
+          axios(config)
+          .then(function (response) {
+            setFav(response.data)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          
     }
 
     return (
@@ -79,8 +123,8 @@ function GetPost() {
                 <div className={styles.tutorinfobox} >
                     <div className={styles.tutorimagebox}> </div>
                     <div className={styles.tutordiscripbox}>
-                        <span> 아무개 </span> <br />
-                        <span> 인천 구월동 </span> <span> Lv.20 </span> <br />
+                        <span> {postdata.tutorNickname} </span> <br />
+                        <span> {postdata.location} </span> <span> LV20 </span> <br />
                     </div>
                 </div>
 

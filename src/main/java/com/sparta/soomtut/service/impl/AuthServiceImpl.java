@@ -8,13 +8,19 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sparta.soomtut.dto.request.SigninRequestDto;
 import com.sparta.soomtut.dto.request.SignupRequestDto;
 import com.sparta.soomtut.dto.response.SigninResponseDto;
+import com.sparta.soomtut.dto.response.MemberInfoResponseDto;
+
 import com.sparta.soomtut.entity.Member;
+import com.sparta.soomtut.entity.Location;
 import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.service.interfaces.AuthService;
+import com.sparta.soomtut.service.interfaces.LocationService;
 import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.util.jwt.JwtProvider;
 
 import jakarta.servlet.http.HttpServletRequest;
+
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,12 +32,13 @@ import lombok.RequiredArgsConstructor;
 public class AuthServiceImpl implements AuthService {
 
     private final MemberService memberService;
+    private final LocationService locationService;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
     @Override
     @Transactional
-    public void signup(SignupRequestDto requestDto) {
+    public MemberInfoResponseDto signup(SignupRequestDto requestDto) {
         String email = requestDto.getEmail();
         String password = passwordEncoder.encode(requestDto.getPassword());
         String nickname = requestDto.getNickname();
@@ -42,7 +49,12 @@ public class AuthServiceImpl implements AuthService {
         if(memberService.existsMemberByNickname(nickname))
             throw new IllegalArgumentException(ErrorCode.DUPLICATED_NICKNAME.getMessage());
 
-        memberService.saveMember(Member.userDetailRegister().email(email).password(password).nickname(nickname).build());
+        Member member = memberService.saveMember(Member.userDetailRegister().email(email).password(password).nickname(nickname).build());
+        // 위치 정보도 만들어준다
+        Location location = locationService.saveLocation(requestDto, member);
+        
+
+        return MemberInfoResponseDto.toDto(member, location);
     }
 
     @Override
@@ -71,7 +83,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional(readOnly=true) 
     public boolean checkToken(HttpServletRequest request) {
-        boolean validation = jwtProvider.validateToken(request.getHeader("Authorization").substring(7));
+        String bearerToken = request.getHeader("Authorization");
+        boolean validation = false;
+        if(bearerToken.length()>7)
+            validation = jwtProvider.validateToken(bearerToken.substring(7));
         return validation;
     };
 }
