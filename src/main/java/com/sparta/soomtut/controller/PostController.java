@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 
@@ -88,6 +89,16 @@ public class PostController {
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         var data = favMemberPostService.updateOfFavPost(postId, userDetails.getMember());
         return ResponseEntity.ok().body(data);
+    }
+    //즐겨찾기 전체 조회
+    @GetMapping(value = "/bookmark")
+    public ResponseEntity<List<PostResponseDto>> getFindAllFavPost(Pageable pageable){
+        return ResponseEntity.ok().body(favMemberPostService.findAllFavPosts(pageable));
+    }
+    //즐겨찾기 특정 조회
+    @GetMapping(value = "/bookmark/{postId}")
+    public ResponseEntity<PostResponseDto> getFindFavPost(@PathVariable("postId") Long id){
+        return ResponseEntity.ok().body(favMemberPostService.findFavPost(id));
     }
 
     @GetMapping("/post")

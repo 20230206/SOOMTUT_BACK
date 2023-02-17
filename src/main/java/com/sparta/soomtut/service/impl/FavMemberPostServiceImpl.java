@@ -26,6 +26,23 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
         }
 
     }
+    
+    //즐겨찾기 특정 Id 조회
+    @Transactional
+    @Override
+    public PostResponseDto findFavPost(Long id){
+        Post post = postService.findPostById(id);
+        FavMemberPost favMemberPost = favMemberPostRepository.findByPostId(post.getId())
+                .orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_FAVPOST.getMessage()));
+        return new PostResponseDto(favMemberPost.getPost());
+    }
+    //즐겨찾기 전체 조회
+    @Transactional
+    @Override
+    public List<PostResponseDto> findAllFavPosts(Pageable pageable){
+        return postService.getMyPosts(pageable).stream().map(PostResponseDto::new).collect(Collectors.toList());
+    }
+    
 
     //즐겨찾기 업데이트
     @Transactional
