@@ -1,8 +1,8 @@
 package com.sparta.soomtut.service.interfaces;
 
-import com.sparta.soomtut.dto.request.FavPostDto;
+import com.sparta.soomtut.entity.Member;
 
 public interface FavMemberPostService {
-    String updateOfFavPost(FavPostDto favPostDto);
-
+    boolean updateOfFavPost(Long postId, Member member);
+    boolean getState(Long postId, Member member);
 }

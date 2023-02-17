@@ -26,7 +26,6 @@ function GetPost() {
         
         axios(config)
         .then(function (response) {
-            console.log(response.data)
             setPostdata(response.data)
         })
         .catch(function (error) {
@@ -56,13 +55,57 @@ function GetPost() {
         
     }
 
+    const GetFav = () => {
+        var config = {
+            method: 'get',
+          maxBodyLength: Infinity,
+            url: 'http://localhost:8080/posts/1/bookmark',
+            headers: { 
+              'Authorization': localStorage.getItem("Authorization")
+            }
+          };
+          
+          axios(config)
+          .then(function (response) {
+            setFav(response.data)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          
+    }
+
     useEffect(() => {
         GetPostInfo();
         GetPostIsMy();
+        GetFav();
     }, [ ])
 
     const RequestFav = () => {
-        setFav(!fav)
+        console.log(fav)
+        var data = JSON.stringify({
+            "curfav": true
+          });
+          
+          var config = {
+            method: 'post',
+          maxBodyLength: Infinity,
+            url: 'http://localhost:8080/posts/1/bookmark',
+            headers: { 
+              'Authorization': localStorage.getItem("Authorization"), 
+              'Content-Type': 'application/json'
+            },
+            data : data
+          };
+          
+          axios(config)
+          .then(function (response) {
+            setFav(response.data)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          
     }
 
     return (

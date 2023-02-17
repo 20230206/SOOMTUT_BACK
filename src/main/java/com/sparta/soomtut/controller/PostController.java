@@ -3,7 +3,7 @@ package com.sparta.soomtut.controller;
 import com.sparta.soomtut.dto.request.CategoryRequestDto;
 import com.sparta.soomtut.entity.Category;
 import com.sparta.soomtut.entity.Member;
-import com.sparta.soomtut.dto.request.FavPostDto;
+import com.sparta.soomtut.dto.request.FavRequestDto;
 import com.sparta.soomtut.dto.request.PostRequestDto;
 import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
@@ -71,11 +71,23 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(category);
     }
 
+    @GetMapping(value = "/posts/{postId}/bookmark")
+    public ResponseEntity<?> getBookmarkState(
+        @PathVariable Long postId,
+        @AuthenticationPrincipal UserDetailsImpl userDetails
+    )
+    {
+        var data = favMemberPostService.getState(postId, userDetails.getMember());
+        return ResponseEntity.ok().body(data);
+    }
+
     //즐겨찾기 추가 및 취소
-    @PostMapping(value = "/bookmark")
-    public ResponseEntity<String> bookMark(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        FavPostDto favPostDto = new FavPostDto(postId,userDetails.getMember());
-        return ResponseEntity.ok().body(favMemberPostService.updateOfFavPost(favPostDto));
+    @PostMapping(value = "/posts/{postId}/bookmark")
+    public ResponseEntity<?> bookMark(
+        @PathVariable Long postId,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        var data = favMemberPostService.updateOfFavPost(postId, userDetails.getMember());
+        return ResponseEntity.ok().body(data);
     }
 
     @GetMapping("/post")

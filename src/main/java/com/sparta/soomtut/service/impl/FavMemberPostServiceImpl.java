@@ -1,6 +1,5 @@
 package com.sparta.soomtut.service.impl;
 
-import com.sparta.soomtut.dto.request.FavPostDto;
 import com.sparta.soomtut.entity.FavMemberPost;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Post;
@@ -18,39 +17,56 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
     private final FavMemberPostRepository favMemberPostRepository;
     private final PostService postService;
 
+    @Transactional
+    @Override
+    public boolean getState(Long postId, Member member) {
+        if(!hasFavPost(postId, member)) return false;
+        else {
+            FavMemberPost fav = findByPostIdAndMemberId(postId, member.getId());
+            return fav.isStatus();
+        }
+
+    }
+
     //즐겨찾기 업데이트
     @Transactional
     @Override
-    public String updateOfFavPost(FavPostDto favPostDto){
-        Long Id = favPostDto.getId();
-        Member member = favPostDto.getMember();
-        Post post = postService.findPostById(favPostDto.getId()); //postSevice에 이미 구현된 기능 사용
-
-        if(!hasFavPost(Id,member)){
-            //메소드에 값을 가지고 있지 않다면 post에 favorit 카운트+1 그리고 favMemberPost에 저장
-            post.increFavCount();
-            return createFavPost(post, member);
+    public boolean updateOfFavPost(Long postId, Member member) {
+        // 1. existsByPostIdAndMemberId를 통해서 return이 false 일시
+        //  -> 새로운 FavMemberPost를 생성하고, save 해주고 return true
+        // 2. existsByPostIdAndMemberId를 통해서 return이 true 일시
+        //  -> findByPostIdAndMemberId 통해 해당 기록을 가져오고, 해당기록의 내용을 반대로 변경시켜준다.
+        
+        if(!hasFavPost(postId, member)) {
+            Post post = postService.findPostById(postId);
+            FavMemberPost data = createFavPost(post, member);
+            return data.isStatus();
         }
-        post.decreFavCount();
-        return removeFavPost(post, member);
+        else {
+            FavMemberPost data = findByPostIdAndMemberId(postId, member.getId());
+            data.updateState(!data.isStatus());
+            return data.isStatus();
+        }
     }
+
     //즐겨찾기 추가
     @Transactional
-    public String createFavPost(Post post, Member member){
-        FavMemberPost favMemberPost = new FavMemberPost(post, member);
-        favMemberPostRepository.save(favMemberPost);
-        return "SUCCESS_FavPost";
+    public FavMemberPost createFavPost(Post post, Member member){
+        return favMemberPostRepository.save(FavMemberPost.builder().post(post).member(member).build());
     }
-    //즐겨찾기 취소
-    @Transactional
-    public String removeFavPost(Post post, Member member){
-        FavMemberPost favMemberPost = favMemberPostRepository.findByPostIdAndMemberId(post.getId(),member.getId())
-                .orElseThrow(FavNotFoundException::new);
-        favMemberPostRepository.delete(favMemberPost);
-        return "SUCCESS_UnFavPost";
-    }
+
     //글과 멤버의 값을 가지고 있다면 true 아니라면 false 용도의 함수
-    public boolean hasFavPost(Long id, Member member){
-        return favMemberPostRepository.existsByPostIdAndMemberId(id, member.getId()); //Optional 값을 가지고 있다면 ture 아니면 false ->existsBy로 변경
+    @Transactional(readOnly = true)
+    public boolean hasFavPost(Long postId, Member member){
+        //Optional 값을 가지고 있다면 ture 아니면 false ->existsBy로 변경
+        return favMemberPostRepository.existsByPostIdAndMemberId(postId, member.getId()); 
     }
+
+    @Transactional(readOnly = true)
+    private FavMemberPost findByPostIdAndMemberId(Long postId, Long memberId) {
+        return favMemberPostRepository.findByPostIdAndMemberId(postId, memberId).orElseThrow(
+            () -> new IllegalArgumentException("로그가 존재하지 않습니다.")
+        );
+    }
+
 }
