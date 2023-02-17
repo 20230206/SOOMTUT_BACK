@@ -1,10 +1,13 @@
 package com.sparta.soomtut.controller;
 
 import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
+import com.sparta.soomtut.dto.request.PageRequestDto;
+import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.service.interfaces.MemberService;
 
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,15 +26,21 @@ public class MemberController  {
     private final MemberService memberService;
 
 
+    @GetMapping(value = "/getmyinfo")
+    ResponseEntity<?> getMyInfo(
+        @AuthenticationPrincipal UserDetailsImpl userDetails
+    )
+    {
+        var data = memberService.getMemberInfo(userDetails.getMember());
+        return ResponseEntity.ok().body(data);
+    }
+
 
     @GetMapping(value = "/member/mypage/nickname")
     public ResponseEntity<?> getNickname(
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        // Service
         String nickname = memberService.getNickname(userDetails.getMember());
-        // return
-
         return ResponseEntity.status(HttpStatus.OK).body(nickname);
     }
 
@@ -165,6 +174,23 @@ public class MemberController  {
         // return
 
         return ResponseEntity.status(HttpStatus.CREATED).body(msg);
+    }
+
+    //리뷰 조회
+    @GetMapping(value = "/review")
+    public Page<Review> getReview(@ModelAttribute PageRequestDto pageRequest, @AuthenticationPrincipal UserDetailsImpl userDetails){
+
+        return memberService.getReview(pageRequest,userDetails.getMember());
+    }
+
+    //리뷰 삭제
+    @PostMapping(value = "/review/{reviewId}")
+    public ResponseEntity<?> deleteReviewRequest(
+            @PathVariable Long reviewId
+
+    ){
+        String msg = memberService.deleteReviewRequest(reviewId);
+        return ResponseEntity.ok().body(msg);
     }
 
 }

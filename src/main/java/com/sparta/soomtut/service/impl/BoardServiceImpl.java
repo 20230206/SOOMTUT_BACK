@@ -1,6 +1,7 @@
 package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.dto.response.PostResponseDto;
+import com.sparta.soomtut.entity.Location;
 import com.sparta.soomtut.entity.Post;
 import com.sparta.soomtut.repository.PostRepository;
 import com.sparta.soomtut.service.interfaces.BoardService;
@@ -20,15 +21,17 @@ public class BoardServiceImpl implements BoardService {
     private final PostRepository postRepository;
     private final MemberService memberService;
     private final LocationService locationService;
+    private final CategoryService categoryService;
 
     @Override
     @Transactional(readOnly = true)
     public List<PostResponseDto> getMyPosts(Long memberId) {
-        List<Post> posts = postRepository.findAllByTutorId(memberId);
+        List<Post> posts = postRepository.findAllByMemberId(memberId);
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
         posts.forEach(post -> postResponseDtoList.add(new PostResponseDto(post,
                 memberService.findMemberById(memberId).getNickname(),
-                locationService.findMemberLocation(memberId).getAddress()
+                // locationService.findMemberLocation(memberId).getAddress()
+                Location.builder().address("address").build().getAddress()
                 )));
         return postResponseDtoList;
     }
@@ -39,9 +42,22 @@ public class BoardServiceImpl implements BoardService {
         List<Post> posts = postRepository.findAll();
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
         posts.forEach(post -> postResponseDtoList.add(new PostResponseDto(post,
-                memberService.findMemberById(post.getTutorId()).getNickname(),
-                locationService.findMemberLocation(post.getTutorId()).getAddress()
+                post.getMember().getNickname(),
+                // locationService.findMemberLocation(post.getMember().getId()).getAddress()
+                Location.builder().address("address").build().getAddress()
         )));
+        return postResponseDtoList;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PostResponseDto> getAllPost(Long category) {
+        List<Post> posts = postRepository.findAllByCategoryId(category);
+        List<PostResponseDto> postResponseDtoList = new ArrayList<>();
+        posts.forEach(post -> postResponseDtoList.add(new PostResponseDto(post, 
+        post.getMember().getNickname(),
+         Location.builder().address("address").build().getAddress())
+         ));
         return postResponseDtoList;
     }
 

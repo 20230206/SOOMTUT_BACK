@@ -1,10 +1,13 @@
 package com.sparta.soomtut.controller;
 
+import com.sparta.soomtut.dto.request.CategoryRequestDto;
+import com.sparta.soomtut.entity.Category;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.dto.request.FavPostDto;
 import com.sparta.soomtut.dto.request.PostRequestDto;
 import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
+import com.sparta.soomtut.repository.CategoryRepository;
 import com.sparta.soomtut.service.interfaces.PostService;
 import com.sparta.soomtut.service.interfaces.FavMemberPostService;
 
@@ -27,9 +30,21 @@ public class PostController {
     private final PostService postService;
     private final FavMemberPostService favMemberPostService;
 
+    @GetMapping(value ="/posts/{postId}") 
+    public ResponseEntity<?> getPost(
+        @PathVariable Long postId,
+        @AuthenticationPrincipal UserDetailsImpl userDtails
+    )
+    {
+        PostResponseDto data = postService.getPost(postId);
+        return ResponseEntity.ok().body(data);
+    }
 
     @PostMapping(value = "/createpost")
-    public PostResponseDto createPost(@RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public PostResponseDto createPost(
+        @RequestBody PostRequestDto postRequestDto,
+        @AuthenticationPrincipal UserDetailsImpl userDetails)
+    {
         return postService.createPost(userDetails.getMember(), postRequestDto);
     }
 
@@ -41,6 +56,21 @@ public class PostController {
     @DeleteMapping(value = "/deletepost/{postId}")
     public void deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         postService.deletePost(postId, userDetails.getMember());
+    }
+
+    //카테고리 생성
+    //TODO: 관리자만 변경되도록 수정
+    @PostMapping(value = "/createCategory")
+    public ResponseEntity<?> createCategory(@RequestBody CategoryRequestDto categoryRequestDto) {
+        String category = postService.createCategory(categoryRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(category);
+    }
+
+
+    @GetMapping(value = "/getCategory")
+    public ResponseEntity<List<Category>> getCategory() {
+        List<Category> category = postService.getCategory();
+        return ResponseEntity.status(HttpStatus.OK).body(category);
     }
 
     //즐겨찾기 추가 및 취소
@@ -65,5 +95,14 @@ public class PostController {
         Member member = userDetails.getMember();
         //return ResponseEntity.status(HttpStatus.OK).body(postService.getMyPost(userDetails.getMemberId()));
         return ResponseEntity.status(HttpStatus.OK).body(postService.getMyPost(member));
+    }
+
+    @GetMapping("/posts/{postId}/ismypost")
+    public ResponseEntity<?> isMyPost(
+        @PathVariable Long postId,
+        @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        boolean isMyPost = postService.isMyPost(postId, userDetails.getMember());
+        return ResponseEntity.ok().body(isMyPost);
     }
 }

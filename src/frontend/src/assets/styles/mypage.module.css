@@ -1,0 +1,94 @@
+.wrapper {
+    width: 820px;
+    height: 1000px;
+    border: 2px solid;
+    border-radius: 5px;
+
+    margin: auto;
+}
+
+.pagebox {
+    width: 800px;
+    height: 10vh;
+    border: 2px solid;
+
+    margin: 10px auto 0px auto;
+
+    display: flex;
+    align-items: center;
+}
+
+.pageboxtext {
+    font-size: 22px;
+    font-weight: 600;
+    margin-left: 40px;
+}
+
+.profilebox {
+    width: 800px;
+    min-height: 220px;
+
+    border: 2px solid;
+    margin: 10px auto 0px auto;
+
+    display: flex;
+    align-items: center;
+}
+
+.imagebox{
+    width: 196px;
+    height: 196px;
+
+    border: 2px solid;
+    margin-left: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profiles{
+    width: 560px;
+    height: 196px;
+
+    border: 2px solid;
+
+    margin-left: 10px;
+}
+
+.profilename{
+    margin-top: 40px;
+    font-size: 25px;
+    
+    border: 2px solid;
+}
+
+.profileemail{
+    font-size: 25px;
+    border: 2px solid;
+}
+
+.profilebutton{
+    font-size:25px;
+
+    position:relative;
+    transform: translateX(75%);
+}
+
+.infobox {
+    width: 800px;
+    height: 600px;
+
+    border: 2px solid;
+    margin: 10px auto 0px auto;
+    
+}
+
+.infotextfont{
+    font-size: 24px;
+}
+
+
+.textmarginleft{
+    margin-left: 20px;
+}

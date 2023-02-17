@@ -1,5 +1,7 @@
 package com.sparta.soomtut.service.interfaces;
 
+import com.sparta.soomtut.dto.request.CategoryRequestDto;
+import com.sparta.soomtut.entity.Category;
 import com.sparta.soomtut.entity.Post;
 import com.sparta.soomtut.dto.request.PostRequestDto;
 import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
@@ -17,6 +19,14 @@ public interface PostService {
     PostResponseDto updatePost(Long postId, UpdatePostRequestDto updatePostRequestDto, Member member);
 
     void deletePost(Long postId, Member member);
+
+    PostResponseDto getPost(Long postId);
+
+    String createCategory(CategoryRequestDto categoryRequestDto);
+
+    boolean isMyPost(Long postId, Member member);
+
+    List<Category> getCategory();
 
     Post findPostById(Long postId);
     Long getTutorId(Long postId);

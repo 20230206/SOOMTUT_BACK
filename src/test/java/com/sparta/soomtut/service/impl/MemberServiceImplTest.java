@@ -3,8 +3,6 @@ package com.sparta.soomtut.service.impl;
 import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.entity.Location;
 import com.sparta.soomtut.entity.Member;
-import com.sparta.soomtut.entity.Review;
-import com.sparta.soomtut.repository.MemberRepository;
 import com.sparta.soomtut.repository.ReviewRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,13 +12,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceImplTest {
@@ -67,7 +61,7 @@ class MemberServiceImplTest {
     @DisplayName("위치정보 가져오기")
     void getLocation(){
         Member member = new Member("user@user.com","asd12345","user1");
-        Location location = new Location(1L,member,"서울",3f,3f);
+        Location location = new Location(member,"서울",3f,3f);
         given(locationService.getLocation(member)).willReturn(location);
         String address = memberService.getLocation(member);
         assertThat(address).isEqualTo("서울");

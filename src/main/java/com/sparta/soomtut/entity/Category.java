@@ -1,5 +1,6 @@
 package com.sparta.soomtut.entity;
 
+import com.sparta.soomtut.dto.request.CategoryRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,7 @@ public class Category {
     @Column(nullable = false)
     private String name;
 
+    public Category(CategoryRequestDto categoryRequestDto) {
+        this.name = categoryRequestDto.getName();
+    }
 }
