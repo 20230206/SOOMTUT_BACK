@@ -3,7 +3,6 @@ package com.sparta.soomtut.service.impl;
 import com.sparta.soomtut.entity.FavMemberPost;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Post;
-import com.sparta.soomtut.exception.FavNotFoundException;
 import com.sparta.soomtut.repository.FavMemberPostRepository;
 import com.sparta.soomtut.service.interfaces.FavMemberPostService;
 import com.sparta.soomtut.service.interfaces.PostService;

@@ -50,8 +50,9 @@ public class AuthServiceImpl implements AuthService {
             throw new IllegalArgumentException(ErrorCode.DUPLICATED_NICKNAME.getMessage());
 
         Member member = memberService.saveMember(Member.userDetailRegister().email(email).password(password).nickname(nickname).build());
-        Location location = locationService.saveLocation(requestDto, member);
         // 위치 정보도 만들어준다
+        Location location = locationService.saveLocation(requestDto, member);
+        
 
         return MemberInfoResponseDto.toDto(member, location);
     }
