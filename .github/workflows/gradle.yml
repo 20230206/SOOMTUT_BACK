@@ -10,8 +10,11 @@ name: Java CI with Gradle
 
 on:
   push:
+    branches: [ "develop" ]
     branches: [ "feature/**" ]
   pull_request:
+  
+    branches: [ "develop" ]
     branches: [ "feature/**" ]
 
 permissions:
