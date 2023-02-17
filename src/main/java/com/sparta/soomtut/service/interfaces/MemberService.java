@@ -22,6 +22,8 @@ public interface MemberService {
     
     String createReview(Long postId, CreateReviewRequestDto reviewRequestDto, Member member);
 
+    String deleteAccount(Long memberId);
+
     // Repository 지원 함수
     Member findMemberById(Long memberId);
     Member findMemberByEmail(String email);
