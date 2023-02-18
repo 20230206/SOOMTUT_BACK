@@ -17,6 +17,7 @@ import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.LocationService;
 import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.util.jwt.JwtProvider;
+import com.sparta.soomtut.util.jwt.TokenType;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -70,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // 토큰 생성
-        String token = jwtProvider.createToken(member.getEmail(), member.getMemberRole());
+        String token = jwtProvider.createToken(member.getEmail(), member.getMemberRole(), TokenType.REFRESH);
         
         return SigninResponseDto.builder().token(token).build();
     }
