@@ -65,6 +65,10 @@ function SoomtutNavbar() {
         else {
         }
     }, [signin])
+
+    useEffect(() => {
+        
+    }, [name])
     
     const GetUserInfo = () => {
         var config = {

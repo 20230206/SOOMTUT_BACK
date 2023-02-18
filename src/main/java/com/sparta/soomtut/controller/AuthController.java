@@ -21,6 +21,7 @@ import com.sparta.soomtut.dto.response.SigninResponseDto;
 import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.MemberService;
+import com.sparta.soomtut.util.cookies.RefreshCookie;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -41,14 +42,11 @@ public class AuthController {
         SigninResponseDto response = authService.signin(requestDto);
         var message = "Method[signin] has called by front";
 
-        ResponseCookie cookie = ResponseCookie.from("refresh", response.getToken())
-                                    .httpOnly(true)
-                                    .maxAge(Duration.ofDays(14))
-                                    .path("/")
-                                    .build();
+        ResponseCookie cookie = RefreshCookie.getCookie(response.getToken(), true);
 
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("msg", message);
+
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(dataMap);
     }
 
@@ -87,11 +85,7 @@ public class AuthController {
         //TODO: refresh token을 black list 처리 할지 아직 정해지지 않음
 
         // cookie의 정보 삭제
-        ResponseCookie cookie = ResponseCookie.from("refresh", "")
-                                    .httpOnly(true)
-                                    .maxAge(0)
-                                    .path("/")
-                                    .build();
+        ResponseCookie cookie = RefreshCookie.getCookie("", false);
                                     
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(false);
     }
@@ -122,11 +116,7 @@ public class AuthController {
         String token = request.getHeader("Authorization");
         String response = authService.createToken(token);
         
-        ResponseCookie cookie = ResponseCookie.from("refresh", response)
-                                    .httpOnly(true)
-                                    .maxAge(Duration.ofDays(14))
-                                    .path("/")
-                                    .build();
+        ResponseCookie cookie = RefreshCookie.getCookie(response, true);
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(true);
     }
