@@ -35,6 +35,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     
 
     public static final String ALLOWED_METHOD_NAMES = "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH";
+    public static final String ALLOWED_HEADERS_NAME = "" + HttpHeaders.AUTHORIZATION + "," + HttpHeaders.SET_COOKIE;
     
 	@Bean
 	public JwtAuthenticationFilter jwtVerificationFilter() {
@@ -44,8 +45,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                .requestMatchers("/validtoken");
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Bean
@@ -66,10 +66,7 @@ public class SecurityConfig implements WebMvcConfigurer {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/signin").permitAll()
-                .requestMatchers("/signup").permitAll()
-                .requestMatchers("/validtoken").permitAll()
-                .requestMatchers("/createrefreshforoauth2").permitAll()
+                .requestMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(jwtVerificationFilter(), UsernamePasswordAuthenticationFilter.class);
 
@@ -82,9 +79,10 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/**")
-                .exposedHeaders(HttpHeaders.SET_COOKIE, HttpHeaders.AUTHORIZATION)
+                .exposedHeaders("*")
+                .allowedHeaders("*")
                 .allowCredentials(true)
-                .allowedMethods(ALLOWED_METHOD_NAMES.split(","))
+                .allowedMethods("*")
                 .allowedOrigins("http://localhost:3000");
                 
     }
