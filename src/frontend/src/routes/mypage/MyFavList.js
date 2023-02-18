@@ -12,6 +12,7 @@ import axios from "axios";
 import styles from "../../assets/styles/listpage.module.css"
 
 function MyFavList() {
+    const [res, setRes] = useState([])
 
     const GetFavList = () => {
                 
@@ -26,7 +27,7 @@ function MyFavList() {
         
         axios(config)
         .then(function (response) {
-            console.log(JSON.stringify(response.data));
+            setRes(response.data.content);
         })
         .catch(function (error) {
             console.log(error);
@@ -37,6 +38,10 @@ function MyFavList() {
     useEffect(() => {
         GetFavList();
     }, [])
+
+    useEffect(() => {
+        console.log(res)
+    }, [res])
 
     return (
     <div>
@@ -49,11 +54,11 @@ function MyFavList() {
                 <Link to="/posts/create"> <Button className={styles.retbutton}> 글 쓰기 </Button> </Link>
             </div>
             <div className={styles.listbox} id="listbox">
-                {/* { res.length >= 1  ? <PostBoxInList data={res[0]} /> : null }
+                { res.length >= 1  ? <PostBoxInList data={res[0]} /> : null }
                 { res.length >= 2  ? <PostBoxInList data={res[1]} /> : null }
                 { res.length >= 3  ? <PostBoxInList data={res[2]} /> : null }
                 { res.length >= 4  ? <PostBoxInList data={res[3]} /> : null }
-                { res.length >= 5 ? <PostBoxInList data={res[4]} /> : null } */}
+                { res.length >= 5 ? <PostBoxInList data={res[4]} /> : null }
             </div>
         </div>
     </div>
