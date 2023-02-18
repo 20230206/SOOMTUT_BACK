@@ -82,7 +82,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/**")
-                .exposedHeaders(HttpHeaders.SET_COOKIE)
+                .exposedHeaders(HttpHeaders.SET_COOKIE, HttpHeaders.AUTHORIZATION)
                 .allowCredentials(true)
                 .allowedMethods(ALLOWED_METHOD_NAMES.split(","))
                 .allowedOrigins("http://localhost:3000");

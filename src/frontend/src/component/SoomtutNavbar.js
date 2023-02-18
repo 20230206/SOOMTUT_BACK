@@ -8,14 +8,14 @@ import logo from '../assets/images/logo.png'
 
 
 function SoomtutNavbar() {
+    // 쿠키 사용시 적용해줘야 함
     axios.defaults.withCredentials = true;
 
     const [signin, setSignin] = useState(false)
     const [token, setToken] = useState(null)
     const [name, setName] = useState("...");
 
-    const getAccessToken = () => {
-
+    const GetAccessToken = () => {
         var config = {
             method: 'get',
           maxBodyLength: Infinity,
@@ -27,8 +27,35 @@ function SoomtutNavbar() {
           
           axios(config)
           .then(function (response) {
-            console.log(JSON.stringify(response.data));
+            setToken(response.headers.get("Authorization"))
             setSignin(true);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+    }
+
+    useEffect(() => {
+        GetAccessToken();
+    }, [])
+
+    useEffect(() => {
+        GetUserDetailInfo();
+    }, [token])
+    
+    const GetUserDetailInfo = () => {
+        var config = {
+            method: 'get',
+          maxBodyLength: Infinity,
+            url: 'http://localhost:8080/getmyinfo',
+            headers: { 
+              'Authorization': token 
+            }
+          };
+          
+          axios(config)
+          .then(function (response) {
+            setName(response.data.nickname);
           })
           .catch(function (error) {
             console.log(error);
@@ -36,23 +63,13 @@ function SoomtutNavbar() {
           
     }
 
-    useEffect(() => {
-        getAccessToken();
-    }, [])
-
-    useEffect(() => {
-    }, [token])
-    
     const signout = () => {
         // 서버에 로그아웃 요청 보내고
                 
         var config = {
             method: 'post',
         maxBodyLength: Infinity,
-            url: 'http://localhost:8080/signout',
-            headers: { 
-
-            }
+            url: 'http://localhost:8080/signout'
         };
         
         axios(config)

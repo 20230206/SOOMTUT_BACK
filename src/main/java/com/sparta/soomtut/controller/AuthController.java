@@ -87,9 +87,12 @@ public class AuthController {
 
     @PostMapping(value = "/signout")
     public ResponseEntity<?> signOut(
-        
+        @CookieValue(name = "refresh", required=false) String refresh
     )
-    {
+    {   
+        //TODO: refresh token을 black list 처리 할지 아직 정해지지 않음
+
+        // cookie의 정보 삭제
         ResponseCookie cookie = ResponseCookie.from("refresh", "")
                                     .httpOnly(true)
                                     .maxAge(0)

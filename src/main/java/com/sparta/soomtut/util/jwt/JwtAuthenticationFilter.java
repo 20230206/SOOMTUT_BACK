@@ -33,7 +33,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       throws ServletException, IOException 
     {
 		String requestUri = request.getRequestURI();
-		if(requestUri.startsWith("/validtoken")) {
+		if(requestUri.startsWith("/validtoken") ||
+			requestUri.startsWith("/signout")) {
 			filterChain.doFilter(request, response);
 			return;
 		}
