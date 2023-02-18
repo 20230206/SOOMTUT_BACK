@@ -12,6 +12,6 @@ public interface AuthService {
     SigninResponseDto signin(SigninRequestDto requestDto);
 
     boolean checkToken(String token);
-    String createRefresh(String token);
+    String createToken(String token);
 
 }

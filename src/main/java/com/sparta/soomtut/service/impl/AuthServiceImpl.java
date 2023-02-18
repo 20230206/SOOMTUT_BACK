@@ -86,22 +86,30 @@ public class AuthServiceImpl implements AuthService {
     };
 
     @Override
-    public String createRefresh(String token) {
+    public String createToken(String token) {
         boolean isValid = this.checkToken(token);
         
         if(isValid) {
             Claims claims = jwtProvider.getUserInfoFromToken(token);
+
+            String username = claims.getSubject();
 
             String memberValue = (String) claims.get(JwtProvider.AUTHORIZATION_KEY).toString();
             MemberRole role = MemberRole.valueOf(memberValue);
 
             String typeValue = (String) claims.get(JwtProvider.TOKEN_TYPE).toString();
             TokenType type = TokenType.valueOf(typeValue);
-            if(type==TokenType.OAUTH2) {
+            if(TokenType.OAUTH2.equals(type)) {
                 return jwtProvider.createToken(
-                                    claims.getSubject(),
+                                    username,
                                     role,
                                     TokenType.REFRESH);
+            }
+            else if (TokenType.REFRESH.equals(type)) {
+                return jwtProvider.createToken(
+                                    username,
+                                    role,
+                                    TokenType.ACCESS);
             }
             else {
                 throw new IllegalArgumentException("올바른 토큰이 아닙니다.");

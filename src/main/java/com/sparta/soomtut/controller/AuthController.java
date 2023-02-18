@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sparta.soomtut.dto.request.SigninRequestDto;
 import com.sparta.soomtut.dto.request.SignupRequestDto;
 import com.sparta.soomtut.dto.response.SigninResponseDto;
+import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.MemberService;
 
@@ -107,14 +108,20 @@ public class AuthController {
 
         // refresh token이 valid가 되면, access token을 생성해주는 단계로 넘어간다.
         // 그리고 access token을 발급해 front로 전달해준다.
+        if(isvalid) {
+            String accesstoken = authService.createToken(refresh);
 
-        return ResponseEntity.ok().body(isvalid);
+            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, accesstoken).body(isvalid);
+        }
+        else {
+            return ResponseEntity.badRequest().body(ErrorCode.INVALID_TOKEN);
+        }
     }
     
     @GetMapping(value="/createrefreshforoauth2") 
     public ResponseEntity<?> createRefresh(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        String response = authService.createRefresh(token);
+        String response = authService.createToken(token);
         
         ResponseCookie cookie = ResponseCookie.from("refresh", response)
                                     .httpOnly(true)

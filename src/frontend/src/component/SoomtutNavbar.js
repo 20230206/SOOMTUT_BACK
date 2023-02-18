@@ -14,39 +14,33 @@ function SoomtutNavbar() {
     const [token, setToken] = useState(null)
     const [name, setName] = useState("...");
 
-    const subscribe = () => {
-        setToken(localStorage.getItem('Authorization'));
-    }
-
-    const validToken = () => {
-        if(token === null) return;
-        var data = '';
+    const getAccessToken = () => {
 
         var config = {
             method: 'get',
-            maxBodyLength: Infinity,
+          maxBodyLength: Infinity,
             url: 'http://localhost:8080/validtoken',
             headers: { 
-                'Authorization': token
-            },
-            data : data
-        };
 
-        axios(config)
-        .then(function (response) {
-            setSignin(response.data);
-        })
-        .catch(function (error) {
-        });
-
+            }
+          };
+          
+          axios(config)
+          .then(function (response) {
+            console.log(JSON.stringify(response.data));
+            setSignin(true);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          
     }
 
     useEffect(() => {
-        subscribe();
-    }, [localStorage.getItem('Authorization')])
+        getAccessToken();
+    }, [])
 
     useEffect(() => {
-        validToken();
     }, [token])
     
     const signout = () => {
