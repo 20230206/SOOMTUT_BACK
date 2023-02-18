@@ -100,7 +100,9 @@ public class AuthController {
     }
 
     @GetMapping(value = "/validtoken")
-    public ResponseEntity<?> checkToken(@CookieValue(name = "refresh", required=false) String refresh) {
+    public ResponseEntity<?> checkToken(
+        @CookieValue(name = "refresh", required=false) String refresh) 
+    {
         if(refresh == null) return ResponseEntity.ok().body(false);
 
         // Refresh Token이 유효한지 판단한다.

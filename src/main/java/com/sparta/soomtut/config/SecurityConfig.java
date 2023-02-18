@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -44,7 +45,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                .requestMatchers("/validation");
+                .requestMatchers("/validtoken");
     }
 
     @Bean
@@ -65,8 +66,12 @@ public class SecurityConfig implements WebMvcConfigurer {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/**").permitAll()
-                .anyRequest().authenticated();
+                .requestMatchers("/signin").permitAll()
+                .requestMatchers("/signup").permitAll()
+                .requestMatchers("/validtoken").permitAll()
+                .requestMatchers("/createrefreshforoauth2").permitAll()
+                .anyRequest().authenticated()
+                .and().addFilterBefore(jwtVerificationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http.exceptionHandling().authenticationEntryPoint(authdenticationEntryPoint)
                                 .accessDeniedHandler(accessDeniedHandler);

@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.nimbusds.oauth2.sdk.token.AccessToken;
 import com.sparta.soomtut.util.security.UserDetailsServiceImpl;
 
 import io.jsonwebtoken.Claims;
@@ -33,6 +32,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException 
     {
+		String requestUri = request.getRequestURI();
+		if(requestUri.startsWith("/validtoken")) {
+			filterChain.doFilter(request, response);
+			return;
+		}
+
 		// refresh token이 있는 쿠키정보 가져오기
 		String refreshToken = extractCookie(request);
 
