@@ -41,6 +41,7 @@ function SigninForm() {
         axios(config)
         .then(function (response) {
             // document.cookie = response.headers.get("Set-Cookie");
+            navigate("/");
         })
         .catch(function (error) {
         console.log(error);

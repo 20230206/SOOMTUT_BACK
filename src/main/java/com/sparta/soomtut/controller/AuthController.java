@@ -20,9 +20,7 @@ import com.sparta.soomtut.dto.response.SigninResponseDto;
 import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.MemberService;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-
 
 import lombok.RequiredArgsConstructor;
 
@@ -87,17 +85,43 @@ public class AuthController {
     }
 
     @PostMapping(value = "/signout")
-    public void SignOut(
-
+    public ResponseEntity<?> signOut(
+        
     )
     {
-
+        ResponseCookie cookie = ResponseCookie.from("refresh", "")
+                                    .httpOnly(true)
+                                    .maxAge(0)
+                                    .path("/")
+                                    .build();
+                                    
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(false);
     }
 
     @GetMapping(value = "/validtoken")
     public ResponseEntity<?> checkToken(@CookieValue(name = "refresh", required=false) String refresh) {
-        System.out.println(refresh);
-        return ResponseEntity.ok().body(null);
+        if(refresh == null) return ResponseEntity.ok().body(false);
+
+        // Refresh Token이 유효한지 판단한다.
+        boolean isvalid = authService.checkToken(refresh);
+
+        // refresh token이 valid가 되면, access token을 생성해주는 단계로 넘어간다.
+        // 그리고 access token을 발급해 front로 전달해준다.
+
+        return ResponseEntity.ok().body(isvalid);
     }
     
+    @GetMapping(value="/createrefreshforoauth2") 
+    public ResponseEntity<?> createRefresh(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        String response = authService.createRefresh(token);
+        
+        ResponseCookie cookie = ResponseCookie.from("refresh", response)
+                                    .httpOnly(true)
+                                    .maxAge(Duration.ofDays(14))
+                                    .path("/")
+                                    .build();
+
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(null);
+    }
 }

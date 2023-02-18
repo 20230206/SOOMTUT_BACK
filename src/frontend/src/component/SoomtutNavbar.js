@@ -51,9 +51,26 @@ function SoomtutNavbar() {
     
     const signout = () => {
         // 서버에 로그아웃 요청 보내고
+                
+        var config = {
+            method: 'post',
+        maxBodyLength: Infinity,
+            url: 'http://localhost:8080/signout',
+            headers: { 
 
-        // 로컬 스토리지의 authorization을 제거해준다.
-        localStorage.setItem('Authorization', null);
+            }
+        };
+        
+        axios(config)
+        .then(function (response) {
+            console.log(JSON.stringify(response.data));
+            setSignin(response.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+        
+
         // 화면을 새로고침 해준다
         window.location.reload();
     }
