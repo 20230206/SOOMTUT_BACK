@@ -8,6 +8,8 @@ import logo from '../assets/images/logo.png'
 
 
 function SoomtutNavbar() {
+    axios.defaults.withCredentials = true;
+
     const [signin, setSignin] = useState(false)
     const [token, setToken] = useState(null)
     const [name, setName] = useState("...");

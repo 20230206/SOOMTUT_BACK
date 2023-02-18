@@ -8,6 +8,7 @@ import kakao from "../assets/images/kakaosignup.png"
 import logo from "../assets/images/logo.png"
 
 function SigninForm() {
+    axios.defaults.withCredentials = true;
 
     const navigate = useNavigate();
     
@@ -39,8 +40,7 @@ function SigninForm() {
         
         axios(config)
         .then(function (response) {
-            localStorage.setItem('Authorization', response.headers.get("Authorization"))
-            navigate("/");
+            // document.cookie = response.headers.get("Set-Cookie");
         })
         .catch(function (error) {
         console.log(error);

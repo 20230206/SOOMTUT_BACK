@@ -10,6 +10,7 @@ import com.sparta.soomtut.util.security.oauth2.OAuth2AuthenticationSuccessHandle
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -75,8 +76,10 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/**")
-                .exposedHeaders("Authorization")
+                .exposedHeaders(HttpHeaders.SET_COOKIE)
+                .allowCredentials(true)
                 .allowedMethods(ALLOWED_METHOD_NAMES.split(","))
                 .allowedOrigins("http://localhost:3000");
+                
     }
 }

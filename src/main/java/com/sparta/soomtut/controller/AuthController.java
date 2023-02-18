@@ -1,9 +1,13 @@
 package com.sparta.soomtut.controller;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +20,7 @@ import com.sparta.soomtut.dto.response.SigninResponseDto;
 import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.MemberService;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
 
@@ -30,15 +35,20 @@ public class AuthController {
     @PostMapping(value = "/signin")
     public ResponseEntity<?> signin(
         @RequestBody SigninRequestDto requestDto
-        
     )
     {
         SigninResponseDto response = authService.signin(requestDto);
         var message = "Method[signin] has called by front";
 
+        ResponseCookie cookie = ResponseCookie.from("refresh", response.getToken())
+                                    .httpOnly(true)
+                                    .maxAge(Duration.ofDays(14))
+                                    .path("/")
+                                    .build();
+
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("msg", message);
-        return ResponseEntity.ok().header("Authorization", response.getToken()).body(dataMap);
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(dataMap);
     }
 
     @PostMapping(value = "/signup")
@@ -85,9 +95,9 @@ public class AuthController {
     }
 
     @GetMapping(value = "/validtoken")
-    public ResponseEntity<?> checkToken(HttpServletRequest request) {
-        var data = authService.checkToken(request);
-        return ResponseEntity.ok().body(data);
+    public ResponseEntity<?> checkToken(@CookieValue(name = "refresh", required=false) String refresh) {
+        System.out.println(refresh);
+        return ResponseEntity.ok().body(null);
     }
     
 }

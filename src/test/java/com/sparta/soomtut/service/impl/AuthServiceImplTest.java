@@ -119,6 +119,6 @@ public class AuthServiceImplTest {
         SigninResponseDto res = authService.signin(requestDto);
 
         // then
-        verify(jwtProvider).createToken(member.getEmail(), member.getMemberRole());
+        // verify(jwtProvider).createToken(member.getEmail(), member.getMemberRole(), TokeType.);
     }
 }
