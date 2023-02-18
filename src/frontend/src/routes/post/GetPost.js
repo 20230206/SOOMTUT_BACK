@@ -59,7 +59,7 @@ function GetPost() {
         var config = {
             method: 'get',
           maxBodyLength: Infinity,
-            url: 'http://localhost:8080/posts/1/bookmark',
+            url: `http://localhost:8080/posts/${postId}/bookmark`,
             headers: { 
               'Authorization': localStorage.getItem("Authorization")
             }
@@ -90,7 +90,7 @@ function GetPost() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: 'http://localhost:8080/posts/1/bookmark',
+            url: `http://localhost:8080/posts/${postId}/bookmark`,
             headers: { 
               'Authorization': localStorage.getItem("Authorization"), 
               'Content-Type': 'application/json'
