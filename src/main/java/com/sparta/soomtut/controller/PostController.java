@@ -91,8 +91,12 @@ public class PostController {
     }
     //즐겨찾기 전체 조회
     @GetMapping(value = "/bookmark")
-    public ResponseEntity<List<PostResponseDto>> getFindAllFavPost(@ModelAttribute PageRequestDto pageRequest){
-        return ResponseEntity.ok().body(favMemberPostService.findAllFavPosts(pageRequest.toPageable()));
+    public ResponseEntity<?> getFindAllFavPost(
+        @ModelAttribute PageRequestDto pageRequest,
+        @AuthenticationPrincipal UserDetailsImpl userDetails)
+    {
+        var data = favMemberPostService.findAllFavPosts(pageRequest.toPageable(), userDetails.getMember());
+        return ResponseEntity.ok().body(data);
     }
     //즐겨찾기 특정 조회
     @GetMapping(value = "/bookmark/{postId}")

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,10 +48,10 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
     //즐겨찾기 전체 조회
     @Transactional
     @Override
-    public List<PostResponseDto> findAllFavPosts(Pageable pageable){
+    public Page<PostResponseDto> findAllFavPosts(Pageable pageable, Member member){
         // PageRequest pageables = PageRequest.of(reqeust.getPage(), 5);
-
-        return postService.getMyPosts(pageable).stream().map(PostResponseDto::new).collect(Collectors.toList());
+        Page<FavMemberPost> favlist = favMemberPostRepository.findAllByMemberIdAndStatusIsTrue(member.getId(), pageable);
+        return favlist.map((item) -> new PostResponseDto(item.getPost()));
     }
     
 
