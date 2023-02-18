@@ -14,7 +14,7 @@ function SetSignin () {
         var config = {
             method: 'get',
         maxBodyLength: Infinity,
-            url: 'http://localhost:8080/createrefreshforoauth2',
+            url: 'http://localhost:8080/auth/createrefreshforoauth2',
             headers: { 
                 'Authorization': params
             }
@@ -23,7 +23,7 @@ function SetSignin () {
         axios(config)
         .then(function (response) {
             console.log(JSON.stringify(response.data));
-            SetLoading(true);
+            SetLoading(response.data);
         })
         .catch(function (error) {
             console.log(error);

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/auth")
 public class AuthController {
     private final MemberService memberService;
     private final AuthService authService;
@@ -75,14 +77,6 @@ public class AuthController {
         if(email == null && nickname != null) { data = memberService.existsMemberByNickname(nickname); }
 
         return ResponseEntity.ok().body(data);
-    }
-
-    @GetMapping(value = "/signup/check/nickname")
-    public ResponseEntity<?> checkNickname (
-        @RequestBody String requestDto
-    ) {
-
-        return ResponseEntity.ok().body(null);
     }
 
     @PostMapping(value = "/signout")
@@ -134,6 +128,6 @@ public class AuthController {
                                     .path("/")
                                     .build();
 
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(null);
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(true);
     }
 }

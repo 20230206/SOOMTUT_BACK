@@ -76,7 +76,7 @@ function SignupForm() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://localhost:8080/signup/check?email=${input}`,
+            url: `http://localhost:8080/auth/signup/check?email=${input}`,
             headers: { },
             data : data
         };
@@ -96,7 +96,7 @@ function SignupForm() {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://localhost:8080/signup/check?nickname=${input}`,
+            url: `http://localhost:8080/auth/signup/check?nickname=${input}`,
             headers: { },
             data : data
         };
@@ -124,7 +124,7 @@ function SignupForm() {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: 'http://localhost:8080/signup',
+            url: 'http://localhost:8080/auth/signup',
             headers: { 
               'Content-Type': 'application/json'
             },

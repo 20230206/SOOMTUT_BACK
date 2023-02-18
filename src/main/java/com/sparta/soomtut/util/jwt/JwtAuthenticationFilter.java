@@ -8,13 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.sparta.soomtut.util.security.UserDetailsServiceImpl;
 
@@ -33,8 +31,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       throws ServletException, IOException 
     {
 		String requestUri = request.getRequestURI();
-		if(requestUri.startsWith("/validtoken") ||
-			requestUri.startsWith("/signout")) {
+		if(requestUri.startsWith("/auth"))
+		{
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -66,7 +64,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			}
 		}
 		else {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
+			// throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
 		}
 		filterChain.doFilter(request, response);
     }

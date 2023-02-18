@@ -31,7 +31,7 @@ function SigninForm() {
         var config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'http://localhost:8080/signin',
+        url: 'http://localhost:8080/auth/signin',
         headers: { 
             'Content-Type': 'application/json'
         },

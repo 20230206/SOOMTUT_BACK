@@ -8,18 +8,17 @@ import logo from '../assets/images/logo.png'
 
 
 function SoomtutNavbar() {
-    // 쿠키 사용시 적용해줘야 함
     axios.defaults.withCredentials = true;
 
     const [signin, setSignin] = useState(false)
     const [token, setToken] = useState(null)
     const [name, setName] = useState("...");
 
-    const GetAccessToken = () => {
+    const IsSignnedIn = () => {
         var config = {
             method: 'get',
-          maxBodyLength: Infinity,
-            url: 'http://localhost:8080/validtoken',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:8080/auth/validtoken',
             headers: { 
 
             }
@@ -27,63 +26,63 @@ function SoomtutNavbar() {
           
           axios(config)
           .then(function (response) {
-            setToken(response.headers.get("Authorization"))
-            setSignin(true);
+            setToken(response.headers.get("Authorization"));
+            setSignin(response.data);
           })
           .catch(function (error) {
             console.log(error);
           });
-    }
-
-    useEffect(() => {
-        GetAccessToken();
-    }, [])
-
-    useEffect(() => {
-        GetUserDetailInfo();
-    }, [token])
-    
-    const GetUserDetailInfo = () => {
-        var config = {
-            method: 'get',
-          maxBodyLength: Infinity,
-            url: 'http://localhost:8080/getmyinfo',
-            headers: { 
-              'Authorization': token 
-            }
-          };
-          
-          axios(config)
-          .then(function (response) {
-            setName(response.data.nickname);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-          
     }
 
     const signout = () => {
-        // 서버에 로그아웃 요청 보내고
-                
+        // 서버에 로그아웃 요청 보내고 refresh cookie를 삭제해준다
         var config = {
             method: 'post',
-        maxBodyLength: Infinity,
-            url: 'http://localhost:8080/signout'
+            maxBodyLength: Infinity,
+            url: 'http://localhost:8080/auth/signout'
         };
         
         axios(config)
         .then(function (response) {
-            console.log(JSON.stringify(response.data));
-            setSignin(response.data)
+            setSignin(false);
         })
         .catch(function (error) {
             console.log(error);
         });
-        
 
         // 화면을 새로고침 해준다
         window.location.reload();
+    }
+    
+    useEffect(() => {
+        IsSignnedIn();
+    }, [])
+
+    useEffect(() => {
+        if(signin === true) {
+            GetUserInfo();
+        }
+        else {
+        }
+    }, [signin])
+    
+    const GetUserInfo = () => {
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:8080/getmyinfo',
+            headers: { 
+                'Authorization': token
+            }
+        };
+        
+        axios(config)
+        .then(function (response) {
+            setName(response.data.nickname)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
 
     return (
