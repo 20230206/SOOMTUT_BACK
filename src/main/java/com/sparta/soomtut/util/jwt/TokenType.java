@@ -3,8 +3,6 @@ package com.sparta.soomtut.util.jwt;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Arrays;
-
 @Getter
 @RequiredArgsConstructor
 public enum TokenType {
@@ -14,13 +12,6 @@ public enum TokenType {
 
     public final String type;
     public final Long expireTime;
-
-    public static TokenType toEnumType(String string) 
-    {
-        return Arrays.stream(values())
-                .filter(value -> string.equals(value.getType()))
-                .findFirst().orElseThrow(IllegalArgumentException::new);
-    }
 
     class ExpireTime {
         private static final long REFRESH_TOKEN_TIME = 14 * 24 * 60 * 60 * 1000L; // 14일
