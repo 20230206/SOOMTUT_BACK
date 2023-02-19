@@ -13,9 +13,8 @@ public interface FavMemberPostRepository extends JpaRepository<FavMemberPost, Lo
     Optional<FavMemberPost> findByPostIdAndMemberId(Long postId, Long memberId);
     boolean existsByPostIdAndMemberId(Long postId, Long memberId);
 
-    List<FavMemberPost> findAllByMemberId(Long memberId);
-
     Optional<FavMemberPost> findByPostId(Long postId);
+    Page<FavMemberPost> findAllByMemberIdAndStatusIsTrue(Long memberId, Pageable pageable);
 
     //TODO: 계속해서 오류가 나와서 주석처리함 수정 필요
     // Page<FavMemberPost> findAllByMemberId(Pageable pageable);

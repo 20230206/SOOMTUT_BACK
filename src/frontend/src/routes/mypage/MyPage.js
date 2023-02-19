@@ -77,9 +77,18 @@ function MyPage() {
         var container = document.getElementById('map');
         var options = {
             center: new kakao.maps.LatLng(posX, posY),
-            level: 4
+            level: 2
         };
         var map = new kakao.maps.Map(container, options);
+
+        var markerPosition = new kakao.maps.LatLng(posX, posY)
+        var marker = new kakao.maps.Marker({
+            position: markerPosition
+        });
+
+        marker.setMap(map);
+        map.setDraggable(false);
+        map.setZoomable(false);
     }
 
     const ChangeLocation = (address) => {
@@ -102,7 +111,7 @@ function MyPage() {
           
           axios(config)
           .then(function (response) {
-            console.log(JSON.stringify(response.data));
+
           })
           .catch(function (error) {
             console.log(error);
