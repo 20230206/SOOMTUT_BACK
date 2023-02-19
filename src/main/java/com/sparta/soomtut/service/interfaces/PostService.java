@@ -31,5 +31,4 @@ public interface PostService {
     Post findPostById(Long postId);
     Long getTutorId(Long postId);
     PostResponseDto getMyPost(Member member);
-    List<PostResponseDto> getMyPosts(Pageable pageable);
 }

@@ -55,24 +55,24 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
         String address = "서울특별시 서초구 반포동";
 
         Member member = memberRepository.findByProviderAndOauthEmail(provider, email).orElseGet( () -> null);
-
-        if(member == null) {
-            member = memberRepository.save(    
-                    Member.oauth2Register()
-                            .email(email)
-                            .nickname(nickname)
-                            .password(password)
-                            .provider(provider)
-                            .oauthEmail(email)
-                            .build()
-                );
+            
+        if (member == null) {
+            Member temp = Member.oauth2Register()
+                                    .email(email)
+                                    .nickname(nickname)
+                                    .password(password)
+                                    .provider(provider)
+                                    .oauthEmail(email)
+                                    .build();
+                                
+            memberRepository.save(temp);
 
             locationRepository.save(Location.forNewMember()
-                                        .member(member)
-                                        .address(address)
-                                        .vectorX(0)
-                                        .vectorY(0)
-                                        .build());
+                                                .member(temp)
+                                                .address(address)
+                                                .vectorX(0)
+                                                .vectorY(0)
+                                                .build());
         }
 
         return new UserDetailsImpl(member, attributes);

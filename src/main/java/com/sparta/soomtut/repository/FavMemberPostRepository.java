@@ -11,8 +11,7 @@ public interface FavMemberPostRepository extends JpaRepository<FavMemberPost, Lo
     Optional<FavMemberPost> findByPostIdAndMemberId(Long postId, Long memberId);
     boolean existsByPostIdAndMemberId(Long postId, Long memberId);
 
-    List<FavMemberPost> findAllByMemberId(Long memberId);
-
     Optional<FavMemberPost> findByPostId(Long postId);
+    Page<FavMemberPost> findAllByMemberIdAndStatusIsTrue(Long memberId, Pageable pageable);
 
 }
