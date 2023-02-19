@@ -11,16 +11,16 @@ import com.sparta.soomtut.dto.response.SigninResponseDto;
 import com.sparta.soomtut.dto.response.MemberInfoResponseDto;
 
 import com.sparta.soomtut.entity.Member;
+import com.sparta.soomtut.enums.MemberRole;
 import com.sparta.soomtut.entity.Location;
 import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.LocationService;
 import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.util.jwt.JwtProvider;
+import com.sparta.soomtut.util.jwt.TokenType;
 
-import jakarta.servlet.http.HttpServletRequest;
-
-
+import io.jsonwebtoken.Claims;
 
 import lombok.RequiredArgsConstructor;
 
@@ -70,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // 토큰 생성
-        String token = jwtProvider.createToken(member.getEmail(), member.getMemberRole());
+        String token = jwtProvider.createToken(member.getEmail(), member.getMemberRole(), TokenType.REFRESH);
         
         return SigninResponseDto.builder().token(token).build();
     }
@@ -81,12 +81,43 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional(readOnly=true) 
-    public boolean checkToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        boolean validation = false;
-        if(bearerToken.length()>7)
-            validation = jwtProvider.validateToken(bearerToken.substring(7));
-        return validation;
+    public boolean checkToken(String token) {
+        return jwtProvider.validateToken(token);
     };
+
+    @Override
+    public String createToken(String token) {
+        boolean isValid = this.checkToken(token);
+        
+        if(isValid) {
+            Claims claims = jwtProvider.getUserInfoFromToken(token);
+
+            String username = claims.getSubject();
+
+            String memberValue = (String) claims.get(JwtProvider.AUTHORIZATION_KEY).toString();
+            MemberRole role = MemberRole.valueOf(memberValue);
+
+            String typeValue = (String) claims.get(JwtProvider.TOKEN_TYPE).toString();
+            TokenType type = TokenType.valueOf(typeValue);
+            if(TokenType.OAUTH2.equals(type)) {
+                return jwtProvider.createToken(
+                                    username,
+                                    role,
+                                    TokenType.REFRESH);
+            }
+            else if (TokenType.REFRESH.equals(type)) {
+                return jwtProvider.createToken(
+                                    username,
+                                    role,
+                                    TokenType.ACCESS);
+            }
+            else {
+                throw new IllegalArgumentException("올바른 토큰이 아닙니다.");
+            }
+
+        }
+        else {
+            throw new IllegalArgumentException(ErrorCode.INVALID_TOKEN.getMessage());
+        }
+    }
 }

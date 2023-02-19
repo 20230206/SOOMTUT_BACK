@@ -25,6 +25,7 @@ function MyPage() {
     const [posY, setPosY] = useState(127.10676860117488);
 
     const GetMyInfo = () => {
+        axios.defaults.withCredentials = true;
                 
         var config = {
             method: 'get',
@@ -103,7 +104,6 @@ function MyPage() {
           maxBodyLength: Infinity,
             url: 'http://localhost:8080/updatelocation',
             headers: { 
-              'Authorization': localStorage.getItem("Authorization"), 
               'Content-Type': 'application/json'
             },
             data : data

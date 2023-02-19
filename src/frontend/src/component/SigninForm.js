@@ -8,6 +8,7 @@ import kakao from "../assets/images/kakaosignup.png"
 import logo from "../assets/images/logo.png"
 
 function SigninForm() {
+    axios.defaults.withCredentials = true;
 
     const navigate = useNavigate();
     
@@ -30,7 +31,7 @@ function SigninForm() {
         var config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'http://localhost:8080/signin',
+        url: 'http://localhost:8080/auth/signin',
         headers: { 
             'Content-Type': 'application/json'
         },
@@ -39,7 +40,7 @@ function SigninForm() {
         
         axios(config)
         .then(function (response) {
-            localStorage.setItem('Authorization', response.headers.get("Authorization"))
+            // document.cookie = response.headers.get("Set-Cookie");
             navigate("/");
         })
         .catch(function (error) {

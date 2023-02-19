@@ -8,52 +8,85 @@ import logo from '../assets/images/logo.png'
 
 
 function SoomtutNavbar() {
+    axios.defaults.withCredentials = true;
+
     const [signin, setSignin] = useState(false)
     const [token, setToken] = useState(null)
     const [name, setName] = useState("...");
 
-    const subscribe = () => {
-        setToken(localStorage.getItem('Authorization'));
-    }
-
-    const validToken = () => {
-        if(token === null) return;
-        var data = '';
-
+    const IsSignnedIn = () => {
         var config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://localhost:8080/validtoken',
+            url: 'http://localhost:8080/auth/validtoken',
             headers: { 
-                'Authorization': token
-            },
-            data : data
-        };
 
-        axios(config)
-        .then(function (response) {
+            }
+          };
+          
+          axios(config)
+          .then(function (response) {
+            setToken(response.headers.get("Authorization"));
             setSignin(response.data);
-        })
-        .catch(function (error) {
-        });
-
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     }
 
-    useEffect(() => {
-        subscribe();
-    }, [localStorage.getItem('Authorization')])
-
-    useEffect(() => {
-        validToken();
-    }, [token])
-    
     const signout = () => {
-        // 서버에 로그아웃 요청 보내고
+        // 서버에 로그아웃 요청 보내고 refresh cookie를 삭제해준다
+        var config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:8080/auth/signout'
+        };
+        
+        axios(config)
+        .then(function (response) {
+            setSignin(false);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 
-        // 로컬 스토리지의 authorization을 제거해준다.
-        localStorage.setItem('Authorization', null);
         // 화면을 새로고침 해준다
         window.location.reload();
+    }
+    
+    useEffect(() => {
+        IsSignnedIn();
+    }, [])
+
+    useEffect(() => {
+        if(signin === true) {
+            GetUserInfo();
+        }
+        else {
+        }
+    }, [signin])
+
+    useEffect(() => {
+        
+    }, [name])
+    
+    const GetUserInfo = () => {
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:8080/getmyinfo',
+            headers: { 
+                'Authorization': token
+            }
+        };
+        
+        axios(config)
+        .then(function (response) {
+            setName(response.data.nickname)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
 
     return (

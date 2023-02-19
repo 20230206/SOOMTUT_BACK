@@ -7,6 +7,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import com.sparta.soomtut.util.jwt.JwtProvider;
+import com.sparta.soomtut.util.jwt.TokenType;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 
 import jakarta.servlet.ServletException;
@@ -25,7 +26,7 @@ public class OAuth2AuthenticationSuccessHandlerImpl extends SimpleUrlAuthenticat
     throws IOException, ServletException {
         UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
 
-        String token = jwtProvider.createToken(user.getUsername(), user.getMember().getMemberRole());
+        String token = jwtProvider.createToken(user.getUsername(), user.getMember().getMemberRole(), TokenType.OAUTH2);
 
         // react의 url parameter를 이용하기위해서 해당 url 주소로 토큰값과 함께 redirect 시켜준다.
         String frontend = "http://localhost:3000/setsignin/"+token;
