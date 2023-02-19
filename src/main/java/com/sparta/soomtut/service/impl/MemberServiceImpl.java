@@ -79,6 +79,16 @@ public class MemberServiceImpl implements MemberService{
 
     }
 
+    @Override
+    @Transactional
+    public String deleteAccount(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage())
+        );
+        member.changeState(memberId);
+        return "계정이 비활성화 되었습니다.";
+    }
+
 
 
 

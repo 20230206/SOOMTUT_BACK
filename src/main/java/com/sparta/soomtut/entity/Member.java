@@ -53,6 +53,9 @@ public class Member {
     @Column
     private String oauthEmail;
 
+    @Column
+    private boolean state;
+
 
 
     @Builder(builderClassName = "UserDetailRegister", builderMethodName = "userDetailRegister")
@@ -67,6 +70,7 @@ public class Member {
         this.image = Constants.STANDARD_USER_IMAGE;
         this.provider = null;
         this.oauthEmail = null;
+        this.state = true;
     }
 
     @Builder(builderClassName = "OAuth2Register", builderMethodName = "oauth2Register")
@@ -81,9 +85,15 @@ public class Member {
         this.image = Constants.STANDARD_USER_IMAGE;
         this.provider = provider;
         this.oauthEmail = oauthEmail;
+        this.state = true;
     }
 
     public void updateNickName(String nickname) {
         this.nickname = nickname;
+    }
+
+
+    public void changeState(Long memberId) {
+        this.state = false;
     }
 }

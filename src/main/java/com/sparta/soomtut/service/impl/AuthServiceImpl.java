@@ -69,6 +69,10 @@ public class AuthServiceImpl implements AuthService {
             throw new IllegalArgumentException(ErrorCode.INVALID_PASSWORD.getMessage());
         }
 
+        if (!member.isState()) {
+            throw new IllegalArgumentException(ErrorCode.SECESSION_USER.getMessage());
+        }
+
         // 토큰 생성
         String token = jwtProvider.createToken(member.getEmail(), member.getMemberRole(), TokenType.REFRESH);
         

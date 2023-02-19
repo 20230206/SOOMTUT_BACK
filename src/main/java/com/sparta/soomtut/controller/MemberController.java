@@ -141,15 +141,9 @@ public class MemberController  {
         return "";
     }
 
-    @DeleteMapping(value = "/member/{memberId}/mypage/delete")
-    public String deleteAccount(
-            @RequestParam Long memberId
-    ) {
-        // Service
-
-        // return
-
-        return "";
+    @PutMapping(value = "/member/{memberId}/mypage/delete")
+    public void deleteAccount(@RequestParam Long memberId) {
+        memberService.deleteAccount(memberId);
     }
 
 
