@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.sparta.soomtut.enums.MemberRole;
+import com.sparta.soomtut.util.enums.MemberRole;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

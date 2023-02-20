@@ -1,4 +1,4 @@
-package com.sparta.soomtut.enums;
+package com.sparta.soomtut.util.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

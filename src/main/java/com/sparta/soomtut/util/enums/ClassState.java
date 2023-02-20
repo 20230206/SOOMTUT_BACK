@@ -1,4 +1,4 @@
-package com.sparta.soomtut.enums;
+package com.sparta.soomtut.util.enums;
 
 public enum ClassState {
     BASIC,

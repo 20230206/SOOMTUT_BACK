@@ -89,7 +89,7 @@ public class AuthServiceImplTest {
         when(locationService.saveLocation(requestDto, member)).thenReturn(location);
 
         // when
-        MemberInfoResponseDto res = authService.signup(requestDto);
+        MemberInfoResponseDto res = authService.register(requestDto);
 
         // then
         // Hibernate: 
@@ -112,11 +112,11 @@ public class AuthServiceImplTest {
 
         Member member = new Member("user@user.com", passwordEncoder.encode("1q2w3e4r!"), "LoginTest");
 
-        when(memberService.findMemberByEmail(any(String.class))).thenReturn(member);
+        when(memberService.getMemberByEmail(any(String.class))).thenReturn(member);
         // 패스워드 우회?
 
         // when
-        SigninResponseDto res = authService.signin(requestDto);
+        SigninResponseDto res = authService.login(requestDto);
 
         // then
         // verify(jwtProvider).createToken(member.getEmail(), member.getMemberRole(), TokeType.);

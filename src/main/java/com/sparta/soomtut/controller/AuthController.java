@@ -1,8 +1,5 @@
 package com.sparta.soomtut.controller;
 
-import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -18,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sparta.soomtut.dto.request.SigninRequestDto;
 import com.sparta.soomtut.dto.request.SignupRequestDto;
 import com.sparta.soomtut.dto.response.SigninResponseDto;
-import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.util.cookies.RefreshCookie;
+import com.sparta.soomtut.util.response.ErrorCode;
+import com.sparta.soomtut.util.response.SuccessCode;
+import com.sparta.soomtut.util.response.ToResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -30,44 +29,37 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
+
 public class AuthController {
     private final MemberService memberService;
     private final AuthService authService;
 
-    @PostMapping(value = "/signin")
-    public ResponseEntity<?> signin(
+    @PostMapping(value = "/login")
+    public ResponseEntity<?> login(
         @RequestBody SigninRequestDto requestDto
     )
     {
-        SigninResponseDto response = authService.signin(requestDto);
+        SigninResponseDto response = authService.login(requestDto);
         var message = "Method[signin] has called by front";
 
         ResponseCookie cookie = RefreshCookie.getCookie(response.getToken(), true);
 
-        Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("msg", message);
-
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(dataMap);
+        return ToResponse.of(null, cookie, SuccessCode.LOGIN_OK);
     }
 
-    @PostMapping(value = "/signup")
-    public ResponseEntity<?> signup(
+    @PostMapping(value = "/register")
+    public ResponseEntity<?> register(
         @RequestBody SignupRequestDto requestDto
     )
     {
-        var data = authService.signup(requestDto);
-        var message = "Method[signUp] has called by front";
+        var data = authService.register(requestDto);
 
-        Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("data", data);
-        dataMap.put("msg", message);
-
-        return ResponseEntity.ok().body(dataMap);
+        return ToResponse.of(data, SuccessCode.LOGIN_OK);
     }
 
     @GetMapping(value = "/signup/check")
     public ResponseEntity<?> checkduple (
-        @RequestParam(required = false, value = "email") String email,
+        @RequestParam(required = false, value = "email") String email, 
         @RequestParam(required = false, value = "nickname") String nickname
     ) {
         boolean data = false;

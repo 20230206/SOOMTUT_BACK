@@ -4,14 +4,12 @@ import com.sparta.soomtut.dto.response.PostResponseDto;
 import com.sparta.soomtut.entity.FavMemberPost;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Post;
-import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.repository.FavMemberPostRepository;
 import com.sparta.soomtut.service.interfaces.FavMemberPostService;
 import com.sparta.soomtut.service.interfaces.PostService;
-import lombok.RequiredArgsConstructor;
+import com.sparta.soomtut.util.response.ErrorCode;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

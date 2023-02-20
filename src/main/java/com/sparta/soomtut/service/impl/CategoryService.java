@@ -3,7 +3,7 @@ package com.sparta.soomtut.service.impl;
 import org.springframework.stereotype.Service;
 
 import com.sparta.soomtut.repository.CategoryRepository;
-import com.sparta.soomtut.exception.ErrorCode;
+import com.sparta.soomtut.util.response.ErrorCode;
 import com.sparta.soomtut.entity.Category;
 
 import lombok.RequiredArgsConstructor;

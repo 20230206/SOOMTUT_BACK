@@ -25,8 +25,8 @@ public interface MemberService {
     String deleteAccount(Long memberId);
 
     // Repository 지원 함수
-    Member findMemberById(Long memberId);
-    Member findMemberByEmail(String email);
+    Member getMemberById(Long memberId);
+    Member getMemberByEmail(String email);
     Member saveMember(Member member);
 
     boolean existsMemberByEmail(String email);

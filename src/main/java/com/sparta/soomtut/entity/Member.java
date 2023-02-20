@@ -1,7 +1,7 @@
 package com.sparta.soomtut.entity;
 
-import com.sparta.soomtut.enums.MemberRole;
 import com.sparta.soomtut.util.constants.Constants;
+import com.sparta.soomtut.util.enums.MemberRole;
 
 import jakarta.persistence.*;
 import lombok.Builder;

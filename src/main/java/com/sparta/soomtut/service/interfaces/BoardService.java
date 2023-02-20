@@ -2,11 +2,10 @@ package com.sparta.soomtut.service.interfaces;
 
 import com.sparta.soomtut.dto.response.PostResponseDto;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface BoardService {
-    public List<PostResponseDto> getMyPosts(Long memberId);
-
-    List<PostResponseDto> getAllPost();
-    List<PostResponseDto> getAllPost(Long category);
+    Page<PostResponseDto> getPostsByMemberId(Long memberId, Pageable pageable);
+    Page<PostResponseDto> getAllPost(Long category, Pageable pageable);
 }

@@ -5,11 +5,11 @@ import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.dto.response.MemberInfoResponseDto;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Review;
-import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.repository.MemberRepository;
 import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.service.interfaces.PostService;
 import com.sparta.soomtut.service.interfaces.ReviewService;
+import com.sparta.soomtut.util.response.ErrorCode;
 import com.sparta.soomtut.service.interfaces.LocationService;
 import com.sparta.soomtut.service.interfaces.DeleteReviewRequestService;
 import lombok.RequiredArgsConstructor;
@@ -98,7 +98,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     @Transactional
-    public Member findMemberById(Long memberId) {
+    public Member getMemberById(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(
                 ()->new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage())
                );
@@ -124,7 +124,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     @Transactional(readOnly = true)
-    public Member findMemberByEmail(String email) {
+    public Member getMemberByEmail(String email) {
         return memberRepository.findByEmail(email).orElseThrow(
             () -> new IllegalArgumentException("등록된 사용자가 없습니다!")
         );

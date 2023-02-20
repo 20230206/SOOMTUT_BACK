@@ -1,8 +1,7 @@
 package com.sparta.soomtut.util.security;
 
 import com.sparta.soomtut.entity.Member;
-import com.sparta.soomtut.enums.MemberRole;
-
+import com.sparta.soomtut.util.enums.MemberRole;
 
 import lombok.Getter;
 import lombok.ToString;

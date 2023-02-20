@@ -7,9 +7,9 @@ import com.sparta.soomtut.dto.response.MemberInfoResponseDto;
 
 public interface AuthService {
 
-    MemberInfoResponseDto signup(SignupRequestDto requestDto);
+    MemberInfoResponseDto register(SignupRequestDto requestDto);
 
-    SigninResponseDto signin(SigninRequestDto requestDto);
+    SigninResponseDto login(SigninRequestDto requestDto);
 
     boolean checkToken(String token);
     String createToken(String token);

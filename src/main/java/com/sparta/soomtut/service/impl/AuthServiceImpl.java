@@ -11,14 +11,16 @@ import com.sparta.soomtut.dto.response.SigninResponseDto;
 import com.sparta.soomtut.dto.response.MemberInfoResponseDto;
 
 import com.sparta.soomtut.entity.Member;
-import com.sparta.soomtut.enums.MemberRole;
 import com.sparta.soomtut.entity.Location;
-import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.LocationService;
 import com.sparta.soomtut.service.interfaces.MemberService;
+import com.sparta.soomtut.util.enums.MemberRole;
 import com.sparta.soomtut.util.jwt.JwtProvider;
 import com.sparta.soomtut.util.jwt.TokenType;
+import com.sparta.soomtut.util.response.ErrorCode;
+
+import  com.sparta.soomtut.util.exception.CustomException;
 
 import io.jsonwebtoken.Claims;
 
@@ -38,16 +40,16 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public MemberInfoResponseDto signup(SignupRequestDto requestDto) {
+    public MemberInfoResponseDto register(SignupRequestDto requestDto) {
         String email = requestDto.getEmail();
         String password = passwordEncoder.encode(requestDto.getPassword());
         String nickname = requestDto.getNickname();
 
         if(memberService.existsMemberByEmail(email))
-            throw new IllegalArgumentException(ErrorCode.DUPLICATED_EMAIL.getMessage());
+            throw new CustomException(ErrorCode.DUPLICATED_EMAIL);
         
         if(memberService.existsMemberByNickname(nickname))
-            throw new IllegalArgumentException(ErrorCode.DUPLICATED_NICKNAME.getMessage());
+            throw new CustomException(ErrorCode.DUPLICATED_NICKNAME);
 
         Member member = memberService.saveMember(Member.userDetailRegister().email(email).password(password).nickname(nickname).build());
         // 위치 정보도 만들어준다
@@ -59,11 +61,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public SigninResponseDto signin(SigninRequestDto requestDto) {
+    public SigninResponseDto login(SigninRequestDto requestDto) {
         String email = requestDto.getEmail();      
         String password = requestDto.getPassword();
         
-        Member member = memberService.findMemberByEmail(email);
+        Member member = memberService.getMemberByEmail(email);
 
         if(!isMatchedPassword(password, member)) {
             throw new IllegalArgumentException(ErrorCode.INVALID_PASSWORD.getMessage());
