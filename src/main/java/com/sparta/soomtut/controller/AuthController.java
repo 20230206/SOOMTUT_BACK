@@ -57,7 +57,7 @@ public class AuthController {
         return ToResponse.of(data, SuccessCode.LOGIN_OK);
     }
 
-    @GetMapping(value = "/signup/check")
+    @GetMapping(value = "/register/check")
     public ResponseEntity<?> checkduple (
         @RequestParam(required = false, value = "email") String email, 
         @RequestParam(required = false, value = "nickname") String nickname
@@ -69,12 +69,14 @@ public class AuthController {
         return ResponseEntity.ok().body(data);
     }
 
-    @PostMapping(value = "/signout")
+    @PostMapping(value = "/logout")
     public ResponseEntity<?> signOut(
         @CookieValue(name = "refresh", required=false) String refresh
     )
     {   
-        //TODO: refresh token을 black list 처리 할지 아직 정해지지 않음
+        // TODO: refresh token을 black list 처리 할지 아직 정해지지 않음
+        // redis 서버 이용하거나
+        // 시큐리티 내장된 token session
 
         // cookie의 정보 삭제
         ResponseCookie cookie = RefreshCookie.getCookie("", false);
