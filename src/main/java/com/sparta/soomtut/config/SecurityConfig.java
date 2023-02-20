@@ -42,11 +42,11 @@ public class SecurityConfig implements WebMvcConfigurer {
 		return new JwtAuthenticationFilter(jwtProvider, userDetailsService);
 	}
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-    }
+    // @Bean
+    // public WebSecurityCustomizer webSecurityCustomizer() {
+    //     return (web) -> web.ignoring()
+    //             .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    // }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -66,6 +66,7 @@ public class SecurityConfig implements WebMvcConfigurer {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .authorizeHttpRequests()
+                .requestMatchers("/static/**").permitAll()
                 .requestMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(jwtVerificationFilter(), UsernamePasswordAuthenticationFilter.class);
