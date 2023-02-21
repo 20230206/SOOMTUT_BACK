@@ -5,14 +5,16 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sparta.soomtut.dto.request.SigninRequestDto;
-import com.sparta.soomtut.dto.request.SignupRequestDto;
+import com.sparta.soomtut.dto.request.LoginRequest;
+import com.sparta.soomtut.dto.request.RegisterRequest;
+import com.sparta.soomtut.dto.request.OAuthLoginRequest;
 import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.util.cookies.RefreshCookie;
@@ -35,7 +37,7 @@ public class AuthController {
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(
-        @RequestBody SigninRequestDto requestDto
+        @RequestBody LoginRequest requestDto
     )
     {
         var data = authService.login(requestDto);
@@ -46,7 +48,7 @@ public class AuthController {
 
     @PostMapping(value = "/register")
     public ResponseEntity<?> register(
-        @RequestBody SignupRequestDto requestDto
+        @RequestBody RegisterRequest requestDto
     )
     {
         var data = authService.register(requestDto);
@@ -91,7 +93,7 @@ public class AuthController {
 
         if(!isValid) throw new CustomException(ErrorCode.INVALID_TOKEN);
         
-        String accesstoken = authService.createToken(refresh);
+        String accesstoken = authService.createRefreshToken(refresh);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, accesstoken);
 
@@ -99,11 +101,7 @@ public class AuthController {
     }
     
     @GetMapping(value="/createrefreshforoauth2") 
-    public ResponseEntity<?> createRefreshForOAuth2(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        String response = authService.createToken(token);
-        
-        var cookie = RefreshCookie.getCookie(response, true);
-        return ToResponse.of(true, cookie, SuccessCode.REFRESH_OK);
+    public ResponseEntity<?> createRefreshForOAuth2(@ModelAttribute OAuthLoginRequest request) {
+        return ToResponse.of(true, SuccessCode.REFRESH_OK);
     }
 }

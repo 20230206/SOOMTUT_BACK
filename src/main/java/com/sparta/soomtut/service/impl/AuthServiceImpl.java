@@ -5,10 +5,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sparta.soomtut.dto.request.SigninRequestDto;
-import com.sparta.soomtut.dto.request.SignupRequestDto;
-import com.sparta.soomtut.dto.response.SigninResponseDto;
-import com.sparta.soomtut.dto.response.MemberInfoResponseDto;
+import com.sparta.soomtut.dto.request.LoginRequest;
+import com.sparta.soomtut.dto.request.RegisterRequest;
+import com.sparta.soomtut.dto.response.LoginResponse;
+import com.sparta.soomtut.dto.response.MemberInfoResponse;
 
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Location;
@@ -40,7 +40,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public MemberInfoResponseDto register(SignupRequestDto requestDto) {
+    public MemberInfoResponse register(RegisterRequest requestDto) {
         String email = requestDto.getEmail();
         String password = passwordEncoder.encode(requestDto.getPassword());
         String nickname = requestDto.getNickname();
@@ -55,12 +55,12 @@ public class AuthServiceImpl implements AuthService {
         Member member = memberService.saveMember(Member.userDetailRegister().email(email).password(password).nickname(nickname).build());
         Location location = locationService.saveLocation(requestDto, member);
 
-        return MemberInfoResponseDto.toDto(member, location);
+        return MemberInfoResponse.toDto(member, location);
     }
 
     @Override
     @Transactional
-    public SigninResponseDto login(SigninRequestDto requestDto) {
+    public LoginResponse login(LoginRequest requestDto) {
         String email = requestDto.getEmail();      
         String password = requestDto.getPassword();
         
@@ -74,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
 
         String token = createToken(member.getEmail(), member.getMemberRole(), TokenType.REFRESH);
         
-        return SigninResponseDto.builder().token(token).build();
+        return LoginResponse.builder().token(token).build();
     }
 
     private boolean isMatchedPassword(String input, Member member) {
@@ -87,7 +87,7 @@ public class AuthServiceImpl implements AuthService {
     };
 
     @Override
-    public String createToken(String token) {
+    public String createRefreshToken(String token) {
         boolean isValid = this.checkToken(token);
 
         if(!isValid) throw new CustomException(ErrorCode.INVALID_TOKEN);
