@@ -30,10 +30,9 @@ public class OAuth2AuthenticationSuccessHandlerImpl extends SimpleUrlAuthenticat
         UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
 
         int hash = user.hashCode();
+        authService.saveAuth(Auth.builder().email(user.getUsername()).hash(hash).build());
 
-        Auth.builder().email(user.getUsername()).hashNumber(hash).build();
-
-        // react의 url parameter를 이용하기위해서 해당 url 주소로 토큰값과 함께 redirect 시켜준다.
+        // 클라이언트에서 Query String을 이용하기위해서 다음처럼 URL을 구성해 준다.
         String frontend = ENDPOINT_FRONT + "/oauthlogin?name=" + user.getUsername() + "&role=" + user.getMember().getMemberRole() + "&hash=" + hash;
 
         response.sendRedirect(frontend);

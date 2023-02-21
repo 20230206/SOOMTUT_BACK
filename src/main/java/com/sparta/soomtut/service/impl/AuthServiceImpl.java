@@ -12,12 +12,15 @@ import com.sparta.soomtut.dto.request.OAuthLoginRequest;
 import com.sparta.soomtut.dto.response.LoginResponse;
 import com.sparta.soomtut.dto.response.MemberInfoResponse;
 
+import com.sparta.soomtut.entity.Auth;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Location;
 
 import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.LocationService;
 import com.sparta.soomtut.service.interfaces.MemberService;
+
+import com.sparta.soomtut.repository.AuthRepository;
 
 import com.sparta.soomtut.util.enums.MemberRole;
 import com.sparta.soomtut.util.jwt.JwtProvider;
@@ -26,7 +29,6 @@ import com.sparta.soomtut.util.response.ErrorCode;
 
 import  com.sparta.soomtut.util.exception.CustomException;
 
-import io.jsonwebtoken.Claims;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,6 +38,8 @@ import lombok.RequiredArgsConstructor;
 // jpa
 @Service
 public class AuthServiceImpl implements AuthService {
+
+    private final AuthRepository authRepository;
 
     private final MemberService memberService;
     private final LocationService locationService;
@@ -84,6 +88,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LoginResponse oauthLogin(OAuthLoginRequest request) {
         String email = request.getEmail();
+        int hash = request.getHash();
+
+        if(!isValidOAuthLoginRequest(email, hash)) throw new CustomException(ErrorCode.LOGIN_FAILED);
+
         MemberRole role = MemberRole.valueOf(request.getRole());
 
         String refresh = createRefreshToken(email, role);
@@ -93,6 +101,10 @@ public class AuthServiceImpl implements AuthService {
 
     private boolean isMatchedPassword(String input, Member member) {
         return passwordEncoder.matches(input, member.getPassword());
+    }
+
+    private boolean isValidOAuthLoginRequest(String email, int hash) {
+        return authRepository.existsByEmailAndHash(email, hash);
     }
 
     public String createRefreshToken(String username, MemberRole role) { return ""; };
@@ -109,4 +121,9 @@ public class AuthServiceImpl implements AuthService {
         return jwtProvider.createToken(email, role, type);
     }
 
+    // repository 지원 함수
+    
+    public void saveAuth(Auth auth) {
+        authRepository.save(auth);
+    }
 }

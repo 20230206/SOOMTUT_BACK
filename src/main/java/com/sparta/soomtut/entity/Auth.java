@@ -27,5 +27,5 @@ public class Auth {
     private String email;
 
     @Column
-    private int hashNumber;
+    private int hash;
 }
