@@ -8,6 +8,7 @@ import com.sparta.soomtut.entity.Review;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public interface MemberService {
 
@@ -36,4 +37,5 @@ public interface MemberService {
 
     String deleteReviewRequest(Long reviewId);
     MemberInfoResponseDto getMemberInfo(Member member);
+    Optional<Member> findByProviderAndOauthEmail(String provider, String email);
 }

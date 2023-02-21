@@ -51,10 +51,9 @@ public class AuthServiceImpl implements AuthService {
         if(memberService.existsMemberByNickname(nickname))
             throw new CustomException(ErrorCode.DUPLICATED_NICKNAME);
 
+            // email, password, nickname
         Member member = memberService.saveMember(Member.userDetailRegister().email(email).password(password).nickname(nickname).build());
-        // 위치 정보도 만들어준다
         Location location = locationService.saveLocation(requestDto, member);
-        
 
         return MemberInfoResponseDto.toDto(member, location);
     }
@@ -67,20 +66,16 @@ public class AuthServiceImpl implements AuthService {
         
         Member member = memberService.getMemberByEmail(email);
 
-        if(!isMatchedPassword(password, member)) {
-            throw new IllegalArgumentException(ErrorCode.INVALID_PASSWORD.getMessage());
-        }
+        if(!isMatchedPassword(password, member)) 
+            throw new CustomException(ErrorCode.INVALID_PASSWORD);
 
-        if (!member.isState()) {
-            throw new IllegalArgumentException(ErrorCode.SECESSION_USER.getMessage());
-        }
+        if (!member.isState()) 
+            throw new CustomException(ErrorCode.SECESSION_USER);
 
-        // 토큰 생성
-        String token = jwtProvider.createToken(member.getEmail(), member.getMemberRole(), TokenType.REFRESH);
+        String token = createToken(member.getEmail(), member.getMemberRole(), TokenType.REFRESH);
         
         return SigninResponseDto.builder().token(token).build();
     }
-
 
     private boolean isMatchedPassword(String input, Member member) {
         return passwordEncoder.matches(input, member.getPassword());
@@ -94,36 +89,31 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String createToken(String token) {
         boolean isValid = this.checkToken(token);
+
+        if(!isValid) throw new CustomException(ErrorCode.INVALID_TOKEN);
         
-        if(isValid) {
-            Claims claims = jwtProvider.getUserInfoFromToken(token);
+        Claims claims = jwtProvider.getUserInfoFromToken(token);
 
-            String username = claims.getSubject();
+        String username = claims.getSubject();
 
-            String memberValue = (String) claims.get(JwtProvider.AUTHORIZATION_KEY).toString();
-            MemberRole role = MemberRole.valueOf(memberValue);
+        String memberValue = (String) claims.get(JwtProvider.AUTHORIZATION_KEY).toString();
+        MemberRole role = MemberRole.valueOf(memberValue);
 
-            String typeValue = (String) claims.get(JwtProvider.TOKEN_TYPE).toString();
-            TokenType type = TokenType.valueOf(typeValue);
-            if(TokenType.OAUTH2.equals(type)) {
-                return jwtProvider.createToken(
-                                    username,
-                                    role,
-                                    TokenType.REFRESH);
-            }
-            else if (TokenType.REFRESH.equals(type)) {
-                return jwtProvider.createToken(
-                                    username,
-                                    role,
-                                    TokenType.ACCESS);
-            }
-            else {
-                throw new IllegalArgumentException("올바른 토큰이 아닙니다.");
-            }
+        String typeValue = (String) claims.get(JwtProvider.TOKEN_TYPE).toString();
+        TokenType type = TokenType.valueOf(typeValue);
 
+        if(TokenType.OAUTH2.equals(type)) {
+            return createToken(username, role, TokenType.REFRESH);
+        }
+        else if (TokenType.REFRESH.equals(type)) {
+            return createToken(username, role, TokenType.ACCESS);
         }
         else {
-            throw new IllegalArgumentException(ErrorCode.INVALID_TOKEN.getMessage());
+            throw new CustomException(ErrorCode.INVALID_TOKEN);
         }
+    }
+
+    public String createToken(String email, MemberRole role, TokenType type) {
+        return jwtProvider.createToken(email, role, type);
     }
 }

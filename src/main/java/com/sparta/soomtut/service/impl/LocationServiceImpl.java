@@ -57,6 +57,13 @@ public class LocationServiceImpl implements LocationService {
                     .vectorX(requestDto.getVectorX())
                     .vectorY(requestDto.getVectorY())
                     .build());
+    }
+
+
+    @Override
+    @Transactional
+    public Location saveLocation(Location location) {
+        return locationRepository.save(location);
     } 
     
 }

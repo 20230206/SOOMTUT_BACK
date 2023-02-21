@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.sparta.soomtut.entity.Location;
 import com.sparta.soomtut.entity.Member;
-import com.sparta.soomtut.repository.MemberRepository;
-import com.sparta.soomtut.repository.LocationRepository;
+import com.sparta.soomtut.service.interfaces.LocationService;
+import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.util.constants.Constants;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 
@@ -27,8 +27,8 @@ import java.util.UUID;
 @Service
 public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     
-    private final MemberRepository memberRepository;
-    private final LocationRepository locationRepository;
+    private final MemberService memberService;
+    private final LocationService locationService;
     private final PasswordEncoder passwordEncoder;
 
     private static final String PROVIDER = "provider";
@@ -38,7 +38,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest request) throws OAuth2AuthenticationException {
-        
+
         // 동의 및 계속하기를 통해 발급된 {localhost}/login/oauth2/code/{provider}/code={accesstoken} 를 통해 
         // 발급된 토큰을 security가 해당 url로 온 요청을 캐치하여 OAuth2UserRequest 객체를 생성해서 정보를 담아 보내준다.
         // 해당 토큰을 이용해서 DefaultOAuth2UserService의 loadUser에서 각각의 provider를 통해 유저 정보 요청을 보내준다.
@@ -59,15 +59,16 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
         
         String email = attributes.get(EMAIL).toString();
 
-        Member member = memberRepository.findByProviderAndOauthEmail(provider, email).orElseGet( () -> 
-                            createNewMember(email, nickname, password, provider));
+        Member member = memberService.findByProviderAndOauthEmail(provider, email)
+                        .orElseGet( () -> createNewMember(email, nickname, password, provider));
 
         return new UserDetailsImpl(member, attributes);
     }
 
     private Member createNewMember(String email, String nickname, String password, String provider) {
-        Member member = memberRepository.save(Member.oauth2Register().email(email).nickname(nickname).password(password).provider(provider).oauthEmail(email).build());
-        locationRepository.save(Location.forNewMember().member(member).address(ADDRESS).vectorX(0).vectorY(0).build());
+        // email, password, nickname, provier
+        Member member = memberService.saveMember(Member.oauth2Register().email(email).nickname(nickname).password(password).provider(provider).oauthEmail(email).build());
+        locationService.saveLocation(Location.forNewMember().member(member).address(ADDRESS).vectorX(0).vectorY(0).build());
 
         return member;
     }

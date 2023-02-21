@@ -38,10 +38,10 @@ public class AuthController {
         @RequestBody SigninRequestDto requestDto
     )
     {
-        var response = authService.login(requestDto);
-        var cookie = RefreshCookie.getCookie(response.getToken(), true);
+        var data = authService.login(requestDto);
+        var cookie = RefreshCookie.getCookie(data.getToken(), true);
 
-        return ToResponse.of(null, cookie, SuccessCode.LOGIN_OK);
+        return ToResponse.of(data, cookie, SuccessCode.LOGIN_OK);
     }
 
     @PostMapping(value = "/register")
