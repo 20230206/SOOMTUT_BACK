@@ -1,7 +1,6 @@
 package com.sparta.soomtut.config;
 
 import com.sparta.soomtut.util.jwt.JwtProvider;
-import com.sparta.soomtut.util.constants.Constants;
 import com.sparta.soomtut.util.jwt.JwtAuthenticationFilter;
 import com.sparta.soomtut.util.security.AccessDeniedHandlerImpl;
 import com.sparta.soomtut.util.security.AuthdenticationEntryPointImpl;
