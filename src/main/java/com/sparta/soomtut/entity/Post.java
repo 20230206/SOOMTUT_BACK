@@ -2,6 +2,7 @@ package com.sparta.soomtut.entity;
 
 import com.sparta.soomtut.dto.request.PostRequestDto;
 import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
+import com.sparta.soomtut.enums.TuitionState;
 import com.sparta.soomtut.util.constants.Constants;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -39,6 +40,7 @@ public class Post {
     //즐겨찾기 수
     @Column(nullable = false)
     private int favorit;
+
 
     public Post(PostRequestDto postRequestDto, Member member) {
       this.title = postRequestDto.getTitle();
