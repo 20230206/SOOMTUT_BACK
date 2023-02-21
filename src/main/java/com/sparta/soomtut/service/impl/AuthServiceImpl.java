@@ -5,16 +5,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sparta.soomtut.dto.request.LoginRequest;
 import com.sparta.soomtut.dto.request.RegisterRequest;
+import com.sparta.soomtut.dto.request.LoginRequest;
+import com.sparta.soomtut.dto.request.OAuthLoginRequest;
+
 import com.sparta.soomtut.dto.response.LoginResponse;
 import com.sparta.soomtut.dto.response.MemberInfoResponse;
 
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Location;
+
 import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.LocationService;
 import com.sparta.soomtut.service.interfaces.MemberService;
+
 import com.sparta.soomtut.util.enums.MemberRole;
 import com.sparta.soomtut.util.jwt.JwtProvider;
 import com.sparta.soomtut.util.jwt.TokenType;
@@ -77,43 +81,32 @@ public class AuthServiceImpl implements AuthService {
         return LoginResponse.builder().token(token).build();
     }
 
+    @Override
+    public LoginResponse oauthLogin(OAuthLoginRequest request) {
+        String email = request.getEmail();
+        MemberRole role = MemberRole.valueOf(request.getRole());
+
+        String refresh = createRefreshToken(email, role);
+        
+        return LoginResponse.builder().token(refresh).build();
+    };
+
     private boolean isMatchedPassword(String input, Member member) {
         return passwordEncoder.matches(input, member.getPassword());
     }
 
+    public String createRefreshToken(String username, MemberRole role) { return ""; };
+    
     @Override
-    public boolean checkToken(String token) {
+    public String createAccessToken(String refresh) { return "" ;};
+
+    // 토큰 동작
+    private boolean validToken(String token) {
         return jwtProvider.validateToken(token);
     };
-
-    @Override
-    public String createRefreshToken(String token) {
-        boolean isValid = this.checkToken(token);
-
-        if(!isValid) throw new CustomException(ErrorCode.INVALID_TOKEN);
-        
-        Claims claims = jwtProvider.getUserInfoFromToken(token);
-
-        String username = claims.getSubject();
-
-        String memberValue = (String) claims.get(JwtProvider.AUTHORIZATION_KEY).toString();
-        MemberRole role = MemberRole.valueOf(memberValue);
-
-        String typeValue = (String) claims.get(JwtProvider.TOKEN_TYPE).toString();
-        TokenType type = TokenType.valueOf(typeValue);
-
-        if(TokenType.OAUTH2.equals(type)) {
-            return createToken(username, role, TokenType.REFRESH);
-        }
-        else if (TokenType.REFRESH.equals(type)) {
-            return createToken(username, role, TokenType.ACCESS);
-        }
-        else {
-            throw new CustomException(ErrorCode.INVALID_TOKEN);
-        }
-    }
 
     public String createToken(String email, MemberRole role, TokenType type) {
         return jwtProvider.createToken(email, role, type);
     }
+
 }

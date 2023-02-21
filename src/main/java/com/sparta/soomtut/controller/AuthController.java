@@ -23,8 +23,6 @@ import com.sparta.soomtut.util.response.ErrorCode;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.response.ToResponse;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -88,20 +86,18 @@ public class AuthController {
     {
         if(refresh == null) return ResponseEntity.ok().body(false);
 
-        // Refresh Token이 유효한지 판단한다.
-        boolean isValid = authService.checkToken(refresh);
-
-        if(!isValid) throw new CustomException(ErrorCode.INVALID_TOKEN);
-        
-        String accesstoken = authService.createRefreshToken(refresh);
+        String accesstoken = authService.createAccessToken(refresh);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, accesstoken);
 
-        return ToResponse.of(isValid, headers, SuccessCode.TOKEN_CHECK_OK);
+        return ToResponse.of(true, headers, SuccessCode.TOKEN_CHECK_OK);
     }
     
-    @GetMapping(value="/createrefreshforoauth2") 
-    public ResponseEntity<?> createRefreshForOAuth2(@ModelAttribute OAuthLoginRequest request) {
+    @GetMapping(value="/oauthLogin") 
+    public ResponseEntity<?> oauthLogin(@ModelAttribute OAuthLoginRequest request) {
+
+        var data = authService.oauthLogin(request);
+
         return ToResponse.of(true, SuccessCode.REFRESH_OK);
     }
 }
