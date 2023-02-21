@@ -28,7 +28,6 @@ public class OAuth2AuthenticationSuccessHandlerImpl extends SimpleUrlAuthenticat
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
     throws IOException, ServletException {
         UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
-
         String token = jwtProvider.createToken(user.getUsername(), user.getMember().getMemberRole(), TokenType.OAUTH2);
 
         // react의 url parameter를 이용하기위해서 해당 url 주소로 토큰값과 함께 redirect 시켜준다.
