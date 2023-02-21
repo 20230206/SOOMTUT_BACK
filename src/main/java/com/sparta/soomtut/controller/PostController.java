@@ -7,7 +7,7 @@ import com.sparta.soomtut.dto.request.FavPostDto;
 import com.sparta.soomtut.dto.request.PostRequestDto;
 import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
-import com.sparta.soomtut.repository.CategoryRepository;
+import com.sparta.soomtut.entity.Post;
 import com.sparta.soomtut.service.interfaces.PostService;
 import com.sparta.soomtut.service.interfaces.FavMemberPostService;
 
@@ -73,4 +73,36 @@ public class PostController {
         //return ResponseEntity.status(HttpStatus.OK).body(postService.getMyPost(userDetails.getMemberId()));
         return ResponseEntity.status(HttpStatus.OK).body(postService.getMyPost(member));
     }
+
+//    @GetMapping("/posts/{postId}/ismypost")
+//    public ResponseEntity<?> isMyPost(
+//        @PathVariable Long postId,
+//        @AuthenticationPrincipal UserDetailsImpl userDetails
+//    ) {
+//        boolean isMyPost = postService.isMyPost(postId, userDetails.getMember());
+//        return ResponseEntity.ok().body(isMyPost);
+//    }
+
+    // 수업 확정
+    @PostMapping("/classConfirmed/{postId}")
+    public ResponseEntity<?> classConfirmed(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        String confiremd = postService.classConfirmed(postId, userDetails.getMember());
+        return ResponseEntity.status(HttpStatus.OK).body(confiremd);
+    }
+
+    // 수업 완료
+    @PutMapping("/classComplete/{postId}")
+    public ResponseEntity<?> classComplete(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        String complete = postService.classComplete(postId, userDetails.getMember());
+        return ResponseEntity.status(HttpStatus.OK).body(complete);
+    }
+
+
+    // 완료된 수업 목록 조회
+    @GetMapping("/getCompletePost")
+    public ResponseEntity<List<Post>> getCompletePost(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        List<Post> postList = postService.getCompletePost(userDetails.getMember());
+        return ResponseEntity.status(HttpStatus.OK).body(postList);
+    }
+
 }
