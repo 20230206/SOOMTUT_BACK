@@ -53,11 +53,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.httpBasic().disable()
             .csrf().disable()
-            .formLogin(login -> login
-                .loginPage(ENDPOINT_FRONT + "/signin")
-                .defaultSuccessUrl(ENDPOINT_FRONT)
-                .permitAll()
-                )
             .oauth2Login(login -> login
                 .successHandler(successHandler)
                 .userInfoEndpoint()             
