@@ -21,8 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Member member = memberRepository.findByEmail(email)
-			.orElseThrow(
-				() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorCode.INVALID_TOKEN.getMessage()));
+			.orElseThrow( () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorCode.INVALID_TOKEN.getMessage()) );
 		return new UserDetailsImpl(member);
     }
 

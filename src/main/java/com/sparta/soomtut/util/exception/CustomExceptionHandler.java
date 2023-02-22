@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.sparta.soomtut.util.response.ToResponse;
 
 import java.util.Map;
-import java.util.HashMap;
 
 
 @RestControllerAdvice

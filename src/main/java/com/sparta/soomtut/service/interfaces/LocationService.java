@@ -12,4 +12,6 @@ public interface LocationService {
 
     Location getLocation(Member member);
     Location saveLocation(SignupRequestDto requestDto, Member member);
+    Location saveLocation(Location location);
+    
 }

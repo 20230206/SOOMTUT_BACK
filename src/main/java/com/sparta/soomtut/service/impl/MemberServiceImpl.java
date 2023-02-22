@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 
 @Service
@@ -146,5 +147,11 @@ public class MemberServiceImpl implements MemberService{
     public MemberInfoResponseDto getMemberInfo(Member member) {
         
         return MemberInfoResponseDto.toDto(member, locationService.findMemberLocation(member.getId()));
+    }
+
+    @Override
+    @Transactional
+    public Optional<Member> findByProviderAndOauthEmail(String provider, String email) {
+        return memberRepository.findByProviderAndOauthEmail(provider, email);
     }
 }
