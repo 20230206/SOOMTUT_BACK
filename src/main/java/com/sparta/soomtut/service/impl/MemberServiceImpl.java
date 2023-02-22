@@ -2,7 +2,7 @@ package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.dto.request.PageRequestDto;
-import com.sparta.soomtut.dto.response.MemberInfoResponseDto;
+import com.sparta.soomtut.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.repository.MemberRepository;
@@ -86,7 +86,7 @@ public class MemberServiceImpl implements MemberService{
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage())
         );
-        member.changeState(memberId);
+        member.changeState(false);
         return "계정이 비활성화 되었습니다.";
     }
 
@@ -144,9 +144,9 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberInfoResponseDto getMemberInfo(Member member) {
+    public MemberInfoResponse getMemberInfo(Member member) {
         
-        return MemberInfoResponseDto.toDto(member, locationService.findMemberLocation(member.getId()));
+        return MemberInfoResponse.toDto(member, locationService.findMemberLocation(member.getId()));
     }
 
     @Override

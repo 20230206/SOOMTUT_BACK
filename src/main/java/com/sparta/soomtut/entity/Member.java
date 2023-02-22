@@ -85,7 +85,7 @@ public class Member {
         this.image = Constants.STANDARD_USER_IMAGE;
         this.provider = provider;
         this.oauthEmail = oauthEmail;
-        this.state = true;
+        this.state = false;
     }
 
     public void updateNickName(String nickname) {
@@ -93,7 +93,7 @@ public class Member {
     }
 
 
-    public void changeState(Long memberId) {
-        this.state = false;
+    public void changeState(boolean state) {
+        this.state = state;
     }
 }

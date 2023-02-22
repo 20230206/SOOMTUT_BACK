@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberInfoResponseDto {
+public class MemberInfoResponse {
     private Long memberId;
     private String email;
     private String nickname;
@@ -27,8 +27,8 @@ public class MemberInfoResponseDto {
     private float vectorX;
     private float vectorY;
 
-    public static MemberInfoResponseDto toDto(Member member, Location location) {
-        return MemberInfoResponseDto.builder()
+    public static MemberInfoResponse toDto(Member member, Location location) {
+        return MemberInfoResponse.builder()
                 .memberId(member.getId())
                 .email(member.getEmail())
                 .nickname(member.getNickname())
