@@ -19,19 +19,16 @@ import java.util.List;
 @RequestMapping("/chat")
 public class ChatMessageController {
 
-
-    private final ChatMessageRepository chatMessageRepository;
     private final ChatService chatService;
 
-    // 채팅 메시지 하나 불러오기
-    @GetMapping
+    // 채팅 메시지 하나 불러오기 _ 가장 최근 메시지 1개만 불러온다. <-
+    @GetMapping("/message")
     public ResponseEntity<?> getLastChatMessage(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam Long roomId) {
         ChatResponseDto data = chatService.getLastChatMessage(roomId);
         return ResponseEntity.ok(data);
-
     }
     // 채팅 메시지 전부 불러오기 (완료 )
-    @GetMapping
+    @GetMapping("messages")
     public ResponseEntity<List<ChatResponseDto>> getAllChatMessages(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam Long roomId) {
         List<ChatResponseDto> data = chatService.getAllChatMessages(roomId);
         return ResponseEntity.ok().body(data);

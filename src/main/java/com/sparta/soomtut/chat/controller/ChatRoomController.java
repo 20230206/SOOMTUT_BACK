@@ -18,17 +18,18 @@ import org.springframework.web.bind.annotation.*;
 public class ChatRoomController {
 
 
+
     private final ChatRoomService chatRoomService;
 
     // 채팅방 개설(완료) - 매개변수로 뭘 받을 지 모르겠음.
-    @PostMapping
-        public void createRoom(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam String recipientNickname) {
+    @PostMapping("/{recipientNickname}")
+        public void createRoom(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String recipientNickname) {
         chatRoomService.createRoom(userDetails.getMemberId(), recipientNickname);
     }
 
     // 채팅방 가져오기 (완료)
-    @PostMapping
-    public ResponseEntity<?> getMyChatRoom(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam Long roomId) {
+    @PostMapping("/{roomId}")
+    public ResponseEntity<?> getMyChatRoom(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long roomId) {
         ChatRoomResponse data = chatRoomService.getMyChatRoom(roomId);
         return ToResponse.of(data, SuccessCode.MESSGE_OK);
     }
