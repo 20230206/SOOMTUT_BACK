@@ -18,8 +18,6 @@ import com.sparta.soomtut.dto.request.OAuthLoginRequest;
 import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.util.cookies.RefreshCookie;
-import com.sparta.soomtut.util.exception.CustomException;
-import com.sparta.soomtut.util.response.ErrorCode;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.response.ToResponse;
 
@@ -93,9 +91,9 @@ public class AuthController {
         return ToResponse.of(true, headers, SuccessCode.TOKEN_CHECK_OK);
     }
     
-    @GetMapping(value="/oauthLogin") 
+    @GetMapping(value="/oauthlogin") 
     public ResponseEntity<?> oauthLogin(@ModelAttribute OAuthLoginRequest request) {
-
+        System.out.print(request);
         var data = authService.oauthLogin(request);
 
         return ToResponse.of(true, SuccessCode.REFRESH_OK);

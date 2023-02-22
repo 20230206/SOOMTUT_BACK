@@ -32,13 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException 
     {
-		String requestUri = request.getRequestURI();
-		if(requestUri.startsWith("/auth"))
-		{
-			filterChain.doFilter(request, response);
-			return;
-		}
-
 		// refresh token이 있는 쿠키정보 가져오기
 		String refreshToken = extractCookie(request);
 
@@ -71,6 +64,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
     }
 
+
+	@Override
+	// 특정 URI에서 접근할 시, JWT TOKEN에 대한 검증 절차를 무시하고 필터를 통과시킨다.
+	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+		String path = request.getRequestURI();     
+		return path.startsWith("/auth");
+	}
+
+	// 쿠키
 	private String extractCookie(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 
@@ -84,4 +86,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		return null;
 	}
+
+
+
+
 }
