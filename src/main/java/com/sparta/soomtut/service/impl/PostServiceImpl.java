@@ -7,9 +7,15 @@ import com.sparta.soomtut.dto.response.PostResponseDto;
 import com.sparta.soomtut.entity.Category;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Post;
+
+import com.sparta.soomtut.entity.TuitionRequest;
+import com.sparta.soomtut.enums.MemberRole;
+import com.sparta.soomtut.enums.TuitionState;
+import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.repository.CategoryRepository;
 import com.sparta.soomtut.repository.PostRepository;
 
+import com.sparta.soomtut.repository.TuitionRequestRepository;
 import com.sparta.soomtut.service.interfaces.PostService;
 import com.sparta.soomtut.util.enums.MemberRole;
 import com.sparta.soomtut.util.response.ErrorCode;
@@ -18,7 +24,7 @@ import com.sparta.soomtut.service.interfaces.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.util.ArrayList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
@@ -30,6 +36,7 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final LocationService locationService;
     private final CategoryRepository categoryRepository;
+    private final TuitionRequestRepository tuitionRequestRepository;
 
     
     @Override
@@ -118,6 +125,50 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage()));
         PostResponseDto postResponseDto = new PostResponseDto(post, member.getNickname(), locationService.findMemberLocation(member.getId()).getAddress());
         return postResponseDto;
+    }
+
+
+    //수업 확정
+    @Override
+    @Transactional
+    public String classConfirmed(Long postId, Member member) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
+        );
+
+        TuitionRequest tuitionRequest = new TuitionRequest(postId, member.getId());
+        if (tuitionRequest.getTutorId().equals(member.getId()));
+        tuitionRequestRepository.save(tuitionRequest);
+        return "수업 확정이 완료되었습니다.";
+
+    }
+
+    //수업 완료
+    @Override
+    @Transactional
+    public String classComplete(Long postId, Member member) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
+        );
+        TuitionRequest tuitionRequest = tuitionRequestRepository.findByPostId(postId).orElseThrow(
+                () -> new IllegalArgumentException("Error")
+        );
+
+        tuitionRequest.changeTuitionState(member.getId());
+        return "수업이 완료되었습니다.";
+    }
+
+    // 완료한 수업 목록 조회
+    @Override
+    @Transactional
+    public List<Post> getCompletePost(Member member) {
+        List<TuitionRequest> tuitionRequestList = tuitionRequestRepository.findAllByTuteeIdAndTuitionState(member.getId(), TuitionState.DONE);
+        List<Long> tuitionIdList = new ArrayList<>();
+        for (TuitionRequest tuitionRequest : tuitionRequestList) {
+            tuitionIdList.add(tuitionRequest.getPostId());
+        }
+        List<Post> postList = postRepository.findAllById(tuitionIdList);
+        return postList;
     }
 
     @Override
