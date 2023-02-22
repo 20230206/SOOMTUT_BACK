@@ -86,7 +86,7 @@ public class MemberServiceImpl implements MemberService{
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage())
         );
-        member.changeState(memberId);
+        member.changeState(false);
         return "계정이 비활성화 되었습니다.";
     }
 

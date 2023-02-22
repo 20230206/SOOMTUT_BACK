@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sparta.soomtut.dto.request.LoginRequest;
 import com.sparta.soomtut.dto.request.RegisterRequest;
 import com.sparta.soomtut.dto.request.OAuthLoginRequest;
+import com.sparta.soomtut.dto.request.OAuthLocationRequest;
 import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.util.cookies.RefreshCookie;
@@ -97,5 +99,15 @@ public class AuthController {
         var cookie = RefreshCookie.getCookie(token.getToken(), true);
 
         return ToResponse.of(true, cookie, SuccessCode.REFRESH_OK);
+    }
+
+    @PutMapping(value="/oauthlocation")
+    public ResponseEntity<?> oauthLocation(
+        @RequestBody OAuthLocationRequest request,
+        @CookieValue("refresh") String refresh
+    ) 
+    {
+        var data = authService.setOAuthLocation(request, refresh);
+        return ToResponse.of(data, SuccessCode.OAUTH_LOGIN_OK);
     }
 }

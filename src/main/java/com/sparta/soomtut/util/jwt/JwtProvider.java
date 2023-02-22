@@ -104,6 +104,11 @@ public class JwtProvider {
         return TokenType.valueOf((String)claims.get(TOKEN_TYPE));
     }
 
+    public String getEmail(String token) {
+        Claims claims = getUserInfoFromToken(token);
+        return (String)claims.get(USER_EMAIL);
+    }
+
     // 토큰에서 사용자 정보 가져오기 // 위에서 이미 토큰 검증을 완료했다는 가정이므로 이 토큰은 유효하기 때문에 try-catch문이 없다
     public Claims getUserInfoFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody(); // getBody를 통해 안에 정보들을 가져온다

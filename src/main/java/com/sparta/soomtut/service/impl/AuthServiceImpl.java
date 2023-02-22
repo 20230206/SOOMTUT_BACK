@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sparta.soomtut.dto.request.RegisterRequest;
 import com.sparta.soomtut.dto.request.LoginRequest;
 import com.sparta.soomtut.dto.request.OAuthLoginRequest;
+import com.sparta.soomtut.dto.request.OAuthLocationRequest;
 
 import com.sparta.soomtut.dto.response.LoginResponse;
 import com.sparta.soomtut.dto.response.MemberInfoResponse;
@@ -80,7 +81,7 @@ public class AuthServiceImpl implements AuthService {
         if (!member.isState()) 
             throw new CustomException(ErrorCode.SECESSION_USER);
 
-        String token = createToken(member.getEmail(), member.getMemberRole(), TokenType.REFRESH);
+        String token = createRefreshToken(member.getEmail(), member.getMemberRole());
         
         return LoginResponse.builder().token(token).build();
     }
@@ -96,6 +97,7 @@ public class AuthServiceImpl implements AuthService {
         authRepository.delete(auth);
 
         String refresh = createRefreshToken(email, role);
+
         
         return LoginResponse.builder().token(refresh).build();
     };
@@ -110,22 +112,42 @@ public class AuthServiceImpl implements AuthService {
         );
     }
 
-    public String createRefreshToken(String username, MemberRole role) { return ""; };
+    public String createRefreshToken(String username, MemberRole role) 
+    {
+        return jwtProvider.createToken(username, role, TokenType.REFRESH);
+    }
     
     @Override
     public String createAccessToken(String refresh) { return "" ;};
 
+    @Override
+    @Transactional
+    public MemberInfoResponse setOAuthLocation(OAuthLocationRequest request, String refresh) {
+        if(!validToken(refresh)) throw new CustomException(ErrorCode.INVALID_TOKEN);
+
+        String email = getEmailFromToken(refresh);
+        Member member = memberService.getMemberByEmail(email);
+        Location location = locationService.findMemberLocation(member.getId());
+        location.updateAddress(request.getAddress());
+        member.changeState(true);
+
+        return MemberInfoResponse.toDto(member, location);
+    }
+
     // 토큰 동작
     private boolean validToken(String token) {
         return jwtProvider.validateToken(token);
-    };
+    }
 
     public String createToken(String email, MemberRole role, TokenType type) {
         return jwtProvider.createToken(email, role, type);
     }
 
+    private String getEmailFromToken(String token) {
+        return jwtProvider.getEmail(token);
+    }
+
     // repository 지원 함수
-    
     public void saveAuth(Auth auth) {
         authRepository.save(auth);
     }

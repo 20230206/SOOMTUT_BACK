@@ -5,6 +5,7 @@ import com.sparta.soomtut.entity.Auth;
 import com.sparta.soomtut.dto.request.LoginRequest;
 import com.sparta.soomtut.dto.request.RegisterRequest;
 import com.sparta.soomtut.dto.request.OAuthLoginRequest;
+import com.sparta.soomtut.dto.request.OAuthLocationRequest;
 
 import com.sparta.soomtut.dto.response.LoginResponse;
 import com.sparta.soomtut.dto.response.MemberInfoResponse;
@@ -16,5 +17,6 @@ public interface AuthService {
 
     String createAccessToken(String refresh);
     void saveAuth(Auth auth);
+    MemberInfoResponse setOAuthLocation(OAuthLocationRequest request, String refresh);
 
 }
