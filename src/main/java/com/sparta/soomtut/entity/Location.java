@@ -1,7 +1,8 @@
 package com.sparta.soomtut.entity;
 
+import com.sparta.soomtut.dto.request.LocationRequestDto;
+
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,7 @@ public class Location {
     @Column(nullable = false)
     private float vectorY;
 
+    @Builder(builderClassName = "ForNewMember", builderMethodName="forNewMember")
     public Location(Member member,String address, float vectorX, float vectorY) {
         this.member = member;
         this.address = address;
@@ -39,9 +41,16 @@ public class Location {
     }
 
     //위치정보 테스트를 위한 생성자
+    @Builder
     public Location(String address, float vectorX, float vectorY) {
         this.address = address;
         this.vectorX = vectorX;
         this.vectorY = vectorY;
+    }
+
+    public void updateLocation(LocationRequestDto request) {
+        this.address = request.getAddress();
+        this.vectorX = request.getVectorX();
+        this.vectorY = request.getVectorY();
     }
 }

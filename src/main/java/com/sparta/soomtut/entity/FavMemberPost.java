@@ -23,7 +23,7 @@ public class FavMemberPost extends TimeStamped {
     @JoinColumn(name="post_id", nullable = false)
     private Post post;
 
-    //즐격찾기 true = 추가, false = 취소
+    // 북마크 true = 추가, false = 취소
     @Column(nullable = false)
     private boolean status;
 
@@ -32,6 +32,10 @@ public class FavMemberPost extends TimeStamped {
         this.post = post;
         this.member = member;
         this.status = true;
+    }
+
+    public void updateState(boolean value) {
+        this.status = value;
     }
 
 }

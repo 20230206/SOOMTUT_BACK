@@ -4,11 +4,12 @@ import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.entity.TuitionRequest;
-import com.sparta.soomtut.enums.TuitionState;
-import com.sparta.soomtut.exception.ErrorCode;
 import com.sparta.soomtut.repository.ReviewRepository;
 import com.sparta.soomtut.repository.TuitionRequestRepository;
 import com.sparta.soomtut.service.interfaces.ReviewService;
+import com.sparta.soomtut.util.enums.TuitionState;
+import com.sparta.soomtut.util.response.ErrorCode;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

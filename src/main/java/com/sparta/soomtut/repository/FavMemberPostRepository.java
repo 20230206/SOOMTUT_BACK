@@ -1,15 +1,18 @@
 package com.sparta.soomtut.repository;
 
 import com.sparta.soomtut.entity.FavMemberPost;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
 public interface FavMemberPostRepository extends JpaRepository<FavMemberPost, Long> {
-    @Query(value = "select f from fav_member_post where f.post.id=:postid and f.member.id=:memberid", nativeQuery = true)
-    Optional<FavMemberPost> findByPostIdAndMemberId(@Param("postid")Long postId, @Param("memberid")Long memberId);
-    boolean existsByPostIdAndMemberId(Long id, Long memberId);
+    Optional<FavMemberPost> findByPostIdAndMemberId(Long postId, Long memberId);
+    boolean existsByPostIdAndMemberId(Long postId, Long memberId);
+
+    Optional<FavMemberPost> findByPostId(Long postId);
+    Page<FavMemberPost> findAllByMemberIdAndStatusIsTrue(Long memberId, Pageable pageable);
 
 }

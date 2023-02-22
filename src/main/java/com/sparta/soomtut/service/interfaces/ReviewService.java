@@ -6,7 +6,6 @@ import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.entity.TuitionRequest;
 import org.springframework.data.domain.Page;
 
-import java.util.Optional;
 
 public interface ReviewService {
 

@@ -11,10 +11,11 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import com.sparta.soomtut.entity.Location;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.repository.MemberRepository;
+import com.sparta.soomtut.repository.LocationRepository;
 import com.sparta.soomtut.util.constants.Constants;
-import com.sparta.soomtut.util.jwt.JwtProvider;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     
     private final MemberRepository memberRepository;
+    private final LocationRepository locationRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -50,18 +52,28 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 
         
         String email = attributes.get("email").toString();
+        String address = "서울특별시 서초구 반포동";
 
-        Member member = memberRepository.findByProviderAndOauthEmail(provider, email).orElseGet( () ->
-                memberRepository.save(    
-                    Member.oauth2Register()
-                            .email(email)
-                            .nickname(nickname)
-                            .password(password)
-                            .provider(provider)
-                            .oauthEmail(email)
-                            .build()
-                )
-            );
+        Member member = memberRepository.findByProviderAndOauthEmail(provider, email).orElseGet( () -> null);
+            
+        if (member == null) {
+            Member temp = Member.oauth2Register()
+                                    .email(email)
+                                    .nickname(nickname)
+                                    .password(password)
+                                    .provider(provider)
+                                    .oauthEmail(email)
+                                    .build();
+                                
+            memberRepository.save(temp);
+
+            locationRepository.save(Location.forNewMember()
+                                                .member(temp)
+                                                .address(address)
+                                                .vectorX(0)
+                                                .vectorY(0)
+                                                .build());
+        }
 
         return new UserDetailsImpl(member, attributes);
     }

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.sparta.soomtut.enums.MemberRole;
+import com.sparta.soomtut.util.enums.MemberRole;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -25,8 +25,9 @@ public class JwtProvider {
     
     public static final String AUTHORIZATION_HEADER = "Authorization"; // Header에 들어가는 key 값
     public static final String AUTHORIZATION_KEY = "auth"; // 사용자 권한의 key 값
-    private static final String BEARER_PREFIX = "Bearer "; // Token 앞에 붙는 식별자
-    private static final long TOKEN_TIME = 60 * 60 * 1000L; // Token 만료 시간
+    public static final String TOKEN_TYPE = "type";
+    public static final String USER_EMAIL = "email";
+    private static final String BEARER_PREFIX = "Bearer"; // Token 앞에 붙는 식별자
 
 
     @Value("${jwt.secret.key}") // application.properties에 지정한 key 값을 가져온다
@@ -42,27 +43,40 @@ public class JwtProvider {
     }
 
     // 토큰 생성
-    public String createToken(String username, MemberRole role) {
+    public String createToken(String username, MemberRole role, TokenType type) {
         Date date = new Date();
         if(key == null) this.init();
         String token = "";
-        token =  BEARER_PREFIX + Jwts.builder()
-                            .setSubject(username) // token 정보 안에 username을 넣어줌
-                            .claim(AUTHORIZATION_KEY, role) // 권한 가져오기
-                            .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 토큰 유효기간 : 현재 시간 + TOKEN_TIME
+        
+        // 토큰 정보 추가
+        Claims claims = Jwts.claims();
+        claims.setSubject(username);
+        claims.put(USER_EMAIL, username);
+        claims.put(AUTHORIZATION_KEY, role);
+        claims.put(TOKEN_TYPE, type);
+
+        token = Jwts.builder()
+                            .setClaims(claims)
+                            .setExpiration(new Date(date.getTime() + type.getExpireTime())) // 토큰 유효기간 : 현재 시간 + TOKEN_TIME
                             .setIssuedAt(date) // 토큰이 언제 만들어졌는지
                             .signWith(key, signatureAlgorithm) // secret key를 이용해 만든 key 객체를 어떠한 알고리즘을 통해 암호화 할 것인지 지정
                             .compact();
         return token;
     }
 
-    // Header에서 토큰 가져오기
+    public String createToken(String refreshToken) {
+
+        Claims claims = getUserInfoFromToken(refreshToken);
+        String token = createToken((String)claims.get(USER_EMAIL), MemberRole.valueOf((String)claims.get(AUTHORIZATION_KEY)), TokenType.ACCESS);
+        return token;
+    }
+
     public String resolveToken(HttpServletRequest request) { // HttpServletRequest객체의 Header 안에 토큰이 들어있음
 
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER); // AUTHORIZATION_HEADER를 파라미터로 Header에 있는 Token 값을 가져온다
 
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
-            return bearerToken.substring(6);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX) && bearerToken.length() > 7) {
+            return bearerToken.substring(7);
         }
         return null;
     }

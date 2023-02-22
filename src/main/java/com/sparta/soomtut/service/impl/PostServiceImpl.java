@@ -7,6 +7,7 @@ import com.sparta.soomtut.dto.response.PostResponseDto;
 import com.sparta.soomtut.entity.Category;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Post;
+
 import com.sparta.soomtut.entity.TuitionRequest;
 import com.sparta.soomtut.enums.MemberRole;
 import com.sparta.soomtut.enums.TuitionState;
@@ -16,12 +17,16 @@ import com.sparta.soomtut.repository.PostRepository;
 
 import com.sparta.soomtut.repository.TuitionRequestRepository;
 import com.sparta.soomtut.service.interfaces.PostService;
+import com.sparta.soomtut.util.enums.MemberRole;
+import com.sparta.soomtut.util.response.ErrorCode;
 import com.sparta.soomtut.service.interfaces.LocationService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Service
@@ -33,16 +38,26 @@ public class PostServiceImpl implements PostService {
     private final CategoryRepository categoryRepository;
     private final TuitionRequestRepository tuitionRequestRepository;
 
+    
+    @Override
+    @Transactional
+    public PostResponseDto getPost(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(
+            () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage()));
+        return new PostResponseDto(post, locationService.findMemberLocation(post.getMember().getId()));
+    }
 
     // 게시글 작성
+    @Override
     @Transactional
     public PostResponseDto createPost(Member member, PostRequestDto postRequestDto) {
         Post post = new Post(postRequestDto, member);
         postRepository.save(post);
-        return new PostResponseDto(post);
+        return new PostResponseDto(post, locationService.findMemberLocation(member.getId()));
     }
 
     // 게시글 수정
+    @Override
     @Transactional
     public PostResponseDto updatePost(Long postId, UpdatePostRequestDto updatePostRequestDto, Member member) {
         Post post = postRepository.findById(postId).orElseThrow(
@@ -60,6 +75,7 @@ public class PostServiceImpl implements PostService {
     }
 
     //게시글 삭제
+    @Override
     @Transactional
     public void deletePost(Long postId, Member member) {
         Post post = postRepository.findById(postId).orElseThrow(
@@ -73,11 +89,10 @@ public class PostServiceImpl implements PostService {
     }
 
     //카테고리 생성
-    public String createCategory(CategoryRequestDto categoryRequestDto, Member member) {
+    public String createCategory(CategoryRequestDto categoryRequestDto) {
         Category category = new Category(categoryRequestDto);
 
-        if (member.getMemberRole() == MemberRole.ADMIN)
-            categoryRepository.save(category);
+        categoryRepository.save(category);
 
         return "카테고리 저장완료";
     }
@@ -100,28 +115,18 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public Long getTutorId(Long postId) {
 
-        return findPostById(postId).getTutorId();
+        return findPostById(postId).getMember().getId();
 
     }
 
     @Override
     public PostResponseDto getMyPost(Member member) {
-        Post post = postRepository.findByTutorId(member.getId())
+        Post post = postRepository.findByMemberId(member.getId())
                 .orElseThrow(() -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage()));
         PostResponseDto postResponseDto = new PostResponseDto(post, member.getNickname(), locationService.findMemberLocation(member.getId()).getAddress());
         return postResponseDto;
     }
 
-
-//    @Override
-//    @Transactional(readOnly = true)
-//    public boolean isMyPost(Long postId, Member member) {
-//        Post post = postRepository.findById(postId).orElseThrow(
-//                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage())
-//        );
-//
-//        return post.getMember().getId().equals(member.getId());
-//    }
 
     //수업 확정
     @Override
@@ -166,4 +171,32 @@ public class PostServiceImpl implements PostService {
         return postList;
     }
 
+    @Override
+    @Transactional(readOnly = true) 
+    public boolean isMyPost(Long postId, Member member)
+    {
+        Post post = postRepository.findById(postId).orElseThrow(
+            () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage())
+        );
+
+        return post.getMember().getId().equals(member.getId());
+    }
+
+    @Override
+    @Transactional(readOnly = true) 
+    public Page<Post> getPosts(Long category, Pageable pageable){
+        return postRepository.findAllByCategoryId(category, pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true) 
+    public Page<Post> getPosts(Pageable pageable) {
+        return postRepository.findAll(pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true) 
+    public Page<Post> getAllPostByMemberId(Long memberId,Pageable pageable) {
+        return postRepository.findAllByMemberId(memberId, pageable);
+    }
 }

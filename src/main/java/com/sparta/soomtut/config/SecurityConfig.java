@@ -10,11 +10,13 @@ import com.sparta.soomtut.util.security.oauth2.OAuth2AuthenticationSuccessHandle
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -33,17 +35,18 @@ public class SecurityConfig implements WebMvcConfigurer {
     
 
     public static final String ALLOWED_METHOD_NAMES = "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH";
+    public static final String ALLOWED_HEADERS_NAME = "" + HttpHeaders.AUTHORIZATION + "," + HttpHeaders.SET_COOKIE;
     
 	@Bean
 	public JwtAuthenticationFilter jwtVerificationFilter() {
 		return new JwtAuthenticationFilter(jwtProvider, userDetailsService);
 	}
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-    }
+    // @Bean
+    // public WebSecurityCustomizer webSecurityCustomizer() {
+    //     return (web) -> web.ignoring()
+    //             .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    // }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -56,15 +59,17 @@ public class SecurityConfig implements WebMvcConfigurer {
                 )
             .oauth2Login(login -> login
                 .successHandler(successHandler)
-                .userInfoEndpoint()                                                   // 로그인 성공 후 사용자 정보 획득
-                .userService(oAuth2UserService)                                       // 사용자 정보 처리 서비스 로직
+                .userInfoEndpoint()             // 로그인 성공 후 사용자 정보 획득
+                .userService(oAuth2UserService) // 사용자 정보 처리 서비스 로직
             );
         
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/**").permitAll()
-                .anyRequest().authenticated();
+                .requestMatchers("/static/**").permitAll()
+                .requestMatchers("/auth/**").permitAll()
+                .anyRequest().authenticated()
+                .and().addFilterBefore(jwtVerificationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http.exceptionHandling().authenticationEntryPoint(authdenticationEntryPoint)
                                 .accessDeniedHandler(accessDeniedHandler);
@@ -75,8 +80,11 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/**")
-                .exposedHeaders("Authorization")
-                .allowedMethods(ALLOWED_METHOD_NAMES.split(","))
+                .exposedHeaders("*")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .allowedMethods("*")
                 .allowedOrigins("http://localhost:3000");
+                
     }
 }

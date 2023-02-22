@@ -8,6 +8,8 @@ import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
 import com.sparta.soomtut.entity.Member;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface PostService {
@@ -19,7 +21,11 @@ public interface PostService {
 
     void deletePost(Long postId, Member member);
 
-    String createCategory(CategoryRequestDto categoryRequestDto, Member member);
+    PostResponseDto getPost(Long postId);
+
+    String createCategory(CategoryRequestDto categoryRequestDto);
+
+    boolean isMyPost(Long postId, Member member);
 
     List<Category> getCategory();
     String classConfirmed(Long postId, Member member);
@@ -29,4 +35,9 @@ public interface PostService {
     Post findPostById(Long postId);
     Long getTutorId(Long postId);
     PostResponseDto getMyPost(Member member);
+
+    Page<Post> getAllPostByMemberId(Long memberId, Pageable pageable);
+    Page<Post> getPosts(Pageable pageable);
+    Page<Post> getPosts(Long category, Pageable pageable);
+
 }

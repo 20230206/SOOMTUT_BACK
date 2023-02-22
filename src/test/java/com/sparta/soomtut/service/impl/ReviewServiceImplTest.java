@@ -3,9 +3,10 @@ package com.sparta.soomtut.service.impl;
 import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.entity.TuitionRequest;
-import com.sparta.soomtut.enums.TuitionState;
 import com.sparta.soomtut.repository.ReviewRepository;
 import com.sparta.soomtut.repository.TuitionRequestRepository;
+import com.sparta.soomtut.util.enums.TuitionState;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
