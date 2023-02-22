@@ -5,7 +5,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,11 +90,12 @@ public class AuthController {
         return ToResponse.of(true, headers, SuccessCode.TOKEN_CHECK_OK);
     }
     
-    @GetMapping(value="/oauthlogin") 
-    public ResponseEntity<?> oauthLogin(@ModelAttribute OAuthLoginRequest request) {
+    @PostMapping(value="/oauthlogin") 
+    public ResponseEntity<?> oauthLogin(@RequestBody OAuthLoginRequest request) {
         System.out.print(request);
-        var data = authService.oauthLogin(request);
+        var token = authService.oauthLogin(request);
+        var cookie = RefreshCookie.getCookie(token.getToken(), true);
 
-        return ToResponse.of(true, SuccessCode.REFRESH_OK);
+        return ToResponse.of(true, cookie, SuccessCode.REFRESH_OK);
     }
 }

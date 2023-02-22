@@ -86,13 +86,14 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public LoginResponse oauthLogin(OAuthLoginRequest request) {
         String email = request.getEmail();
         int hash = request.getHash();
 
-        if(!isValidOAuthLoginRequest(email, hash)) throw new CustomException(ErrorCode.LOGIN_FAILED);
-
+        Auth auth = isValidOAuthLoginRequest(email, hash);
         MemberRole role = MemberRole.valueOf(request.getRole());
+        authRepository.delete(auth);
 
         String refresh = createRefreshToken(email, role);
         
@@ -103,8 +104,10 @@ public class AuthServiceImpl implements AuthService {
         return passwordEncoder.matches(input, member.getPassword());
     }
 
-    private boolean isValidOAuthLoginRequest(String email, int hash) {
-        return authRepository.existsByEmailAndHash(email, hash);
+    private Auth isValidOAuthLoginRequest(String email, int hash) {
+        return authRepository.findByEmailAndHash(email, hash).orElseThrow(
+            () -> new CustomException(ErrorCode.LOGIN_FAILED)
+        );
     }
 
     public String createRefreshToken(String username, MemberRole role) { return ""; };
