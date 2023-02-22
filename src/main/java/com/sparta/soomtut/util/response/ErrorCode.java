@@ -14,6 +14,7 @@ public enum ErrorCode {
     DUPLICATED_NICKNAME(400,"중복된 닉네임 입니다"),
     NOT_FOUND_USER(400, "회원을 찾을 수 없습니다."),
     NOT_FOUND_LOCATION(500,"위치 정보를 찾을 수 없습니다."),
+    NOT_FOUND_CHATROOM(400,"채팅방을 찾을 수 없습니다."),
     INVALID_PASSWORD(500,"비밀번호가 틀렸습니다."),
     SECESSION_USER(500, "탈퇴한 회원입니다."),
 
