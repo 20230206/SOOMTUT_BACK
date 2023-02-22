@@ -112,13 +112,16 @@ public class AuthServiceImpl implements AuthService {
         );
     }
 
-    public String createRefreshToken(String username, MemberRole role) 
-    {
+    public String createRefreshToken(String username, MemberRole role) {
         return jwtProvider.createToken(username, role, TokenType.REFRESH);
     }
     
     @Override
-    public String createAccessToken(String refresh) { return "" ;};
+    public String createAccessToken(String refresh) { 
+        if(!validToken(refresh)) throw new CustomException(ErrorCode.INVALID_TOKEN);
+
+        return jwtProvider.createToken(refresh) ;
+    };
 
     @Override
     @Transactional

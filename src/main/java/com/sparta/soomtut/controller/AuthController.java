@@ -79,8 +79,8 @@ public class AuthController {
         return ToResponse.of(data, cookie, SuccessCode.LOGOUT_OK);
     }
 
-    @GetMapping(value = "/validtoken")
-    public ResponseEntity<?> checkToken(
+    @GetMapping(value = "/getAccesstoken")
+    public ResponseEntity<?> getAccessToken(
         @CookieValue(name = "refresh", required=false) String refresh) 
     {
         if(refresh == null) return ResponseEntity.ok().body(false);
