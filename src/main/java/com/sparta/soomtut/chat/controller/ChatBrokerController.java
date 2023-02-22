@@ -18,8 +18,8 @@ public class ChatBrokerController {
 
     // /subscribe/rooms/{roomId} 채널로 메시지를 전송
     @MessageMapping("/message")
-    public void sendMessage(@Validated ChatRequestDto chatRequest) {
-        chatService.save(chatRequest); // db 저장
+    public void sendMessage(ChatRequestDto chatRequest) {
+        chatService.save(chatRequest); // db 저장 메시지 하나 들어올 때, 저장
         simpMessagingTemplate.convertAndSend("/subscribe/room/" + chatRequest.getRoomId(), chatRequest.getMessage());
     }
 
