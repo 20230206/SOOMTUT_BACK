@@ -53,6 +53,14 @@ dependencies {
     //json
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.1'
 
+    // AWS S3
+    implementation "com.amazonaws:aws-java-sdk-s3:1.12.410"
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws', version: '2.2.1.RELEASE', ext: 'pom'
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'}
+
 }
 
 tasks.named('test') {
