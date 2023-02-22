@@ -6,8 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
-    boolean existsBySenderIdAndRecipientId(Long senderId, Long recipientId);
-
-    Page<ChatRoom> findAllBySenderIdAndRecipientId(Long senderId, Long recipientId, Pageable pageable);
+    boolean existsByMember1IdAndMember2Id(Long member1id, Long member2id);
+    Page<ChatRoom> findAllByMember1IdAndMember2Id(Long member1id, Long member2id, Pageable pageable);
 
 }

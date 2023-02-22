@@ -24,7 +24,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public void createRoom(Long memberId, String recipientNickname) {
         Member member = memberService.getMemberByNickname(recipientNickname);
-        if(chatRoomRepository.existsBySenderIdAndRecipientId(memberId, member.getId())){
+        if(chatRoomRepository.existsByMember1IdAndMember2Id(memberId, member.getId())){
             throw new IllegalArgumentException(ErrorCode.DUPLICATED_CHATTING.getMessage());
         }
         ChatRoom chatRoom = ChatRoom.of(memberId,member.getId());
@@ -58,7 +58,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     // 지원 함수
     @Override
     public Page<ChatRoom> getAllMyChatRooms(Long memberId, Pageable pageable) {
-        return chatRoomRepository.findAllBySenderIdAndRecipientId(memberId, memberId, pageable);
+        return chatRoomRepository.findAllByMember1IdAndMember2Id(memberId, memberId, pageable);
     }
 
 
