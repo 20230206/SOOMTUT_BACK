@@ -4,30 +4,33 @@ import com.sparta.soomtut.dto.request.CategoryRequestDto;
 import com.sparta.soomtut.dto.request.PostRequestDto;
 import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
+
 import com.sparta.soomtut.entity.Category;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Post;
-
 import com.sparta.soomtut.entity.TuitionRequest;
-import com.sparta.soomtut.enums.MemberRole;
-import com.sparta.soomtut.enums.TuitionState;
-import com.sparta.soomtut.exception.ErrorCode;
+
+import com.sparta.soomtut.util.enums.MemberRole;
+import com.sparta.soomtut.util.enums.TuitionState;
+
+import com.sparta.soomtut.util.response.ErrorCode;
+
 import com.sparta.soomtut.repository.CategoryRepository;
 import com.sparta.soomtut.repository.PostRepository;
-
 import com.sparta.soomtut.repository.TuitionRequestRepository;
+
 import com.sparta.soomtut.service.interfaces.PostService;
-import com.sparta.soomtut.util.enums.MemberRole;
-import com.sparta.soomtut.util.response.ErrorCode;
 import com.sparta.soomtut.service.interfaces.LocationService;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.ArrayList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 import java.util.List;
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor

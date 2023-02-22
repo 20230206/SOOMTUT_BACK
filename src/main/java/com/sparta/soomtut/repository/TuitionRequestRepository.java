@@ -1,7 +1,7 @@
 package com.sparta.soomtut.repository;
 
 import com.sparta.soomtut.entity.TuitionRequest;
-import com.sparta.soomtut.enums.TuitionState;
+import com.sparta.soomtut.util.enums.TuitionState;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
