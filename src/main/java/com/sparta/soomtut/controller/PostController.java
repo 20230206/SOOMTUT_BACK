@@ -23,6 +23,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 
@@ -156,5 +160,10 @@ public class PostController {
     ) {
         boolean isMyPost = postService.isMyPost(postId, userDetails.getMember());
         return ResponseEntity.ok().body(isMyPost);
+    }
+    //키워드로 상품 검색하기
+    @GetMapping("/posts")
+    public Page<PostResponseDto> searchByKeyword(@ModelAttribute PageRequestDto pageRequestDto, @RequestParam String keyword){
+        return postService.searchByKeyword(keyword,pageRequestDto.toPageable());
     }
 }

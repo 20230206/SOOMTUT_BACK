@@ -1,5 +1,6 @@
 package com.sparta.soomtut.service.impl;
 
+import com.sparta.soomtut.dto.response.LocationResponseDto;
 import com.sparta.soomtut.entity.Location;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.repository.LocationRepository;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.sparta.soomtut.dto.request.LocationRequestDto;
 import com.sparta.soomtut.dto.request.RegisterRequest;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -64,6 +67,13 @@ public class LocationServiceImpl implements LocationService {
     @Transactional
     public Location saveLocation(Location location) {
         return locationRepository.save(location);
-    } 
+    }
+
+    @Override
+    public List<LocationResponseDto> getAllLocation(Location myLocation) {
+        String myCityName = myLocation.getAddress().split(" ")[0];
+        List<LocationResponseDto> cityUserLocations = locationRepository.findAllByAddress(myCityName);
+        return cityUserLocations;
+    }
     
 }

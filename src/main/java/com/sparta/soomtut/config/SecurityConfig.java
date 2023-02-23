@@ -44,11 +44,11 @@ public class SecurityConfig {
 
     @Value("${endpoint.back}") private String ENDPOINT_BACK;
     @Value("${endpoint.front}") private String ENDPOINT_FRONT;
-    
-	@Bean
-	public JwtAuthenticationFilter jwtVerificationFilter() {
-		return new JwtAuthenticationFilter(jwtProvider, userDetailsService);
-	}
+
+    @Bean
+    public JwtAuthenticationFilter jwtVerificationFilter() {
+        return new JwtAuthenticationFilter(jwtProvider, userDetailsService);
+    }
 
     // @Bean
     // public WebSecurityCustomizer webSecurityCustomizer() {
@@ -58,22 +58,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.httpBasic().disable()
-            .csrf().disable()
-            .formLogin()
+                .csrf().disable()
+                .formLogin()
                 .loginPage(ENDPOINT_BACK + "/auth/login")
                 .defaultSuccessUrl(ENDPOINT_FRONT)
-            .and()
-            .oauth2Login(login -> login
-                .successHandler(successHandler)
-                .userInfoEndpoint()             
-                .userService(oAuth2UserService) 
-            );
-        
+                .and()
+                .oauth2Login(login -> login
+                        .successHandler(successHandler)
+                        .userInfoEndpoint()
+                        .userService(oAuth2UserService)
+                );
+
         http.cors()
                 .configurationSource(corsConfigurationSource());
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
+                .and()
                 .authorizeHttpRequests()
                     .requestMatchers("/static/**").permitAll()
                     .requestMatchers("/auth/**").permitAll()
@@ -82,7 +82,7 @@ public class SecurityConfig {
                 .and().addFilterBefore(jwtVerificationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http.exceptionHandling().authenticationEntryPoint(authdenticationEntryPoint)
-                                .accessDeniedHandler(accessDeniedHandler);
+                .accessDeniedHandler(accessDeniedHandler);
 
         return http.build();
     }
