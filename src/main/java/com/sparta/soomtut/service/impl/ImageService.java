@@ -1,6 +1,7 @@
 package com.sparta.soomtut.service.impl;
 
-import com.sparta.soomtut.dto.request.ImageDto;
+import com.sparta.soomtut.dto.request.ImageRequest;
+import com.sparta.soomtut.dto.response.ImageResponse;
 import com.sparta.soomtut.entity.ImageEntity;
 import com.sparta.soomtut.repository.ImageRepository;
 import lombok.AllArgsConstructor;
@@ -17,13 +18,13 @@ public class ImageService {
 
     private ImageRepository imageRepository;
 
-    public void saveImgPost(ImageDto imageDto){
+    public void saveImgPost(ImageRequest imageDto){
         imageRepository.save(imageDto.toEntity());
     }
 
-    public List<ImageDto> getList(){
+    public List<ImageResponse> getList(){
         List<ImageEntity> imageEntityList = imageRepository.findAll();
-        List<ImageDto> imageDtoList = new ArrayList<>();
+        List<ImageResponse> imageDtoList = new ArrayList<>();
 
         for(ImageEntity imageEntity : imageEntityList){
             imageDtoList.add(convertEntityToDto(imageEntity));
@@ -32,10 +33,9 @@ public class ImageService {
         return imageDtoList;
     }
 
-    private ImageDto convertEntityToDto(ImageEntity imageEntity){
-        return ImageDto.builder()
+    private ImageResponse convertEntityToDto(ImageEntity imageEntity){
+        return ImageResponse.builder()
                 .id(imageEntity.getId())
-                .title(imageEntity.getTitle())
                 .filePath(imageEntity.getFilePath())
                 .imgFullPath("https://" + s3Service.CLOUD_FRONT_DOMAIN_NAME + "/" + imageEntity.getFilePath())
                 .build();

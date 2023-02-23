@@ -1,12 +1,14 @@
 package com.sparta.soomtut.controller;
 
 import com.sparta.soomtut.dto.request.*;
+import com.sparta.soomtut.dto.response.ImageResponse;
 import com.sparta.soomtut.entity.Category;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.dto.response.PostResponseDto;
 
 import com.sparta.soomtut.entity.Post;
 
+import com.sparta.soomtut.repository.ImageRepository;
 import com.sparta.soomtut.service.impl.ImageService;
 import com.sparta.soomtut.service.impl.S3Service;
 import com.sparta.soomtut.service.interfaces.PostService;
@@ -36,6 +38,7 @@ public class PostController {
 
     private final ImageService imageService;
     private final S3Service s3Service;
+    private final ImageRepository imageRepository;
 
     @GetMapping(value ="/posts/{postId}")
     public ResponseEntity<?> getPost(
@@ -155,16 +158,16 @@ public class PostController {
     }
     // 수업글 이미지 업로드
     @PostMapping("/posts/images")
-    public String postImage(ImageDto imageDto, MultipartFile file) throws IOException{
-        String imgPath = s3Service.uploadPostImage(imageDto.getFilePath(), file);
-        imageDto.setFilePath(imgPath);
-        imageService.saveImgPost(imageDto);
+    public String  postImage(ImageRequest imageRequest, MultipartFile file) throws IOException{
+        String imgPath = s3Service.uploadPostImage(imageRequest.getFilePath(), file);
+        imageRequest.setFilePath(imgPath);
+        imageService.saveImgPost(imageRequest);
         return "redirect:/images";
     }
     // 수업글 이미지 조회
     @GetMapping("/posts/images")
     public String getPostImage(Model model){
-        List<ImageDto> imageDtoList = imageService.getList();
+        List<ImageResponse> imageDtoList = imageService.getList();
 
         model.addAttribute("imageList", imageDtoList);
 

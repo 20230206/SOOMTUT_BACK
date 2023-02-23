@@ -1,9 +1,9 @@
 package com.sparta.soomtut.controller;
 
 import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
-import com.sparta.soomtut.dto.request.ImageDto;
+import com.sparta.soomtut.dto.request.ImageRequest;
+import com.sparta.soomtut.dto.response.ImageResponse;
 import com.sparta.soomtut.dto.request.PageRequestDto;
-import com.sparta.soomtut.entity.ImageEntity;
 import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.service.impl.ImageService;
 import com.sparta.soomtut.service.impl.S3Service;
@@ -196,7 +196,7 @@ public class MemberController  {
 
     //마이페이지 이미지 업로드
     @PostMapping(value = "/member/mypage/images")
-    public String profileImage(ImageDto imageDto, MultipartFile file) throws IOException{
+    public String profileImage(@ModelAttribute ImageRequest imageDto, MultipartFile file) throws IOException{
         String imgPath = s3Service.uploadProfile(imageDto.getFilePath(), file);
         imageDto.setFilePath(imgPath);
         imageService.saveImgPost(imageDto);
@@ -205,7 +205,7 @@ public class MemberController  {
     //마이페이지 이미지 조회
     @GetMapping(value = "/member/mypage/images")
     public String  getImage(Model model){
-        List<ImageDto> imageDtoList = imageService.getList();
+        List<ImageResponse> imageDtoList = imageService.getList();
 
         model.addAttribute("imageList", imageDtoList);
 

@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import jakarta.annotation.PostConstruct;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,7 @@ public class S3Service {
 
     public static final String CLOUD_FRONT_DOMAIN_NAME = "doetinf9mat8b.cloudfront.net";
 
+    @PostConstruct
     public void setS3Client(){
         AWSCredentials credentials = new BasicAWSCredentials(this.accessKey,this.secretKey);
 

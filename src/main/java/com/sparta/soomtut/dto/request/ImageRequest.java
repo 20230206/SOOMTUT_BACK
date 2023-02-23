@@ -1,21 +1,18 @@
 package com.sparta.soomtut.dto.request;
 
 import com.sparta.soomtut.entity.ImageEntity;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
-public class ImageDto {
+public class ImageRequest {
 
     private Long id;
-
     private String title;
-
     private String filePath;
-
-    private String imgFullPath;
 
     public ImageEntity toEntity(){
         ImageEntity build = ImageEntity.builder()
@@ -25,12 +22,10 @@ public class ImageDto {
                 .build();
         return build;
     }
-
-    @Builder
-    public ImageDto(Long id, String title, String filePath, String imgFullPath){
+    public ImageRequest(Long id, String title, String filePath){
         this.id = id;
         this.title = title;
         this.filePath = filePath;
-        this.imgFullPath = imgFullPath;
     }
+
 }
