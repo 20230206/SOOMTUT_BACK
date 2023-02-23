@@ -67,7 +67,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	// 특정 URI에서 접근할 시, JWT TOKEN에 대한 검증 절차를 무시하고 필터를 통과시킨다.
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 		String path = request.getRequestURI(); // domain name /    
-		return path.startsWith("/auth");
+		boolean ret = false;
+		if(path.startsWith("/auth") || path.startsWith("/connect")) ret = true;
+		return ret;
 	}
 
 	// 쿠키
