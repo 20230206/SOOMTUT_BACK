@@ -178,7 +178,8 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public Page<Post> getReviewFilter(PageRequestDto pageRequestDto, Member member) {
-        List<TuitionRequest> tuitionRequestList = tuitionRequestRepository.findAllByTuteeIdAndTuitionState(member.getId(), TuitionState.DONE);
+        List<TuitionRequest> tuitionRequestList = tuitionRequestRepository.findAllByTuteeIdAndTuitionStateAndReviewFilterIsFalse(member.getId(), Boolean.FALSE);
+        List<Post> postReviewList = tuitionRequestList.stream().map((item) -> item.getPost()).collect(Collectors.toList());
 
     }
 
