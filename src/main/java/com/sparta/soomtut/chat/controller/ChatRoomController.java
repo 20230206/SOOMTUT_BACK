@@ -22,9 +22,9 @@ public class ChatRoomController {
     private final ChatRoomService chatRoomService;
 
     // 채팅방 개설(완료) - 매개변수로 뭘 받을 지 모르겠음.
-    @PostMapping("/{recipientNickname}")
-        public void createRoom(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String recipientNickname) {
-        chatRoomService.createRoom(userDetails.getMemberId(), recipientNickname);
+    @PostMapping("/{postId}")
+        public void createRoom(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postId) {
+        chatRoomService.createRoom(userDetails.getMemberId(), postId);
     }
 
     // 채팅방 가져오기 (완료)

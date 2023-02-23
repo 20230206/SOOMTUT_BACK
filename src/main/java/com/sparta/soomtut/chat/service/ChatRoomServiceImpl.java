@@ -5,6 +5,7 @@ import com.sparta.soomtut.chat.entity.ChatRoom;
 import com.sparta.soomtut.chat.repository.ChatRoomRepository;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.service.interfaces.MemberService;
+import com.sparta.soomtut.service.interfaces.PostService;
 import com.sparta.soomtut.util.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,15 +20,16 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     private final ChatRoomRepository chatRoomRepository;
     private final MemberService memberService;
     private final ChatService chatService;
+    private final PostService postService;
 
     // 새로운 채팅방 생성
     @Override
-    public void createRoom(Long memberId, String recipientNickname) {
-        Member member = memberService.getMemberByNickname(recipientNickname);
-        if(chatRoomRepository.existsByMember1IdAndMember2Id(memberId, member.getId())){
+    public void createRoom(Long tuteeId, Long postId) {
+        Member tutor = postService.getPostById(postId).getMember();
+        if(chatRoomRepository.existsByMember1IdAndMember2Id(tuteeId, tutor.getId())){
             throw new IllegalArgumentException(ErrorCode.DUPLICATED_CHATTING.getMessage());
         }
-        ChatRoom chatRoom = ChatRoom.of(memberId,member.getId());
+        ChatRoom chatRoom = ChatRoom.of(tuteeId,tutor.getId(), postId);
         chatRoomRepository.save(chatRoom);
     }
 
@@ -37,9 +39,10 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         ChatRoom chatRoom = chatRoomRepository.findById(roomId)
                 .orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_CHATROOM.getMessage()));
         return ChatRoomResponse.of(chatRoom,
-                memberService.getMemberInfoResponseDto(chatRoom.getMember1Id()),
-                memberService.getMemberInfoResponseDto(chatRoom.getMember2Id()),
-                chatService.getAllChatMessages(chatRoom.getId()));
+                memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
+                memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
+                chatService.getAllChatMessages(chatRoom.getId()),
+                postService.getPost(chatRoom.getPostId()));
     }
 
     // 채팅방 여러개 가져오기
@@ -49,9 +52,10 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         Page<ChatRoom> chatRoomList = getAllMyChatRooms(memberId,pageable);
 
         return chatRoomList.map(chatRoom -> ChatRoomResponse.of(chatRoom,
-                memberService.getMemberInfoResponseDto(chatRoom.getMember1Id()),
-                memberService.getMemberInfoResponseDto(chatRoom.getMember2Id()),
-                chatService.getAllChatMessages(chatRoom.getId())));
+                memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
+                memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
+                chatService.getAllChatMessages(chatRoom.getId()),
+                postService.getPost(chatRoom.getPostId())));
     }
 
 
