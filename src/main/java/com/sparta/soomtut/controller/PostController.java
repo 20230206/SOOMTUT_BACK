@@ -1,12 +1,11 @@
 package com.sparta.soomtut.controller;
 
-import com.sparta.soomtut.dto.request.CategoryRequestDto;
-import com.sparta.soomtut.dto.request.PageRequestDto;
+import com.sparta.soomtut.dto.request.*;
 import com.sparta.soomtut.entity.Category;
 import com.sparta.soomtut.entity.Member;
-import com.sparta.soomtut.dto.request.PostRequestDto;
-import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
+import com.sparta.soomtut.service.impl.ImageService;
+import com.sparta.soomtut.service.impl.S3Service;
 import com.sparta.soomtut.service.interfaces.PostService;
 import com.sparta.soomtut.service.interfaces.FavMemberPostService;
 
@@ -17,8 +16,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -28,6 +30,9 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
     private final FavMemberPostService favMemberPostService;
+
+    private final ImageService imageService;
+    private final S3Service s3Service;
 
     @GetMapping(value ="/posts/{postId}") 
     public ResponseEntity<?> getPost(
@@ -120,4 +125,22 @@ public class PostController {
         boolean isMyPost = postService.isMyPost(postId, userDetails.getMember());
         return ResponseEntity.ok().body(isMyPost);
     }
+    // 수업글 이미지 업로드
+    @PostMapping("/posts/images")
+    public String postImage(ImageDto imageDto, MultipartFile file) throws IOException{
+        String imgPath = s3Service.uploadPostImage(imageDto.getFilePath(), file);
+        imageDto.setFilePath(imgPath);
+        imageService.saveImgPost(imageDto);
+        return "redirect:/images";
+    }
+    // 수업글 이미지 조회
+    @GetMapping("/posts/images")
+    public String getPostImage(Model model){
+        List<ImageDto> imageDtoList = imageService.getList();
+
+        model.addAttribute("imageList", imageDtoList);
+
+        return "/images";
+    }
+
 }

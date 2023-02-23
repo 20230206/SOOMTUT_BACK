@@ -25,10 +25,16 @@ public class S3Service {
     private String accessKey;
     @Value("${cloud.aws.credentials.secret-key}")
     private String secretKey;
-    @Value("${{cloud.aws.s3.bucket}")
+    @Value("${cloud.aws.s3.bucket}")
     private String bucket;
     @Value("${cloud.aws.region.static}")
     private String region;
+
+    @Value("${cloud.aws.s3.profiledir}")
+    private String profiledir;
+
+    @Value("${cloud.aws.s3.postdir}")
+    private String postdir;
 
     public static final String CLOUD_FRONT_DOMAIN_NAME = "doetinf9mat8b.cloudfront.net";
 
@@ -41,9 +47,27 @@ public class S3Service {
                 .build();
     }
 
-    public String upload(String currentFilePath, MultipartFile file) throws IOException{
+    public String uploadProfile(String currentFilePath, MultipartFile file) throws IOException{
         SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
-        String fileName = file.getOriginalFilename() + "-" + date.format(new Date());
+        String fileName = profiledir + "/" + file.getOriginalFilename() + "-" + date.format(new Date());
+
+        if(!"".equals(currentFilePath) && currentFilePath != null){
+            boolean isExisObject = s3Client.doesObjectExist(bucket, currentFilePath);
+
+            if(isExisObject){
+                s3Client.doesObjectExist(bucket, currentFilePath);
+            }
+        }
+
+        s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(),null)
+                .withCannedAcl(CannedAccessControlList.PublicRead));
+
+        return fileName;
+    }
+
+    public String uploadPostImage(String currentFilePath, MultipartFile file) throws IOException{
+        SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
+        String fileName = postdir + "/" + file.getOriginalFilename() + "-" + date.format(new Date());
 
         if(!"".equals(currentFilePath) && currentFilePath != null){
             boolean isExisObject = s3Client.doesObjectExist(bucket, currentFilePath);

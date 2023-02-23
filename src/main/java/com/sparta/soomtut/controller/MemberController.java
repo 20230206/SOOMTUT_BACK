@@ -194,15 +194,15 @@ public class MemberController  {
         return ResponseEntity.ok().body(msg);
     }
 
-    //이미지 업로드
+    //마이페이지 이미지 업로드
     @PostMapping(value = "/member/mypage/images")
-    public String postImage(ImageDto imageDto, MultipartFile file) throws IOException{
-        String imgPath = s3Service.upload(imageDto.getFilePath(), file);
+    public String profileImage(ImageDto imageDto, MultipartFile file) throws IOException{
+        String imgPath = s3Service.uploadProfile(imageDto.getFilePath(), file);
         imageDto.setFilePath(imgPath);
         imageService.saveImgPost(imageDto);
         return "redirect:/images";
     }
-
+    //마이페이지 이미지 조회
     @GetMapping(value = "/member/mypage/images")
     public String  getImage(Model model){
         List<ImageDto> imageDtoList = imageService.getList();
