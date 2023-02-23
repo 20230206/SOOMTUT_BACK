@@ -202,4 +202,10 @@ public class PostServiceImpl implements PostService {
     public Page<Post> getAllPostByMemberId(Long memberId,Pageable pageable) {
         return postRepository.findAllByMemberId(memberId, pageable);
     }
+
+    @Override
+    @Transactional
+    public Page<PostResponseDto> searchByKeyword(String keyword,Pageable pageable) {
+        return postRepository.findPostByKeyword(keyword,pageable);
+    }
 }

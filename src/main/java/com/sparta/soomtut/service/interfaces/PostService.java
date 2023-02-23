@@ -40,4 +40,6 @@ public interface PostService {
     Page<Post> getPosts(Pageable pageable);
     Page<Post> getPosts(Long category, Pageable pageable);
 
+    Page<PostResponseDto> searchByKeyword(String keyword,Pageable pageable);
+
 }
