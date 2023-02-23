@@ -1,17 +1,22 @@
 package com.sparta.soomtut.service.interfaces;
 
-import com.sparta.soomtut.dto.request.SigninRequestDto;
-import com.sparta.soomtut.dto.request.SignupRequestDto;
-import com.sparta.soomtut.dto.response.SigninResponseDto;
-import com.sparta.soomtut.dto.response.MemberInfoResponseDto;
+import com.sparta.soomtut.entity.Auth;
+
+import com.sparta.soomtut.dto.request.LoginRequest;
+import com.sparta.soomtut.dto.request.RegisterRequest;
+import com.sparta.soomtut.dto.request.OAuthLoginRequest;
+import com.sparta.soomtut.dto.request.OAuthLocationRequest;
+
+import com.sparta.soomtut.dto.response.LoginResponse;
+import com.sparta.soomtut.dto.response.MemberInfoResponse;
 
 public interface AuthService {
+    MemberInfoResponse register(RegisterRequest request);
+    LoginResponse login(LoginRequest request);
+    LoginResponse oauthLogin(OAuthLoginRequest request);
 
-    MemberInfoResponseDto register(SignupRequestDto requestDto);
-
-    SigninResponseDto login(SigninRequestDto requestDto);
-
-    boolean checkToken(String token);
-    String createToken(String token);
+    String createAccessToken(String refresh);
+    void saveAuth(Auth auth);
+    MemberInfoResponse setOAuthLocation(OAuthLocationRequest request, String refresh);
 
 }

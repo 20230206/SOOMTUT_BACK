@@ -2,27 +2,25 @@ package com.sparta.soomtut.controller;
 
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sparta.soomtut.dto.request.SigninRequestDto;
-import com.sparta.soomtut.dto.request.SignupRequestDto;
-import com.sparta.soomtut.dto.response.SigninResponseDto;
+import com.sparta.soomtut.dto.request.LoginRequest;
+import com.sparta.soomtut.dto.request.RegisterRequest;
+import com.sparta.soomtut.dto.request.OAuthLoginRequest;
+import com.sparta.soomtut.dto.request.OAuthLocationRequest;
 import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.util.cookies.RefreshCookie;
-import com.sparta.soomtut.util.response.ErrorCode;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.response.ToResponse;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,24 +34,21 @@ public class AuthController {
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(
-        @RequestBody SigninRequestDto requestDto
+        @RequestBody LoginRequest requestDto
     )
     {
-        SigninResponseDto response = authService.login(requestDto);
-        var message = "Method[signin] has called by front";
+        var data = authService.login(requestDto);
+        var cookie = RefreshCookie.getCookie(data.getToken(), true);
 
-        ResponseCookie cookie = RefreshCookie.getCookie(response.getToken(), true);
-
-        return ToResponse.of(null, cookie, SuccessCode.LOGIN_OK);
+        return ToResponse.of(data, cookie, SuccessCode.LOGIN_OK);
     }
 
     @PostMapping(value = "/register")
     public ResponseEntity<?> register(
-        @RequestBody SignupRequestDto requestDto
+        @RequestBody RegisterRequest requestDto
     )
     {
         var data = authService.register(requestDto);
-
         return ToResponse.of(data, SuccessCode.LOGIN_OK);
     }
 
@@ -66,11 +61,11 @@ public class AuthController {
         if(nickname == null && email != null) { data = memberService.existsMemberByEmail(email); }
         if(email == null && nickname != null) { data = memberService.existsMemberByNickname(nickname); }
 
-        return ResponseEntity.ok().body(data);
+        return ToResponse.of(data, SuccessCode.REGISTER_CHECK_OK);
     }
 
     @PostMapping(value = "/logout")
-    public ResponseEntity<?> signOut(
+    public ResponseEntity<?> logout(
         @CookieValue(name = "refresh", required=false) String refresh
     )
     {   
@@ -79,39 +74,40 @@ public class AuthController {
         // 시큐리티 내장된 token session
 
         // cookie의 정보 삭제
-        ResponseCookie cookie = RefreshCookie.getCookie("", false);
-                                    
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(false);
+        var cookie = RefreshCookie.getCookie("", false);
+        boolean data = false;
+        return ToResponse.of(data, cookie, SuccessCode.LOGOUT_OK);
     }
 
-    @GetMapping(value = "/validtoken")
-    public ResponseEntity<?> checkToken(
+    @GetMapping(value = "/getAccesstoken")
+    public ResponseEntity<?> getAccessToken(
         @CookieValue(name = "refresh", required=false) String refresh) 
     {
         if(refresh == null) return ResponseEntity.ok().body(false);
 
-        // Refresh Token이 유효한지 판단한다.
-        boolean isvalid = authService.checkToken(refresh);
+        String accesstoken = authService.createAccessToken(refresh);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, accesstoken);
 
-        // refresh token이 valid가 되면, access token을 생성해주는 단계로 넘어간다.
-        // 그리고 access token을 발급해 front로 전달해준다.
-        if(isvalid) {
-            String accesstoken = authService.createToken(refresh);
-
-            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, accesstoken).body(isvalid);
-        }
-        else {
-            return ResponseEntity.badRequest().body(ErrorCode.INVALID_TOKEN);
-        }
+        return ToResponse.of(true, headers, SuccessCode.TOKEN_CHECK_OK);
     }
     
-    @GetMapping(value="/createrefreshforoauth2") 
-    public ResponseEntity<?> createRefresh(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        String response = authService.createToken(token);
-        
-        ResponseCookie cookie = RefreshCookie.getCookie(response, true);
+    @PostMapping(value="/oauthlogin") 
+    public ResponseEntity<?> oauthLogin(@RequestBody OAuthLoginRequest request) {
+        System.out.print(request);
+        var token = authService.oauthLogin(request);
+        var cookie = RefreshCookie.getCookie(token.getToken(), true);
 
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(true);
+        return ToResponse.of(true, cookie, SuccessCode.REFRESH_OK);
+    }
+
+    @PutMapping(value="/oauthlocation")
+    public ResponseEntity<?> oauthLocation(
+        @RequestBody OAuthLocationRequest request,
+        @CookieValue("refresh") String refresh
+    ) 
+    {
+        var data = authService.setOAuthLocation(request, refresh);
+        return ToResponse.of(data, SuccessCode.OAUTH_LOGIN_OK);
     }
 }

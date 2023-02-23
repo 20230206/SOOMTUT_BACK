@@ -28,6 +28,9 @@ public interface PostService {
     boolean isMyPost(Long postId, Member member);
 
     List<Category> getCategory();
+    String classConfirmed(Long postId, Member member);
+    String classComplete(Long postId, Member member);
+    List<Post> getCompletePost(Member member);
 
     Post findPostById(Long postId);
     Long getTutorId(Long postId);

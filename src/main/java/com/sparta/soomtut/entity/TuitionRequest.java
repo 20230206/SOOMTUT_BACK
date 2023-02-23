@@ -22,17 +22,30 @@ public class TuitionRequest {
     @Column
     private Long postId;
 
+
     @Column
     private Long tuteeId;
 
+    @Column
+    private Long tutorId;
 
-    public TuitionRequest(TuitionState tuitionState, Long postId, Long tuteeId) {
+
+    public TuitionRequest(Long postId, Long tuteeId, Long tutorId) {
         this.tuitionState = TuitionState.IN_PROGRESS;
         this.postId = postId;
         this.tuteeId = tuteeId;
+        this.tutorId = tutorId;
     }
 
-    public void changeTuitionState(){
+    public TuitionRequest(Long postId, Long tutorId) {
+        this.tuitionState = TuitionState.IN_PROGRESS;
+        this.postId = postId;
+        this.tutorId = tutorId;
+    }
+
+
+    public void changeTuitionState(Long tuteeId){
         this.tuitionState = TuitionState.DONE;
+        this.tuteeId = tuteeId;
     }
 }

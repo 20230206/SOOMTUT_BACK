@@ -18,7 +18,6 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @OneToOne
     @JoinColumn(name="member_id")
     private Member member;
@@ -52,5 +51,9 @@ public class Location {
         this.address = request.getAddress();
         this.vectorX = request.getVectorX();
         this.vectorY = request.getVectorY();
+    }
+
+    public void updateAddress(String address) {
+        this.address = address;
     }
 }

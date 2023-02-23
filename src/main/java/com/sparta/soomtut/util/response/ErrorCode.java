@@ -18,6 +18,8 @@ public enum ErrorCode {
     INVALID_PASSWORD(500,"비밀번호가 틀렸습니다."),
     SECESSION_USER(500, "탈퇴한 회원입니다."),
 
+    LOGIN_FAILED(401, "로그인에 실패했습니다."),
+
     NOT_FOUND_POST(500, "게시글이 존재하지 않습니다."),
 
     EMPTY_FILE(500, "파일이 없습니다."),
