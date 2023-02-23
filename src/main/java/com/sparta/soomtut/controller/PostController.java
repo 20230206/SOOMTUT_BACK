@@ -1,15 +1,16 @@
 package com.sparta.soomtut.controller;
 
-import com.sparta.soomtut.dto.request.CategoryRequestDto;
-import com.sparta.soomtut.dto.request.PageRequestDto;
+import com.sparta.soomtut.dto.request.*;
+import com.sparta.soomtut.dto.response.ImageResponse;
 import com.sparta.soomtut.entity.Category;
 import com.sparta.soomtut.entity.Member;
-import com.sparta.soomtut.dto.request.PostRequestDto;
-import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
 
 import com.sparta.soomtut.entity.Post;
 
+import com.sparta.soomtut.repository.ImageRepository;
+import com.sparta.soomtut.service.impl.ImageService;
+import com.sparta.soomtut.service.impl.S3Service;
 import com.sparta.soomtut.service.interfaces.PostService;
 import com.sparta.soomtut.service.interfaces.FavMemberPostService;
 
@@ -20,8 +21,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,11 +35,16 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class PostController {
     private final PostService postService;
     private final FavMemberPostService favMemberPostService;
 
-    @GetMapping(value ="/posts/{postId}") 
+    private final ImageService imageService;
+    private final S3Service s3Service;
+    private final ImageRepository imageRepository;
+
+    @GetMapping(value ="/posts/{postId}")
     public ResponseEntity<?> getPost(
         @PathVariable Long postId,
         @AuthenticationPrincipal UserDetailsImpl userDtails
@@ -119,7 +128,7 @@ public class PostController {
     }
 
     // 수업 신청 필요할듯
-    
+
 
     // 수업 확정
     @PostMapping("/classConfirmed/{postId}")
@@ -151,6 +160,24 @@ public class PostController {
         boolean isMyPost = postService.isMyPost(postId, userDetails.getMember());
         return ResponseEntity.ok().body(isMyPost);
     }
+    // 수업글 이미지 업로드
+    @PostMapping("/posts/images")
+    public String  postImage(ImageRequest imageRequest, MultipartFile file) throws IOException{
+        String imgPath = s3Service.uploadPostImage(imageRequest.getFilePath(), file);
+        imageRequest.setFilePath(imgPath);
+        imageService.saveImgPost(imageRequest);
+        return "redirect:/images";
+    }
+    // 수업글 이미지 조회
+    @GetMapping("/posts/images")
+    public String getPostImage(Model model){
+        List<ImageResponse> imageDtoList = imageService.getList();
+
+        model.addAttribute("imageList", imageDtoList);
+
+        return "/images";
+    }
+
 
     //키워드로 상품 검색하기
     @GetMapping("/posts")
