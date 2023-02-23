@@ -23,12 +23,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class PostController {
     private final PostService postService;
     private final FavMemberPostService favMemberPostService;
@@ -116,7 +119,8 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(postService.getMyPost(member));
     }
 
-
+    // 수업 신청 필요할듯
+    
 
     // 수업 확정
     @PostMapping("/classConfirmed/{postId}")
@@ -156,5 +160,10 @@ public class PostController {
     ) {
         boolean isMyPost = postService.isMyPost(postId, userDetails.getMember());
         return ResponseEntity.ok().body(isMyPost);
+    }
+    //키워드로 상품 검색하기
+    @GetMapping("/posts")
+    public Page<PostResponseDto> searchByKeyword(@ModelAttribute PageRequestDto pageRequestDto, @RequestParam String keyword){
+        return postService.searchByKeyword(keyword,pageRequestDto.toPageable());
     }
 }

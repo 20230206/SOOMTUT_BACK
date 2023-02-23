@@ -57,4 +57,13 @@ public class PostResponseDto {
         this.location = postResponseDto.location;
         this.tutorNickname = postResponseDto.tutorNickname;
     }
+
+    public PostResponseDto(String image,int fee, String location,String tutorNickname,String content,String title ) {
+        this.image = image;
+        this.fee = fee;
+        this.location = location;
+        this.tutorNickname = tutorNickname;
+        this.content = content;
+        this.title = title;
+    }
 }

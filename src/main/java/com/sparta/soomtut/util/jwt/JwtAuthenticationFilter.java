@@ -8,13 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.sparta.soomtut.util.security.UserDetailsServiceImpl;
 
@@ -59,7 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			}
 		}
 		else {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
+			//throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
 		}
 		filterChain.doFilter(request, response);
     }
@@ -68,8 +66,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	// 특정 URI에서 접근할 시, JWT TOKEN에 대한 검증 절차를 무시하고 필터를 통과시킨다.
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-		String path = request.getRequestURI();     
-		return path.startsWith("/auth");
+		String path = request.getRequestURI(); // domain name /    
+		boolean ret = false;
+		if(path.startsWith("/auth") || path.startsWith("/connect")) ret = true;
+		return ret;
 	}
 
 	// 쿠키
