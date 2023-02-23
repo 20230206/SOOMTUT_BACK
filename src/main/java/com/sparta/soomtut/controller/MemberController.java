@@ -1,8 +1,12 @@
 package com.sparta.soomtut.controller;
 
 import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
+import com.sparta.soomtut.dto.request.ImageRequest;
+import com.sparta.soomtut.dto.response.ImageResponse;
 import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.entity.Review;
+import com.sparta.soomtut.service.impl.ImageService;
+import com.sparta.soomtut.service.impl.S3Service;
 import com.sparta.soomtut.service.interfaces.MemberService;
 
 import com.sparta.soomtut.util.security.UserDetailsImpl;
@@ -13,14 +17,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class MemberController  {
     private final MemberService memberService;
+
+    private final ImageService imageService;
+
+    private final S3Service s3Service;
 
 
     @GetMapping(value = "/getmyinfo")
@@ -182,6 +194,24 @@ public class MemberController  {
     ){
         String msg = memberService.deleteReviewRequest(reviewId);
         return ResponseEntity.ok().body(msg);
+    }
+
+    //마이페이지 이미지 업로드
+    @PostMapping(value = "/member/mypage/images")
+    public String profileImage(@ModelAttribute ImageRequest imageDto, MultipartFile file) throws IOException{
+        String imgPath = s3Service.uploadProfile(imageDto.getFilePath(), file);
+        imageDto.setFilePath(imgPath);
+        imageService.saveImgPost(imageDto);
+        return "redirect:/images";
+    }
+    //마이페이지 이미지 조회
+    @GetMapping(value = "/member/mypage/images")
+    public String  getImage(Model model){
+        List<ImageResponse> imageDtoList = imageService.getList();
+
+        model.addAttribute("imageList", imageDtoList);
+
+        return "/images";
     }
 
 }
