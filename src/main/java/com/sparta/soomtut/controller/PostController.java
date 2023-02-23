@@ -18,6 +18,7 @@ import com.sparta.soomtut.service.interfaces.FavMemberPostService;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -152,6 +153,15 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(postList);
     }
 
+    // 후기(작성/미작성) 수업 조회
+    @GetMapping(value = "/reviewFilter")
+    public Page<Post> getReviewFilter(
+            @ModelAttribute PageRequestDto pageRequest,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ){
+        return postService.getReviewFilter(pageRequest, userDetails.getMember());
+    }
+
     @GetMapping("/posts/{postId}/ismypost")
     public ResponseEntity<?> isMyPost(
         @PathVariable Long postId,
@@ -177,7 +187,6 @@ public class PostController {
 
         return "/images";
     }
-
 
     //키워드로 상품 검색하기
     @GetMapping("/posts")

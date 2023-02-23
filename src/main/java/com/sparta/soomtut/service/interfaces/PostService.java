@@ -1,6 +1,7 @@
 package com.sparta.soomtut.service.interfaces;
 
 import com.sparta.soomtut.dto.request.CategoryRequestDto;
+import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.entity.Category;
 import com.sparta.soomtut.entity.Post;
 import com.sparta.soomtut.dto.request.PostRequestDto;
@@ -31,6 +32,7 @@ public interface PostService {
     String classConfirmed(Long postId, Member member);
     String classComplete(Long postId, Member member);
     List<Post> getCompletePost(Member member);
+    Page<Post> getReviewFilter(PageRequestDto pageRequestDto, Member member);
 
     Post getPostById(Long postId);
     Long getTutorId(Long postId);

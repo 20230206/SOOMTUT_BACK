@@ -5,7 +5,9 @@ import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Review;
+import com.sparta.soomtut.entity.TuitionRequest;
 import com.sparta.soomtut.repository.MemberRepository;
+import com.sparta.soomtut.repository.TuitionRequestRepository;
 import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.service.interfaces.PostService;
 import com.sparta.soomtut.service.interfaces.ReviewService;
@@ -30,6 +32,7 @@ public class MemberServiceImpl implements MemberService{
     private final ReviewService reviewService;
     private final LocationService locationService;
     private final DeleteReviewRequestService deleteReviewRequestService;
+    private final TuitionRequestRepository tuitionRequestRepository;
 
     @Override
     public String updateNickname(String nickname, Member member) {
@@ -76,6 +79,12 @@ public class MemberServiceImpl implements MemberService{
         }
         Long tutorId = postService.getTutorId(postId);
         reviewService.saveReview(tutorId,reviewRequestDto,member.getId());
+
+        TuitionRequest tuitionRequest = tuitionRequestRepository.findByPostId(postId).orElseThrow(
+                () -> new IllegalArgumentException("Error")
+        );
+        tuitionRequest.ChangTuitionReview(postId);
+
         return "수강후기 작성이 완료되었습니다!";
 
     }
