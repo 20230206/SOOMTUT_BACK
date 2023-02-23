@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -43,45 +44,51 @@ public class SecurityConfig {
 
     @Value("${endpoint.back}") private String ENDPOINT_BACK;
     @Value("${endpoint.front}") private String ENDPOINT_FRONT;
-    
-	@Bean
-	public JwtAuthenticationFilter jwtVerificationFilter() {
-		return new JwtAuthenticationFilter(jwtProvider, userDetailsService);
-	}
+
+    @Bean
+    public JwtAuthenticationFilter jwtVerificationFilter() {
+        return new JwtAuthenticationFilter(jwtProvider, userDetailsService);
+    }
+
+    // @Bean
+    // public WebSecurityCustomizer webSecurityCustomizer() {
+    //     return (web) -> web.ignoring().requestMatchers("/connect/**");
+    // }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.httpBasic().disable()
-            .csrf().disable()
-            .formLogin()
+                .csrf().disable()
+                .formLogin()
                 .loginPage(ENDPOINT_BACK + "/auth/login")
                 .defaultSuccessUrl(ENDPOINT_FRONT)
-            .and()
-            .oauth2Login(login -> login
-                .successHandler(successHandler)
-                .userInfoEndpoint()             
-                .userService(oAuth2UserService) 
-            );
-        
+                .and()
+                .oauth2Login(login -> login
+                        .successHandler(successHandler)
+                        .userInfoEndpoint()
+                        .userService(oAuth2UserService)
+                );
+
         http.cors()
                 .configurationSource(corsConfigurationSource());
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
+                .and()
                 .authorizeHttpRequests()
                     .requestMatchers("/static/**").permitAll()
                     .requestMatchers("/auth/**").permitAll()
+                    .requestMatchers("/connect/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(jwtVerificationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http.exceptionHandling().authenticationEntryPoint(authdenticationEntryPoint)
-                                .accessDeniedHandler(accessDeniedHandler);
+                .accessDeniedHandler(accessDeniedHandler);
 
         return http.build();
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("*"));

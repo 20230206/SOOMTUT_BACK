@@ -107,7 +107,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public Post findPostById(Long postId){
+    public Post getPostById(Long postId){
        Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage())
         );
@@ -118,7 +118,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public Long getTutorId(Long postId) {
 
-        return findPostById(postId).getMember().getId();
+        return getPostById(postId).getMember().getId();
 
     }
 
@@ -139,8 +139,10 @@ public class PostServiceImpl implements PostService {
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
         );
 
+        boolean isExistsRequest = tuitionRequestRepository.existsByPostIdAndTuteeIdAndTuitionState(postId, member.getId(), TuitionState.IN_PROGRESS);
+        if(isExistsRequest) return "수업 확정이 완료되었습니다.";
+
         TuitionRequest tuitionRequest = new TuitionRequest(postId, member.getId());
-        if (tuitionRequest.getTutorId().equals(member.getId()));
         tuitionRequestRepository.save(tuitionRequest);
         return "수업 확정이 완료되었습니다.";
 
@@ -201,5 +203,11 @@ public class PostServiceImpl implements PostService {
     @Transactional(readOnly = true) 
     public Page<Post> getAllPostByMemberId(Long memberId,Pageable pageable) {
         return postRepository.findAllByMemberId(memberId, pageable);
+    }
+
+    @Override
+    @Transactional
+    public Page<PostResponseDto> searchByKeyword(String keyword,Pageable pageable) {
+        return postRepository.findPostByKeyword(keyword,pageable);
     }
 }

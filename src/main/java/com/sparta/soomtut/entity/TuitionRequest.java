@@ -26,21 +26,11 @@ public class TuitionRequest {
     @Column
     private Long tuteeId;
 
-    @Column
-    private Long tutorId;
 
-
-    public TuitionRequest(Long postId, Long tuteeId, Long tutorId) {
+    public TuitionRequest(Long postId, Long tuteeId) {
         this.tuitionState = TuitionState.IN_PROGRESS;
         this.postId = postId;
         this.tuteeId = tuteeId;
-        this.tutorId = tutorId;
-    }
-
-    public TuitionRequest(Long postId, Long tutorId) {
-        this.tuitionState = TuitionState.IN_PROGRESS;
-        this.postId = postId;
-        this.tutorId = tutorId;
     }
 
 

@@ -26,6 +26,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 
@@ -175,4 +179,9 @@ public class PostController {
     }
 
 
+    //키워드로 상품 검색하기
+    @GetMapping("/posts")
+    public Page<PostResponseDto> searchByKeyword(@ModelAttribute PageRequestDto pageRequestDto, @RequestParam String keyword){
+        return postService.searchByKeyword(keyword,pageRequestDto.toPageable());
+    }
 }

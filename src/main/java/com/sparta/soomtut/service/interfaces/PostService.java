@@ -32,12 +32,14 @@ public interface PostService {
     String classComplete(Long postId, Member member);
     List<Post> getCompletePost(Member member);
 
-    Post findPostById(Long postId);
+    Post getPostById(Long postId);
     Long getTutorId(Long postId);
     PostResponseDto getMyPost(Member member);
 
     Page<Post> getAllPostByMemberId(Long memberId, Pageable pageable);
     Page<Post> getPosts(Pageable pageable);
     Page<Post> getPosts(Long category, Pageable pageable);
+
+    Page<PostResponseDto> searchByKeyword(String keyword,Pageable pageable);
 
 }
