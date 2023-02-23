@@ -1,6 +1,7 @@
 package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.dto.request.CategoryRequestDto;
+import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.dto.request.PostRequestDto;
 import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
@@ -31,6 +32,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -135,16 +137,19 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public String classConfirmed(Long postId, Member member) {
-        Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
-        );
+        Post post = getPostById(postId);
 
-        TuitionRequest tuitionRequest = new TuitionRequest(postId, member.getId());
-        if (tuitionRequest.getTutorId().equals(member.getId()));
+        TuitionRequest tuitionRequest = new TuitionRequest(post, member.getId());
         tuitionRequestRepository.save(tuitionRequest);
         return "수업 확정이 완료되었습니다.";
 
     }
+    public Post getPostById(Long postId) {
+        return postRepository.findById(postId).orElseThrow(
+                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
+        );
+    }
+
 
     //수업 완료
     @Override
@@ -166,13 +171,17 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public List<Post> getCompletePost(Member member) {
         List<TuitionRequest> tuitionRequestList = tuitionRequestRepository.findAllByTuteeIdAndTuitionState(member.getId(), TuitionState.DONE);
-        List<Long> tuitionIdList = new ArrayList<>();
-        for (TuitionRequest tuitionRequest : tuitionRequestList) {
-            tuitionIdList.add(tuitionRequest.getPostId());
-        }
-        List<Post> postList = postRepository.findAllById(tuitionIdList);
+        List<Post> postList = tuitionRequestList.stream().map((item) -> item.getPost()).collect(Collectors.toList());
         return postList;
     }
+
+    @Override
+    @Transactional
+    public Page<Post> getReviewFilter(PageRequestDto pageRequestDto, Member member) {
+        List<TuitionRequest> tuitionRequestList = tuitionRequestRepository.findAllByTuteeIdAndTuitionState(member.getId(), TuitionState.DONE);
+
+    }
+
 
     @Override
     @Transactional(readOnly = true) 

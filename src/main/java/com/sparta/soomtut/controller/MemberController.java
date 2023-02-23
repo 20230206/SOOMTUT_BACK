@@ -6,7 +6,9 @@ import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.service.interfaces.MemberService;
 
 import com.sparta.soomtut.util.security.UserDetailsImpl;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
