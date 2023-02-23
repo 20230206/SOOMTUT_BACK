@@ -161,9 +161,9 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberInfoResponseDto getMemberInfoResponseDto(Long memberId) {
+    public MemberInfoResponse getMemberInfoResponseDto(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage()));
-        MemberInfoResponseDto memberInfoResponseDto = MemberInfoResponseDto.toDto(member,locationService.findMemberLocation(memberId));
+        MemberInfoResponse memberInfoResponseDto = MemberInfoResponse.toDto(member,locationService.findMemberLocation(memberId));
         return memberInfoResponseDto;
     }
 }

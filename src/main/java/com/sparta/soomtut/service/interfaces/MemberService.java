@@ -37,9 +37,9 @@ public interface MemberService {
     Page<Review> getReview(PageRequestDto pageRequestDto, Member member);
 
     String deleteReviewRequest(Long reviewId);
-    MemberInfoResponseDto getMemberInfo(Member member);
-
-    MemberInfoResponseDto getMemberInfoResponseDto(Long memberId);
     MemberInfoResponse getMemberInfo(Member member);
+
+    MemberInfoResponse getMemberInfoResponseDto(Long memberId);
+
     Optional<Member> findByProviderAndOauthEmail(String provider, String email);
 }

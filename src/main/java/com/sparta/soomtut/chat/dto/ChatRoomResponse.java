@@ -1,7 +1,8 @@
 package com.sparta.soomtut.chat.dto;
 
 import com.sparta.soomtut.chat.entity.ChatRoom;
-import com.sparta.soomtut.dto.response.MemberInfoResponseDto;
+import com.sparta.soomtut.dto.response.MemberInfoResponse;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,14 +14,14 @@ import java.util.List;
 public class ChatRoomResponse {
 
     private Long id;
-    private MemberInfoResponseDto member1;
+    private MemberInfoResponse member1;
 
-    private MemberInfoResponseDto member2;
+    private MemberInfoResponse member2;
 
     private List<ChatResponseDto> chats;
 
     private LocalDateTime createdAt;
-    private ChatRoomResponse(Long id, MemberInfoResponseDto member1, MemberInfoResponseDto member2, List<ChatResponseDto> chats, LocalDateTime createdAt ) {
+    private ChatRoomResponse(Long id, MemberInfoResponse member1, MemberInfoResponse member2, List<ChatResponseDto> chats, LocalDateTime createdAt ) {
         this.id = id;
         this.member1 = member1;
         this.member2 = member2;
@@ -28,7 +29,7 @@ public class ChatRoomResponse {
         this.createdAt = createdAt;
     }
 
-    public static ChatRoomResponse of(ChatRoom chatRoom,MemberInfoResponseDto member1, MemberInfoResponseDto member2, List<ChatResponseDto> chats ){
+    public static ChatRoomResponse of(ChatRoom chatRoom,MemberInfoResponse member1, MemberInfoResponse member2, List<ChatResponseDto> chats ){
         return new ChatRoomResponse(
                 chatRoom.getId(),
                 member1,
