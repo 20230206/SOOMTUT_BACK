@@ -36,7 +36,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     // 채팅방 하나만 가져오기
     @Override
     public ChatRoomResponse getMyChatRoom(Long tuteeId, Long postId) {
-        ChatRoom chatRoom = chatRoomRepository.findByTuteeIdAndPostId(tuteeId, postId)
+        ChatRoom chatRoom = chatRoomRepository.findByTuteeIdOrPostId(tuteeId, postId)
                 .orElseGet(()-> createRoom(tuteeId, postId));
 
 
@@ -64,7 +64,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     // 지원 함수
     @Override
     public Page<ChatRoom> getAllMyChatRooms(Long memberId, Pageable pageable) {
-        return chatRoomRepository.findAllByTuteeIdAndTutorId(memberId, memberId, pageable);
+        return chatRoomRepository.findAllByTuteeIdOrTutorId(memberId, memberId, pageable);
     }
 
 

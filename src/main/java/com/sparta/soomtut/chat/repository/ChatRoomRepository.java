@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
     boolean existsByTuteeIdAndTutorId(Long tuteeId, Long tutorId);
-    Page<ChatRoom> findAllByTuteeIdAndTutorId(Long tuteeId, Long tutorId, Pageable pageable);
-    Optional<ChatRoom> findByTuteeIdAndPostId(Long tuteeId, Long postId);
+    Page<ChatRoom> findAllByTuteeIdOrTutorId(Long tuteeId, Long tutorId, Pageable pageable);
+    Optional<ChatRoom> findByTuteeIdOrPostId(Long tuteeId, Long postId);
 
 }
