@@ -16,23 +16,27 @@ public class ChatRoom {
     @Column(name ="room_id")
     private Long id;
 
-    @Column(name ="member1_id", nullable = false)
-    private Long member1Id;
+    @Column(name ="tutee_id", nullable = false)
+    private Long tuteeId;
 
-    @Column(name ="member2_id", nullable = false)
-    private Long member2Id;
+    @Column(name ="tutor_id", nullable = false)
+    private Long tutorId;
+
+    @Column(name ="post_id", nullable = false)
+    private Long postId;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    private ChatRoom(Long member1Id, Long member2Id) {
-        this.member1Id = member1Id;
-        this.member2Id = member2Id;
+    private ChatRoom(Long tuteeId, Long tutorId, Long postId) {
+        this.tuteeId = tuteeId;
+        this.tutorId = tutorId;
+        this.postId = postId;
         this.createdAt = LocalDateTime.now();
     }
 
-    public static ChatRoom of( Long member1Id, Long member2Id){
-        return new ChatRoom(member1Id, member2Id);
+    public static ChatRoom of( Long tuteeId, Long tutorId, Long postId){
+        return new ChatRoom(tuteeId, tutorId, postId);
     }
 
 
