@@ -26,9 +26,9 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public ChatRoom createRoom(Long tuteeId, Long postId) {
         Member tutor = postService.getPostById(postId).getMember();
-        if(chatRoomRepository.existsByTuteeIdAndTutorId(tuteeId, tutor.getId())){
-            throw new IllegalArgumentException(ErrorCode.DUPLICATED_CHATTING.getMessage());
-        }
+        // if(chatRoomRepository.existsByTuteeIdAndTutorId(tuteeId, tutor.getId())){
+        //     throw new IllegalArgumentException(ErrorCode.DUPLICATED_CHATTING.getMessage());
+        // }
         ChatRoom chatRoom = ChatRoom.of(tuteeId,tutor.getId(), postId);
         return chatRoomRepository.save(chatRoom);
     }

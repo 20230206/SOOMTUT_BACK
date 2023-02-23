@@ -23,8 +23,11 @@ public class ChatRoomController {
 
     // 채팅방 가져오기 (생성 or 조회)
     @PostMapping("/{postId}")
-    public ResponseEntity<?> getMyChatRoom(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postId) {
-        ChatRoomResponse data = chatRoomService.getMyChatRoom(postId, userDetails.getMemberId());
+    public ResponseEntity<?> getMyChatRoom(
+        @AuthenticationPrincipal UserDetailsImpl userDetails, 
+        @PathVariable Long postId) 
+    {
+        ChatRoomResponse data = chatRoomService.getMyChatRoom(userDetails.getMemberId(), postId);
         return ToResponse.of(data, SuccessCode.MESSGE_OK);
     }
 

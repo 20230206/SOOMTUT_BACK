@@ -13,7 +13,6 @@ public class ChatRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="room_id")
     private Long id;
 
     @Column(name ="tutee_id", nullable = false)
