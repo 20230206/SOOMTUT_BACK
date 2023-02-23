@@ -3,6 +3,7 @@ package com.sparta.soomtut.chat.dto;
 import com.sparta.soomtut.chat.entity.ChatRoom;
 import com.sparta.soomtut.dto.response.MemberInfoResponse;
 
+import com.sparta.soomtut.dto.response.PostResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,28 +15,44 @@ import java.util.List;
 public class ChatRoomResponse {
 
     private Long id;
-    private MemberInfoResponse member1;
+    private MemberInfoResponse tutee;
 
-    private MemberInfoResponse member2;
+    private MemberInfoResponse tutor;
 
     private List<ChatResponseDto> chats;
 
+    private PostResponseDto post;
+
     private LocalDateTime createdAt;
-    private ChatRoomResponse(Long id, MemberInfoResponse member1, MemberInfoResponse member2, List<ChatResponseDto> chats, LocalDateTime createdAt ) {
+    private ChatRoomResponse(
+            Long id,
+            MemberInfoResponse tutee,
+            MemberInfoResponse tutor,
+            List<ChatResponseDto> chats,
+            LocalDateTime createdAt,
+            PostResponseDto post ) {
+
         this.id = id;
-        this.member1 = member1;
-        this.member2 = member2;
+        this.tutee = tutee;
+        this.tutor = tutor;
         this.chats = chats;
         this.createdAt = createdAt;
+        this.post = post;
     }
 
-    public static ChatRoomResponse of(ChatRoom chatRoom,MemberInfoResponse member1, MemberInfoResponse member2, List<ChatResponseDto> chats ){
+    public static ChatRoomResponse of(
+            ChatRoom chatRoom,
+            MemberInfoResponse tutee,
+            MemberInfoResponse tutor,
+            List<ChatResponseDto> chats,
+            PostResponseDto post){
         return new ChatRoomResponse(
                 chatRoom.getId(),
-                member1,
-                member2,
+                tutee,
+                tutor,
                 chats,
-                chatRoom.getCreatedAt()
+                chatRoom.getCreatedAt(),
+                post
         );
     }
 }
