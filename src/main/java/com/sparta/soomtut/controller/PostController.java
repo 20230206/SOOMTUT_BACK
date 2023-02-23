@@ -4,6 +4,9 @@ import com.sparta.soomtut.dto.request.*;
 import com.sparta.soomtut.entity.Category;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.dto.response.PostResponseDto;
+
+import com.sparta.soomtut.entity.Post;
+
 import com.sparta.soomtut.service.impl.ImageService;
 import com.sparta.soomtut.service.impl.S3Service;
 import com.sparta.soomtut.service.interfaces.PostService;
@@ -34,7 +37,7 @@ public class PostController {
     private final ImageService imageService;
     private final S3Service s3Service;
 
-    @GetMapping(value ="/posts/{postId}") 
+    @GetMapping(value ="/posts/{postId}")
     public ResponseEntity<?> getPost(
         @PathVariable Long postId,
         @AuthenticationPrincipal UserDetailsImpl userDtails
@@ -117,6 +120,31 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(postService.getMyPost(member));
     }
 
+    // 수업 신청 필요할듯
+
+
+    // 수업 확정
+    @PostMapping("/classConfirmed/{postId}")
+    public ResponseEntity<?> classConfirmed(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        String confiremd = postService.classConfirmed(postId, userDetails.getMember());
+        return ResponseEntity.status(HttpStatus.OK).body(confiremd);
+    }
+
+    // 수업 완료
+    @PutMapping("/classComplete/{postId}")
+    public ResponseEntity<?> classComplete(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        String complete = postService.classComplete(postId, userDetails.getMember());
+        return ResponseEntity.status(HttpStatus.OK).body(complete);
+    }
+
+
+    // 완료된 수업 목록 조회
+    @GetMapping("/getCompletePost")
+    public ResponseEntity<List<Post>> getCompletePost(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        List<Post> postList = postService.getCompletePost(userDetails.getMember());
+        return ResponseEntity.status(HttpStatus.OK).body(postList);
+    }
+
     @GetMapping("/posts/{postId}/ismypost")
     public ResponseEntity<?> isMyPost(
         @PathVariable Long postId,
@@ -142,5 +170,6 @@ public class PostController {
 
         return "/images";
     }
+
 
 }

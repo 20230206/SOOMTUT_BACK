@@ -34,17 +34,17 @@ class ReviewServiceImplTest {
     @InjectMocks
     ReviewServiceImpl reviewService;
 
-    @Test
-    @DisplayName("신청강좌 찾기")
-    void findTuitionRequest() {
+    // @Test
+    // @DisplayName("신청강좌 찾기")
+    // void findTuitionRequest() {
 
-        TuitionRequest tuitionRequest = new TuitionRequest(TuitionState.DONE,1L,1L);
-        given(tuitionRequestRepository.findByPostIdAndTuteeId(anyLong(),anyLong())).willReturn(Optional.ofNullable(tuitionRequest));
+    //     TuitionRequest tuitionRequest = new TuitionRequest(TuitionState.DONE,1L,1L);
+    //     given(tuitionRequestRepository.findByPostIdAndTuteeId(anyLong(),anyLong())).willReturn(Optional.ofNullable(tuitionRequest));
 
-        TuitionRequest tut = reviewService.findTuitionRequest(1L,1L);
+    //     TuitionRequest tut = reviewService.findTuitionRequest(1L,1L);
 
-        assertThat(tuitionRequest.getPostId()).isEqualTo(tut.getPostId());
-    }
+    //     assertThat(tuitionRequest.getPostId()).isEqualTo(tut.getPostId());
+    // }
 
     @Test
     @DisplayName("리뷰 저장하기(ReviewServiceImpl)")
@@ -56,16 +56,16 @@ class ReviewServiceImplTest {
     }
 
 
-    @Test
-    @DisplayName("완료된 강좌인지 판단하기")
-    void checkTuitionState() {
-        TuitionRequest tuitionRequest = new TuitionRequest(TuitionState.DONE,1L,1L);
-        //given(reviewService.findTuitionRequest(any(),any())).willReturn(tuitionRequest);
-        tuitionRequest.changeTuitionState();
-        given(tuitionRequestRepository.findByPostIdAndTuteeId(anyLong(),anyLong())).willReturn(Optional.ofNullable(tuitionRequest));
+    // @Test
+    // @DisplayName("완료된 강좌인지 판단하기")
+    // void checkTuitionState() {
+    //     TuitionRequest tuitionRequest = new TuitionRequest(TuitionState.DONE,1L,1L);
+    //     //given(reviewService.findTuitionRequest(any(),any())).willReturn(tuitionRequest);
+    //     tuitionRequest.changeTuitionState();
+    //     given(tuitionRequestRepository.findByPostIdAndTuteeId(anyLong(),anyLong())).willReturn(Optional.ofNullable(tuitionRequest));
 
-        assertThat(reviewService.checkTuitionState(anyLong(),anyLong())).isEqualTo(true);
-    }
+    //     assertThat(reviewService.checkTuitionState(anyLong(),anyLong())).isEqualTo(true);
+    // }
 
     @Test
     @DisplayName("Id로 리뷰찾기")

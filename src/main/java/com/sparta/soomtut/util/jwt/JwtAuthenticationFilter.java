@@ -8,13 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.sparta.soomtut.util.security.UserDetailsServiceImpl;
 
@@ -32,13 +30,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException 
     {
-		String requestUri = request.getRequestURI();
-		if(requestUri.startsWith("/auth"))
-		{
-			filterChain.doFilter(request, response);
-			return;
-		}
-
 		// refresh token이 있는 쿠키정보 가져오기
 		String refreshToken = extractCookie(request);
 
@@ -66,11 +57,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			}
 		}
 		else {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
+			//throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
 		}
 		filterChain.doFilter(request, response);
     }
 
+
+	@Override
+	// 특정 URI에서 접근할 시, JWT TOKEN에 대한 검증 절차를 무시하고 필터를 통과시킨다.
+	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+		String path = request.getRequestURI(); // domain name /    
+		return path.startsWith("/auth");
+	}
+
+	// 쿠키
 	private String extractCookie(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 
@@ -84,4 +84,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		return null;
 	}
+
+
+
+
 }

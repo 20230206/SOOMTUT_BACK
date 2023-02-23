@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.sparta.soomtut.dto.request.LocationRequestDto;
-import com.sparta.soomtut.dto.request.SignupRequestDto;
+import com.sparta.soomtut.dto.request.RegisterRequest;
 
 @RequiredArgsConstructor
 @Service
@@ -50,13 +50,20 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional
-    public Location saveLocation(SignupRequestDto requestDto, Member member) {
+    public Location saveLocation(RegisterRequest requestDto, Member member) {
         return locationRepository.save(Location.forNewMember()
                     .member(member)
                     .address(requestDto.getAddress())
                     .vectorX(requestDto.getVectorX())
                     .vectorY(requestDto.getVectorY())
                     .build());
+    }
+
+
+    @Override
+    @Transactional
+    public Location saveLocation(Location location) {
+        return locationRepository.save(location);
     } 
     
 }

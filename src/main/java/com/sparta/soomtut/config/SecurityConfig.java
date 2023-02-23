@@ -12,62 +12,65 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig implements WebMvcConfigurer {
+public class SecurityConfig {
+
     private final JwtProvider jwtProvider;
     private final UserDetailsServiceImpl userDetailsService;
-    private final OAuth2UserServiceImpl oAuth2UserService;
     private final AccessDeniedHandlerImpl accessDeniedHandler;
     private final AuthdenticationEntryPointImpl authdenticationEntryPoint;
+    private final OAuth2UserServiceImpl oAuth2UserService;
     private final OAuth2AuthenticationSuccessHandlerImpl successHandler;
-    
 
     public static final String ALLOWED_METHOD_NAMES = "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH";
     public static final String ALLOWED_HEADERS_NAME = "" + HttpHeaders.AUTHORIZATION + "," + HttpHeaders.SET_COOKIE;
+
+    @Value("${endpoint.back}") private String ENDPOINT_BACK;
+    @Value("${endpoint.front}") private String ENDPOINT_FRONT;
     
 	@Bean
 	public JwtAuthenticationFilter jwtVerificationFilter() {
 		return new JwtAuthenticationFilter(jwtProvider, userDetailsService);
 	}
 
-    // @Bean
-    // public WebSecurityCustomizer webSecurityCustomizer() {
-    //     return (web) -> web.ignoring()
-    //             .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-    // }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.httpBasic().disable()
             .csrf().disable()
-            .formLogin(login -> login
-                .loginPage("http://localhost:3000/signin")
-                .defaultSuccessUrl("http://localhost:3000/")
-                .permitAll()
-                )
+            .formLogin()
+                .loginPage(ENDPOINT_BACK + "/auth/login")
+                .defaultSuccessUrl(ENDPOINT_FRONT)
+            .and()
             .oauth2Login(login -> login
                 .successHandler(successHandler)
-                .userInfoEndpoint()             // 로그인 성공 후 사용자 정보 획득
-                .userService(oAuth2UserService) // 사용자 정보 처리 서비스 로직
+                .userInfoEndpoint()             
+                .userService(oAuth2UserService) 
             );
         
+        http.cors()
+                .configurationSource(corsConfigurationSource());
+
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/static/**").permitAll()
-                .requestMatchers("/auth/**").permitAll()
+                    .requestMatchers("/static/**").permitAll()
+                    .requestMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(jwtVerificationFilter(), UsernamePasswordAuthenticationFilter.class);
 
@@ -77,14 +80,17 @@ public class SecurityConfig implements WebMvcConfigurer {
         return http.build();
     }
 
-    @Override
-    public void addCorsMappings(final CorsRegistry registry) {
-        registry.addMapping("/**")
-                .exposedHeaders("*")
-                .allowedHeaders("*")
-                .allowCredentials(true)
-                .allowedMethods("*")
-                .allowedOrigins("http://localhost:3000");
-                
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setExposedHeaders(Arrays.asList("*", "Set-Cookie", "Authorization"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
+
 }

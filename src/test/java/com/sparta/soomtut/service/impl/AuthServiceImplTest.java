@@ -11,10 +11,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.sparta.soomtut.dto.request.SigninRequestDto;
-import com.sparta.soomtut.dto.request.SignupRequestDto;
-import com.sparta.soomtut.dto.response.MemberInfoResponseDto;
-import com.sparta.soomtut.dto.response.SigninResponseDto;
+import com.sparta.soomtut.dto.request.LoginRequest;
+import com.sparta.soomtut.dto.request.RegisterRequest;
+import com.sparta.soomtut.dto.response.MemberInfoResponse;
+import com.sparta.soomtut.dto.response.LoginResponse;
 import com.sparta.soomtut.repository.LocationRepository;
 import com.sparta.soomtut.repository.MemberRepository;
 import com.sparta.soomtut.entity.Member;
@@ -60,7 +60,7 @@ public class AuthServiceImplTest {
     @DisplayName("회원 가입(성공)")
     void signup() {
         // given
-        SignupRequestDto requestDto = SignupRequestDto.builder()
+        RegisterRequest requestDto = RegisterRequest.builder()
             .nickname("SignupSuccess")
             .email("user@user.com")
             .password("1q2w3e4r!")
@@ -89,7 +89,7 @@ public class AuthServiceImplTest {
         when(locationService.saveLocation(requestDto, member)).thenReturn(location);
 
         // when
-        MemberInfoResponseDto res = authService.register(requestDto);
+        MemberInfoResponse res = authService.register(requestDto);
 
         // then
         // Hibernate: 
@@ -105,7 +105,7 @@ public class AuthServiceImplTest {
     @DisplayName("로그인 (성공)")
     void signin() {
         // given
-        SigninRequestDto requestDto = SigninRequestDto.builder()
+        LoginRequest requestDto = LoginRequest.builder()
             .email("user@user.com")
             .password("1q2w3e4r!")
             .build();
@@ -116,7 +116,7 @@ public class AuthServiceImplTest {
         // 패스워드 우회?
 
         // when
-        SigninResponseDto res = authService.login(requestDto);
+        LoginResponse res = authService.login(requestDto);
 
         // then
         // verify(jwtProvider).createToken(member.getEmail(), member.getMemberRole(), TokeType.);
