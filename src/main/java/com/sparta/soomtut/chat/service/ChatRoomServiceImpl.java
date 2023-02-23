@@ -26,7 +26,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public void createRoom(Long tuteeId, Long postId) {
         Member tutor = postService.getPostById(postId).getMember();
-        if(chatRoomRepository.existsByMember1IdAndMember2Id(tuteeId, tutor.getId())){
+        if(chatRoomRepository.existsByTuteeIdAnAndTutorId(tuteeId, tutor.getId())){
             throw new IllegalArgumentException(ErrorCode.DUPLICATED_CHATTING.getMessage());
         }
         ChatRoom chatRoom = ChatRoom.of(tuteeId,tutor.getId(), postId);
@@ -62,7 +62,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     // 지원 함수
     @Override
     public Page<ChatRoom> getAllMyChatRooms(Long memberId, Pageable pageable) {
-        return chatRoomRepository.findAllByMember1IdAndMember2Id(memberId, memberId, pageable);
+        return chatRoomRepository.findAllByTuteeIdAndTutorId(memberId, memberId, pageable);
     }
 
 
