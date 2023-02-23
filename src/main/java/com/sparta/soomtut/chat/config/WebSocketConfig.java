@@ -17,10 +17,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
 
         registry.addEndpoint("/connect")
-                .setAllowedOrigins("*")
+                // .setAllowedOrigins("*")
+                .setAllowedOriginPatterns("*")
                 .withSockJS();
-
-        registry.addEndpoint("/connect");
     }
 
     @Override
@@ -30,6 +29,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.setApplicationDestinationPrefixes("/publish");
 
     }
-
 
 }
