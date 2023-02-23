@@ -29,6 +29,7 @@ public interface MemberService {
     Member getMemberById(Long memberId);
     Member getMemberByEmail(String email);
     Member saveMember(Member member);
+    Member getMemberByNickname(String nickname);
 
     boolean existsMemberByEmail(String email);
     boolean existsMemberByNickname(String nickname);
@@ -37,5 +38,8 @@ public interface MemberService {
 
     String deleteReviewRequest(Long reviewId);
     MemberInfoResponse getMemberInfo(Member member);
+
+    MemberInfoResponse getMemberInfoResponseDto(Long memberId);
+
     Optional<Member> findByProviderAndOauthEmail(String provider, String email);
 }
