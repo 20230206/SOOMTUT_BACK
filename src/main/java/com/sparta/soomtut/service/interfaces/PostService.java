@@ -32,7 +32,7 @@ public interface PostService {
     String classComplete(Long postId, Member member);
     List<Post> getCompletePost(Member member);
 
-    Post findPostById(Long postId);
+    Post getPostById(Long postId);
     Long getTutorId(Long postId);
     PostResponseDto getMyPost(Member member);
 

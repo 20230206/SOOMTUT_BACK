@@ -107,7 +107,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public Post findPostById(Long postId){
+    public Post getPostById(Long postId){
        Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage())
         );
@@ -118,7 +118,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public Long getTutorId(Long postId) {
 
-        return findPostById(postId).getMember().getId();
+        return getPostById(postId).getMember().getId();
 
     }
 
