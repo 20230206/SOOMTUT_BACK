@@ -6,9 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ChatRoomService {
-    void createRoom(Long tuteeId, Long postId);
+    ChatRoom createRoom(Long tuteeId, Long postId);
 
-    ChatRoomResponse getMyChatRoom(Long roomId);
+    ChatRoomResponse getMyChatRoom(Long tuteeId, Long postId);
     Page<ChatRoomResponse> getMyChatRooms(Long memberId, Pageable pageable);
 
     Page<ChatRoom> getAllMyChatRooms(Long memberId, Pageable pageable);

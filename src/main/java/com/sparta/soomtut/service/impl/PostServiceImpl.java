@@ -139,8 +139,10 @@ public class PostServiceImpl implements PostService {
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
         );
 
+        boolean isExistsRequest = tuitionRequestRepository.existsByPostIdAndTuteeIdAndTuitionState(postId, member.getId(), TuitionState.IN_PROGRESS);
+        if(isExistsRequest) return "수업 확정이 완료되었습니다.";
+
         TuitionRequest tuitionRequest = new TuitionRequest(postId, member.getId());
-        if (tuitionRequest.getTutorId().equals(member.getId()));
         tuitionRequestRepository.save(tuitionRequest);
         return "수업 확정이 완료되었습니다.";
 
