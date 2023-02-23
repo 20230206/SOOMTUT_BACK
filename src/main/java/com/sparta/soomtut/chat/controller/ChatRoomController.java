@@ -21,16 +21,10 @@ public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
 
-    // 채팅방 개설(완료) - 매개변수로 뭘 받을 지 모르겠음.
+    // 채팅방 가져오기 (생성 or 조회)
     @PostMapping("/{postId}")
-        public void createRoom(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postId) {
-        chatRoomService.createRoom(userDetails.getMemberId(), postId);
-    }
-
-    // 채팅방 가져오기 (완료)
-    @PostMapping("/{roomId}")
-    public ResponseEntity<?> getMyChatRoom(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long roomId) {
-        ChatRoomResponse data = chatRoomService.getMyChatRoom(roomId);
+    public ResponseEntity<?> getMyChatRoom(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postId) {
+        ChatRoomResponse data = chatRoomService.getMyChatRoom(postId, userDetails.getMemberId());
         return ToResponse.of(data, SuccessCode.MESSGE_OK);
     }
 

@@ -24,20 +24,22 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     // 새로운 채팅방 생성
     @Override
-    public void createRoom(Long tuteeId, Long postId) {
+    public ChatRoom createRoom(Long tuteeId, Long postId) {
         Member tutor = postService.getPostById(postId).getMember();
         if(chatRoomRepository.existsByTuteeIdAndTutorId(tuteeId, tutor.getId())){
             throw new IllegalArgumentException(ErrorCode.DUPLICATED_CHATTING.getMessage());
         }
         ChatRoom chatRoom = ChatRoom.of(tuteeId,tutor.getId(), postId);
-        chatRoomRepository.save(chatRoom);
+        return chatRoomRepository.save(chatRoom);
     }
 
     // 채팅방 하나만 가져오기
     @Override
-    public ChatRoomResponse getMyChatRoom(Long roomId) {
-        ChatRoom chatRoom = chatRoomRepository.findById(roomId)
-                .orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_CHATROOM.getMessage()));
+    public ChatRoomResponse getMyChatRoom(Long tuteeId, Long postId) {
+        ChatRoom chatRoom = chatRoomRepository.findByTuteeIdAndPostId(tuteeId, postId)
+                .orElseGet(()-> createRoom(tuteeId, postId));
+
+
         return ChatRoomResponse.of(chatRoom,
                 memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
                 memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
