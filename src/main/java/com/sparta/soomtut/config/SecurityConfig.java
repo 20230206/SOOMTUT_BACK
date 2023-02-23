@@ -33,9 +33,9 @@ public class SecurityConfig {
 
     private final JwtProvider jwtProvider;
     private final UserDetailsServiceImpl userDetailsService;
-    private final OAuth2UserServiceImpl oAuth2UserService;
     private final AccessDeniedHandlerImpl accessDeniedHandler;
     private final AuthdenticationEntryPointImpl authdenticationEntryPoint;
+    private final OAuth2UserServiceImpl oAuth2UserService;
     private final OAuth2AuthenticationSuccessHandlerImpl successHandler;
 
     public static final String ALLOWED_METHOD_NAMES = "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH";
@@ -53,6 +53,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.httpBasic().disable()
             .csrf().disable()
+            .formLogin()
+                .loginPage(ENDPOINT_BACK + "/auth/login")
+                .defaultSuccessUrl(ENDPOINT_FRONT)
+            .and()
             .oauth2Login(login -> login
                 .successHandler(successHandler)
                 .userInfoEndpoint()             
