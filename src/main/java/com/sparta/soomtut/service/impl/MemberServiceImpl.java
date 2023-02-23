@@ -119,7 +119,12 @@ public class MemberServiceImpl implements MemberService{
     public Member saveMember(Member member){
         return memberRepository.save(member);
     }
-    
+
+    @Override
+    public Member getMemberByNickname(String nickname) {
+        return memberRepository.findByNickname(nickname).orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage()));
+    }
+
     @Override
     @Transactional(readOnly = true)
     public boolean existsMemberByEmail(String email) {
@@ -162,5 +167,12 @@ public class MemberServiceImpl implements MemberService{
     @Transactional
     public Optional<Member> findByProviderAndOauthEmail(String provider, String email) {
         return memberRepository.findByProviderAndOauthEmail(provider, email);
+    }
+
+    @Override
+    public MemberInfoResponse getMemberInfoResponseDto(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage()));
+        MemberInfoResponse memberInfoResponseDto = MemberInfoResponse.toDto(member,locationService.findMemberLocation(memberId));
+        return memberInfoResponseDto;
     }
 }

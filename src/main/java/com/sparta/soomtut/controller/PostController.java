@@ -28,7 +28,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class PostController {
     private final PostService postService;
     private final FavMemberPostService favMemberPostService;
@@ -116,7 +115,8 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(postService.getMyPost(member));
     }
 
-
+    // 수업 신청 필요할듯
+    
 
     // 수업 확정
     @PostMapping("/classConfirmed/{postId}")

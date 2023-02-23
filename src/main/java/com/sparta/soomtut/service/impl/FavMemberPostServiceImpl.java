@@ -37,7 +37,7 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
     @Transactional
     @Override
     public PostResponseDto findFavPost(Long id){
-        Post post = postService.findPostById(id);
+        Post post = postService.getPostById(id);
         FavMemberPost favMemberPost = favMemberPostRepository.findByPostId(post.getId())
                 .orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_FAVPOST.getMessage()));
         return new PostResponseDto(favMemberPost.getPost());
@@ -63,7 +63,7 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
         //  -> findByPostIdAndMemberId 통해 해당 기록을 가져오고, 해당기록의 내용을 반대로 변경시켜준다.
         
         if(!hasFavPost(postId, member)) {
-            Post post = postService.findPostById(postId);
+            Post post = postService.getPostById(postId);
             FavMemberPost data = createFavPost(post, member);
             return data.isStatus();
         }

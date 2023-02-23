@@ -231,3 +231,5 @@ application-oauth.properties
 .idea/compiler.xml
 
 .idea/jarRepositories.xml
+
+.idea/dataSources.xml

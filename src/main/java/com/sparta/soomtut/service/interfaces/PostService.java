@@ -34,7 +34,7 @@ public interface PostService {
     List<Post> getCompletePost(Member member);
     Page<Post> getReviewFilter(PageRequestDto pageRequestDto, Member member);
 
-    Post findPostById(Long postId);
+    Post getPostById(Long postId);
     Long getTutorId(Long postId);
     PostResponseDto getMyPost(Member member);
 
