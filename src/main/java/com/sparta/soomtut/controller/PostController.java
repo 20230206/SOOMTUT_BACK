@@ -36,7 +36,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class PostController {
     private final PostService postService;
     private final FavMemberPostService favMemberPostService;

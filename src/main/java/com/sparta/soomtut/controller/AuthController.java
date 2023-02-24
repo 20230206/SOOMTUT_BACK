@@ -79,7 +79,7 @@ public class AuthController {
         return ToResponse.of(data, cookie, SuccessCode.LOGOUT_OK);
     }
 
-    @GetMapping(value = "/getAccesstoken")
+    @GetMapping(value = "/get-accesstoken")
     public ResponseEntity<?> getAccessToken(
         @CookieValue(name = "refresh", required=false) String refresh) 
     {
@@ -92,7 +92,7 @@ public class AuthController {
         return ToResponse.of(true, headers, SuccessCode.TOKEN_CHECK_OK);
     }
     
-    @PostMapping(value="/oauthlogin") 
+    @PostMapping(value="/oauth-login") 
     public ResponseEntity<?> oauthLogin(@RequestBody OAuthLoginRequest request) {
         System.out.print(request);
         var token = authService.oauthLogin(request);
@@ -101,7 +101,7 @@ public class AuthController {
         return ToResponse.of(true, cookie, SuccessCode.REFRESH_OK);
     }
 
-    @PutMapping(value="/oauthlocation")
+    @PutMapping(value="/oauth-getinfo")
     public ResponseEntity<?> oauthLocation(
         @RequestBody OAuthLocationRequest request,
         @CookieValue("refresh") String refresh
