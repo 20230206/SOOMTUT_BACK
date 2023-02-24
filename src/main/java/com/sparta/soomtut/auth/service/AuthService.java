@@ -1,12 +1,10 @@
-package com.sparta.soomtut.service.interfaces;
+package com.sparta.soomtut.auth.service;
 
-import com.sparta.soomtut.entity.Auth;
-
-import com.sparta.soomtut.dto.request.LoginRequest;
+import com.sparta.soomtut.auth.dto.LoginRequest;
+import com.sparta.soomtut.auth.dto.OAuthLocationRequest;
+import com.sparta.soomtut.auth.dto.OAuthLoginRequest;
+import com.sparta.soomtut.auth.entity.Auth;
 import com.sparta.soomtut.dto.request.RegisterRequest;
-import com.sparta.soomtut.dto.request.OAuthLoginRequest;
-import com.sparta.soomtut.dto.request.OAuthLocationRequest;
-
 import com.sparta.soomtut.dto.response.LoginResponse;
 import com.sparta.soomtut.dto.response.MemberInfoResponse;
 

@@ -1,4 +1,4 @@
-package com.sparta.soomtut.service.impl;
+package com.sparta.soomtut.auth.service.impl;
 
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -6,23 +6,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sparta.soomtut.dto.request.RegisterRequest;
-import com.sparta.soomtut.dto.request.LoginRequest;
-import com.sparta.soomtut.dto.request.OAuthLoginRequest;
-import com.sparta.soomtut.dto.request.OAuthLocationRequest;
-
+import com.sparta.soomtut.auth.dto.LoginRequest;
+import com.sparta.soomtut.auth.dto.OAuthLocationRequest;
+import com.sparta.soomtut.auth.dto.OAuthLoginRequest;
+import com.sparta.soomtut.auth.entity.Auth;
+import com.sparta.soomtut.auth.repository.AuthRepository;
+import com.sparta.soomtut.auth.service.AuthService;
 import com.sparta.soomtut.dto.response.LoginResponse;
 import com.sparta.soomtut.dto.response.MemberInfoResponse;
-
-import com.sparta.soomtut.entity.Auth;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Location;
-
-import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.LocationService;
 import com.sparta.soomtut.service.interfaces.MemberService;
-
-import com.sparta.soomtut.repository.AuthRepository;
-
 import com.sparta.soomtut.util.enums.MemberRole;
 import com.sparta.soomtut.util.jwt.JwtProvider;
 import com.sparta.soomtut.util.jwt.TokenType;

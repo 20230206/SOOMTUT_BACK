@@ -1,4 +1,4 @@
-package com.sparta.soomtut.controller;
+package com.sparta.soomtut.auth.controller;
 
 
 import org.springframework.http.HttpHeaders;
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sparta.soomtut.dto.request.LoginRequest;
+import com.sparta.soomtut.auth.dto.LoginRequest;
+import com.sparta.soomtut.auth.dto.OAuthLocationRequest;
+import com.sparta.soomtut.auth.dto.OAuthLoginRequest;
+import com.sparta.soomtut.auth.service.AuthService;
 import com.sparta.soomtut.dto.request.RegisterRequest;
-import com.sparta.soomtut.dto.request.OAuthLoginRequest;
-import com.sparta.soomtut.dto.request.OAuthLocationRequest;
-import com.sparta.soomtut.service.interfaces.AuthService;
 import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.util.cookies.RefreshCookie;
 import com.sparta.soomtut.util.response.SuccessCode;
@@ -31,6 +31,8 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
     private final MemberService memberService;
     private final AuthService authService;
+
+    private static final String REFRESH_KEY = "refresh";
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(
@@ -66,14 +68,13 @@ public class AuthController {
 
     @PostMapping(value = "/logout")
     public ResponseEntity<?> logout(
-        @CookieValue(name = "refresh", required=false) String refresh
+        @CookieValue(name = REFRESH_KEY, required=false) String refresh
     )
     {   
         // TODO: refresh token을 black list 처리 할지 아직 정해지지 않음
         // redis 서버 이용하거나
         // 시큐리티 내장된 token session
 
-        // cookie의 정보 삭제
         var cookie = RefreshCookie.getCookie("", false);
         boolean data = false;
         return ToResponse.of(data, cookie, SuccessCode.LOGOUT_OK);
@@ -81,7 +82,7 @@ public class AuthController {
 
     @GetMapping(value = "/get-accesstoken")
     public ResponseEntity<?> getAccessToken(
-        @CookieValue(name = "refresh", required=false) String refresh) 
+        @CookieValue(name = REFRESH_KEY, required=false) String refresh) 
     {
         if(refresh == null) return ResponseEntity.ok().body(false);
 
@@ -104,7 +105,7 @@ public class AuthController {
     @PutMapping(value="/oauth-getinfo")
     public ResponseEntity<?> oauthLocation(
         @RequestBody OAuthLocationRequest request,
-        @CookieValue("refresh") String refresh
+        @CookieValue(REFRESH_KEY) String refresh
     ) 
     {
         var data = authService.setOAuthLocation(request, refresh);

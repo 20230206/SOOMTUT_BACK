@@ -1,4 +1,4 @@
-package com.sparta.soomtut.entity;
+package com.sparta.soomtut.auth.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

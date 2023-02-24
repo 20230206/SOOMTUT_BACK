@@ -1,7 +1,8 @@
-package com.sparta.soomtut.repository;
+package com.sparta.soomtut.auth.repository;
 
-import com.sparta.soomtut.entity.Auth;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.sparta.soomtut.auth.entity.Auth;
 
 import java.util.Optional;
 

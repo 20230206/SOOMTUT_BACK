@@ -8,7 +8,8 @@ import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.service.impl.ImageService;
 import com.sparta.soomtut.service.impl.S3Service;
 import com.sparta.soomtut.service.interfaces.MemberService;
-
+import com.sparta.soomtut.util.response.ToResponse;
+import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -26,22 +27,20 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController  {
     private final MemberService memberService;
-
     private final ImageService imageService;
-
     private final S3Service s3Service;
 
-
-    @GetMapping(value = "/getmyinfo")
+    @GetMapping(value = "/info/myinfo")
     ResponseEntity<?> getMyInfo(
         @AuthenticationPrincipal UserDetailsImpl userDetails
     )
     {
         var data = memberService.getMemberInfo(userDetails.getMember());
-        return ResponseEntity.ok().body(data);
+        return ToResponse.of(data, SuccessCode.MEMBER_MYINFO_OK);
     }
 
 

@@ -8,8 +8,8 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import com.sparta.soomtut.util.security.UserDetailsImpl;
-import com.sparta.soomtut.entity.Auth;
-import com.sparta.soomtut.service.interfaces.AuthService;
+import com.sparta.soomtut.auth.entity.Auth;
+import com.sparta.soomtut.auth.service.AuthService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
