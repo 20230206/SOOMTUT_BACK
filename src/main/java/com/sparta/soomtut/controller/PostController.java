@@ -152,15 +152,15 @@ public class PostController {
         List<Post> postList = postService.getCompletePost(userDetails.getMember());
         return ResponseEntity.status(HttpStatus.OK).body(postList);
     }
-
-    // 후기(작성/미작성) 수업 조회
-    @GetMapping(value = "/reviewFilter")
-    public Page<Post> getReviewFilter(
-            @ModelAttribute PageRequestDto pageRequest,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
-    ){
-        return postService.getReviewFilter(pageRequest, userDetails.getMember());
-    }
+//
+//    // 후기(작성/미작성) 수업 조회
+//    @GetMapping(value = "/reviewFilter")
+//    public Page<Post> getReviewFilter(
+//            @ModelAttribute PageRequestDto pageRequest,
+//            @AuthenticationPrincipal UserDetailsImpl userDetails
+//    ){
+//        return postService.getReviewFilter(pageRequest, userDetails.getMember());
+//    }
 
     @GetMapping("/posts/{postId}/ismypost")
     public ResponseEntity<?> isMyPost(

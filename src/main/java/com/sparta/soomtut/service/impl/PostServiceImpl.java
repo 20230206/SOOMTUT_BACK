@@ -139,22 +139,17 @@ public class PostServiceImpl implements PostService {
     public String classConfirmed(Long postId, Member member) {
         Post post = getPostById(postId);
 
-        TuitionRequest tuitionRequest = new TuitionRequest(post, member.getId());
-        
+
         boolean isExistsRequest = tuitionRequestRepository.existsByPostIdAndTuteeIdAndTuitionState(postId, member.getId(), TuitionState.NONE);
         if(isExistsRequest) return "수업 확정이 완료되었습니다.";
 
-        TuitionRequest tuitionRequest = new TuitionRequest(postId, member.getId());
+        TuitionRequest tuitionRequest = new TuitionRequest(post, member.getId());
         
         tuitionRequestRepository.save(tuitionRequest);
         return "수업 확정이 완료되었습니다.";
 
     }
-    public Post getPostById(Long postId) {
-        return postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
-        );
-    }
+
 
 
     //수업 완료
@@ -181,13 +176,13 @@ public class PostServiceImpl implements PostService {
         return postList;
     }
 
-    @Override
-    @Transactional
-    public Page<Post> getReviewFilter(PageRequestDto pageRequestDto, Member member) {
-        List<TuitionRequest> tuitionRequestList = tuitionRequestRepository.findAllByTuteeIdAndTuitionStateAndReviewFilterIsFalse(member.getId(), Boolean.FALSE);
-        List<Post> postReviewList = tuitionRequestList.stream().map((item) -> item.getPost()).collect(Collectors.toList());
-
-    }
+//    @Override
+//    @Transactional
+//    public Page<Post> getReviewFilter(PageRequestDto pageRequestDto, Member member) {
+//        List<TuitionRequest> tuitionRequestList = tuitionRequestRepository.findAllByTuteeIdAndTuitionStateAndReviewFilterIsFalse(member.getId(), Boolean.FALSE);
+//        List<Post> postReviewList = tuitionRequestList.stream().map((item) -> item.getPost()).collect(Collectors.toList());
+//
+//    }
 
 
     @Override

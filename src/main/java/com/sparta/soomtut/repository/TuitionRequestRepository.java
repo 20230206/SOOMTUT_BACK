@@ -14,7 +14,7 @@ public interface TuitionRequestRepository extends JpaRepository<TuitionRequest,L
 
    List<TuitionRequest> findAllByTuteeIdAndTuitionState(Long TuteeId, TuitionState tuitionState);
 
-   List<TuitionRequest> findAllByTuteeIdAndTuitionStateAndReviewFilterIsFalse(Long TutorId, Boolean reviewFilter);
-   List<TuitionRequest> findAllByTutorIdAndReviewFilter(Long TutorId, Boolean reviewFilter);
+   //List<TuitionRequest> findAllByTuteeIdAndTuitionStateAndReviewFilterIsFalse(Long TutorId, Boolean reviewFilter);
+   //List<TuitionRequest> findAllByTutorIdAndReviewFilter(Long TutorId, Boolean reviewFilter);
    boolean existsByPostIdAndTuteeIdAndTuitionState(Long postId, Long id, TuitionState inProgress);
 }

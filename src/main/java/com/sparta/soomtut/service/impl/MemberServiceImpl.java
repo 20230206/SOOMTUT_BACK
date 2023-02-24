@@ -4,6 +4,7 @@ import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.entity.Member;
+import com.sparta.soomtut.entity.Post;
 import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.entity.TuitionRequest;
 import com.sparta.soomtut.repository.MemberRepository;
@@ -83,7 +84,9 @@ public class MemberServiceImpl implements MemberService{
         TuitionRequest tuitionRequest = tuitionRequestRepository.findByPostId(postId).orElseThrow(
                 () -> new IllegalArgumentException("Error")
         );
-        tuitionRequest.ChangTuitionReview(postId);
+
+        Post post = postService.getPostById(postId);
+        tuitionRequest.ChangTuitionReview(post);
 
         return "수강후기 작성이 완료되었습니다!";
 

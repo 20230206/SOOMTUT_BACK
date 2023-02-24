@@ -32,7 +32,7 @@ public interface PostService {
     String classConfirmed(Long postId, Member member);
     String classComplete(Long postId, Member member);
     List<Post> getCompletePost(Member member);
-    Page<Post> getReviewFilter(PageRequestDto pageRequestDto, Member member);
+    //Page<Post> getReviewFilter(PageRequestDto pageRequestDto, Member member);
 
     Post getPostById(Long postId);
     Long getTutorId(Long postId);
