@@ -1,4 +1,4 @@
-package com.sparta.soomtut.auth.dto;
+package com.sparta.soomtut.auth.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

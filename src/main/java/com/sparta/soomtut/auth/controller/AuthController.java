@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sparta.soomtut.auth.dto.LoginRequest;
-import com.sparta.soomtut.auth.dto.OAuthLocationRequest;
-import com.sparta.soomtut.auth.dto.OAuthLoginRequest;
+import com.sparta.soomtut.auth.dto.request.LoginRequest;
+import com.sparta.soomtut.auth.dto.request.OAuthLocationRequest;
+import com.sparta.soomtut.auth.dto.request.OAuthLoginRequest;
 import com.sparta.soomtut.auth.service.AuthService;
 import com.sparta.soomtut.dto.request.RegisterRequest;
 import com.sparta.soomtut.service.interfaces.MemberService;

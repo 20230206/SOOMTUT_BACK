@@ -1,4 +1,4 @@
-package com.sparta.soomtut.auth.dto;
+package com.sparta.soomtut.auth.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
-    private String email;
-    private String password;
+
+public class LoginResponse {
+    private String token;
 }

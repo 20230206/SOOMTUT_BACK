@@ -11,11 +11,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.sparta.soomtut.auth.dto.LoginRequest;
+import com.sparta.soomtut.auth.dto.request.LoginRequest;
+import com.sparta.soomtut.auth.dto.response.LoginResponse;
 import com.sparta.soomtut.auth.service.impl.AuthServiceImpl;
 import com.sparta.soomtut.dto.request.RegisterRequest;
 import com.sparta.soomtut.dto.response.MemberInfoResponse;
-import com.sparta.soomtut.dto.response.LoginResponse;
 import com.sparta.soomtut.repository.LocationRepository;
 import com.sparta.soomtut.repository.MemberRepository;
 import com.sparta.soomtut.entity.Member;

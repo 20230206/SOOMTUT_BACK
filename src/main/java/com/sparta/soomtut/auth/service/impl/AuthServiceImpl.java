@@ -6,13 +6,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sparta.soomtut.dto.request.RegisterRequest;
-import com.sparta.soomtut.auth.dto.LoginRequest;
-import com.sparta.soomtut.auth.dto.OAuthLocationRequest;
-import com.sparta.soomtut.auth.dto.OAuthLoginRequest;
+import com.sparta.soomtut.auth.dto.request.LoginRequest;
+import com.sparta.soomtut.auth.dto.request.OAuthLocationRequest;
+import com.sparta.soomtut.auth.dto.request.OAuthLoginRequest;
+import com.sparta.soomtut.auth.dto.response.LoginResponse;
 import com.sparta.soomtut.auth.entity.Auth;
 import com.sparta.soomtut.auth.repository.AuthRepository;
 import com.sparta.soomtut.auth.service.AuthService;
-import com.sparta.soomtut.dto.response.LoginResponse;
 import com.sparta.soomtut.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Location;
