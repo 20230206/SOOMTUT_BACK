@@ -1,10 +1,11 @@
-package com.sparta.soomtut.service.impl;
+package com.sparta.soomtut.lecture.service.impl;
 
-import com.sparta.soomtut.dto.response.PostResponseDto;
-import com.sparta.soomtut.entity.Post;
-import com.sparta.soomtut.service.interfaces.BoardService;
+import com.sparta.soomtut.lecture.dto.response.PostResponseDto;
+import com.sparta.soomtut.lecture.entity.Post;
+import com.sparta.soomtut.lecture.service.BoardService;
+import com.sparta.soomtut.lecture.service.PostService;
 import com.sparta.soomtut.service.interfaces.LocationService;
-import com.sparta.soomtut.service.interfaces.PostService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

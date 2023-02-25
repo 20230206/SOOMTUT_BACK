@@ -1,12 +1,12 @@
 package com.sparta.soomtut.service.impl;
 
-import com.sparta.soomtut.dto.response.PostResponseDto;
 import com.sparta.soomtut.entity.FavMemberPost;
-import com.sparta.soomtut.entity.Post;
+import com.sparta.soomtut.lecture.dto.response.PostResponseDto;
+import com.sparta.soomtut.lecture.entity.Post;
+import com.sparta.soomtut.lecture.service.PostService;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.repository.FavMemberPostRepository;
 import com.sparta.soomtut.service.interfaces.FavMemberPostService;
-import com.sparta.soomtut.service.interfaces.PostService;
 import com.sparta.soomtut.util.response.ErrorCode;
 
 import lombok.RequiredArgsConstructor;

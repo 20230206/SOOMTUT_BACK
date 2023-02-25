@@ -1,9 +1,9 @@
-package com.sparta.soomtut.controller;
+package com.sparta.soomtut.lecture.controller;
 
-import com.sparta.soomtut.service.impl.BoardServiceImpl;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 
 import com.sparta.soomtut.dto.request.PageRequestDto;
+import com.sparta.soomtut.lecture.service.impl.BoardServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,14 +1,15 @@
-package com.sparta.soomtut.service.impl;
+package com.sparta.soomtut.lecture.service.impl;
 
 import com.sparta.soomtut.dto.request.CategoryRequestDto;
 import com.sparta.soomtut.dto.request.PageRequestDto;
-import com.sparta.soomtut.dto.request.PostRequestDto;
-import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
-import com.sparta.soomtut.dto.response.PostResponseDto;
-
 import com.sparta.soomtut.entity.Category;
-import com.sparta.soomtut.entity.Post;
 import com.sparta.soomtut.entity.TuitionRequest;
+import com.sparta.soomtut.lecture.dto.request.PostRequestDto;
+import com.sparta.soomtut.lecture.dto.request.UpdatePostRequestDto;
+import com.sparta.soomtut.lecture.dto.response.PostResponseDto;
+import com.sparta.soomtut.lecture.entity.Post;
+import com.sparta.soomtut.lecture.repository.PostRepository;
+import com.sparta.soomtut.lecture.service.PostService;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.util.enums.MemberRole;
 import com.sparta.soomtut.util.enums.TuitionState;
@@ -16,10 +17,7 @@ import com.sparta.soomtut.util.enums.TuitionState;
 import com.sparta.soomtut.util.response.ErrorCode;
 
 import com.sparta.soomtut.repository.CategoryRepository;
-import com.sparta.soomtut.repository.PostRepository;
 import com.sparta.soomtut.repository.TuitionRequestRepository;
-
-import com.sparta.soomtut.service.interfaces.PostService;
 import com.sparta.soomtut.service.interfaces.LocationService;
 
 import lombok.RequiredArgsConstructor;

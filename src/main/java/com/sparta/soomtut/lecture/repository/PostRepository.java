@@ -1,7 +1,8 @@
-package com.sparta.soomtut.repository;
+package com.sparta.soomtut.lecture.repository;
 
-import com.sparta.soomtut.dto.response.PostResponseDto;
-import com.sparta.soomtut.entity.Post;
+import com.sparta.soomtut.lecture.dto.response.PostResponseDto;
+import com.sparta.soomtut.lecture.entity.Post;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

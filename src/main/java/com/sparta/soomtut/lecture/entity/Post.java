@@ -1,7 +1,7 @@
-package com.sparta.soomtut.entity;
+package com.sparta.soomtut.lecture.entity;
 
-import com.sparta.soomtut.dto.request.PostRequestDto;
-import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
+import com.sparta.soomtut.lecture.dto.request.PostRequestDto;
+import com.sparta.soomtut.lecture.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.util.enums.TuitionState;
 import com.sparta.soomtut.util.constants.Constants;

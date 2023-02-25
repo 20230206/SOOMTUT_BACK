@@ -1,7 +1,8 @@
-package com.sparta.soomtut.dto.response;
+package com.sparta.soomtut.lecture.dto.response;
 
-import com.sparta.soomtut.entity.Post;
 import com.sparta.soomtut.entity.Location;
+import com.sparta.soomtut.lecture.entity.Post;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

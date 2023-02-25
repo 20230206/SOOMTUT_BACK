@@ -2,15 +2,15 @@ package com.sparta.soomtut.member.service.impl;
 
 import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.dto.request.PageRequestDto;
-import com.sparta.soomtut.entity.Post;
 import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.entity.TuitionRequest;
+import com.sparta.soomtut.lecture.entity.Post;
+import com.sparta.soomtut.lecture.service.PostService;
 import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.repository.MemberRepository;
 import com.sparta.soomtut.member.service.MemberService;
 import com.sparta.soomtut.repository.TuitionRequestRepository;
-import com.sparta.soomtut.service.interfaces.PostService;
 import com.sparta.soomtut.service.interfaces.ReviewService;
 import com.sparta.soomtut.util.response.ErrorCode;
 import com.sparta.soomtut.service.interfaces.LocationService;

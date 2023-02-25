@@ -1,5 +1,6 @@
 package com.sparta.soomtut.entity;
 
+import com.sparta.soomtut.lecture.entity.Post;
 import com.sparta.soomtut.member.entity.Member;
 
 import jakarta.persistence.*;

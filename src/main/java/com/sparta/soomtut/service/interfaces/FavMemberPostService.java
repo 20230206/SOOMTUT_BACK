@@ -1,6 +1,6 @@
 package com.sparta.soomtut.service.interfaces;
 
-import com.sparta.soomtut.dto.response.PostResponseDto;
+import com.sparta.soomtut.lecture.dto.response.PostResponseDto;
 import com.sparta.soomtut.member.entity.Member;
 
 import org.springframework.data.domain.Page;

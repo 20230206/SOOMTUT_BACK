@@ -1,16 +1,17 @@
-package com.sparta.soomtut.controller;
+package com.sparta.soomtut.lecture.controller;
 
 import com.sparta.soomtut.dto.request.*;
 import com.sparta.soomtut.dto.response.ImageResponse;
 import com.sparta.soomtut.entity.Category;
-import com.sparta.soomtut.dto.response.PostResponseDto;
-
-import com.sparta.soomtut.entity.Post;
+import com.sparta.soomtut.lecture.dto.request.PostRequestDto;
+import com.sparta.soomtut.lecture.dto.request.UpdatePostRequestDto;
+import com.sparta.soomtut.lecture.dto.response.PostResponseDto;
+import com.sparta.soomtut.lecture.entity.Post;
+import com.sparta.soomtut.lecture.service.PostService;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.repository.ImageRepository;
 import com.sparta.soomtut.service.impl.ImageService;
 import com.sparta.soomtut.service.impl.S3Service;
-import com.sparta.soomtut.service.interfaces.PostService;
 import com.sparta.soomtut.service.interfaces.FavMemberPostService;
 
 
