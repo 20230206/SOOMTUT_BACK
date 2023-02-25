@@ -61,7 +61,17 @@ public class ReviewController {
         String msg = memberService.deleteReviewRequest(reviewId);
         return ToResponse.of(msg, SuccessCode.REVIEW_DELETE_OK);
     }
+    
+//    // 후기(작성/미작성) 수업 조회
+//    @GetMapping(value = "/reviewFilter")
+//    public Page<Post> getReviewFilter(
+//            @ModelAttribute PageRequestDto pageRequest,
+//            @AuthenticationPrincipal UserDetailsImpl userDetails
+//    ){
+//        return postService.getReviewFilter(pageRequest, userDetails.getMember());
+//    }
 
+    // 게시된 강의의 리뷰 조회
     @GetMapping(value = "/{lectureid}")
     public ResponseEntity<?> getReviewsByPost (
         @PathVariable Long lectureid
@@ -69,6 +79,7 @@ public class ReviewController {
         return ToResponse.of(null, SuccessCode.REVIEW_GETBYLECTURE_OK);
     }
 
+    // 해당 멤버의 리뷰 조회
     @GetMapping(value = "/{memberid}") 
     public ResponseEntity<?> getReviewsByMember (
         @PathVariable Long memberid
