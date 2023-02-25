@@ -1,7 +1,8 @@
-package com.sparta.soomtut.repository;
+package com.sparta.soomtut.location.repository;
 
 import com.sparta.soomtut.dto.response.LocationResponseDto;
-import com.sparta.soomtut.entity.Location;
+import com.sparta.soomtut.location.entity.Location;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

@@ -15,12 +15,12 @@ import com.sparta.soomtut.auth.dto.request.LoginRequest;
 import com.sparta.soomtut.auth.dto.request.RegisterRequest;
 import com.sparta.soomtut.auth.dto.response.LoginResponse;
 import com.sparta.soomtut.auth.service.impl.AuthServiceImpl;
-import com.sparta.soomtut.repository.LocationRepository;
-import com.sparta.soomtut.entity.Location;
 import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.repository.MemberRepository;
 import com.sparta.soomtut.member.service.impl.MemberServiceImpl;
+import com.sparta.soomtut.location.entity.Location;
+import com.sparta.soomtut.location.repository.LocationRepository;
 import com.sparta.soomtut.location.service.impl.LocationServiceImpl;
 import com.sparta.soomtut.util.jwt.JwtProvider;
 

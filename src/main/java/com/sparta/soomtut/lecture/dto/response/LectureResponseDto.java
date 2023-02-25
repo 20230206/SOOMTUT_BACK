@@ -1,7 +1,7 @@
 package com.sparta.soomtut.lecture.dto.response;
 
-import com.sparta.soomtut.entity.Location;
 import com.sparta.soomtut.lecture.entity.Lecture;
+import com.sparta.soomtut.location.entity.Location;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
