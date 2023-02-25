@@ -16,7 +16,11 @@ public enum SuccessCode {
     REFRESH_OK("리프레쉬 토큰 발급에 성공하였습니다", 200),
     OAUTH_LOGIN_OK("소셜 로그인에 성공하였습니다", 200),
     
-    MEMBER_MYINFO_OK("내 정보 조회에 성공하였습니다", 200);
+    MEMBER_GETMYINFO_OK("내 정보 조회에 성공했습니다", 200),
+    MEMBER_SUSPEND_OK("회원 탈퇴 요청에 성공했습니다", 200),
+    MEMBER_RECOVER_OK("회원 탈퇴 취소 요청에 성공했습니다", 200),
+    MEMBER_GETINFO_OK("회원 정보 조회에 성공했습니다", 200),
+    MEMBER_UPDATEINFO_OK("내 정보 수정에 성공했습니다.", 200);
 
     private final String message;
     private final int status;

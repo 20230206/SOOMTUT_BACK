@@ -1,5 +1,7 @@
 package com.sparta.soomtut.entity;
 
+import com.sparta.soomtut.member.entity.Member;
+
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

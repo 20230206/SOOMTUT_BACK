@@ -3,8 +3,9 @@ package com.sparta.soomtut.service.interfaces;
 import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.dto.response.MemberInfoResponse;
-import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Review;
+import com.sparta.soomtut.member.entity.Member;
+
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
@@ -23,7 +24,7 @@ public interface MemberService {
     
     String createReview(Long postId, CreateReviewRequestDto reviewRequestDto, Member member);
 
-    String deleteAccount(Long memberId);
+    String suspendAccount(Long memberId);
 
     // Repository 지원 함수
     Member getMemberById(Long memberId);

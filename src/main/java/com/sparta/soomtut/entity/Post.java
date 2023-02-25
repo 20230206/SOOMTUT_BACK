@@ -2,6 +2,7 @@ package com.sparta.soomtut.entity;
 
 import com.sparta.soomtut.dto.request.PostRequestDto;
 import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
+import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.util.enums.TuitionState;
 import com.sparta.soomtut.util.constants.Constants;
 import jakarta.persistence.*;

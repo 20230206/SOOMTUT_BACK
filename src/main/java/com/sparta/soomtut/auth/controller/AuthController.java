@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sparta.soomtut.auth.dto.request.LoginRequest;
 import com.sparta.soomtut.auth.dto.request.OAuthLocationRequest;
 import com.sparta.soomtut.auth.dto.request.OAuthLoginRequest;
+import com.sparta.soomtut.auth.dto.request.RegisterRequest;
 import com.sparta.soomtut.auth.service.AuthService;
-import com.sparta.soomtut.dto.request.RegisterRequest;
-import com.sparta.soomtut.service.interfaces.MemberService;
+import com.sparta.soomtut.member.service.MemberService;
 import com.sparta.soomtut.util.cookies.RefreshCookie;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.response.ToResponse;
@@ -102,13 +102,13 @@ public class AuthController {
         return ToResponse.of(true, cookie, SuccessCode.REFRESH_OK);
     }
 
-    @PutMapping(value="/oauth-getinfo")
-    public ResponseEntity<?> oauthLocation(
+    @PutMapping(value="/oauth-updateinfo")
+    public ResponseEntity<?> updateOAuthInfo(
         @RequestBody OAuthLocationRequest request,
         @CookieValue(REFRESH_KEY) String refresh
     ) 
     {
-        var data = authService.setOAuthLocation(request, refresh);
+        var data = authService.updateOAuthInfo(request, refresh);
         return ToResponse.of(data, SuccessCode.OAUTH_LOGIN_OK);
     }
 }

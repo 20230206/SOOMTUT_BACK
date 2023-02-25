@@ -3,11 +3,10 @@ package com.sparta.soomtut.controller;
 import com.sparta.soomtut.dto.request.*;
 import com.sparta.soomtut.dto.response.ImageResponse;
 import com.sparta.soomtut.entity.Category;
-import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.dto.response.PostResponseDto;
 
 import com.sparta.soomtut.entity.Post;
-
+import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.repository.ImageRepository;
 import com.sparta.soomtut.service.impl.ImageService;
 import com.sparta.soomtut.service.impl.S3Service;

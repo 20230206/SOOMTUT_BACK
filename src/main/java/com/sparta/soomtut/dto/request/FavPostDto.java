@@ -1,6 +1,7 @@
 package com.sparta.soomtut.dto.request;
 
-import com.sparta.soomtut.entity.Member;
+import com.sparta.soomtut.member.entity.Member;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

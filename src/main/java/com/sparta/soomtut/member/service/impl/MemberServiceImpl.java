@@ -2,11 +2,11 @@ package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.dto.request.PageRequestDto;
-import com.sparta.soomtut.dto.response.MemberInfoResponse;
-import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Post;
 import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.entity.TuitionRequest;
+import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
+import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.repository.MemberRepository;
 import com.sparta.soomtut.repository.TuitionRequestRepository;
 import com.sparta.soomtut.service.interfaces.MemberService;
@@ -94,7 +94,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     @Transactional
-    public String deleteAccount(Long memberId) {
+    public String suspendAccount(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage())
         );

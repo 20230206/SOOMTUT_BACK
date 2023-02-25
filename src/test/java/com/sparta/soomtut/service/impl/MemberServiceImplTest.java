@@ -2,7 +2,7 @@ package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.entity.Location;
-import com.sparta.soomtut.entity.Member;
+import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.repository.ReviewRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

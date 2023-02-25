@@ -18,8 +18,8 @@ import com.sparta.soomtut.dto.request.RegisterRequest;
 import com.sparta.soomtut.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.repository.LocationRepository;
 import com.sparta.soomtut.repository.MemberRepository;
-import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Location;
+import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.util.jwt.JwtProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;

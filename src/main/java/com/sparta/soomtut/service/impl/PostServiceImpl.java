@@ -7,10 +7,9 @@ import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
 
 import com.sparta.soomtut.entity.Category;
-import com.sparta.soomtut.entity.Member;
 import com.sparta.soomtut.entity.Post;
 import com.sparta.soomtut.entity.TuitionRequest;
-
+import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.util.enums.MemberRole;
 import com.sparta.soomtut.util.enums.TuitionState;
 

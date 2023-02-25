@@ -2,7 +2,7 @@ package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.dto.response.LocationResponseDto;
 import com.sparta.soomtut.entity.Location;
-import com.sparta.soomtut.entity.Member;
+import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.repository.LocationRepository;
 import com.sparta.soomtut.service.interfaces.LocationService;
 import com.sparta.soomtut.util.response.ErrorCode;

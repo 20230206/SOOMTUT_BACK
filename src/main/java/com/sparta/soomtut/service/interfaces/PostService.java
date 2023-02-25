@@ -4,10 +4,10 @@ import com.sparta.soomtut.dto.request.CategoryRequestDto;
 import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.entity.Category;
 import com.sparta.soomtut.entity.Post;
+import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.dto.request.PostRequestDto;
 import com.sparta.soomtut.dto.request.UpdatePostRequestDto;
 import com.sparta.soomtut.dto.response.PostResponseDto;
-import com.sparta.soomtut.entity.Member;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

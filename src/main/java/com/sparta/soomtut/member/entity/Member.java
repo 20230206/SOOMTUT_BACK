@@ -1,4 +1,4 @@
-package com.sparta.soomtut.entity;
+package com.sparta.soomtut.member.entity;
 
 import com.sparta.soomtut.util.constants.Constants;
 import com.sparta.soomtut.util.enums.MemberRole;

@@ -3,7 +3,7 @@ package com.sparta.soomtut.chat.service;
 import com.sparta.soomtut.chat.dto.ChatRoomResponse;
 import com.sparta.soomtut.chat.entity.ChatRoom;
 import com.sparta.soomtut.chat.repository.ChatRoomRepository;
-import com.sparta.soomtut.entity.Member;
+import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.service.interfaces.PostService;
 import com.sparta.soomtut.util.response.ErrorCode;
