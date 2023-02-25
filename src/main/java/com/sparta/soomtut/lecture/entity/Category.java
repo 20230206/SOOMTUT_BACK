@@ -1,6 +1,7 @@
 package com.sparta.soomtut.lecture.entity;
 
-import com.sparta.soomtut.dto.request.CategoryRequestDto;
+import com.sparta.soomtut.lecture.dto.request.CategoryRequestDto;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

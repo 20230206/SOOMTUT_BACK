@@ -1,9 +1,9 @@
 package com.sparta.soomtut.review.service;
 
-import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
-import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.lectureRequest.entity.TuitionRequest;
+import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.review.entity.Review;
+import com.sparta.soomtut.util.dto.request.PageRequestDto;
 
 import org.springframework.data.domain.Page;
 

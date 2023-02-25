@@ -1,6 +1,6 @@
 package com.sparta.soomtut.location.entity;
 
-import com.sparta.soomtut.dto.request.LocationRequestDto;
+import com.sparta.soomtut.location.dto.request.LocationRequestDto;
 import com.sparta.soomtut.member.entity.Member;
 
 import jakarta.persistence.*;

@@ -1,10 +1,10 @@
 package com.sparta.soomtut.member.service;
 
-import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
-import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.member.entity.Member;
+import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.review.entity.Review;
+import com.sparta.soomtut.util.dto.request.PageRequestDto;
 
 import org.springframework.data.domain.Page;
 

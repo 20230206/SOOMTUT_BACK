@@ -1,7 +1,7 @@
 package com.sparta.soomtut.location.controller;
 
-import com.sparta.soomtut.dto.request.LocationRequestDto;
-import com.sparta.soomtut.dto.response.LocationResponseDto;
+import com.sparta.soomtut.location.dto.request.LocationRequestDto;
+import com.sparta.soomtut.location.dto.response.LocationResponseDto;
 import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.location.service.LocationService;
 import jakarta.transaction.Transactional;

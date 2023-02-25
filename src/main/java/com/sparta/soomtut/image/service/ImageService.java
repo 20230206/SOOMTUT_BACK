@@ -1,7 +1,7 @@
 package com.sparta.soomtut.image.service;
 
-import com.sparta.soomtut.dto.request.ImageRequest;
-import com.sparta.soomtut.dto.response.ImageResponse;
+import com.sparta.soomtut.image.dto.request.ImageRequest;
+import com.sparta.soomtut.image.dto.response.ImageResponse;
 import com.sparta.soomtut.image.entity.ImageEntity;
 import com.sparta.soomtut.image.repository.ImageRepository;
 

@@ -2,7 +2,7 @@ package com.sparta.soomtut.chat.controller;
 
 import com.sparta.soomtut.chat.dto.ChatRoomResponse;
 import com.sparta.soomtut.chat.service.ChatRoomService;
-import com.sparta.soomtut.dto.request.PageRequestDto;
+import com.sparta.soomtut.util.dto.request.PageRequestDto;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.response.ToResponse;
 import com.sparta.soomtut.util.security.UserDetailsImpl;

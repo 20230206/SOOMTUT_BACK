@@ -1,4 +1,4 @@
-package com.sparta.soomtut.dto.response;
+package com.sparta.soomtut.location.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

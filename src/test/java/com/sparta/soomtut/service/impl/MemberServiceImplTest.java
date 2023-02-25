@@ -1,9 +1,9 @@
 package com.sparta.soomtut.service.impl;
 
-import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.lecture.service.impl.LectureServiceImpl;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.service.impl.MemberServiceImpl;
+import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.review.repository.ReviewRepository;
 import com.sparta.soomtut.review.service.impl.ReviewServiceImpl;
 import com.sparta.soomtut.location.entity.Location;

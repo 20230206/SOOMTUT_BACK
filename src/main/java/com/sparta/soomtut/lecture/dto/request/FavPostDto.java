@@ -1,4 +1,4 @@
-package com.sparta.soomtut.dto.request;
+package com.sparta.soomtut.lecture.dto.request;
 
 import com.sparta.soomtut.member.entity.Member;
 

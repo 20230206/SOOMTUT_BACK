@@ -1,4 +1,4 @@
-package com.sparta.soomtut.dto.request;
+package com.sparta.soomtut.util.dto.request;
 
 
 import org.springframework.data.domain.PageRequest;

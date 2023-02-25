@@ -5,9 +5,6 @@ import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lecture.service.FavMemberPostService;
 import com.sparta.soomtut.lecture.service.LectureService;
-
-import com.sparta.soomtut.dto.request.PageRequestDto;
-
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import com.sparta.soomtut.lecture.service.impl.BoardServiceImpl;
+import com.sparta.soomtut.util.dto.request.PageRequestDto;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.response.ToResponse;
 

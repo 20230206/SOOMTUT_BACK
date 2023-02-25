@@ -1,4 +1,4 @@
-package com.sparta.soomtut.dto.response;
+package com.sparta.soomtut.image.dto.response;
 
 import com.sparta.soomtut.image.entity.ImageEntity;
 
