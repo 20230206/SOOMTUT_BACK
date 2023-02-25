@@ -27,7 +27,7 @@ public class ImageController {
     private final S3Service s3Service;
     
     //마이페이지 이미지 업로드
-    @PostMapping(value = "/member/mypage/images")
+    @PostMapping(value = "/member/{memberid}")
     public String profileImage(
         @ModelAttribute ImageRequest imageDto, 
         MultipartFile file) throws IOException
@@ -39,7 +39,7 @@ public class ImageController {
     }
 
     //마이페이지 이미지 조회
-    @GetMapping(value = "/member/mypage/images")
+    @GetMapping(value = "/member/{memberid}")
     public String  getImage(Model model){
         List<ImageResponse> imageDtoList = imageService.getList();
 
@@ -50,7 +50,7 @@ public class ImageController {
 
     
     // 수업글 이미지 업로드
-    @PostMapping("/posts/images")
+    @PostMapping("/lecture/{lectureid}")
     public String  postImage(ImageRequest imageRequest, MultipartFile file) throws IOException{
         String imgPath = s3Service.uploadPostImage(imageRequest.getFilePath(), file);
         imageRequest.setFilePath(imgPath);
@@ -58,7 +58,7 @@ public class ImageController {
         return "redirect:/images";
     }
     // 수업글 이미지 조회
-    @GetMapping("/posts/images")
+    @GetMapping("/lecture/{lectureid}")
     public String getPostImage(Model model){
         List<ImageResponse> imageDtoList = imageService.getList();
 
