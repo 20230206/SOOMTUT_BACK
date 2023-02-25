@@ -95,14 +95,6 @@ public class LectureController {
         boolean isMyPost = lectureService.checkLectureAuthor(lectureid, userDetails.getMember());
         return ToResponse.of(isMyPost, SuccessCode.LECTURE_CHECK_OK);
     }
-
-    // 완료된 수업 목록 조회
-    // TODO: 수업의 완료라기 보다는 수업 신청의 완료라고 보는 것이 타당한 것 같습니다.
-    @GetMapping("/done")
-    public ResponseEntity<?> getCompletePost(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        var data = lectureService.getCompletePost(userDetails.getMember());
-        return ToResponse.of(data, SuccessCode.LECTURE_GETDONELECUTES_OK);
-    }
     
     // 현재 글의 즐겨찾기 상태 확인
     @GetMapping(value = "/bookmark/{postId}")

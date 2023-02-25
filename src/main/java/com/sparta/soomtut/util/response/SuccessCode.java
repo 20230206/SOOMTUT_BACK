@@ -31,7 +31,12 @@ public enum SuccessCode {
     LECTURE_GETDONELECUTES_OK("완료된 수업 목록 조회", 200),
     
     LECTURE_UPDATEBOOKMARK_OK("북마크 추가 성공", 200),
-    LECTURE_GETBOOKMARKEDLECTURES_OK("북마크된 전체 수업 조회", 200);
+    LECTURE_GETBOOKMARKEDLECTURES_OK("북마크된 전체 수업 조회", 200),
+    
+    LECTUREREQUEST_CREATE_OK("수업 신청 성공", 200),
+    LECTUREREQUEST_ACCEPT_OK("수업 확정 성공", 200),
+    LECTUREREQUEST_COMPLETE_OK("수업 완료 성공", 200),
+    LECTUREREQUEST_GETREQUESTS_OK("수업 목록 조회 성공", 200);
 
     private final String message;
     private final int status;

@@ -109,21 +109,6 @@ public class TempController {
         return ResponseEntity.status(HttpStatus.OK).body(category);
     }
 
-    
-    // 수업 확정
-    @PostMapping("/classConfirmed/{postId}")
-    public ResponseEntity<?> classConfirmed(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        String confiremd = postService.classConfirmed(postId, userDetails.getMember());
-        return ResponseEntity.status(HttpStatus.OK).body(confiremd);
-    }
-
-    // 수업 완료
-    @PutMapping("/classComplete/{postId}")
-    public ResponseEntity<?> classComplete(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        String complete = postService.classComplete(postId, userDetails.getMember());
-        return ResponseEntity.status(HttpStatus.OK).body(complete);
-    }
-
 
     // 수업글 이미지 업로드
     @PostMapping("/posts/images")
@@ -143,11 +128,6 @@ public class TempController {
         return "/images";
     }
 
-
-    // 수업 신청 필요할듯
-
-
-//
 //    // 후기(작성/미작성) 수업 조회
 //    @GetMapping(value = "/reviewFilter")
 //    public Page<Post> getReviewFilter(
@@ -156,14 +136,5 @@ public class TempController {
 //    ){
 //        return postService.getReviewFilter(pageRequest, userDetails.getMember());
 //    }
-
-
-        
-
-    //즐겨찾기 특정 조회
-    @GetMapping(value = "/bookmark/{postId}")
-    public ResponseEntity<LectureResponseDto> getFindFavPost(@PathVariable("postId") Long id){
-        return ResponseEntity.ok().body(favMemberPostService.findFavPost(id));
-    }
 
 }
