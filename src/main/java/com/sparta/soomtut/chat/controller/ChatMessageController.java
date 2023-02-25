@@ -1,7 +1,6 @@
 package com.sparta.soomtut.chat.controller;
 
 import com.sparta.soomtut.chat.dto.ChatResponseDto;
-import com.sparta.soomtut.chat.repository.ChatMessageRepository;
 import com.sparta.soomtut.chat.service.ChatService;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;

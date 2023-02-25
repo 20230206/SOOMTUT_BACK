@@ -6,7 +6,6 @@ import com.sparta.soomtut.chat.repository.ChatRoomRepository;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.service.MemberService;
 import com.sparta.soomtut.service.interfaces.PostService;
-import com.sparta.soomtut.util.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
