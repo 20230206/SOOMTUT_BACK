@@ -4,6 +4,7 @@ import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.member.entity.Member;
+import com.sparta.soomtut.member.entity.enums.MemberState;
 import com.sparta.soomtut.member.repository.MemberRepository;
 import com.sparta.soomtut.member.service.MemberService;
 import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
@@ -94,12 +95,13 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     @Transactional
-    public String suspendAccount(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(
-                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage())
-        );
-        member.changeState(false);
-        return "계정이 비활성화 되었습니다.";
+    public MemberInfoResponse suspendAccount(Long memberId) {
+        Member member = getMemberById(memberId);
+    
+        member.changeState(MemberState.SUSPEND);
+        var location = locationService.findMemberLocation(memberId);
+
+        return MemberInfoResponse.toDto(member, location);
     }
 
 

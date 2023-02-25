@@ -12,8 +12,8 @@ import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.lectureRequest.entity.TuitionRequest;
 import com.sparta.soomtut.lectureRequest.repository.TuitionRequestRepository;
 import com.sparta.soomtut.member.entity.Member;
+import com.sparta.soomtut.member.entity.enums.MemberRole;
 import com.sparta.soomtut.util.dto.request.PageRequestDto;
-import com.sparta.soomtut.util.enums.MemberRole;
 import com.sparta.soomtut.util.enums.TuitionState;
 
 import com.sparta.soomtut.util.response.ErrorCode;

@@ -98,4 +98,8 @@ public class Member {
     public void changeState(MemberState state) {
         this.state = state;
     }
+
+    public boolean isActive() {
+        return MemberState.ACTIVE.equals(state);
+    }
 }

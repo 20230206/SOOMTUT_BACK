@@ -52,8 +52,8 @@ public class MemberController  {
         @AuthenticationPrincipal UserDetailsImpl userDetails
     ) 
     {
-        memberService.suspendAccount(userDetails.getMember().getId());
-        return ToResponse.of(null, SuccessCode.MEMBER_SUSPEND_OK);
+        var data = memberService.suspendAccount(userDetails.getMember().getId());
+        return ToResponse.of(data, SuccessCode.MEMBER_SUSPEND_OK);
     }
 
     // 회원 탈퇴 취소
