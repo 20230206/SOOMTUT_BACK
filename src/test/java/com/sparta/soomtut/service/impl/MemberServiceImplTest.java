@@ -1,6 +1,9 @@
 package com.sparta.soomtut.service.impl;
 
+import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.service.impl.LectureServiceImpl;
+import com.sparta.soomtut.lectureRequest.entity.TuitionRequest;
+import com.sparta.soomtut.lectureRequest.repository.TuitionRequestRepository;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.service.impl.MemberServiceImpl;
 import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
@@ -16,9 +19,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceImplTest {
@@ -28,6 +34,9 @@ class MemberServiceImplTest {
 
     @Mock
     LocationServiceImpl locationService;
+
+    @Mock
+    TuitionRequestRepository tuitionRequestRepository;
 
     @InjectMocks
     MemberServiceImpl memberService;
@@ -107,10 +116,12 @@ class MemberServiceImplTest {
         Long postId = 1L;
         Long tutorId = 1L;
         Member member = new Member("user@user.com","asd12345","user1");
+        Lecture lecture = new Lecture("아무개",1L,1);
         CreateReviewRequestDto createReviewRequestDto = CreateReviewRequestDto.builder().review_content("굿!").star_rating(3f).build();
 
         given(reviewService.checkTuitionState(1L,member.getId())).willReturn(true);
         given(postService.getTutorId(postId)).willReturn(tutorId);
+        given(tuitionRequestRepository.findByPostId(anyLong())).willReturn(Optional.ofNullable(mock(TuitionRequest.class)));
 
         String msg = memberService.createReview(postId,createReviewRequestDto,member);
        // verify(reviewRepository,times(1)).save(isA(Review.class));
