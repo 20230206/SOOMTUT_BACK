@@ -43,39 +43,6 @@ public class TempController {
     private final S3Service s3Service;
     private final FavMemberPostService favMemberPostService;
 
-
-    // 리뷰 생성
-    @PostMapping(value = "/board/{postId}")
-    public ResponseEntity<?> createReview(
-            @RequestParam Long postId,
-            @RequestBody CreateReviewRequestDto reviewRequestDto,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
-            /* UserDetails */
-    ) {
-        // Service
-        String msg = memberService.createReview(postId,reviewRequestDto,userDetails.getMember());
-        // return
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(msg);
-    }
-
-    //리뷰 조회
-    @GetMapping(value = "/review")
-    public Page<Review> getReview(@ModelAttribute PageRequestDto pageRequest, @AuthenticationPrincipal UserDetailsImpl userDetails){
-
-        return memberService.getReview(pageRequest,userDetails.getMember());
-    }
-
-    //리뷰 삭제
-    @PostMapping(value = "/review/{reviewId}")
-    public ResponseEntity<?> deleteReviewRequest(
-            @PathVariable Long reviewId
-
-    ){
-        String msg = memberService.deleteReviewRequest(reviewId);
-        return ResponseEntity.ok().body(msg);
-    }
-
     //마이페이지 이미지 업로드
     @PostMapping(value = "/member/mypage/images")
     public String profileImage(@ModelAttribute ImageRequest imageDto, MultipartFile file) throws IOException{
@@ -94,22 +61,6 @@ public class TempController {
         return "/images";
     }
     
-    //카테고리 생성
-    //TODO: 관리자만 변경되도록 수정
-    @PostMapping(value = "/createCategory")
-    public ResponseEntity<?> createCategory(@RequestBody CategoryRequestDto categoryRequestDto) {
-        String category = postService.createCategory(categoryRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(category);
-    }
-
-
-    @GetMapping(value = "/getCategory")
-    public ResponseEntity<List<Category>> getCategory() {
-        List<Category> category = postService.getCategory();
-        return ResponseEntity.status(HttpStatus.OK).body(category);
-    }
-
-
     // 수업글 이미지 업로드
     @PostMapping("/posts/images")
     public String  postImage(ImageRequest imageRequest, MultipartFile file) throws IOException{

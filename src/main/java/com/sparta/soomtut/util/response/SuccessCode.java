@@ -36,7 +36,13 @@ public enum SuccessCode {
     LECTUREREQUEST_CREATE_OK("수업 신청 성공", 200),
     LECTUREREQUEST_ACCEPT_OK("수업 확정 성공", 200),
     LECTUREREQUEST_COMPLETE_OK("수업 완료 성공", 200),
-    LECTUREREQUEST_GETREQUESTS_OK("수업 목록 조회 성공", 200);
+    LECTUREREQUEST_GETREQUESTS_OK("수업 목록 조회 성공", 200),
+    
+    REVIEW_CREATE_OK("리뷰 생성 성공", 200),
+    REVIEW_GET_OK("리뷰 조회 성공", 200),
+    REVIEW_DELETE_OK("리뷰 삭제 성공", 200),
+    REVIEW_GETBYLECTURE_OK("강의의 리뷰 조회 성공", 200),
+    REVIEW_GETBYMEMBER_OK("해당 유저의 리뷰 조회 성공", 200);
 
     private final String message;
     private final int status;
