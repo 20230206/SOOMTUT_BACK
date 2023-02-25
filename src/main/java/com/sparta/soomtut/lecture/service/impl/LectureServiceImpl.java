@@ -213,7 +213,7 @@ public class LectureServiceImpl implements LectureService {
     @Override
     @Transactional
     public Page<LectureResponseDto> searchByKeyword(String keyword,Pageable pageable) {
-        // return postRepository.findLectureByKeyword(keyword,pageable);
-        return null;
+        return postRepository.findLectureByKeyword(keyword,pageable);
+
     }
 }
