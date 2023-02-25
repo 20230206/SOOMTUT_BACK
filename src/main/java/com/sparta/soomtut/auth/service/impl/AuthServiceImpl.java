@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sparta.soomtut.auth.dto.request.LoginRequest;
-import com.sparta.soomtut.auth.dto.request.OAuthLocationRequest;
+import com.sparta.soomtut.auth.dto.request.OAuthInfoRequest;
 import com.sparta.soomtut.auth.dto.request.OAuthLoginRequest;
 import com.sparta.soomtut.auth.dto.request.RegisterRequest;
 import com.sparta.soomtut.auth.dto.response.LoginResponse;
@@ -120,13 +120,14 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public MemberInfoResponse updateOAuthInfo(OAuthLocationRequest request, String refresh) {
+    public MemberInfoResponse updateOAuthInfo(OAuthInfoRequest request, String refresh) {
         if(!validToken(refresh)) throw new CustomException(ErrorCode.INVALID_TOKEN);
 
         String email = getEmailFromToken(refresh);
         Member member = memberService.getMemberByEmail(email);
+        member.updateNickName(request.getNickname());
         Location location = locationService.findMemberLocation(member.getId());
-        location.updateAddress(request.getAddress());
+        location.updateLocation(request.getAddress(), request.getVectorX(), request.getVectorY());
         member.changeState(true);
 
         return MemberInfoResponse.toDto(member, location);

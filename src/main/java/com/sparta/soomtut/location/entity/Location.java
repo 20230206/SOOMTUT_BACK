@@ -54,6 +54,12 @@ public class Location {
         this.vectorY = request.getVectorY();
     }
 
+    public void updateLocation(String address, float vectorX, float vectorY) {
+        this.address = address;
+        this.vectorX = vectorX;
+        this.vectorY = vectorY;
+    }
+
     public void updateAddress(String address) {
         this.address = address;
     }

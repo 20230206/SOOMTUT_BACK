@@ -5,7 +5,8 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class OAuthLocationRequest {
+public class OAuthInfoRequest {
+    private String nickname;
     private String address;
     private float vectorX;
     private float vectorY;
