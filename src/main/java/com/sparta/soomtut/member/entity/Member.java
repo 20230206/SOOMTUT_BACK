@@ -1,7 +1,8 @@
 package com.sparta.soomtut.member.entity;
 
+import com.sparta.soomtut.member.entity.enums.MemberRole;
+import com.sparta.soomtut.member.entity.enums.MemberState;
 import com.sparta.soomtut.util.constants.Constants;
-import com.sparta.soomtut.util.enums.MemberRole;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -54,7 +55,8 @@ public class Member {
     private String oauthEmail;
 
     @Column
-    private boolean state;
+    @Enumerated(EnumType.STRING)
+    private MemberState state;
 
 
 
@@ -70,7 +72,7 @@ public class Member {
         this.image = Constants.STANDARD_USER_IMAGE;
         this.provider = null;
         this.oauthEmail = null;
-        this.state = true;
+        this.state = MemberState.ACTIVE;
     }
 
     @Builder(builderClassName = "OAuth2Register", builderMethodName = "oauth2Register")
@@ -85,7 +87,7 @@ public class Member {
         this.image = Constants.STANDARD_USER_IMAGE;
         this.provider = provider;
         this.oauthEmail = oauthEmail;
-        this.state = false;
+        this.state = MemberState.INIT;
     }
 
     public void updateNickName(String nickname) {
@@ -93,7 +95,7 @@ public class Member {
     }
 
 
-    public void changeState(boolean state) {
+    public void changeState(MemberState state) {
         this.state = state;
     }
 }
