@@ -1,4 +1,4 @@
-package com.sparta.soomtut.service.interfaces;
+package com.sparta.soomtut.lecture.service;
 
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.member.entity.Member;

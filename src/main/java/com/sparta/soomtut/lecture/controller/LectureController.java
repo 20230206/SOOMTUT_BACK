@@ -3,6 +3,7 @@ package com.sparta.soomtut.lecture.controller;
 import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
+import com.sparta.soomtut.lecture.service.FavMemberPostService;
 import com.sparta.soomtut.lecture.service.LectureService;
 
 import com.sparta.soomtut.dto.request.PageRequestDto;
@@ -16,8 +17,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import com.sparta.soomtut.lecture.service.impl.BoardServiceImpl;
-
-import com.sparta.soomtut.service.interfaces.FavMemberPostService;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.response.ToResponse;
 

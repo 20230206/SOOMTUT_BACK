@@ -10,6 +10,7 @@ import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.repository.LectureRepository;
 import com.sparta.soomtut.lecture.service.LectureService;
+import com.sparta.soomtut.lectureRequest.repository.TuitionRequestRepository;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.util.enums.MemberRole;
 import com.sparta.soomtut.util.enums.TuitionState;
@@ -17,7 +18,6 @@ import com.sparta.soomtut.util.enums.TuitionState;
 import com.sparta.soomtut.util.response.ErrorCode;
 
 import com.sparta.soomtut.repository.CategoryRepository;
-import com.sparta.soomtut.repository.TuitionRequestRepository;
 import com.sparta.soomtut.service.interfaces.LocationService;
 
 import lombok.RequiredArgsConstructor;
