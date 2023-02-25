@@ -3,8 +3,9 @@ package com.sparta.soomtut.service.interfaces;
 import com.sparta.soomtut.dto.response.LocationResponseDto;
 import com.sparta.soomtut.entity.Location;
 import com.sparta.soomtut.member.entity.Member;
+import com.sparta.soomtut.auth.dto.request.RegisterRequest;
 import com.sparta.soomtut.dto.request.LocationRequestDto;
-import com.sparta.soomtut.dto.request.RegisterRequest;
+
 import java.util.List;
 
 public interface LocationService {

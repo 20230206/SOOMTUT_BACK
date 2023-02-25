@@ -4,7 +4,7 @@ import com.sparta.soomtut.chat.dto.ChatRoomResponse;
 import com.sparta.soomtut.chat.entity.ChatRoom;
 import com.sparta.soomtut.chat.repository.ChatRoomRepository;
 import com.sparta.soomtut.member.entity.Member;
-import com.sparta.soomtut.service.interfaces.MemberService;
+import com.sparta.soomtut.member.service.MemberService;
 import com.sparta.soomtut.service.interfaces.PostService;
 import com.sparta.soomtut.util.response.ErrorCode;
 import lombok.RequiredArgsConstructor;

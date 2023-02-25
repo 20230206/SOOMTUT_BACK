@@ -1,7 +1,7 @@
 package com.sparta.soomtut.util.security;
 
 import com.sparta.soomtut.member.entity.Member;
-import com.sparta.soomtut.repository.MemberRepository;
+import com.sparta.soomtut.member.repository.MemberRepository;
 import com.sparta.soomtut.util.response.ErrorCode;
 
 import lombok.RequiredArgsConstructor;

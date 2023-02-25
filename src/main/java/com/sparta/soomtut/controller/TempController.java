@@ -2,7 +2,6 @@ package com.sparta.soomtut.controller;
 
 import com.sparta.soomtut.service.impl.ImageService;
 import com.sparta.soomtut.service.impl.S3Service;
-import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -12,6 +11,7 @@ import com.sparta.soomtut.dto.request.ImageRequest;
 import com.sparta.soomtut.dto.response.ImageResponse;
 import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.entity.Review;
+import com.sparta.soomtut.member.service.MemberService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

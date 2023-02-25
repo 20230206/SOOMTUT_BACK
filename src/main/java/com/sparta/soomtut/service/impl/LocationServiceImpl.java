@@ -10,8 +10,9 @@ import com.sparta.soomtut.util.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.sparta.soomtut.auth.dto.request.RegisterRequest;
 import com.sparta.soomtut.dto.request.LocationRequestDto;
-import com.sparta.soomtut.dto.request.RegisterRequest;
 
 import java.util.List;
 

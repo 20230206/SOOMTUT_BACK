@@ -1,7 +1,7 @@
 package com.sparta.soomtut.member.controller;
 
-import com.sparta.soomtut.service.interfaces.MemberService;
 import com.sparta.soomtut.util.response.ToResponse;
+import com.sparta.soomtut.member.service.MemberService;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 

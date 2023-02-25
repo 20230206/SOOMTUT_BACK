@@ -12,14 +12,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.sparta.soomtut.auth.dto.request.LoginRequest;
+import com.sparta.soomtut.auth.dto.request.RegisterRequest;
 import com.sparta.soomtut.auth.dto.response.LoginResponse;
 import com.sparta.soomtut.auth.service.impl.AuthServiceImpl;
-import com.sparta.soomtut.dto.request.RegisterRequest;
-import com.sparta.soomtut.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.repository.LocationRepository;
-import com.sparta.soomtut.repository.MemberRepository;
 import com.sparta.soomtut.entity.Location;
+import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.member.entity.Member;
+import com.sparta.soomtut.member.repository.MemberRepository;
+import com.sparta.soomtut.member.service.impl.MemberServiceImpl;
 import com.sparta.soomtut.util.jwt.JwtProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;

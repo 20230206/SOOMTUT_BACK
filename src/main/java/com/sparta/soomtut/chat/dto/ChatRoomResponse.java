@@ -1,9 +1,9 @@
 package com.sparta.soomtut.chat.dto;
 
 import com.sparta.soomtut.chat.entity.ChatRoom;
-import com.sparta.soomtut.dto.response.MemberInfoResponse;
-
 import com.sparta.soomtut.dto.response.PostResponseDto;
+import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

@@ -2,7 +2,8 @@ package com.sparta.soomtut.controller;
 
 import com.google.gson.Gson;
 import com.sparta.soomtut.member.controller.MemberController;
-import com.sparta.soomtut.service.impl.MemberServiceImpl;
+import com.sparta.soomtut.member.service.impl.MemberServiceImpl;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
