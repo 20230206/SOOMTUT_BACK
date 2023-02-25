@@ -1,9 +1,9 @@
 package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.entity.FavMemberPost;
-import com.sparta.soomtut.lecture.dto.response.PostResponseDto;
-import com.sparta.soomtut.lecture.entity.Post;
-import com.sparta.soomtut.lecture.service.PostService;
+import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
+import com.sparta.soomtut.lecture.entity.Lecture;
+import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.repository.FavMemberPostRepository;
 import com.sparta.soomtut.service.interfaces.FavMemberPostService;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class FavMemberPostServiceImpl implements FavMemberPostService {
     private final FavMemberPostRepository favMemberPostRepository;
-    private final PostService postService;
+    private final LectureService postService;
 
     @Transactional
     @Override
@@ -36,20 +36,20 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
     //즐겨찾기 특정 Id 조회
     @Transactional
     @Override
-    public PostResponseDto findFavPost(Long id){
-        Post post = postService.getPostById(id);
+    public LectureResponseDto findFavPost(Long id){
+        Lecture post = postService.getPostById(id);
         FavMemberPost favMemberPost = favMemberPostRepository.findByPostId(post.getId())
                 .orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_FAVPOST.getMessage()));
-        return new PostResponseDto(favMemberPost.getPost());
+        return new LectureResponseDto(favMemberPost.getPost());
     }
 
     //즐겨찾기 전체 조회
     @Transactional
     @Override
-    public Page<PostResponseDto> findAllFavPosts(Pageable pageable, Member member){
+    public Page<LectureResponseDto> findAllFavPosts(Pageable pageable, Member member){
         // PageRequest pageables = PageRequest.of(reqeust.getPage(), 5);
         Page<FavMemberPost> favlist = favMemberPostRepository.findAllByMemberIdAndStatusIsTrue(member.getId(), pageable);
-        return favlist.map((item) -> new PostResponseDto(item.getPost()));
+        return favlist.map((item) -> new LectureResponseDto(item.getPost()));
     }
     
 
@@ -63,7 +63,7 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
         //  -> findByPostIdAndMemberId 통해 해당 기록을 가져오고, 해당기록의 내용을 반대로 변경시켜준다.
         
         if(!hasFavPost(postId, member)) {
-            Post post = postService.getPostById(postId);
+            Lecture post = postService.getPostById(postId);
             FavMemberPost data = createFavPost(post, member);
             return data.isStatus();
         }
@@ -76,7 +76,7 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
 
     //즐겨찾기 추가
     @Transactional
-    public FavMemberPost createFavPost(Post post, Member member){
+    public FavMemberPost createFavPost(Lecture post, Member member){
         return favMemberPostRepository.save(FavMemberPost.builder().post(post).member(member).build());
     }
 

@@ -1,7 +1,7 @@
 package com.sparta.soomtut.lecture.entity;
 
-import com.sparta.soomtut.lecture.dto.request.PostRequestDto;
-import com.sparta.soomtut.lecture.dto.request.UpdatePostRequestDto;
+import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
+import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.util.enums.TuitionState;
 import com.sparta.soomtut.util.constants.Constants;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Post {
+public class Lecture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,7 +41,7 @@ public class Post {
     private int favorit;
 
 
-    public Post(PostRequestDto postRequestDto, Member member) {
+    public Lecture(CreateLectureRequestDto postRequestDto, Member member) {
       this.title = postRequestDto.getTitle();
       this.image = postRequestDto.getImage();
       this.content = postRequestDto.getContent();
@@ -50,14 +50,14 @@ public class Post {
       this.member = member;
     }
 
-    public void update(UpdatePostRequestDto updatePostRequestDto) {
+    public void update(UpdateLectureRequestDto updatePostRequestDto) {
       this.title = updatePostRequestDto.getTitle();
       this.image = updatePostRequestDto.getImage();
       this.content = updatePostRequestDto.getContent();
       this.fee = updatePostRequestDto.getFee();
     }
 
-    public Post(String content, Long categoryId, int fee) {
+    public Lecture(String content, Long categoryId, int fee) {
         this.categoryId = categoryId;
         this.content = content;
         this.fee = fee;

@@ -1,7 +1,7 @@
 package com.sparta.soomtut.chat.dto;
 
 import com.sparta.soomtut.chat.entity.ChatRoom;
-import com.sparta.soomtut.lecture.dto.response.PostResponseDto;
+import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
 
 import lombok.Getter;
@@ -21,7 +21,7 @@ public class ChatRoomResponse {
 
     private List<ChatResponseDto> chats;
 
-    private PostResponseDto post;
+    private LectureResponseDto post;
 
     private LocalDateTime createdAt;
     private ChatRoomResponse(
@@ -30,7 +30,7 @@ public class ChatRoomResponse {
             MemberInfoResponse tutor,
             List<ChatResponseDto> chats,
             LocalDateTime createdAt,
-            PostResponseDto post ) {
+            LectureResponseDto post ) {
 
         this.id = id;
         this.tutee = tutee;
@@ -45,7 +45,7 @@ public class ChatRoomResponse {
             MemberInfoResponse tutee,
             MemberInfoResponse tutor,
             List<ChatResponseDto> chats,
-            PostResponseDto post){
+            LectureResponseDto post){
         return new ChatRoomResponse(
                 chatRoom.getId(),
                 tutee,

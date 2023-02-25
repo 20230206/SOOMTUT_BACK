@@ -3,7 +3,7 @@ package com.sparta.soomtut.chat.service;
 import com.sparta.soomtut.chat.dto.ChatRoomResponse;
 import com.sparta.soomtut.chat.entity.ChatRoom;
 import com.sparta.soomtut.chat.repository.ChatRoomRepository;
-import com.sparta.soomtut.lecture.service.PostService;
+import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.service.MemberService;
 
@@ -20,7 +20,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     private final ChatRoomRepository chatRoomRepository;
     private final MemberService memberService;
     private final ChatService chatService;
-    private final PostService postService;
+    private final LectureService postService;
 
     // 새로운 채팅방 생성
     @Override

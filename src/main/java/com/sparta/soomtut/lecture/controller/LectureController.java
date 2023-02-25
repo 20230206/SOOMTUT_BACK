@@ -3,11 +3,11 @@ package com.sparta.soomtut.lecture.controller;
 import com.sparta.soomtut.dto.request.*;
 import com.sparta.soomtut.dto.response.ImageResponse;
 import com.sparta.soomtut.entity.Category;
-import com.sparta.soomtut.lecture.dto.request.PostRequestDto;
-import com.sparta.soomtut.lecture.dto.request.UpdatePostRequestDto;
-import com.sparta.soomtut.lecture.dto.response.PostResponseDto;
-import com.sparta.soomtut.lecture.entity.Post;
-import com.sparta.soomtut.lecture.service.PostService;
+import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
+import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
+import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
+import com.sparta.soomtut.lecture.entity.Lecture;
+import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.repository.ImageRepository;
 import com.sparta.soomtut.service.impl.ImageService;
@@ -36,8 +36,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class PostController {
-    private final PostService postService;
+public class LectureController {
+    private final LectureService postService;
     private final FavMemberPostService favMemberPostService;
 
     private final ImageService imageService;
@@ -50,20 +50,20 @@ public class PostController {
         @AuthenticationPrincipal UserDetailsImpl userDtails
     )
     {
-        PostResponseDto data = postService.getPost(postId);
+        LectureResponseDto data = postService.getPost(postId);
         return ResponseEntity.ok().body(data);
     }
 
     @PostMapping(value = "/createpost")
-    public PostResponseDto createPost(
-        @RequestBody PostRequestDto postRequestDto,
+    public LectureResponseDto createPost(
+        @RequestBody CreateLectureRequestDto postRequestDto,
         @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         return postService.createPost(userDetails.getMember(), postRequestDto);
     }
 
     @PutMapping(value = "/updatepost/{postId}")
-    public PostResponseDto updatePost(@PathVariable Long postId, @RequestBody UpdatePostRequestDto updatePostRequestDto , @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public LectureResponseDto updatePost(@PathVariable Long postId, @RequestBody UpdateLectureRequestDto updatePostRequestDto , @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.updatePost(postId, updatePostRequestDto, userDetails.getMember());
     }
 
@@ -116,12 +116,12 @@ public class PostController {
     }
     //즐겨찾기 특정 조회
     @GetMapping(value = "/bookmark/{postId}")
-    public ResponseEntity<PostResponseDto> getFindFavPost(@PathVariable("postId") Long id){
+    public ResponseEntity<LectureResponseDto> getFindFavPost(@PathVariable("postId") Long id){
         return ResponseEntity.ok().body(favMemberPostService.findFavPost(id));
     }
 
     @GetMapping("/post")
-    public ResponseEntity<PostResponseDto> getMyPost(@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseEntity<LectureResponseDto> getMyPost(@AuthenticationPrincipal UserDetailsImpl userDetails){
         Member member = userDetails.getMember();
         //return ResponseEntity.status(HttpStatus.OK).body(postService.getMyPost(userDetails.getMemberId()));
         return ResponseEntity.status(HttpStatus.OK).body(postService.getMyPost(member));
@@ -147,8 +147,8 @@ public class PostController {
 
     // 완료된 수업 목록 조회
     @GetMapping("/getCompletePost")
-    public ResponseEntity<List<Post>> getCompletePost(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        List<Post> postList = postService.getCompletePost(userDetails.getMember());
+    public ResponseEntity<List<Lecture>> getCompletePost(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        List<Lecture> postList = postService.getCompletePost(userDetails.getMember());
         return ResponseEntity.status(HttpStatus.OK).body(postList);
     }
 //
@@ -189,7 +189,7 @@ public class PostController {
 
     //키워드로 상품 검색하기
     @GetMapping("/posts")
-    public Page<PostResponseDto> searchByKeyword(@ModelAttribute PageRequestDto pageRequestDto, @RequestParam String keyword){
+    public Page<LectureResponseDto> searchByKeyword(@ModelAttribute PageRequestDto pageRequestDto, @RequestParam String keyword){
         return postService.searchByKeyword(keyword,pageRequestDto.toPageable());
     }
 }

@@ -2,7 +2,7 @@ package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.entity.Location;
-import com.sparta.soomtut.lecture.service.impl.PostServiceImpl;
+import com.sparta.soomtut.lecture.service.impl.LectureServiceImpl;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.service.impl.MemberServiceImpl;
 import com.sparta.soomtut.repository.ReviewRepository;
@@ -34,7 +34,7 @@ class MemberServiceImplTest {
     ReviewServiceImpl reviewService;
 
     @Mock
-    PostServiceImpl postService;
+    LectureServiceImpl postService;
 
     @Test
     @DisplayName("유저 닉네임 업데이트(성공)")

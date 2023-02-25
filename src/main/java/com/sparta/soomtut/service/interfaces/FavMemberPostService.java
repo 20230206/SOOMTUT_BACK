@@ -1,6 +1,6 @@
 package com.sparta.soomtut.service.interfaces;
 
-import com.sparta.soomtut.lecture.dto.response.PostResponseDto;
+import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.member.entity.Member;
 
 import org.springframework.data.domain.Page;
@@ -11,6 +11,6 @@ public interface FavMemberPostService {
     boolean updateOfFavPost(Long postId, Member member);
     boolean getState(Long postId, Member member);
 
-    Page<PostResponseDto> findAllFavPosts(Pageable pageable, Member member);
-    PostResponseDto findFavPost(Long id);
+    Page<LectureResponseDto> findAllFavPosts(Pageable pageable, Member member);
+    LectureResponseDto findFavPost(Long id);
 }

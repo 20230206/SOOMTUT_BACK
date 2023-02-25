@@ -4,12 +4,12 @@ import com.sparta.soomtut.dto.request.CategoryRequestDto;
 import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.entity.Category;
 import com.sparta.soomtut.entity.TuitionRequest;
-import com.sparta.soomtut.lecture.dto.request.PostRequestDto;
-import com.sparta.soomtut.lecture.dto.request.UpdatePostRequestDto;
-import com.sparta.soomtut.lecture.dto.response.PostResponseDto;
-import com.sparta.soomtut.lecture.entity.Post;
-import com.sparta.soomtut.lecture.repository.PostRepository;
-import com.sparta.soomtut.lecture.service.PostService;
+import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
+import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
+import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
+import com.sparta.soomtut.lecture.entity.Lecture;
+import com.sparta.soomtut.lecture.repository.LectureRepository;
+import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.util.enums.MemberRole;
 import com.sparta.soomtut.util.enums.TuitionState;
@@ -33,9 +33,9 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class PostServiceImpl implements PostService {
+public class LectureServiceImpl implements LectureService {
 
-    private final PostRepository postRepository;
+    private final LectureRepository postRepository;
     private final LocationService locationService;
     private final CategoryRepository categoryRepository;
     private final TuitionRequestRepository tuitionRequestRepository;
@@ -43,26 +43,26 @@ public class PostServiceImpl implements PostService {
     
     @Override
     @Transactional
-    public PostResponseDto getPost(Long postId) {
-        Post post = postRepository.findById(postId).orElseThrow(
+    public LectureResponseDto getPost(Long postId) {
+        Lecture post = postRepository.findById(postId).orElseThrow(
             () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage()));
-        return new PostResponseDto(post, locationService.findMemberLocation(post.getMember().getId()));
+        return new LectureResponseDto(post, locationService.findMemberLocation(post.getMember().getId()));
     }
 
     // 게시글 작성
     @Override
     @Transactional
-    public PostResponseDto createPost(Member member, PostRequestDto postRequestDto) {
-        Post post = new Post(postRequestDto, member);
+    public LectureResponseDto createPost(Member member, CreateLectureRequestDto postRequestDto) {
+        Lecture post = new Lecture(postRequestDto, member);
         postRepository.save(post);
-        return new PostResponseDto(post, locationService.findMemberLocation(member.getId()));
+        return new LectureResponseDto(post, locationService.findMemberLocation(member.getId()));
     }
 
     // 게시글 수정
     @Override
     @Transactional
-    public PostResponseDto updatePost(Long postId, UpdatePostRequestDto updatePostRequestDto, Member member) {
-        Post post = postRepository.findById(postId).orElseThrow(
+    public LectureResponseDto updatePost(Long postId, UpdateLectureRequestDto updatePostRequestDto, Member member) {
+        Lecture post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
         );
 
@@ -73,14 +73,14 @@ public class PostServiceImpl implements PostService {
         }
 
         post.update(updatePostRequestDto);
-        return new PostResponseDto(post);
+        return new LectureResponseDto(post);
     }
 
     //게시글 삭제
     @Override
     @Transactional
     public void deletePost(Long postId, Member member) {
-        Post post = postRepository.findById(postId).orElseThrow(
+        Lecture post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
         );
 
@@ -106,8 +106,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public Post getPostById(Long postId){
-       Post post = postRepository.findById(postId).orElseThrow(
+    public Lecture getPostById(Long postId){
+       Lecture post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage())
         );
 
@@ -122,10 +122,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResponseDto getMyPost(Member member) {
-        Post post = postRepository.findByMemberId(member.getId())
+    public LectureResponseDto getMyPost(Member member) {
+        Lecture post = postRepository.findByMemberId(member.getId())
                 .orElseThrow(() -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage()));
-        PostResponseDto postResponseDto = new PostResponseDto(post, member.getNickname(), locationService.findMemberLocation(member.getId()).getAddress());
+        LectureResponseDto postResponseDto = new LectureResponseDto(post, member.getNickname(), locationService.findMemberLocation(member.getId()).getAddress());
         return postResponseDto;
     }
 
@@ -134,7 +134,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public String classConfirmed(Long postId, Member member) {
-        Post post = getPostById(postId);
+        Lecture post = getPostById(postId);
 
 
         boolean isExistsRequest = tuitionRequestRepository.existsByPostIdAndTuteeIdAndTuitionState(postId, member.getId(), TuitionState.NONE);
@@ -153,7 +153,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public String classComplete(Long postId, Member member) {
-        Post post = postRepository.findById(postId).orElseThrow(
+        Lecture post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
         );
         TuitionRequest tuitionRequest = tuitionRequestRepository.findByPostId(postId).orElseThrow(
@@ -167,9 +167,9 @@ public class PostServiceImpl implements PostService {
     // 완료한 수업 목록 조회
     @Override
     @Transactional
-    public List<Post> getCompletePost(Member member) {
+    public List<Lecture> getCompletePost(Member member) {
         List<TuitionRequest> tuitionRequestList = tuitionRequestRepository.findAllByTuteeIdAndTuitionState(member.getId(), TuitionState.DONE);
-        List<Post> postList = tuitionRequestList.stream().map((item) -> item.getPost()).collect(Collectors.toList());
+        List<Lecture> postList = tuitionRequestList.stream().map((item) -> item.getPost()).collect(Collectors.toList());
         return postList;
     }
 
@@ -186,7 +186,7 @@ public class PostServiceImpl implements PostService {
     @Transactional(readOnly = true) 
     public boolean isMyPost(Long postId, Member member)
     {
-        Post post = postRepository.findById(postId).orElseThrow(
+        Lecture post = postRepository.findById(postId).orElseThrow(
             () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage())
         );
 
@@ -195,25 +195,25 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional(readOnly = true) 
-    public Page<Post> getPosts(Long category, Pageable pageable){
+    public Page<Lecture> getPosts(Long category, Pageable pageable){
         return postRepository.findAllByCategoryId(category, pageable);
     }
 
     @Override
     @Transactional(readOnly = true) 
-    public Page<Post> getPosts(Pageable pageable) {
+    public Page<Lecture> getPosts(Pageable pageable) {
         return postRepository.findAll(pageable);
     }
 
     @Override
     @Transactional(readOnly = true) 
-    public Page<Post> getAllPostByMemberId(Long memberId,Pageable pageable) {
+    public Page<Lecture> getAllPostByMemberId(Long memberId,Pageable pageable) {
         return postRepository.findAllByMemberId(memberId, pageable);
     }
 
     @Override
     @Transactional
-    public Page<PostResponseDto> searchByKeyword(String keyword,Pageable pageable) {
-        return postRepository.findPostByKeyword(keyword,pageable);
+    public Page<LectureResponseDto> searchByKeyword(String keyword,Pageable pageable) {
+        return postRepository.findLectureByKeyword(keyword,pageable);
     }
 }

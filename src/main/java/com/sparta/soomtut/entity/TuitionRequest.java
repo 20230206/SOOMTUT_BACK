@@ -1,6 +1,6 @@
 package com.sparta.soomtut.entity;
 
-import com.sparta.soomtut.lecture.entity.Post;
+import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.util.enums.TuitionState;
 
 import jakarta.persistence.*;
@@ -22,7 +22,7 @@ public class TuitionRequest {
 
     @JoinColumn(name = "post_Id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Post post;
+    private Lecture post;
 
     @Column
     private Long tuteeId;
@@ -38,7 +38,7 @@ public class TuitionRequest {
 //        this.tutorId = tutorId;
 //    }
 
-    public TuitionRequest(Post postId, Long tuteeId) {
+    public TuitionRequest(Lecture postId, Long tuteeId) {
         this.tuitionState = TuitionState.NONE;
         this.post = postId;
         this.tuteeId = tuteeId;
@@ -51,7 +51,7 @@ public class TuitionRequest {
         this.tuteeId = tuteeId;
     }
 
-    public void ChangTuitionReview(Post postId) {
+    public void ChangTuitionReview(Lecture postId) {
         this.post = postId;
         this.reviewFilter = true;
     }

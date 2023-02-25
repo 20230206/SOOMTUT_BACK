@@ -4,8 +4,8 @@ import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.dto.request.PageRequestDto;
 import com.sparta.soomtut.entity.Review;
 import com.sparta.soomtut.entity.TuitionRequest;
-import com.sparta.soomtut.lecture.entity.Post;
-import com.sparta.soomtut.lecture.service.PostService;
+import com.sparta.soomtut.lecture.entity.Lecture;
+import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.repository.MemberRepository;
@@ -29,7 +29,7 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
-    private final PostService postService;
+    private final LectureService postService;
     private final ReviewService reviewService;
     private final LocationService locationService;
     private final DeleteReviewRequestService deleteReviewRequestService;
@@ -85,7 +85,7 @@ public class MemberServiceImpl implements MemberService{
                 () -> new IllegalArgumentException("Error")
         );
 
-        Post post = postService.getPostById(postId);
+        Lecture post = postService.getPostById(postId);
         tuitionRequest.ChangTuitionReview(post);
 
         return "수강후기 작성이 완료되었습니다!";

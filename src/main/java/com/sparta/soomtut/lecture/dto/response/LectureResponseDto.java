@@ -1,14 +1,14 @@
 package com.sparta.soomtut.lecture.dto.response;
 
 import com.sparta.soomtut.entity.Location;
-import com.sparta.soomtut.lecture.entity.Post;
+import com.sparta.soomtut.lecture.entity.Lecture;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class PostResponseDto {
+public class LectureResponseDto {
     private Long postId;
     private String title;
     private String content;
@@ -18,7 +18,7 @@ public class PostResponseDto {
     private String tutorNickname;
     private String location;
 
-    public PostResponseDto(Post post) {
+    public LectureResponseDto(Lecture post) {
         this.postId = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
@@ -28,7 +28,7 @@ public class PostResponseDto {
         this.tutorNickname = post.getMember().getNickname();
     }
 
-    public PostResponseDto(Post post, Location location) {
+    public LectureResponseDto(Lecture post, Location location) {
         this.postId = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
@@ -40,7 +40,7 @@ public class PostResponseDto {
     }
 
 
-    public PostResponseDto(Post post, String nickName, String location) {
+    public LectureResponseDto(Lecture post, String nickName, String location) {
         this.postId = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
@@ -52,14 +52,14 @@ public class PostResponseDto {
         this.location = location;
     }
 
-    public PostResponseDto(PostResponseDto postResponseDto) {
+    public LectureResponseDto(LectureResponseDto postResponseDto) {
         this.image = postResponseDto.image;
         this.fee = postResponseDto.fee;
         this.location = postResponseDto.location;
         this.tutorNickname = postResponseDto.tutorNickname;
     }
 
-    public PostResponseDto(String image,int fee, String location,String tutorNickname,String content,String title ) {
+    public LectureResponseDto(String image,int fee, String location,String tutorNickname,String content,String title ) {
         this.image = image;
         this.fee = fee;
         this.location = location;

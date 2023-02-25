@@ -1,9 +1,9 @@
 package com.sparta.soomtut.lecture.service.impl;
 
-import com.sparta.soomtut.lecture.dto.response.PostResponseDto;
-import com.sparta.soomtut.lecture.entity.Post;
+import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
+import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.service.BoardService;
-import com.sparta.soomtut.lecture.service.PostService;
+import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.service.interfaces.LocationService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,31 +18,31 @@ import org.springframework.data.domain.Pageable;
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
-    private final PostService postService;
+    private final LectureService postService;
     
     private final LocationService locationService;
 
     @Override
     @Transactional(readOnly = true)
-    public Page<PostResponseDto> getPostsByMemberId(Long memberId, Pageable pageable) {
-        Page<Post> posts = postService.getAllPostByMemberId(memberId, pageable);
+    public Page<LectureResponseDto> getPostsByMemberId(Long memberId, Pageable pageable) {
+        Page<Lecture> posts = postService.getAllPostByMemberId(memberId, pageable);
 
-        return posts.map(item -> new PostResponseDto(item,
+        return posts.map(item -> new LectureResponseDto(item,
                                          item.getMember().getNickname(),
                                          locationService.getLocation(item.getMember()).getAddress()));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Page<PostResponseDto> getAllPost(Long category, Pageable pageable) {
+    public Page<LectureResponseDto> getAllPost(Long category, Pageable pageable) {
 
         if(category == 0 ){
-            Page<Post> posts = postService.getPosts(pageable);
-            return posts.map(item -> new PostResponseDto(item));
+            Page<Lecture> posts = postService.getPosts(pageable);
+            return posts.map(item -> new LectureResponseDto(item));
         }
         else {
-            Page<Post> posts = postService.getPosts(category, pageable);
-            return posts.map(item -> new PostResponseDto(item));
+            Page<Lecture> posts = postService.getPosts(category, pageable);
+            return posts.map(item -> new LectureResponseDto(item));
         }
 
     }
