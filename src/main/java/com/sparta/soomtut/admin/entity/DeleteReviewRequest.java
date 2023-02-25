@@ -1,4 +1,6 @@
-package com.sparta.soomtut.entity;
+package com.sparta.soomtut.admin.entity;
+
+import com.sparta.soomtut.review.entity.Review;
 
 import jakarta.persistence.*;
 import lombok.Getter;

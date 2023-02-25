@@ -1,10 +1,10 @@
 package com.sparta.soomtut.lecture.repository;
 
-import com.sparta.soomtut.entity.FavMemberPost;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.sparta.soomtut.lecture.entity.FavMemberPost;
 
 import java.util.Optional;
 

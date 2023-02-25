@@ -1,7 +1,7 @@
-package com.sparta.soomtut.entity;
+package com.sparta.soomtut.lecture.entity;
 
-import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.member.entity.Member;
+import com.sparta.soomtut.util.entity.TimeStamped;
 
 import jakarta.persistence.*;
 import lombok.Builder;

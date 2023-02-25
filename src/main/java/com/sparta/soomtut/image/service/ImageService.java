@@ -1,9 +1,10 @@
-package com.sparta.soomtut.service.impl;
+package com.sparta.soomtut.image.service;
 
 import com.sparta.soomtut.dto.request.ImageRequest;
 import com.sparta.soomtut.dto.response.ImageResponse;
-import com.sparta.soomtut.entity.ImageEntity;
-import com.sparta.soomtut.repository.ImageRepository;
+import com.sparta.soomtut.image.entity.ImageEntity;
+import com.sparta.soomtut.image.repository.ImageRepository;
+
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

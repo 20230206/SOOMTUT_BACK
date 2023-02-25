@@ -1,7 +1,8 @@
-package com.sparta.soomtut.repository;
+package com.sparta.soomtut.lecture.repository;
 
-import com.sparta.soomtut.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.sparta.soomtut.lecture.entity.Category;
 
 import java.util.List;
 

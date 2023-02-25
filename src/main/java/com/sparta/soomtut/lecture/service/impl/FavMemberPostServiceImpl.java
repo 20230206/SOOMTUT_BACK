@@ -1,7 +1,7 @@
 package com.sparta.soomtut.lecture.service.impl;
 
-import com.sparta.soomtut.entity.FavMemberPost;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
+import com.sparta.soomtut.lecture.entity.FavMemberPost;
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.repository.FavMemberPostRepository;
 import com.sparta.soomtut.lecture.service.FavMemberPostService;

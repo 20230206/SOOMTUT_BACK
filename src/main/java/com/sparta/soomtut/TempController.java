@@ -1,20 +1,20 @@
-package com.sparta.soomtut.controller;
+package com.sparta.soomtut;
 
 
 import lombok.RequiredArgsConstructor;
 
 import com.sparta.soomtut.auth.service.*;
-import com.sparta.soomtut.entity.*;
+import com.sparta.soomtut.image.service.ImageService;
+import com.sparta.soomtut.image.service.S3Service;
 import com.sparta.soomtut.lecture.service.*;
 import com.sparta.soomtut.lecture.dto.request.*;
 import com.sparta.soomtut.lecture.dto.response.*;
 import com.sparta.soomtut.lecture.entity.*;
-import com.sparta.soomtut.service.interfaces.*;
-import com.sparta.soomtut.service.impl.*;
 import com.sparta.soomtut.member.service.*;
-
+import com.sparta.soomtut.review.entity.Review;
 import com.sparta.soomtut.dto.request.*;
 import com.sparta.soomtut.dto.response.*;
+import com.sparta.soomtut.util.entity.*;
 import com.sparta.soomtut.util.security.*;
 
 import org.springframework.data.domain.Page;

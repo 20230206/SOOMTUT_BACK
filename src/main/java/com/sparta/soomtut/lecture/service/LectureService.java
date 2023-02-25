@@ -2,10 +2,10 @@ package com.sparta.soomtut.lecture.service;
 
 import com.sparta.soomtut.dto.request.CategoryRequestDto;
 import com.sparta.soomtut.dto.request.PageRequestDto;
-import com.sparta.soomtut.entity.Category;
 import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
+import com.sparta.soomtut.lecture.entity.Category;
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.member.entity.Member;
 

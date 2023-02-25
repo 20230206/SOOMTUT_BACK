@@ -1,4 +1,4 @@
-package com.sparta.soomtut.service.impl;
+package com.sparta.soomtut.image.service;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;

@@ -1,10 +1,11 @@
 package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.dto.request.CreateReviewRequestDto;
-import com.sparta.soomtut.entity.Review;
-import com.sparta.soomtut.entity.TuitionRequest;
+import com.sparta.soomtut.lectureRequest.entity.TuitionRequest;
 import com.sparta.soomtut.lectureRequest.repository.TuitionRequestRepository;
-import com.sparta.soomtut.repository.ReviewRepository;
+import com.sparta.soomtut.review.entity.Review;
+import com.sparta.soomtut.review.repository.ReviewRepository;
+import com.sparta.soomtut.review.service.impl.ReviewServiceImpl;
 import com.sparta.soomtut.util.enums.TuitionState;
 
 import org.junit.jupiter.api.DisplayName;

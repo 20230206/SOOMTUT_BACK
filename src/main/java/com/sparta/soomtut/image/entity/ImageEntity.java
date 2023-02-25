@@ -1,4 +1,4 @@
-package com.sparta.soomtut.entity;
+package com.sparta.soomtut.image.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

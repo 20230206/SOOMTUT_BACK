@@ -1,4 +1,4 @@
-package com.sparta.soomtut.entity;
+package com.sparta.soomtut.lecture.entity;
 
 import com.sparta.soomtut.dto.request.CategoryRequestDto;
 import jakarta.persistence.*;

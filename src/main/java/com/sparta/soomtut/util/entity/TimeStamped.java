@@ -1,4 +1,4 @@
-package com.sparta.soomtut.entity;
+package com.sparta.soomtut.util.entity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

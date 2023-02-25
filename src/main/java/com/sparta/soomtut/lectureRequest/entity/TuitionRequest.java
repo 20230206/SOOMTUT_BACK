@@ -1,4 +1,4 @@
-package com.sparta.soomtut.entity;
+package com.sparta.soomtut.lectureRequest.entity;
 
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.util.enums.TuitionState;

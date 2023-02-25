@@ -1,6 +1,7 @@
 package com.sparta.soomtut.dto.response;
 
-import com.sparta.soomtut.entity.ImageEntity;
+import com.sparta.soomtut.image.entity.ImageEntity;
+
 import jakarta.persistence.Column;
 import lombok.*;
 

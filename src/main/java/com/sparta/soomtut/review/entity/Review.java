@@ -1,4 +1,4 @@
-package com.sparta.soomtut.entity;
+package com.sparta.soomtut.review.entity;
 
 import jakarta.persistence.*;
 

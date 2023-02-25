@@ -1,10 +1,10 @@
-package com.sparta.soomtut.service.impl;
+package com.sparta.soomtut.lecture.service;
 
 import org.springframework.stereotype.Service;
 
-import com.sparta.soomtut.repository.CategoryRepository;
 import com.sparta.soomtut.util.response.ErrorCode;
-import com.sparta.soomtut.entity.Category;
+import com.sparta.soomtut.lecture.entity.Category;
+import com.sparta.soomtut.lecture.repository.CategoryRepository;
 
 import lombok.RequiredArgsConstructor;
 

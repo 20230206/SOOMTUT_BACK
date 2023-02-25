@@ -1,8 +1,10 @@
 package com.sparta.soomtut.service.impl;
 
-import com.sparta.soomtut.entity.Review;
-import com.sparta.soomtut.repository.DeleteReviewRequestRepository;
-import com.sparta.soomtut.service.interfaces.ReviewService;
+import com.sparta.soomtut.review.entity.Review;
+import com.sparta.soomtut.review.service.ReviewService;
+import com.sparta.soomtut.admin.repository.DeleteReviewRequestRepository;
+import com.sparta.soomtut.admin.service.impl.DeleteReviewRequestServiceImpl;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
