@@ -107,6 +107,17 @@ public class LectureController {
         return ToResponse.of(data, SuccessCode.LECTURE_GETDONELECUTES_OK);
     }
     
+    // 현재 글의 즐겨찾기 상태 확인
+    @GetMapping(value = "/bookmark/{postId}")
+    public ResponseEntity<?> getBookmarkState(
+        @PathVariable Long postId,
+        @AuthenticationPrincipal UserDetailsImpl userDetails
+    )
+    {
+        var data = favMemberPostService.getState(postId, userDetails.getMember());
+        return ResponseEntity.ok().body(data);
+    }
+
     //즐겨찾기 추가 및 취소
     @PostMapping(value = "/bookmark/{lectureid}")
     public ResponseEntity<?> updateBookmark(

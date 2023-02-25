@@ -18,6 +18,6 @@ public interface LectureRepository extends JpaRepository <Lecture, Long> {
     Page<Lecture> findAllByMemberId(Long memberId, Pageable pageable);
     Page<Lecture> findAllByCategoryId(Long categoryId, Pageable pageable);
 
-    @Query("select new com.sparta.soomtut.dto.response.LectureResponseDto(p.image,p.fee,l.address,m.nickname,p.content,p.title) from Lecture p join Member m on p.member.id = m.id join Location l on l.member.id=m.id where p.content LIKE :keyword%")
-    Page<LectureResponseDto> findLectureByKeyword(String keyword, Pageable pageable);
+    // @Query("select new com.sparta.soomtut.dto.response.LectureResponseDto(p.image,p.fee,l.address,m.nickname,p.content,p.title) from Lecture p join Member m on p.member.id = m.id join Location l on l.member.id=m.id where p.content LIKE :keyword%")
+    // Page<LectureResponseDto> findLectureByKeyword(String keyword, Pageable pageable);
 }

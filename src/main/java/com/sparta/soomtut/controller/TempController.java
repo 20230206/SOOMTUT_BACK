@@ -123,13 +123,6 @@ public class TempController {
     }
 
 
-    // 완료된 수업 목록 조회
-    @GetMapping("/getCompletePost")
-    public ResponseEntity<List<Lecture>> getCompletePost(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        List<Lecture> postList = postService.getCompletePost(userDetails.getMember());
-        return ResponseEntity.status(HttpStatus.OK).body(postList);
-    }
-
     // 수업글 이미지 업로드
     @PostMapping("/posts/images")
     public String  postImage(ImageRequest imageRequest, MultipartFile file) throws IOException{
@@ -163,33 +156,8 @@ public class TempController {
 //    }
 
 
-    @GetMapping(value = "/posts/{postId}/bookmark")
-    public ResponseEntity<?> getBookmarkState(
-        @PathVariable Long postId,
-        @AuthenticationPrincipal UserDetailsImpl userDetails
-    )
-    {
-        var data = favMemberPostService.getState(postId, userDetails.getMember());
-        return ResponseEntity.ok().body(data);
-    }
+        
 
-    //즐겨찾기 추가 및 취소
-    @PostMapping(value = "/posts/{postId}/bookmark")
-    public ResponseEntity<?> bookMark(
-        @PathVariable Long postId,
-        @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        var data = favMemberPostService.updateOfFavPost(postId, userDetails.getMember());
-        return ResponseEntity.ok().body(data);
-    }
-    //즐겨찾기 전체 조회
-    @GetMapping(value = "/bookmark")
-    public ResponseEntity<?> getFindAllFavPost(
-        @ModelAttribute PageRequestDto pageRequest,
-        @AuthenticationPrincipal UserDetailsImpl userDetails)
-    {
-        var data = favMemberPostService.findAllFavPosts(pageRequest.toPageable(), userDetails.getMember());
-        return ResponseEntity.ok().body(data);
-    }
     //즐겨찾기 특정 조회
     @GetMapping(value = "/bookmark/{postId}")
     public ResponseEntity<LectureResponseDto> getFindFavPost(@PathVariable("postId") Long id){
