@@ -15,18 +15,18 @@ import java.util.List;
 
 public interface LectureService {
 //     글작성
-    LectureResponseDto createPost(Member member, CreateLectureRequestDto postRequestDto);
+    LectureResponseDto createLecture(Member member, CreateLectureRequestDto postRequestDto);
 
 //     글수정
-    LectureResponseDto updatePost(Long postId, UpdateLectureRequestDto updatePostRequestDto, Member member);
+    LectureResponseDto updateLecture(Long postId, UpdateLectureRequestDto updatePostRequestDto, Member member);
 
-    void deletePost(Long postId, Member member);
+    void deleteLecture(Long postId, Member member);
 
     LectureResponseDto getPost(Long postId);
 
     String createCategory(CategoryRequestDto categoryRequestDto);
 
-    boolean isMyPost(Long postId, Member member);
+    boolean checkLectureAuthor(Long postId, Member member);
 
     List<Category> getCategory();
     String classConfirmed(Long postId, Member member);

@@ -8,9 +8,9 @@ import org.springframework.data.domain.Pageable;
 
 
 public interface FavMemberPostService {
-    boolean updateOfFavPost(Long postId, Member member);
+    boolean updateBookmark(Long postId, Member member);
     boolean getState(Long postId, Member member);
 
-    Page<LectureResponseDto> findAllFavPosts(Pageable pageable, Member member);
+    Page<LectureResponseDto> getLecturesByBookmarked(Pageable pageable, Member member);
     LectureResponseDto findFavPost(Long id);
 }

@@ -46,7 +46,7 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
     //즐겨찾기 전체 조회
     @Transactional
     @Override
-    public Page<LectureResponseDto> findAllFavPosts(Pageable pageable, Member member){
+    public Page<LectureResponseDto> getLecturesByBookmarked(Pageable pageable, Member member){
         // PageRequest pageables = PageRequest.of(reqeust.getPage(), 5);
         Page<FavMemberPost> favlist = favMemberPostRepository.findAllByMemberIdAndStatusIsTrue(member.getId(), pageable);
         return favlist.map((item) -> new LectureResponseDto(item.getPost()));
@@ -56,7 +56,7 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
     //즐겨찾기 업데이트
     @Transactional
     @Override
-    public boolean updateOfFavPost(Long postId, Member member) {
+    public boolean updateBookmark(Long postId, Member member) {
         // 1. existsByPostIdAndMemberId를 통해서 return이 false 일시
         //  -> 새로운 FavMemberPost를 생성하고, save 해주고 return true
         // 2. existsByPostIdAndMemberId를 통해서 return이 true 일시

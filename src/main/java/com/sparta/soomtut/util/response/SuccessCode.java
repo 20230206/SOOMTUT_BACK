@@ -20,7 +20,18 @@ public enum SuccessCode {
     MEMBER_SUSPEND_OK("회원 탈퇴 요청에 성공했습니다", 200),
     MEMBER_RECOVER_OK("회원 탈퇴 취소 요청에 성공했습니다", 200),
     MEMBER_GETINFO_OK("회원 정보 조회에 성공했습니다", 200),
-    MEMBER_UPDATEINFO_OK("내 정보 수정에 성공했습니다.", 200);
+    MEMBER_UPDATEINFO_OK("내 정보 수정에 성공했습니다.", 200),
+    
+    LECTURE_CREATE_OK("수업 등록 성공", 203),
+    LECTURE_UPDATE_OK("수업 수정 성공", 200),
+    LECTURE_DELETE_OK("수업 삭제 성공", 200),
+    LECTURE_GETLECTURE_OK("수업 조회 성공", 200),
+    LECTURE_GETLECTURES_OK("수업 전체 조회 성공", 200),
+    LECTURE_CHECK_OK("내 수업 확인 성공", 200),
+    LECTURE_GETDONELECUTES_OK("완료된 수업 목록 조회", 200),
+    
+    LECTURE_UPDATEBOOKMARK_OK("북마크 추가 성공", 200),
+    LECTURE_GETBOOKMARKEDLECTURES_OK("북마크된 전체 수업 조회", 200);
 
     private final String message;
     private final int status;

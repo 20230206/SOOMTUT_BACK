@@ -52,7 +52,7 @@ public class LectureServiceImpl implements LectureService {
     // 게시글 작성
     @Override
     @Transactional
-    public LectureResponseDto createPost(Member member, CreateLectureRequestDto postRequestDto) {
+    public LectureResponseDto createLecture(Member member, CreateLectureRequestDto postRequestDto) {
         Lecture post = new Lecture(postRequestDto, member);
         postRepository.save(post);
         return new LectureResponseDto(post, locationService.findMemberLocation(member.getId()));
@@ -61,7 +61,7 @@ public class LectureServiceImpl implements LectureService {
     // 게시글 수정
     @Override
     @Transactional
-    public LectureResponseDto updatePost(Long postId, UpdateLectureRequestDto updatePostRequestDto, Member member) {
+    public LectureResponseDto updateLecture(Long postId, UpdateLectureRequestDto updatePostRequestDto, Member member) {
         Lecture post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
         );
@@ -79,7 +79,7 @@ public class LectureServiceImpl implements LectureService {
     //게시글 삭제
     @Override
     @Transactional
-    public void deletePost(Long postId, Member member) {
+    public void deleteLecture(Long postId, Member member) {
         Lecture post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
         );
@@ -184,7 +184,7 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     @Transactional(readOnly = true) 
-    public boolean isMyPost(Long postId, Member member)
+    public boolean checkLectureAuthor(Long postId, Member member)
     {
         Lecture post = postRepository.findById(postId).orElseThrow(
             () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage())
