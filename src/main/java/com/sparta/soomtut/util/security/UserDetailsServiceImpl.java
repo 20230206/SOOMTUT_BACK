@@ -1,27 +1,24 @@
 package com.sparta.soomtut.util.security;
 
 import com.sparta.soomtut.member.entity.Member;
-import com.sparta.soomtut.member.repository.MemberRepository;
+import com.sparta.soomtut.member.service.MemberService;
 import com.sparta.soomtut.util.response.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @RequiredArgsConstructor
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		Member member = memberRepository.findByEmail(email)
-			.orElseThrow( () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorCode.INVALID_TOKEN.getMessage()) );
+		Member member = memberService.getMemberByEmail(email);
 		return new UserDetailsImpl(member);
     }
 

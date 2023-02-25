@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 
-public interface FavMemberPostService {
+public interface BookmarkService {
     boolean updateBookmark(Long postId, Member member);
     boolean getState(Long postId, Member member);
 

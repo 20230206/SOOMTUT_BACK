@@ -3,7 +3,7 @@ package com.sparta.soomtut.lecture.controller;
 import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
-import com.sparta.soomtut.lecture.service.FavMemberPostService;
+import com.sparta.soomtut.lecture.service.BookmarkService;
 import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import com.sparta.soomtut.util.response.ToResponse;
 public class LectureController {
     private final LectureService lectureService;
     private final BoardServiceImpl boardService;
-    private final FavMemberPostService favMemberPostService;
+    private final BookmarkService favMemberPostService;
     
     // 수업 등록
     @PostMapping

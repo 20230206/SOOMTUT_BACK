@@ -1,10 +1,10 @@
 package com.sparta.soomtut.lecture.service.impl;
 
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
-import com.sparta.soomtut.lecture.entity.FavMemberPost;
+import com.sparta.soomtut.lecture.entity.Bookmark;
 import com.sparta.soomtut.lecture.entity.Lecture;
-import com.sparta.soomtut.lecture.repository.FavMemberPostRepository;
-import com.sparta.soomtut.lecture.service.FavMemberPostService;
+import com.sparta.soomtut.lecture.repository.BookmarkRepository;
+import com.sparta.soomtut.lecture.service.BookmarkService;
 import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.util.response.ErrorCode;
@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class FavMemberPostServiceImpl implements FavMemberPostService {
-    private final FavMemberPostRepository favMemberPostRepository;
+public class BookmarkServiceImpl implements BookmarkService {
+    private final BookmarkRepository favMemberPostRepository;
     private final LectureService postService;
 
     @Transactional
@@ -27,7 +27,7 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
     public boolean getState(Long postId, Member member) {
         if(!hasFavPost(postId, member)) return false;
         else {
-            FavMemberPost fav = findByPostIdAndMemberId(postId, member.getId());
+            Bookmark fav = findByPostIdAndMemberId(postId, member.getId());
             return fav.isStatus();
         }
 
@@ -38,7 +38,7 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
     @Override
     public LectureResponseDto findFavPost(Long id){
         Lecture post = postService.getPostById(id);
-        FavMemberPost favMemberPost = favMemberPostRepository.findByPostId(post.getId())
+        Bookmark favMemberPost = favMemberPostRepository.findByPostId(post.getId())
                 .orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_FAVPOST.getMessage()));
         return new LectureResponseDto(favMemberPost.getPost());
     }
@@ -48,7 +48,7 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
     @Override
     public Page<LectureResponseDto> getLecturesByBookmarked(Pageable pageable, Member member){
         // PageRequest pageables = PageRequest.of(reqeust.getPage(), 5);
-        Page<FavMemberPost> favlist = favMemberPostRepository.findAllByMemberIdAndStatusIsTrue(member.getId(), pageable);
+        Page<Bookmark> favlist = favMemberPostRepository.findAllByMemberIdAndStatusIsTrue(member.getId(), pageable);
         return favlist.map((item) -> new LectureResponseDto(item.getPost()));
     }
     
@@ -64,11 +64,11 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
         
         if(!hasFavPost(postId, member)) {
             Lecture post = postService.getPostById(postId);
-            FavMemberPost data = createFavPost(post, member);
+            Bookmark data = createFavPost(post, member);
             return data.isStatus();
         }
         else {
-            FavMemberPost data = findByPostIdAndMemberId(postId, member.getId());
+            Bookmark data = findByPostIdAndMemberId(postId, member.getId());
             data.updateState(!data.isStatus());
             return data.isStatus();
         }
@@ -76,8 +76,8 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
 
     //즐겨찾기 추가
     @Transactional
-    public FavMemberPost createFavPost(Lecture post, Member member){
-        return favMemberPostRepository.save(FavMemberPost.builder().post(post).member(member).build());
+    public Bookmark createFavPost(Lecture post, Member member){
+        return favMemberPostRepository.save(Bookmark.builder().post(post).member(member).build());
     }
 
     //글과 멤버의 값을 가지고 있다면 true 아니라면 false 용도의 함수
@@ -88,7 +88,7 @@ public class FavMemberPostServiceImpl implements FavMemberPostService {
     }
 
     @Transactional(readOnly = true)
-    private FavMemberPost findByPostIdAndMemberId(Long postId, Long memberId) {
+    private Bookmark findByPostIdAndMemberId(Long postId, Long memberId) {
         return favMemberPostRepository.findByPostIdAndMemberId(postId, memberId).orElseThrow(
             () -> new IllegalArgumentException("로그가 존재하지 않습니다.")
         );

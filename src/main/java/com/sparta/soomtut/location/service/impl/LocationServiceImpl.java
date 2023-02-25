@@ -73,8 +73,8 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public List<LocationResponseDto> getAllLocation(Location myLocation) {
         String myCityName = myLocation.getAddress().split(" ")[0];
-        List<LocationResponseDto> cityUserLocations = locationRepository.findAllByAddress(myCityName);
-        return cityUserLocations;
+        // List<LocationResponseDto> cityUserLocations = locationRepository.findAllByAddress(myCityName);
+        return null;
     }
     
 }

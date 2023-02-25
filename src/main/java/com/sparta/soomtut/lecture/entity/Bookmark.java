@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 // jpa
 @Entity
-public class FavMemberPost extends TimeStamped {
+public class Bookmark extends TimeStamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,7 +31,7 @@ public class FavMemberPost extends TimeStamped {
     private boolean status;
 
     @Builder
-    public FavMemberPost(Lecture post, Member member){
+    public Bookmark(Lecture post, Member member){
         this.post = post;
         this.member = member;
         this.status = true;
