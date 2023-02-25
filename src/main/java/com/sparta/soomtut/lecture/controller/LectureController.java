@@ -100,6 +100,7 @@ public class LectureController {
     }
 
     // 완료된 수업 목록 조회
+    // TODO: 수업의 완료라기 보다는 수업 신청의 완료라고 보는 것이 타당한 것 같습니다.
     @GetMapping("/done")
     public ResponseEntity<?> getCompletePost(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         var data = lectureService.getCompletePost(userDetails.getMember());

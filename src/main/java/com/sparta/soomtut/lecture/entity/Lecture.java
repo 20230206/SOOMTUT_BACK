@@ -3,7 +3,6 @@ package com.sparta.soomtut.lecture.entity;
 import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.member.entity.Member;
-import com.sparta.soomtut.util.enums.TuitionState;
 import com.sparta.soomtut.util.constants.Constants;
 import jakarta.persistence.*;
 import lombok.Getter;
