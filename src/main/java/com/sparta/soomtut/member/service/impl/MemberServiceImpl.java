@@ -12,7 +12,7 @@ import com.sparta.soomtut.member.repository.MemberRepository;
 import com.sparta.soomtut.member.service.MemberService;
 import com.sparta.soomtut.service.interfaces.ReviewService;
 import com.sparta.soomtut.util.response.ErrorCode;
-import com.sparta.soomtut.service.interfaces.LocationService;
+import com.sparta.soomtut.location.service.LocationService;
 import com.sparta.soomtut.lectureRequest.repository.TuitionRequestRepository;
 import com.sparta.soomtut.service.interfaces.DeleteReviewRequestService;
 import lombok.RequiredArgsConstructor;

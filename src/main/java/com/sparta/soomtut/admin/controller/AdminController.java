@@ -1,4 +1,4 @@
-package com.sparta.soomtut.controller;
+package com.sparta.soomtut.admin.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 

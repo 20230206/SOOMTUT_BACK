@@ -1,4 +1,4 @@
-package com.sparta.soomtut.service.interfaces;
+package com.sparta.soomtut.location.service;
 
 import com.sparta.soomtut.dto.response.LocationResponseDto;
 import com.sparta.soomtut.entity.Location;

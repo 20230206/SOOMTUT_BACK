@@ -17,7 +17,7 @@ import com.sparta.soomtut.entity.Location;
 import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.service.MemberService;
-import com.sparta.soomtut.service.interfaces.LocationService;
+import com.sparta.soomtut.location.service.LocationService;
 import com.sparta.soomtut.util.enums.MemberRole;
 import com.sparta.soomtut.util.jwt.JwtProvider;
 import com.sparta.soomtut.util.jwt.TokenType;

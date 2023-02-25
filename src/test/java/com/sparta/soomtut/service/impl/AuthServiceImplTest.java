@@ -21,6 +21,7 @@ import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.repository.MemberRepository;
 import com.sparta.soomtut.member.service.impl.MemberServiceImpl;
+import com.sparta.soomtut.location.service.impl.LocationServiceImpl;
 import com.sparta.soomtut.util.jwt.JwtProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;

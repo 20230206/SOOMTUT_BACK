@@ -1,4 +1,4 @@
-package com.sparta.soomtut.repository;
+package com.sparta.soomtut.lecture.repository;
 
 import com.sparta.soomtut.entity.FavMemberPost;
 

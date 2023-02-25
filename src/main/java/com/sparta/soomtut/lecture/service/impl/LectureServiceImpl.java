@@ -18,7 +18,7 @@ import com.sparta.soomtut.util.enums.TuitionState;
 import com.sparta.soomtut.util.response.ErrorCode;
 
 import com.sparta.soomtut.repository.CategoryRepository;
-import com.sparta.soomtut.service.interfaces.LocationService;
+import com.sparta.soomtut.location.service.LocationService;
 
 import lombok.RequiredArgsConstructor;
 

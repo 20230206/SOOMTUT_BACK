@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.sparta.soomtut.entity.Location;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.service.MemberService;
-import com.sparta.soomtut.service.interfaces.LocationService;
+import com.sparta.soomtut.location.service.LocationService;
 import com.sparta.soomtut.util.constants.Constants;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 

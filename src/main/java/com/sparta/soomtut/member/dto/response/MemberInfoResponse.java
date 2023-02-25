@@ -1,6 +1,6 @@
 package com.sparta.soomtut.member.dto.response;
 
-import com.sparta.soomtut.entity.Location;
+import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.member.entity.Member;
 
 import lombok.AllArgsConstructor;
