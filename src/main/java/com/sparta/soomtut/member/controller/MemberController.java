@@ -2,6 +2,7 @@ package com.sparta.soomtut.member.controller;
 
 import com.sparta.soomtut.util.response.ToResponse;
 import com.sparta.soomtut.member.service.MemberService;
+import com.sparta.soomtut.util.cookies.RefreshCookie;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 
@@ -53,7 +54,8 @@ public class MemberController  {
     ) 
     {
         var data = memberService.suspendAccount(userDetails.getMember().getId());
-        return ToResponse.of(data, SuccessCode.MEMBER_SUSPEND_OK);
+        var cookie = RefreshCookie.getCookie(null, false);
+        return ToResponse.of(data, cookie, SuccessCode.MEMBER_SUSPEND_OK);
     }
 
     // 회원 탈퇴 취소

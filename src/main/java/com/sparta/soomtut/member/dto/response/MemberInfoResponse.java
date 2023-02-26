@@ -2,6 +2,7 @@ package com.sparta.soomtut.member.dto.response;
 
 import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.member.entity.Member;
+import com.sparta.soomtut.member.entity.enums.MemberState;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,7 @@ public class MemberInfoResponse {
     private float starRating;
     private int level;
     private String profileImage;
+    private MemberState state;
 
     private String address;
     private float vectorX;
@@ -35,6 +37,7 @@ public class MemberInfoResponse {
                 .createAt(member.getCreatedAt())
                 .starRating(member.getStarRating())
                 .level(member.getLevel())
+                .state(member.getState())
                 .profileImage(member.getImage())
                 .address(location.getAddress())
                 .vectorX(location.getVectorX())

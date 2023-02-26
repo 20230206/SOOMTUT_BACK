@@ -76,7 +76,7 @@ public class AuthServiceImpl implements AuthService {
 
         String token = createRefreshToken(member.getEmail(), member.getMemberRole());
         
-        return LoginResponse.builder().token(token).build();
+        return LoginResponse.builder().state(member.getState()).token(token).build();
     }
 
     @Override
