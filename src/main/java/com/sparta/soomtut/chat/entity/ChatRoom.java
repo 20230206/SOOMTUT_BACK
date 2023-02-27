@@ -23,7 +23,7 @@ public class ChatRoom {
     private LocalDateTime createdAt;
 
     @OneToOne
-    @JoinColumn(name = "tuition_request_id", referencedColumnName = "id")
+    @JoinColumn(name = "lecture_request_id", referencedColumnName = "id")
     private LectureRequest lectureRequest;
 
     private ChatRoom(Long tutorId, LectureRequest lectureRequest) {

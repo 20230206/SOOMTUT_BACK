@@ -30,7 +30,7 @@ public class Lecture {
 
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
-    private Member tutor;
+    private Member member;
 
     @Column
     private Long categoryId;
@@ -40,13 +40,13 @@ public class Lecture {
     private int favorite;
 
 
-    public Lecture(CreateLectureRequestDto postRequestDto, Member tutor) {
+    public Lecture(CreateLectureRequestDto postRequestDto, Member member) {
       this.title = postRequestDto.getTitle();
       this.image = postRequestDto.getImage();
       this.content = postRequestDto.getContent();
       this.fee = postRequestDto.getFee();
       this.categoryId = postRequestDto.getCategory();
-      this.tutor = tutor;
+      this.member = member;
     }
 
     public void update(UpdateLectureRequestDto updatePostRequestDto) {
@@ -68,10 +68,11 @@ public class Lecture {
     public void decFavCount(){this.favorite -= 1;}
 
     public Long getTutorId(){
-        return tutor.getId();
+        return member.getId();
     }
 
     public String getTutorNickname(){
-        return tutor.getNickname();
+        return member.getNickname();
     }
+
 }

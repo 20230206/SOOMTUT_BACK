@@ -18,18 +18,18 @@ import org.springframework.data.domain.Pageable;
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
-    private final LectureService postService;
+    private final LectureService lectureService;
     
     private final LocationService locationService;
 
     @Override
     @Transactional(readOnly = true)
     public Page<LectureResponseDto> getPostsByMemberId(Long memberId, Pageable pageable) {
-        Page<Lecture> posts = postService.getAllLectureByMemberId(memberId, pageable);
+        Page<Lecture> lecture = lectureService.getAllLectureByMemberId(memberId, pageable);
 
-        return posts.map(item -> new LectureResponseDto(item,
-                                         item.getMember().getNickname(),
-                                         locationService.getLocation(item.getMember()).getAddress()));
+        return lecture.map(item -> new LectureResponseDto(item,
+                                         item.getTutorNickname(),
+                                         locationService.getLocation(item.getMember())));
     }
 
     @Override
@@ -37,12 +37,12 @@ public class BoardServiceImpl implements BoardService {
     public Page<LectureResponseDto> getAllPost(Long category, Pageable pageable) {
 
         if(category == 0 ){
-            Page<Lecture> posts = postService.getLectures(pageable);
-            return posts.map(item -> new LectureResponseDto(item));
+            Page<Lecture> lectures = lectureService.getLectures(pageable);
+            return lectures.map(item -> new LectureResponseDto(item));
         }
         else {
-            Page<Lecture> posts = postService.getLectures(category, pageable);
-            return posts.map(item -> new LectureResponseDto(item));
+            Page<Lecture> lectures = lectureService.getLectures(category, pageable);
+            return lectures.map(item -> new LectureResponseDto(item));
         }
 
     }

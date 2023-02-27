@@ -14,7 +14,6 @@ import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberRole;
 import com.sparta.soomtut.util.enums.LectureState;
-import com.sparta.soomtut.util.dto.request.PageRequestDto;
 
 import com.sparta.soomtut.util.response.ErrorCode;
 import com.sparta.soomtut.location.service.LocationService;
@@ -124,7 +123,7 @@ public class LectureServiceImpl implements LectureService {
     public LectureResponseDto getMyLecture(Member member) {
         Lecture lecture = lectureRepository.findByMemberId(member.getId())
                 .orElseThrow(() -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage()));
-        LectureResponseDto lectureResponseDto = new LectureResponseDto(lecture, member.getNickname(), locationService.findMemberLocation(member.getId()).getAddress());
+        LectureResponseDto lectureResponseDto = new LectureResponseDto(lecture, member.getNickname(), locationService.findMemberLocation(member.getId()));
         return lectureResponseDto;
     }
 
@@ -133,18 +132,10 @@ public class LectureServiceImpl implements LectureService {
     @Override
     @Transactional
     public List<Lecture> getCompleteLecture(Member member) {
-        List<LectureRequest> lectureRequestList = lectureRequestRepository.findAllByTuteeIdAndTuitionState(member.getId(), LectureState.DONE);
+        List<LectureRequest> lectureRequestList = lectureRequestRepository.findAllByTuteeIdAndLectureState(member.getId(), LectureState.DONE);
         List<Lecture> postList = lectureRequestList.stream().map((item) -> item.getLecture()).collect(Collectors.toList());
         return postList;
     }
-
-//    @Override
-//    @Transactional
-//    public Page<Post> getReviewFilter(PageRequestDto pageRequestDto, Member member) {
-//        List<LectureRequest> tuitionRequestList = lectureRequestRepository.findAllByTuteeIdAndTuitionStateAndReviewFilterIsFalse(member.getId(), Boolean.FALSE);
-//        List<Post> postReviewList = tuitionRequestList.stream().map((item) -> item.getPost()).collect(Collectors.toList());
-//
-//    }
 
 
     @Override

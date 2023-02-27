@@ -74,9 +74,8 @@ public class MemberServiceImpl implements MemberService{
     @Override
     @Transactional
     public String createReview(Long lectureId, CreateReviewRequestDto reviewRequestDto, Member member) {
-
-        Lecture lecture = lectureService.getLectureById(lectureId);
-            
+        // lectureId 가 lectureId 가 아닌 Lecture 를 객체로 가지고 있게 되면서 수정해야 할 부분들이 많이 생겨났습니다.
+        // 이 로직도 그 중 하나인데, 제가 수정은 했지만 로직이 맞는 지 확인은 안 했습니다. 확인해 주세요.
         if(!reviewService.checkTuitionState(lectureId,member.getId())){
             //수강신청한 강좌의 상태가 In_Progress상태
             throw new IllegalArgumentException(ErrorCode.NOT_PROGRESS_CLASS.getMessage());
@@ -84,12 +83,13 @@ public class MemberServiceImpl implements MemberService{
         Long tutorId = lectureService.getTutorId(lectureId);
         reviewService.saveReview(tutorId,reviewRequestDto,member.getId());
 
+        Lecture lecture = lectureService.getLectureById(lectureId);
+
         LectureRequest lectureRequest = lectureRequestRepository.findByLecture(lecture).orElseThrow(
                 () -> new IllegalArgumentException("Error")
         );
 
-        Lecture post = lectureService.getLectureById(lectureId);
-        lectureRequest.ChangTuitionReview(post);
+        lectureRequest.ChangTuitionReview(lecture);
 
         return "수강후기 작성이 완료되었습니다!";
 

@@ -25,7 +25,7 @@ public class LectureRequest {
     @ManyToOne(fetch = FetchType.LAZY)
     private Lecture lecture;
 
-    @OneToOne(mappedBy = "tuitionRequest")
+    @OneToOne(mappedBy = "lectureRequest")
     private ChatRoom chatRoom;
 
     @Column

@@ -16,7 +16,7 @@ public class LectureResponseDto {
     private String image;
     private int fee;
     private String tutorNickname;
-    private String location;
+    private String address;
 
     public LectureResponseDto(Lecture lecture) {
         this.lectureId = lecture.getId();
@@ -36,11 +36,11 @@ public class LectureResponseDto {
         this.image = lecture.getImage();
         this.fee = lecture.getFee();
         this.tutorNickname =lecture.getTutorNickname();
-        this.location = location.getAddress();
+        this.address = location.getAddress();
     }
 
 
-    public LectureResponseDto(Lecture lecture, String nickName, String location) {
+    public LectureResponseDto(Lecture lecture, String nickName, Location location) {
         this.lectureId = lecture.getId();
         this.title = lecture.getTitle();
         this.content = lecture.getContent();
@@ -49,20 +49,20 @@ public class LectureResponseDto {
         this.image = lecture.getImage();
         this.fee = lecture.getFee();
         this.tutorNickname = nickName ;
-        this.location = location;
+        this.address = location.getAddress();
     }
 
     public LectureResponseDto(LectureResponseDto postResponseDto) {
         this.image = postResponseDto.image;
         this.fee = postResponseDto.fee;
-        this.location = postResponseDto.location;
+        this.address = postResponseDto.getAddress();
         this.tutorNickname = postResponseDto.tutorNickname;
     }
 
-    public LectureResponseDto(String image,int fee, String location,String tutorNickname,String content,String title ) {
+    public LectureResponseDto(String image,int fee, String address,String tutorNickname,String content,String title ) {
         this.image = image;
         this.fee = fee;
-        this.location = location;
+        this.address = address;
         this.tutorNickname = tutorNickname;
         this.content = content;
         this.title = title;

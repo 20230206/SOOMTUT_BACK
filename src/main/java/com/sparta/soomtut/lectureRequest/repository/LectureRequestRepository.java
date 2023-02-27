@@ -13,9 +13,8 @@ public interface LectureRequestRepository extends JpaRepository<LectureRequest,L
     Optional<LectureRequest> findById(Long lectureRequestId);
     Optional<LectureRequest> findByLectureAndTuteeId(Lecture lecture, Long tuteeId);
     Optional<LectureRequest> findByLecture(Lecture lecture);
-   List<LectureRequest> findAllByTuteeIdAndTuitionState(Long TuteeId, LectureState lectureState);
+   List<LectureRequest> findAllByTuteeIdAndLectureState(Long TuteeId, LectureState lectureState);
 
-   boolean existsByLectureAndTuteeIdAndTuitionState(Lecture lecture, Long id, LectureState inProgress);
 
 }
 
@@ -25,7 +24,7 @@ public interface LectureRequestRepository extends JpaRepository<LectureRequest,L
 
 
 
-
+//   boolean existsByLectureAndTuteeIdAndLectureState(Lecture lecture, Long id, LectureState inProgress);
 //    Optional<LectureRequest> findByPostIdAndTuteeId(Long postId, Long tuteeId);
 //List<LectureRequest> findAllByTuteeIdAndTuitionStateAndReviewFilterIsFalse(Long TutorId, Boolean reviewFilter);
 //List<LectureRequest> findAllByTutorIdAndReviewFilter(Long TutorId, Boolean reviewFilter);
