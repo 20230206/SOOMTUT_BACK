@@ -34,7 +34,7 @@ public class OAuth2AuthenticationSuccessHandlerImpl extends SimpleUrlAuthenticat
 
         // 클라이언트에서 Query String을 이용하기위해서 다음처럼 URL을 구성해 준다.
         String frontend = ENDPOINT_FRONT + "/oauthlogin?name=" + user.getUsername()
-                         + "&role=" + user.getMember().getMemberRole() + "&hash=" + hash + "&state=" + user.getMember().isState();
+                         + "&role=" + user.getMember().getMemberRole() + "&hash=" + hash + "&state=" + user.getMember().getState();
 
         response.sendRedirect(frontend);
     }

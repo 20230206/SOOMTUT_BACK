@@ -1,6 +1,6 @@
 package com.sparta.soomtut.util.enums;
 
-public enum TuitionState {
+public enum LectureState {
     NONE,
     IN_PROGRESS,
     DONE;

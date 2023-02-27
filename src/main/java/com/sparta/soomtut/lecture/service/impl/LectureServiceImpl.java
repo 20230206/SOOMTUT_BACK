@@ -9,12 +9,12 @@ import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.repository.CategoryRepository;
 import com.sparta.soomtut.lecture.repository.LectureRepository;
 import com.sparta.soomtut.lecture.service.LectureService;
-import com.sparta.soomtut.lectureRequest.entity.TuitionRequest;
-import com.sparta.soomtut.lectureRequest.repository.TuitionRequestRepository;
+import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
+import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.member.entity.Member;
+import com.sparta.soomtut.member.entity.enums.MemberRole;
 import com.sparta.soomtut.util.dto.request.PageRequestDto;
-import com.sparta.soomtut.util.enums.MemberRole;
-import com.sparta.soomtut.util.enums.TuitionState;
+import com.sparta.soomtut.util.enums.LectureState;
 
 import com.sparta.soomtut.util.response.ErrorCode;
 import com.sparta.soomtut.location.service.LocationService;
@@ -37,7 +37,7 @@ public class LectureServiceImpl implements LectureService {
     private final LectureRepository postRepository;
     private final LocationService locationService;
     private final CategoryRepository categoryRepository;
-    private final TuitionRequestRepository tuitionRequestRepository;
+    private final LectureRequestRepository tuitionRequestRepository;
 
     
     @Override
@@ -136,10 +136,10 @@ public class LectureServiceImpl implements LectureService {
         Lecture post = getPostById(postId);
 
 
-        boolean isExistsRequest = tuitionRequestRepository.existsByPostIdAndTuteeIdAndTuitionState(postId, member.getId(), TuitionState.NONE);
+        boolean isExistsRequest = tuitionRequestRepository.existsByPostIdAndTuteeIdAndTuitionState(postId, member.getId(), LectureState.NONE);
         if(isExistsRequest) return "수업 확정이 완료되었습니다.";
 
-        TuitionRequest tuitionRequest = new TuitionRequest(post, member.getId());
+        LectureRequest tuitionRequest = new LectureRequest(post, member.getId());
         
         tuitionRequestRepository.save(tuitionRequest);
         return "수업 확정이 완료되었습니다.";
@@ -155,7 +155,7 @@ public class LectureServiceImpl implements LectureService {
         Lecture post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
         );
-        TuitionRequest tuitionRequest = tuitionRequestRepository.findByPostId(postId).orElseThrow(
+        LectureRequest tuitionRequest = tuitionRequestRepository.findByPostId(postId).orElseThrow(
                 () -> new IllegalArgumentException("Error")
         );
 
@@ -167,7 +167,7 @@ public class LectureServiceImpl implements LectureService {
     @Override
     @Transactional
     public List<Lecture> getCompletePost(Member member) {
-        List<TuitionRequest> tuitionRequestList = tuitionRequestRepository.findAllByTuteeIdAndTuitionState(member.getId(), TuitionState.DONE);
+        List<LectureRequest> tuitionRequestList = tuitionRequestRepository.findAllByTuteeIdAndTuitionState(member.getId(), LectureState.DONE);
         List<Lecture> postList = tuitionRequestList.stream().map((item) -> item.getPost()).collect(Collectors.toList());
         return postList;
     }

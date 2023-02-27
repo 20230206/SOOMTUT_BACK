@@ -24,7 +24,7 @@ public interface MemberService {
     
     String createReview(Long postId, CreateReviewRequestDto reviewRequestDto, Member member);
 
-    String suspendAccount(Long memberId);
+    MemberInfoResponse suspendAccount(Long memberId);
 
     // Repository 지원 함수
     Member getMemberById(Long memberId);

@@ -1,12 +1,12 @@
 package com.sparta.soomtut.service.impl;
 
-import com.sparta.soomtut.lectureRequest.entity.TuitionRequest;
-import com.sparta.soomtut.lectureRequest.repository.TuitionRequestRepository;
+import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
+import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.review.entity.Review;
 import com.sparta.soomtut.review.repository.ReviewRepository;
 import com.sparta.soomtut.review.service.impl.ReviewServiceImpl;
-import com.sparta.soomtut.util.enums.TuitionState;
+import com.sparta.soomtut.util.enums.LectureState;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class ReviewServiceImplTest {
 
 
     @Mock
-    TuitionRequestRepository tuitionRequestRepository;
+    LectureRequestRepository tuitionRequestRepository;
 
     @Mock
     ReviewRepository reviewRepository;
