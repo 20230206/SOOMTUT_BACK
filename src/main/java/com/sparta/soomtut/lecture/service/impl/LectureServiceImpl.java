@@ -14,6 +14,7 @@ import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberRole;
 import com.sparta.soomtut.util.enums.LectureState;
+import com.sparta.soomtut.util.dto.request.PageRequestDto;
 
 import com.sparta.soomtut.util.response.ErrorCode;
 import com.sparta.soomtut.location.service.LocationService;
@@ -38,7 +39,7 @@ public class LectureServiceImpl implements LectureService {
     private final LectureRequestRepository lectureRequestRepository;
 
     // 수업 아이디로 수업 하나 찾아옴
-    
+
     @Override
     @Transactional
     public LectureResponseDto getLecture(Long lectureId) {
