@@ -1,13 +1,13 @@
 package com.sparta.soomtut.review.service.impl;
 
-import com.sparta.soomtut.lectureRequest.entity.TuitionRequest;
-import com.sparta.soomtut.lectureRequest.repository.TuitionRequestRepository;
+import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
+import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.review.entity.Review;
 import com.sparta.soomtut.review.repository.ReviewRepository;
 import com.sparta.soomtut.review.service.ReviewService;
 import com.sparta.soomtut.util.dto.request.PageRequestDto;
-import com.sparta.soomtut.util.enums.TuitionState;
+import com.sparta.soomtut.util.enums.LectureState;
 import com.sparta.soomtut.util.response.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
@@ -22,13 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
-    private final TuitionRequestRepository tuitionRequestRepository;
+    private final LectureRequestRepository tuitionRequestRepository;
     private final ReviewRepository reviewRepository;
 
     @Override
     @Transactional(readOnly = true)
-    public TuitionRequest findTuitionRequest(Long postId, Long tuteeId) {
-        TuitionRequest tuitionRequest = tuitionRequestRepository.findByPostIdAndTuteeId(postId, tuteeId).orElseThrow(
+    public LectureRequest findTuitionRequest(Long postId, Long tuteeId) {
+        LectureRequest tuitionRequest = tuitionRequestRepository.findByPostIdAndTuteeId(postId, tuteeId).orElseThrow(
                 () -> new IllegalArgumentException("신청한 강좌 목록이 없습니다!")
         );
         return tuitionRequest;
@@ -73,8 +73,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public boolean checkTuitionState(Long postId, Long tuteeId) {
 
-        TuitionState tuitionState = findTuitionRequest(postId, tuteeId).getTuitionState();
-        if (tuitionState.equals(TuitionState.IN_PROGRESS)) {
+        LectureState tuitionState = findTuitionRequest(postId, tuteeId).getTuitionState();
+        if (tuitionState.equals(LectureState.IN_PROGRESS)) {
             return false;
         }
         return true;

@@ -1,7 +1,7 @@
 package com.sparta.soomtut.lectureRequest.entity;
 
 import com.sparta.soomtut.lecture.entity.Lecture;
-import com.sparta.soomtut.util.enums.TuitionState;
+import com.sparta.soomtut.util.enums.LectureState;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class TuitionRequest {
+public class LectureRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +18,7 @@ public class TuitionRequest {
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private TuitionState tuitionState;
+    private LectureState tuitionState;
 
     @JoinColumn(name = "post_Id")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,8 +38,8 @@ public class TuitionRequest {
 //        this.tutorId = tutorId;
 //    }
 
-    public TuitionRequest(Lecture postId, Long tuteeId) {
-        this.tuitionState = TuitionState.NONE;
+    public LectureRequest(Lecture postId, Long tuteeId) {
+        this.tuitionState = LectureState.NONE;
         this.post = postId;
         this.tuteeId = tuteeId;
         this.reviewFilter = false;
@@ -47,7 +47,7 @@ public class TuitionRequest {
 
 
     public void changeTuitionState(Long tuteeId){
-        this.tuitionState = TuitionState.DONE;
+        this.tuitionState = LectureState.DONE;
         this.tuteeId = tuteeId;
     }
 
