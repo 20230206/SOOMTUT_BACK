@@ -17,17 +17,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/chat_room")
 public class ChatRoomController {
 
-
-
     private final ChatRoomService chatRoomService;
 
     // 채팅방 가져오기 (생성 or 조회)
-    @PostMapping("/{postId}")
+    @PostMapping("/{lectureRequestId}")
     public ResponseEntity<?> getMyChatRoom(
         @AuthenticationPrincipal UserDetailsImpl userDetails, 
-        @PathVariable Long postId) 
+        @PathVariable Long lectureRequestId)
     {
-        ChatRoomResponse data = chatRoomService.getMyChatRoom(userDetails.getMemberId(), postId);
+        ChatRoomResponse data = chatRoomService.getMyChatRoom(userDetails.getMemberId(), lectureRequestId);
         return ToResponse.of(data, SuccessCode.MESSGE_OK);
     }
 

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class LectureResponseDto {
-    private Long postId;
+    private Long lectureId;
     private String title;
     private String content;
     private Long categoryId;
@@ -18,36 +18,36 @@ public class LectureResponseDto {
     private String tutorNickname;
     private String location;
 
-    public LectureResponseDto(Lecture post) {
-        this.postId = post.getId();
-        this.title = post.getTitle();
-        this.content = post.getContent();
-        this.categoryId = post.getCategoryId();
-        this.image = post.getImage();
-        this.fee = post.getFee();
-        this.tutorNickname = post.getMember().getNickname();
+    public LectureResponseDto(Lecture lecture) {
+        this.lectureId = lecture.getId();
+        this.title = lecture.getTitle();
+        this.content = lecture.getContent();
+        this.categoryId = lecture.getCategoryId();
+        this.image = lecture.getImage();
+        this.fee = lecture.getFee();
+        this.tutorNickname = lecture.getTutorNickname();
     }
 
-    public LectureResponseDto(Lecture post, Location location) {
-        this.postId = post.getId();
-        this.title = post.getTitle();
-        this.content = post.getContent();
-        this.categoryId = post.getCategoryId();
-        this.image = post.getImage();
-        this.fee = post.getFee();
-        this.tutorNickname = post.getMember().getNickname();
+    public LectureResponseDto(Lecture lecture, Location location) {
+        this.lectureId = lecture.getId();
+        this.title = lecture.getTitle();
+        this.content = lecture.getContent();
+        this.categoryId = lecture.getCategoryId();
+        this.image = lecture.getImage();
+        this.fee = lecture.getFee();
+        this.tutorNickname =lecture.getTutorNickname();
         this.location = location.getAddress();
     }
 
 
-    public LectureResponseDto(Lecture post, String nickName, String location) {
-        this.postId = post.getId();
-        this.title = post.getTitle();
-        this.content = post.getContent();
-        this.categoryId = post.getCategoryId();
+    public LectureResponseDto(Lecture lecture, String nickName, String location) {
+        this.lectureId = lecture.getId();
+        this.title = lecture.getTitle();
+        this.content = lecture.getContent();
+        this.categoryId = lecture.getCategoryId();
 
-        this.image = post.getImage();
-        this.fee = post.getFee();
+        this.image = lecture.getImage();
+        this.fee = lecture.getFee();
         this.tutorNickname = nickName ;
         this.location = location;
     }

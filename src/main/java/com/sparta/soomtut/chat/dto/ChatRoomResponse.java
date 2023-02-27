@@ -21,7 +21,7 @@ public class ChatRoomResponse {
 
     private List<ChatResponseDto> chats;
 
-    private LectureResponseDto post;
+    private LectureResponseDto lecture;
 
     private LocalDateTime createdAt;
     private ChatRoomResponse(
@@ -30,14 +30,14 @@ public class ChatRoomResponse {
             MemberInfoResponse tutor,
             List<ChatResponseDto> chats,
             LocalDateTime createdAt,
-            LectureResponseDto post ) {
+            LectureResponseDto lecture ) {
 
         this.id = id;
         this.tutee = tutee;
         this.tutor = tutor;
         this.chats = chats;
         this.createdAt = createdAt;
-        this.post = post;
+        this.lecture = lecture;
     }
 
     public static ChatRoomResponse of(
@@ -45,14 +45,14 @@ public class ChatRoomResponse {
             MemberInfoResponse tutee,
             MemberInfoResponse tutor,
             List<ChatResponseDto> chats,
-            LectureResponseDto post){
+            LectureResponseDto lecture){
         return new ChatRoomResponse(
                 chatRoom.getId(),
                 tutee,
                 tutor,
                 chats,
                 chatRoom.getCreatedAt(),
-                post
+                lecture
         );
     }
 }

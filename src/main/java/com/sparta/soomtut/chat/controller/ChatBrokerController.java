@@ -35,7 +35,6 @@ public class ChatBrokerController {
     -> var message = $('#message').val();
     stompClient.send('/publish/message', {}, JSON.stringify({roomId: roomId, message: message}));
     이 메시지는 백엔드의 sendMessage() 에서 처리된다.
-
  ++ */
 
 

@@ -3,7 +3,10 @@ package com.sparta.soomtut.chat.service;
 import com.sparta.soomtut.chat.dto.ChatRoomResponse;
 import com.sparta.soomtut.chat.entity.ChatRoom;
 import com.sparta.soomtut.chat.repository.ChatRoomRepository;
+import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.service.LectureService;
+import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
+import com.sparta.soomtut.lectureRequest.service.LectureRequestService;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.service.MemberService;
 
@@ -20,31 +23,32 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     private final ChatRoomRepository chatRoomRepository;
     private final MemberService memberService;
     private final ChatService chatService;
-    private final LectureService postService;
+    private final LectureService lectureService;
+    private final LectureRequestService lectureRequestService;
 
     // 새로운 채팅방 생성
     @Override
-    public ChatRoom createRoom(Long tuteeId, Long postId) {
-        Member tutor = postService.getPostById(postId).getMember();
-        // if(chatRoomRepository.existsByTuteeIdAndTutorId(tuteeId, tutor.getId())){
-        //     throw new IllegalArgumentException(ErrorCode.DUPLICATED_CHATTING.getMessage());
-        // }
-        ChatRoom chatRoom = ChatRoom.of(tuteeId,tutor.getId(), postId);
-        return chatRoomRepository.save(chatRoom);
+    public ChatRoom createRoom(Long tuteeId, Long lectureRequestId) {
+//        Lecture lecture = lectureService.getLectureById(lectureRequestId);
+//        Member tutor = lecture.getTutor();
+//        ChatRoom chatRoom = ChatRoom.of(tuteeId,tutor.getId(), lectureRequestId);
+//        return chatRoomRepository.save(chatRoom);
+       return null;
     }
 
     // 채팅방 하나만 가져오기
     @Override
-    public ChatRoomResponse getMyChatRoom(Long tuteeId, Long postId) {
-        ChatRoom chatRoom = chatRoomRepository.findByTuteeIdOrPostId(tuteeId, postId)
-                .orElseGet(()-> createRoom(tuteeId, postId));
+    public ChatRoomResponse getMyChatRoom(Long memberId, Long lectureRequestId) {
+        LectureRequest lectureRequest = lectureRequestService.getLectureRequestById(lectureRequestId);
+        ChatRoom chatRoom = chatRoomRepository.findByLectureRequest(lectureRequest)
+                .orElseGet(()-> createRoom(memberId, lectureRequestId));
 
-
+        // LectureResponseDto 가 필요 ->
         return ChatRoomResponse.of(chatRoom,
                 memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
                 memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
                 chatService.getAllChatMessages(chatRoom.getId()),
-                postService.getPost(chatRoom.getPostId()));
+                lectureService.getLecture(chatRoom.getLectureId()));
     }
 
     // 채팅방 여러개 가져오기
@@ -57,7 +61,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
                 memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
                 chatService.getAllChatMessages(chatRoom.getId()),
-                postService.getPost(chatRoom.getPostId())));
+                lectureService.getLecture(chatRoom.getLectureId())));
     }
 
 

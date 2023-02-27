@@ -1,6 +1,6 @@
 package com.sparta.soomtut.review.service;
 
-import com.sparta.soomtut.lectureRequest.entity.TuitionRequest;
+import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.review.entity.Review;
 import com.sparta.soomtut.util.dto.request.PageRequestDto;
@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 
 public interface ReviewService {
 
-    TuitionRequest findTuitionRequest(Long postId, Long tuteeId);
+    LectureRequest findTuitionRequest(Long postId, Long tuteeId);
 
     boolean checkTuitionState(Long postId, Long tuteeId);
 

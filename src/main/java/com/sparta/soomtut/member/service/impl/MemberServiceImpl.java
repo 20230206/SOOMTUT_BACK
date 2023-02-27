@@ -2,6 +2,7 @@ package com.sparta.soomtut.member.service.impl;
 
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.service.LectureService;
+import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberState;
@@ -13,8 +14,7 @@ import com.sparta.soomtut.review.service.ReviewService;
 import com.sparta.soomtut.util.dto.request.PageRequestDto;
 import com.sparta.soomtut.util.response.ErrorCode;
 import com.sparta.soomtut.location.service.LocationService;
-import com.sparta.soomtut.lectureRequest.entity.TuitionRequest;
-import com.sparta.soomtut.lectureRequest.repository.TuitionRequestRepository;
+import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import com.sparta.soomtut.admin.service.DeleteReviewRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,11 +30,11 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
-    private final LectureService postService;
+    private final LectureService lectureService;
     private final ReviewService reviewService;
     private final LocationService locationService;
     private final DeleteReviewRequestService deleteReviewRequestService;
-    private final TuitionRequestRepository tuitionRequestRepository;
+    private final LectureRequestRepository lectureRequestRepository;
 
     @Override
     public String updateNickname(String nickname, Member member) {
@@ -73,21 +73,23 @@ public class MemberServiceImpl implements MemberService{
     
     @Override
     @Transactional
-    public String createReview(Long postId, CreateReviewRequestDto reviewRequestDto, Member member) {
+    public String createReview(Long lectureId, CreateReviewRequestDto reviewRequestDto, Member member) {
+
+        Lecture lecture = lectureService.getLectureById(lectureId);
             
-        if(!reviewService.checkTuitionState(postId,member.getId())){
+        if(!reviewService.checkTuitionState(lectureId,member.getId())){
             //수강신청한 강좌의 상태가 In_Progress상태
             throw new IllegalArgumentException(ErrorCode.NOT_PROGRESS_CLASS.getMessage());
         }
-        Long tutorId = postService.getTutorId(postId);
+        Long tutorId = lectureService.getTutorId(lectureId);
         reviewService.saveReview(tutorId,reviewRequestDto,member.getId());
 
-        TuitionRequest tuitionRequest = tuitionRequestRepository.findByPostId(postId).orElseThrow(
+        LectureRequest lectureRequest = lectureRequestRepository.findByLecture(lecture).orElseThrow(
                 () -> new IllegalArgumentException("Error")
         );
 
-        Lecture post = postService.getPostById(postId);
-        tuitionRequest.ChangTuitionReview(post);
+        Lecture post = lectureService.getLectureById(lectureId);
+        lectureRequest.ChangTuitionReview(post);
 
         return "수강후기 작성이 완료되었습니다!";
 

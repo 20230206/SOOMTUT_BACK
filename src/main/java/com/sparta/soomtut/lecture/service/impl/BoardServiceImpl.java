@@ -25,7 +25,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional(readOnly = true)
     public Page<LectureResponseDto> getPostsByMemberId(Long memberId, Pageable pageable) {
-        Page<Lecture> posts = postService.getAllPostByMemberId(memberId, pageable);
+        Page<Lecture> posts = postService.getAllLectureByMemberId(memberId, pageable);
 
         return posts.map(item -> new LectureResponseDto(item,
                                          item.getMember().getNickname(),
@@ -37,11 +37,11 @@ public class BoardServiceImpl implements BoardService {
     public Page<LectureResponseDto> getAllPost(Long category, Pageable pageable) {
 
         if(category == 0 ){
-            Page<Lecture> posts = postService.getPosts(pageable);
+            Page<Lecture> posts = postService.getLectures(pageable);
             return posts.map(item -> new LectureResponseDto(item));
         }
         else {
-            Page<Lecture> posts = postService.getPosts(category, pageable);
+            Page<Lecture> posts = postService.getLectures(category, pageable);
             return posts.map(item -> new LectureResponseDto(item));
         }
 
