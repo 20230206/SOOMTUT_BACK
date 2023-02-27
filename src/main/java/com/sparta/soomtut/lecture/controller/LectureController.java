@@ -5,6 +5,7 @@ import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lecture.service.BookmarkService;
 import com.sparta.soomtut.lecture.service.LectureService;
+import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 
@@ -134,4 +135,12 @@ public class LectureController {
         @RequestParam String keyword){
         return lectureService.searchByKeyword(keyword,pageRequestDto.toPageable());
     }
+
+    //완료된 수업중 리뷰작성이 안된 수업조회
+    @GetMapping("/reviewfilter")
+    public ResponseEntity<?> reviewFilter(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        var data = lectureService.reviewFilter(userDetails.getMember());
+        return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURE_OK);
+    }
+
 }

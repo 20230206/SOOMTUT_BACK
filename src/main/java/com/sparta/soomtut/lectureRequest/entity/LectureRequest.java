@@ -20,8 +20,8 @@ public class LectureRequest {
     @Enumerated(value = EnumType.STRING)
     private LectureState tuitionState;
 
-    @JoinColumn(name = "post_Id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    @ManyToOne(optional = false)
     private Lecture post;
 
     @Column
@@ -46,9 +46,12 @@ public class LectureRequest {
     }
 
 
-    public void changeTuitionState(Long tuteeId){
+    public void changeConfirmed(){
+        this.tuitionState = LectureState.IN_PROGRESS;
+    }
+
+    public void changeComplete() {
         this.tuitionState = LectureState.DONE;
-        this.tuteeId = tuteeId;
     }
 
     public void ChangTuitionReview(Lecture postId) {

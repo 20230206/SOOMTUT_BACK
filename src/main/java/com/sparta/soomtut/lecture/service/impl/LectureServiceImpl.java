@@ -128,21 +128,32 @@ public class LectureServiceImpl implements LectureService {
         return postResponseDto;
     }
 
+    // 수업 신청
+    @Override
+    @Transactional
+    public String createLectureRequest(Long lectureid, Member member) {
+        Lecture post = getPostById(lectureid);
+
+
+        boolean isExistsRequest = tuitionRequestRepository.existsByPostIdAndTuteeIdAndTuitionState(lectureid, member.getId(), LectureState.NONE);
+        if(isExistsRequest) return "수업 신청이 완료되었습니다.";
+
+        LectureRequest tuitionRequest = new LectureRequest(post, member.getId());
+
+        tuitionRequestRepository.save(tuitionRequest);
+        return "수업 확정이 완료되었습니다.";
+    }
+
 
     //수업 확정
     @Override
     @Transactional
-    public String classConfirmed(Long postId, Member member) {
-        Lecture post = getPostById(postId);
-
-
-        boolean isExistsRequest = tuitionRequestRepository.existsByPostIdAndTuteeIdAndTuitionState(postId, member.getId(), LectureState.NONE);
-        if(isExistsRequest) return "수업 확정이 완료되었습니다.";
-
-        LectureRequest tuitionRequest = new LectureRequest(post, member.getId());
-        
-        tuitionRequestRepository.save(tuitionRequest);
-        return "수업 확정이 완료되었습니다.";
+    public String classConfirmed(Long lecturerequestid, Member member) {
+        LectureRequest lectureRequest = tuitionRequestRepository.findById(lecturerequestid).orElseThrow(
+                () -> new IllegalArgumentException("ConfirmedError")
+        );
+        lectureRequest.changeConfirmed();
+        return "수업이 확정되었습니다.";
 
     }
 
@@ -151,15 +162,13 @@ public class LectureServiceImpl implements LectureService {
     //수업 완료
     @Override
     @Transactional
-    public String classComplete(Long postId, Member member) {
-        Lecture post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
-        );
-        LectureRequest tuitionRequest = tuitionRequestRepository.findByPostId(postId).orElseThrow(
+    public String classComplete(Long lecturerequestid, Member member) {
+
+        LectureRequest tuitionRequest = tuitionRequestRepository.findById(lecturerequestid).orElseThrow(
                 () -> new IllegalArgumentException("Error")
         );
 
-        tuitionRequest.changeTuitionState(member.getId());
+        tuitionRequest.changeComplete();
         return "수업이 완료되었습니다.";
     }
 
@@ -172,13 +181,14 @@ public class LectureServiceImpl implements LectureService {
         return postList;
     }
 
-//    @Override
-//    @Transactional
-//    public Page<Post> getReviewFilter(PageRequestDto pageRequestDto, Member member) {
-//        List<TuitionRequest> tuitionRequestList = tuitionRequestRepository.findAllByTuteeIdAndTuitionStateAndReviewFilterIsFalse(member.getId(), Boolean.FALSE);
-//        List<Post> postReviewList = tuitionRequestList.stream().map((item) -> item.getPost()).collect(Collectors.toList());
-//
-//    }
+    // 완료된 수업중 리뷰가 없는 수업목록 조회
+    @Override
+    @Transactional
+    public List<Lecture> reviewFilter(Member member) {
+        List<LectureRequest> lectureRequestList = tuitionRequestRepository.findAllByTuteeIdAndTuitionStateAndReviewFilterIsFalse(member.getId(), LectureState.DONE);
+        List<Lecture> lectureList = lectureRequestList.stream().map((item) -> item.getPost()).collect(Collectors.toList());
+        return lectureList;
+    }
 
 
     @Override
@@ -216,4 +226,5 @@ public class LectureServiceImpl implements LectureService {
         return postRepository.findLectureByKeyword(keyword,pageable);
 
     }
+
 }

@@ -30,8 +30,8 @@ public class LectureRequestController {
         @PathVariable Long lectureid,
         @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        
-        return ToResponse.of(null, SuccessCode.LECTUREREQUEST_CREATE_OK);
+        String application = lectureService.createLectureRequest(lectureid, userDetails.getMember());
+        return ToResponse.of(application, SuccessCode.LECTUREREQUEST_CREATE_OK);
     }
 
     // 수업 확정

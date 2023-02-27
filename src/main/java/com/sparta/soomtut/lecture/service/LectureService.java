@@ -29,10 +29,11 @@ public interface LectureService {
     boolean checkLectureAuthor(Long postId, Member member);
 
     List<Category> getCategory();
-    String classConfirmed(Long postId, Member member);
-    String classComplete(Long postId, Member member);
+    String createLectureRequest(Long lectureid, Member member);
+    String classConfirmed(Long lecturerequestid, Member member);
+    String classComplete(Long lecturerequestid, Member member);
     List<Lecture> getCompletePost(Member member);
-    //Page<Post> getReviewFilter(PageRequestDto pageRequestDto, Member member);
+    List<Lecture> reviewFilter(Member member);
 
     Lecture getPostById(Long postId);
     Long getTutorId(Long postId);
