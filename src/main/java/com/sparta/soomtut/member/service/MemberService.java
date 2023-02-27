@@ -22,7 +22,7 @@ public interface MemberService {
     int getLevel(Member member);
     String getImage(Member member);
     
-    String createReview(Long postId, CreateReviewRequestDto reviewRequestDto, Member member);
+    String createReview(Long lectureid, CreateReviewRequestDto reviewRequestDto, Member member);
 
     MemberInfoResponse suspendAccount(Long memberId);
 
