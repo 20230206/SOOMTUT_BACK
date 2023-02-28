@@ -1,7 +1,5 @@
 package com.sparta.soomtut.image.dto.request;
 
-import com.sparta.soomtut.image.entity.ImageEntity;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
