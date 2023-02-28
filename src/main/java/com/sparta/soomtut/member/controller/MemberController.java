@@ -41,10 +41,12 @@ public class MemberController  {
     // 내 회원 정보 수정
     @PutMapping(value = "/info")
     public ResponseEntity<?> updateMyInfo(
+        @RequestParam("nickname") String nickname,
         @AuthenticationPrincipal UserDetailsImpl userDetails
     )
-    {
-        return ToResponse.of(null, SuccessCode.MEMBER_UPDATEINFO_OK);
+    {   
+        var data = memberService.updateNickname(nickname, userDetails.getMember());
+        return ToResponse.of(data, SuccessCode.MEMBER_UPDATEINFO_OK);
     }
 
     // 회원 탈퇴
