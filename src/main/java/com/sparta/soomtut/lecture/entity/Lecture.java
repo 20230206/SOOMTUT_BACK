@@ -36,8 +36,8 @@ public class Lecture {
     private Category category;
 
     //즐겨찾기 수
-    @Column(nullable = false)
-    private int favorite;
+    @Column(nullable = true)
+    private int favorite = 0;
 
 
     public Lecture(CreateLectureRequestDto postRequestDto, Member member) {
@@ -47,6 +47,7 @@ public class Lecture {
       this.fee = postRequestDto.getFee();
       this.category = Category.valueOf(postRequestDto.getCategory());
       this.member = member;
+      this.favorite = 0;
     }
 
     public void update(UpdateLectureRequestDto updatePostRequestDto) {
