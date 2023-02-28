@@ -14,102 +14,38 @@ public class ChatBrokerController {
     private final ChatService chatService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    // /subscribe/rooms/{roomId} 채널로 메시지를 전송
-    @MessageMapping("/message")
+
+    // /message 인 클라이언트에서 들어오는 메시지를 처리
+    @MessageMapping("/message") // 웹소켓 메시지 처리
     public void sendMessage(ChatRequestDto chatRequest) {
-        chatService.save(chatRequest); // db 저장 메시지 하나 들어올 때, 저장
+        // db 저장 메시지 하나 들어올 때, 저장
+        chatService.save(chatRequest);
+        ///subscribe/room/{roomId} 대상에 구독한 모든 클라이언트에게 메시지를 전송
         simpMessagingTemplate.convertAndSend("/subscribe/room/" + chatRequest.getRoomId(), chatRequest.getMessage());
     }
 
 }
 
+// 프론트에서는??
 
-// JS 에서 사용 방식
-//// Create a SockJS instance
-//const socket = new SockJS("http://localhost:8080/connect");
-//
-//// Create a STOMP client instance
-//        const stompClient = Stomp.over(socket);
-//
-//// Event listener for when the connection is established
-//        stompClient.connect({}, (frame) => {
-//        console.log("WebSocket connection is open!");
-//        });
-//
-//// Send a message to the server
-//        const message = {
-//        senderId: "user1",
-//        roomId: "room1",
-//        message: "Hello, server!"
-//        };
-//
-//        stompClient.send("/publish/message", {}, JSON.stringify(message));
+/* 1. stompClient.subscribe() 메소드를 사용하여 /subscribe/room/{roomId} 대상을 구독한다.
+   -> 서버가 메시지를 수신할 수 있도록 함.
+   stompClient.subscribe('/subscribe/room/' + roomId, function(message)
+* 2. stompClient.send() 메소드를 사용하여 서버에 메시지를 보낸다.
+    -> var message = $('#message').val();
+    stompClient.send('/publish/message', {}, JSON.stringify({roomId: roomId, message: message}));
+    이 메시지는 백엔드의 sendMessage() 에서 처리된다.
+ ++ */
 
 
-// 적절한 목적지에 대한 구독을 등록합니다.
-//  stompClient.subscribe("/subscribe/room/room1", (message) => {
-//          console.log(`수신한 메시지: ${message.body}`);
-//          });
+/*만약 A와 B가 서로 채팅을 하다가 A가 웹소켓 연결을 끊는다면 어떻게 될까?
+* 당연히 A가 채팅 메시지를 보내지 않으니 B는 어떤 메시지도 받지 못하다.
+* 그러나 B는 메시지를 보낼 수 있으며 메시지를 보내는 순간 해당 메시지는 데이터 베이스에 저장된다.
+* 우리는 roomId(채팅방번호)로 연결을 하기 때문에 채팅방번호를 구독한다면 언제든지 연결될 수 있다.
+* 그리고 연결하는 순간(클라이언트가 채팅방을 들어오는 순간) db 에서 기존 대화 내용을 불로오면 된다.
+* 둘이 같이 연결된 상태라면 메시지는 같은 채팅방을 구독하고 있는 상대에게 전달된다.*/
 
-//    // Event listener for when the chat ends or the user logs out
-//    function endChat() {
-//        // Disconnect the SockJS connection
-//        stompClient.disconnect(() => {
-//                console.log("WebSocket connection is closed!");
-//  });
 
-//위에 코드를 React 로 변환한 코드
 
-/*import React, { useEffect } from "react";
-        import SockJS from "sockjs-client";
-        import Stomp from "stompjs";
 
-        function ChatComponent() {
-        const sendMessage = () => {
-        // Send a message to the server
-        const message = {
-        senderId: "user1",
-        roomId: "room1",
-        message: "Hello, server!"
-        };
-
-        stompClient.send("/publish/message", {}, JSON.stringify(message));
-        }
-
-        const endChat = () => {
-        // Disconnect the SockJS connection
-        stompClient.disconnect(() => {
-        console.log("WebSocket connection is closed!");
-        });
-        }
-
-        useEffect(() => {
-        // Create a SockJS instance
-        const socket = new SockJS("http://localhost:8080/connect");
-
-        // Create a STOMP client instance
-        const stompClient = Stomp.over(socket);
-
-        // Event listener for when the connection is established
-        stompClient.connect({}, (frame) => {
-        console.log("WebSocket connection is open!");
-        });
-
-        return () => {
-        // Disconnect the SockJS connection when the component unmounts
-        stompClient.disconnect(() => {
-        console.log("WebSocket connection is closed!");
-        });
-        }
-        }, []);
-
-        return (
-<div>
-<button onClick={sendMessage}>Send Message</button>
-<button onClick={endChat}>End Chat</button>
-</div>
-        );
-        }
-
-        export default ChatComponent;*/
 

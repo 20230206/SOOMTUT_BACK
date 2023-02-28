@@ -1,5 +1,6 @@
 package com.sparta.soomtut.lectureRequest.controller;
 
+import com.sparta.soomtut.lectureRequest.service.LectureRequestService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LectureRequestController {
     
+    private final LectureRequestService lectureRequestService;
     private final LectureService lectureService;
 
     // 수업 신청
@@ -36,21 +38,21 @@ public class LectureRequestController {
 
     // 수업 확정
     @PostMapping("/{lecturerequestid}/accept")
-    public ResponseEntity<?> classConfirmed(
+    public ResponseEntity<?> lectureConfirmed(
         @PathVariable Long lecturerequestid, 
         @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        String confiremd = lectureService.classConfirmed(lecturerequestid, userDetails.getMember());
+        String confiremd = lectureRequestService.lectureConfirmed(lecturerequestid, userDetails.getMember());
         return ToResponse.of(confiremd, SuccessCode.LECTUREREQUEST_ACCEPT_OK);
     }
 
     // 수업 완료
     @PutMapping("/{lecturerequestid}/complete")
-    public ResponseEntity<?> classComplete(
+    public ResponseEntity<?> lectureComplete(
         @PathVariable Long lecturerequestid,
         @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        String complete = lectureService.classComplete(lecturerequestid, userDetails.getMember());
+        String complete = lectureRequestService.lectureComplete(lecturerequestid, userDetails.getMember());
         return ToResponse.of(complete, SuccessCode.LECTUREREQUEST_COMPLETE_OK);
     }
 
@@ -66,8 +68,8 @@ public class LectureRequestController {
     // 완료된 수업 목록 조회
     // TODO: 수업의 완료라기 보다는 수업 신청의 완료라고 보는 것이 타당한 것 같습니다.
     @GetMapping("/done")
-    public ResponseEntity<?> getCompletePost(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        var data = lectureService.getCompletePost(userDetails.getMember());
+    public ResponseEntity<?> getCompleteLectrue(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        var data = lectureService.getCompleteLecture(userDetails.getMember());
         return ToResponse.of(data, SuccessCode.LECTURE_GETDONELECUTES_OK);
     }
 

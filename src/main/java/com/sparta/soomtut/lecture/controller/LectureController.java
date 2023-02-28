@@ -61,7 +61,7 @@ public class LectureController {
         @AuthenticationPrincipal UserDetailsImpl userDtails
     )
     {
-        LectureResponseDto data = lectureService.getPost(lectureid);
+        LectureResponseDto data = lectureService.getLecture(lectureid);
         return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURE_OK);
     }
 
