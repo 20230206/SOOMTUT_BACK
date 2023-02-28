@@ -19,8 +19,8 @@ public class ImageService {
 
     private ImageRepository imageRepository;
 
-    public void saveImgPost(ImageRequest imageDto){
-        imageRepository.save(imageDto.toEntity());
+    public void saveImgPost(String filePath){
+        imageRepository.save(new ImageEntity(filePath));
     }
 
     public List<ImageResponse> getList(){

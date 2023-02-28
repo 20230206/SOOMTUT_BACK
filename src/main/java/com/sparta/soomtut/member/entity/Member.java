@@ -94,6 +94,9 @@ public class Member {
         this.nickname = nickname;
     }
 
+    public void updateProfileImage(String filePath) {
+        this.image = filePath;
+    }
 
     public void changeState(MemberState state) {
         this.state = state;
