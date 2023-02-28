@@ -53,9 +53,8 @@ class MemberServiceImplTest {
 
         Member member = new Member("user@user.com","asd12345","user1");
 
-        String msg = memberService.updateNickname("new nickname",member);
+        var msg = memberService.updateNickname("new nickname", member);
 
-        assertThat(msg).isEqualTo("수정이 완료되었습니다!");
         assertThat(member.getNickname()).isEqualTo("new nickname");
 
     }
