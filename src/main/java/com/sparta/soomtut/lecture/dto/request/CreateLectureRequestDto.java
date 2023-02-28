@@ -7,6 +7,6 @@ public class CreateLectureRequestDto {
     private String title;
     private String image;
     private String content;
-    private Long category;
+    private int category;
     private int fee;
 }

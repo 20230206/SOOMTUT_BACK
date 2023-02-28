@@ -36,7 +36,7 @@ class MemberServiceImplTest {
     LocationServiceImpl locationService;
 
     @Mock
-    LectureRequestRepository tuitionRequestRepository;
+    LectureRequestRepository lectureRequestRepository;
 
     @InjectMocks
     MemberServiceImpl memberService;
@@ -116,12 +116,13 @@ class MemberServiceImplTest {
         Long postId = 1L;
         Long tutorId = 1L;
         Member member = new Member("user@user.com","asd12345","user1");
-        Lecture lecture = new Lecture("아무개",1L,1);
+        Lecture lecture = new Lecture("아무개",1,1);
         CreateReviewRequestDto createReviewRequestDto = CreateReviewRequestDto.builder().review_content("굿!").star_rating(3f).build();
 
         given(reviewService.checkTuitionState(1L,member.getId())).willReturn(true);
         given(postService.getTutorId(postId)).willReturn(tutorId);
-        given(tuitionRequestRepository.findByPostId(anyLong())).willReturn(Optional.ofNullable(mock(LectureRequest.class)));
+        // 저 부분 바뀌었으니 알아서 바꾸십쇼. ㅎ
+//        given(lectureRequestRepository.findByPostId(anyLong())).willReturn(Optional.ofNullable(mock(LectureRequest.class)));
 
         String msg = memberService.createReview(postId,createReviewRequestDto,member);
        // verify(reviewRepository,times(1)).save(isA(Review.class));

@@ -33,11 +33,11 @@ public class Lecture {
     private Member member;
 
     @Column
-    private Long categoryId;
+    private Category category;
 
     //즐겨찾기 수
     @Column(nullable = false)
-    private int favorit;
+    private int favorite;
 
 
     public Lecture(CreateLectureRequestDto postRequestDto, Member member) {
@@ -45,7 +45,7 @@ public class Lecture {
       this.image = postRequestDto.getImage();
       this.content = postRequestDto.getContent();
       this.fee = postRequestDto.getFee();
-      this.categoryId = postRequestDto.getCategory();
+      this.category = Category.valueOf(postRequestDto.getCategory());
       this.member = member;
     }
 
@@ -56,14 +56,23 @@ public class Lecture {
       this.fee = updatePostRequestDto.getFee();
     }
 
-    public Lecture(String content, Long categoryId, int fee) {
-        this.categoryId = categoryId;
+    public Lecture(String content, int categoryId, int fee) {
+        this.category = Category.valueOf(categoryId);
         this.content = content;
         this.fee = fee;
-        this.favorit = 0;
+        this.favorite = 0;
         this.image = Constants.STANDARD_USER_IMAGE;
     }
 
-    public void increFavCount(){this.favorit += 1;}
-    public void decreFavCount(){this.favorit -= 1;}
+    public void incFavCount(){this.favorite += 1;}
+    public void decFavCount(){this.favorite -= 1;}
+
+    public Long getTutorId(){
+        return member.getId();
+    }
+
+    public String getTutorNickname(){
+        return member.getNickname();
+    }
+
 }

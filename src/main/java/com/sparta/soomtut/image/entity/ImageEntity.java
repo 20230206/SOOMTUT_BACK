@@ -2,7 +2,6 @@ package com.sparta.soomtut.image.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,16 +15,10 @@ public class ImageEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 50, nullable = false)
-    private String title;
-
     @Column(columnDefinition = "TEXT")
     private String filePath;
 
-    @Builder
-    public ImageEntity(Long id, String title, String filePath){
-        this.id = id;
-        this.title = title;
+    public ImageEntity(String filePath){
         this.filePath = filePath;
     }
 }

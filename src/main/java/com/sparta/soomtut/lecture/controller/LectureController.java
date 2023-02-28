@@ -62,14 +62,14 @@ public class LectureController {
         @AuthenticationPrincipal UserDetailsImpl userDtails
     )
     {
-        LectureResponseDto data = lectureService.getPost(lectureid);
+        LectureResponseDto data = lectureService.getLecture(lectureid);
         return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURE_OK);
     }
 
     // 수업 전체 조회
     @GetMapping
     public ResponseEntity<?> getAllLeuctures(
-        @RequestParam(required = false, value = "category") Long category,
+        @RequestParam(required = false, value = "category") int category,
         @ModelAttribute PageRequestDto pageable
     ){
         var data = boardService.getAllPost(category, pageable.toPageable());
@@ -83,7 +83,7 @@ public class LectureController {
         @ModelAttribute PageRequestDto pageable
     )
     {
-        var data = boardService.getPostsByMemberId(userDetails.getMember().getId(), pageable.toPageable());
+        var data = boardService.getLecturesByMemberId(userDetails.getMember().getId(), pageable.toPageable());
         return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURES_OK);
     }
     

@@ -1,5 +1,6 @@
 package com.sparta.soomtut.lectureRequest.entity;
 
+import com.sparta.soomtut.chat.entity.ChatRoom;
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.util.enums.LectureState;
 
@@ -18,11 +19,15 @@ public class LectureRequest {
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private LectureState tuitionState;
+    private LectureState lectureState;
 
-    @JoinColumn(name = "post_id")
-    @ManyToOne(optional = false)
-    private Lecture post;
+
+    @JoinColumn(name = "lecture_Id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Lecture lecture;
+
+    @OneToOne(mappedBy = "lectureRequest")
+    private ChatRoom chatRoom;
 
     @Column
     private Long tuteeId;
@@ -30,32 +35,35 @@ public class LectureRequest {
     @Column
     private Boolean reviewFilter;
 
-
-//    public TuitionRequest(Long postId, Long tuteeId, Long tutorId) {
-//        this.tuitionState = TuitionState.IN_PROGRESS;
-//        this.postId = postId;
-//        this.tuteeId = tuteeId;
-//        this.tutorId = tutorId;
-//    }
-
-    public LectureRequest(Lecture postId, Long tuteeId) {
-        this.tuitionState = LectureState.NONE;
-        this.post = postId;
+    public LectureRequest(Lecture lecture, Long tuteeId) {
+        this.lectureState = LectureState.NONE;
+        this.lecture = lecture;
         this.tuteeId = tuteeId;
         this.reviewFilter = false;
     }
 
 
-    public void changeConfirmed(){
-        this.tuitionState = LectureState.IN_PROGRESS;
-    }
-
     public void changeComplete() {
-        this.tuitionState = LectureState.DONE;
+        this.lectureState = LectureState.DONE;
     }
 
-    public void ChangTuitionReview(Lecture postId) {
-        this.post = postId;
+    public void changeConfirmed(){
+        this.lectureState = LectureState.IN_PROGRESS;
+    }
+
+
+    public void ChangTuitionReview(Lecture lecture) {
+        this.lecture = lecture;
         this.reviewFilter = true;
     }
+
+    public Long getLectureId(){
+        return lecture.getId();
+    }
+
+    public Long getTutorId(){
+        return lecture.getTutorId();
+    }
+
+
 }

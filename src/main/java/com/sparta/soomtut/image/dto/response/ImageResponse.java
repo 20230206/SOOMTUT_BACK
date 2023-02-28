@@ -12,10 +12,7 @@ import lombok.*;
 public class ImageResponse {
 
     private Long id;
-
     private String filePath;
-
-    private String title;
     private String imgFullPath;
 
 //    public ImageEntity toEntity(){
@@ -27,9 +24,8 @@ public class ImageResponse {
 //    }
 
     @Builder
-    public ImageResponse(Long id, String title, String filePath, String imgFullPath){
+    public ImageResponse(Long id, String filePath, String imgFullPath){
         this.id = id;
-        this.title = title;
         this.filePath = filePath;
         this.imgFullPath = imgFullPath;
     }

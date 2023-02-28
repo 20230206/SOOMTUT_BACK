@@ -16,4 +16,5 @@ public class LocationResponseDto {
     private float vectorY;
 
     private String nickname;
+    private String image;
 }

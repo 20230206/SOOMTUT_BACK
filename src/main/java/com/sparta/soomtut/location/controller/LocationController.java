@@ -4,9 +4,11 @@ import com.sparta.soomtut.location.dto.request.LocationRequestDto;
 import com.sparta.soomtut.location.dto.response.LocationResponseDto;
 import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.location.service.LocationService;
+import com.sparta.soomtut.util.dto.request.PageRequestDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
