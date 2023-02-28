@@ -9,12 +9,16 @@ import com.sparta.soomtut.location.service.LocationService;
 import com.sparta.soomtut.util.response.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sparta.soomtut.auth.dto.request.RegisterRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -71,14 +75,17 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<LocationResponseDto> getAllLocation(Location myLocation) {
         String myCityName = myLocation.getAddress();
         String myCityNameFirst = myCityName.split(" ")[0];
         List<LocationResponseDto> cityUserLocations = locationRepository.findAllByAddress(myCityNameFirst);
+
         cityUserLocations.stream()
                 .filter(s->s.getAddress().equals(myCityName))
                 .toList()
                 .forEach(cityUserLocations::remove);
+
         return cityUserLocations;
     }
     
