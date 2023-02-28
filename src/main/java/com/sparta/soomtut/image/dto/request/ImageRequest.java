@@ -14,13 +14,6 @@ public class ImageRequest {
     private Long id;
     private String filePath;
 
-    public ImageEntity toEntity(){
-        ImageEntity build = ImageEntity.builder()
-                .id(id)
-                .filePath(filePath)
-                .build();
-        return build;
-    }
     public ImageRequest(Long id, String filePath){
         this.id = id;
         this.filePath = filePath;

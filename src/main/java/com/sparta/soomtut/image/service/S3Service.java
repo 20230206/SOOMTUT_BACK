@@ -8,8 +8,12 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.sparta.soomtut.image.dto.request.ImageRequest;
+
+import com.sparta.soomtut.member.service.MemberService;
 import jakarta.annotation.PostConstruct;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class S3Service {
 
     private AmazonS3 s3Client;
@@ -38,11 +42,10 @@ public class S3Service {
     @Value("${cloud.aws.s3.postdir}")
     private String postdir;
 
-    @Value("${cloud.aws.s3.soomtut.profiledir}")
-    private String profiledir2;
-
     public static final String CLOUD_FRONT_DOMAIN_NAME = "doetinf9mat8b.cloudfront.net";
+    public static final String S3_URI = "https://soomtut.s3.ap-northeast-2.amazonaws.com/";
 
+    private final MemberService memberService;
 
     @PostConstruct
     public void setS3Client(){
@@ -67,16 +70,20 @@ public class S3Service {
 //    }
     //////////////////////////////////////////////////////////////////////////////////////////////
     public String uploadProfile(Long memberId, MultipartFile file) throws IOException{
-
+        var member = memberService.getMemberById(memberId);
         if(memberId != null){
-            boolean isExistObject = s3Client.doesObjectExist(bucket, String.valueOf(memberId));
+            // boolean isExistObject = s3Client.doesObjectExist(bucket, String.valueOf(memberId));
 
-            if (isExistObject) {
-                s3Client.deleteObject(bucket, String.valueOf(memberId));
-            }
+            // if (isExistObject) {
+            //     s3Client.deleteObject(bucket, String.valueOf(memberId));
+            // }
         }
+        
+
         SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
-        String fileName = profiledir + "/" + file.getOriginalFilename() + "-" + date.format(new Date());
+        String fileName = profiledir + "/"  + date.format(new Date())+ "-" + file.getOriginalFilename();
+
+        member.updateProfileImage(S3_URI + fileName);
 
         s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(),null)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
