@@ -1,12 +1,10 @@
 package com.sparta.soomtut.lecture.service.impl;
 
-import com.sparta.soomtut.lecture.dto.request.CategoryRequestDto;
 import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lecture.entity.Category;
 import com.sparta.soomtut.lecture.entity.Lecture;
-import com.sparta.soomtut.lecture.repository.CategoryRepository;
 import com.sparta.soomtut.lecture.repository.LectureRepository;
 import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
@@ -34,10 +32,7 @@ public class LectureServiceImpl implements LectureService {
 
     private final LectureRepository lectureRepository;
     private final LocationService locationService;
-    private final CategoryRepository categoryRepository;
-    private final LectureRequestRepository lectureRequestRepository;
-
-    // 수업 아이디로 수업 하나 찾아옴
+    private final LectureRequestRepository tuitionRequestRepository;
 
     @Override
     @Transactional
@@ -88,19 +83,6 @@ public class LectureServiceImpl implements LectureService {
         lectureRepository.deleteById(lectureId);
     }
 
-    //카테고리 생성
-    public String createCategory(CategoryRequestDto categoryRequestDto) {
-        Category category = new Category(categoryRequestDto);
-
-        categoryRepository.save(category);
-
-        return "카테고리 저장완료";
-    }
-
-    public List<Category> getCategory() {
-        List<Category> category = categoryRepository.findAllBy();
-        return category;
-    }
 
     @Override
     @Transactional
@@ -151,8 +133,8 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     @Transactional(readOnly = true) 
-    public Page<Lecture> getLectures(Long category, Pageable pageable){
-        return lectureRepository.findAllByCategoryId(category, pageable);
+    public Page<Lecture> getPosts(int category, Pageable pageable){
+        return postRepository.findAllByCategory(Category.valueOf(category), pageable);
     }
 
     @Override

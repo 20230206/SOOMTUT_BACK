@@ -34,7 +34,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<LectureResponseDto> getAllPost(Long category, Pageable pageable) {
+    public Page<LectureResponseDto> getAllPost(int category, Pageable pageable) {
 
         if(category == 0 ){
             Page<Lecture> lectures = lectureService.getLectures(pageable);

@@ -12,39 +12,39 @@ public class LectureResponseDto {
     private Long lectureId;
     private String title;
     private String content;
-    private Long categoryId;
+    private int categoryId;
     private String image;
     private int fee;
     private String tutorNickname;
     private String address;
 
-    public LectureResponseDto(Lecture lecture) {
-        this.lectureId = lecture.getId();
-        this.title = lecture.getTitle();
-        this.content = lecture.getContent();
-        this.categoryId = lecture.getCategoryId();
-        this.image = lecture.getImage();
-        this.fee = lecture.getFee();
-        this.tutorNickname = lecture.getTutorNickname();
+    public LectureResponseDto(Lecture post) {
+        this.postId = post.getId();
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.categoryId = post.getCategory().getValue();
+        this.image = post.getImage();
+        this.fee = post.getFee();
+        this.tutorNickname = post.getMember().getNickname();
     }
 
-    public LectureResponseDto(Lecture lecture, Location location) {
-        this.lectureId = lecture.getId();
-        this.title = lecture.getTitle();
-        this.content = lecture.getContent();
-        this.categoryId = lecture.getCategoryId();
-        this.image = lecture.getImage();
-        this.fee = lecture.getFee();
-        this.tutorNickname =lecture.getTutorNickname();
-        this.address = location.getAddress();
+    public LectureResponseDto(Lecture post, Location location) {
+        this.postId = post.getId();
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.categoryId = post.getCategory().getValue();
+        this.image = post.getImage();
+        this.fee = post.getFee();
+        this.tutorNickname = post.getMember().getNickname();
+        this.location = location.getAddress();
     }
 
 
-    public LectureResponseDto(Lecture lecture, String nickName, Location location) {
-        this.lectureId = lecture.getId();
-        this.title = lecture.getTitle();
-        this.content = lecture.getContent();
-        this.categoryId = lecture.getCategoryId();
+    public LectureResponseDto(Lecture post, String nickName, String location) {
+        this.postId = post.getId();
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.categoryId = post.getCategory().getValue();
 
         this.image = lecture.getImage();
         this.fee = lecture.getFee();

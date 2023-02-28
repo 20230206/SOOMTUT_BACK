@@ -116,7 +116,7 @@ class MemberServiceImplTest {
         Long postId = 1L;
         Long tutorId = 1L;
         Member member = new Member("user@user.com","asd12345","user1");
-        Lecture lecture = new Lecture("아무개",1L,1);
+        Lecture lecture = new Lecture("아무개",1,1);
         CreateReviewRequestDto createReviewRequestDto = CreateReviewRequestDto.builder().review_content("굿!").star_rating(3f).build();
 
         given(reviewService.checkTuitionState(1L,member.getId())).willReturn(true);
