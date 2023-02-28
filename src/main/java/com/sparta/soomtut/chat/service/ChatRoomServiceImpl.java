@@ -10,6 +10,7 @@ import com.sparta.soomtut.lectureRequest.service.LectureRequestService;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.service.MemberService;
 
+import com.sparta.soomtut.util.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,27 +29,21 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     // 새로운 채팅방 생성
     @Override
-    public ChatRoom createRoom(Long tuteeId, Long lectureRequestId) {
-//        Lecture lecture = lectureService.getLectureById(lectureRequestId);
-//        Member tutor = lecture.getTutor();
-//        ChatRoom chatRoom = ChatRoom.of(tuteeId,tutor.getId(), lectureRequestId);
-//        return chatRoomRepository.save(chatRoom);
-       return null;
-    }
-
-    // 채팅방 하나만 가져오기
-    @Override
-    public ChatRoomResponse getMyChatRoom(Long memberId, Long lectureRequestId) {
+    public ChatRoomResponse createRoom(Long memberId, Long lectureRequestId) {
+        // 기존 채팅방이 있는지 없는지 확인.
+        if(!chatRoomRepository.existsByLectureRequestId(lectureRequestId)){
+            new IllegalArgumentException(ErrorCode.NOT_FOUND_CHATROOM.getMessage());
+        }
         LectureRequest lectureRequest = lectureRequestService.getLectureRequestById(lectureRequestId);
-        ChatRoom chatRoom = chatRoomRepository.findByLectureRequest(lectureRequest)
-                .orElseGet(()-> createRoom(memberId, lectureRequestId));
+        ChatRoom chatRoom = ChatRoom.of(lectureRequest);
+        chatRoomRepository.save(chatRoom);
 
-        // LectureResponseDto 가 필요 ->
-        return ChatRoomResponse.of(chatRoom,
-                memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
-                memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
-                chatService.getAllChatMessages(chatRoom.getId()),
-                lectureService.getLecture(chatRoom.getLectureId()));
+        return ChatRoomResponse.of(chatRoom
+                , memberService.getMemberInfoResponseDto(chatRoom.getTuteeId())
+                , memberService.getMemberInfoResponseDto(chatRoom.getTutorId())
+                ,chatService.getAllChatMessages(chatRoom.getId())
+                ,lectureService.getLecture(chatRoom.getLectureId())
+        );
     }
 
     // 채팅방 여러개 가져오기
@@ -63,7 +58,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 chatService.getAllChatMessages(chatRoom.getId()),
                 lectureService.getLecture(chatRoom.getLectureId())));
     }
-
 
     // 지원 함수
     @Override

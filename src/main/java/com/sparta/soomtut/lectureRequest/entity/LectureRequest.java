@@ -57,4 +57,10 @@ public class LectureRequest {
     public Long getLectureId(){
         return lecture.getId();
     }
+
+    public Long getTutorId(){
+        return lecture.getTutorId();
+    }
+
+
 }

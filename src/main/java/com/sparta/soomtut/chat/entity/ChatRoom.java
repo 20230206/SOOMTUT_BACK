@@ -1,5 +1,6 @@
 package com.sparta.soomtut.chat.entity;
 
+import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,6 +20,9 @@ public class ChatRoom {
     @Column(name ="tutor_id", nullable = false)
     private Long tutorId;
 
+    @Column(name ="tutee_id", nullable = false)
+    private Long tuteeId;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
@@ -26,14 +30,15 @@ public class ChatRoom {
     @JoinColumn(name = "lecture_request_id", referencedColumnName = "id")
     private LectureRequest lectureRequest;
 
-    private ChatRoom(Long tutorId, LectureRequest lectureRequest) {
-        this.tutorId = tutorId;
+    private ChatRoom(LectureRequest lectureRequest) {
+        this.tutorId = lectureRequest.getTutorId();
+        this.tuteeId = lectureRequest.getTuteeId();
         this.lectureRequest = lectureRequest;
         this.createdAt = LocalDateTime.now();
     }
 
-    public static ChatRoom of(Long tutorId, LectureRequest lectureRequest){
-        return new ChatRoom(tutorId, lectureRequest);
+    public static ChatRoom of(LectureRequest lectureRequest){
+        return new ChatRoom(lectureRequest);
     }
 
     public Long getTuteeId(){
