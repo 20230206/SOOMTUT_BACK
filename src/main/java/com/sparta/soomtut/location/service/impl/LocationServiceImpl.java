@@ -75,6 +75,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<LocationResponseDto> getAllLocation(Location myLocation) {
         String myCityName = myLocation.getAddress();
         String myCityNameFirst = myCityName.split(" ")[0];
