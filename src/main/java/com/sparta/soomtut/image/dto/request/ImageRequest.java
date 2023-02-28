@@ -12,20 +12,10 @@ import lombok.Setter;
 public class ImageRequest {
 
     private Long id;
-    private String title;
     private String filePath;
 
-    public ImageEntity toEntity(){
-        ImageEntity build = ImageEntity.builder()
-                .id(id)
-                .title(title)
-                .filePath(filePath)
-                .build();
-        return build;
-    }
-    public ImageRequest(Long id, String title, String filePath){
+    public ImageRequest(Long id, String filePath){
         this.id = id;
-        this.title = title;
         this.filePath = filePath;
     }
 

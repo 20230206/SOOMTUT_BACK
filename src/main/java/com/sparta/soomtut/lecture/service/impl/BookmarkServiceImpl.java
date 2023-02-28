@@ -37,7 +37,7 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Transactional
     @Override
     public LectureResponseDto findFavPost(Long id){
-        Lecture post = postService.getPostById(id);
+        Lecture post = postService.getLectureById(id);
         Bookmark favMemberPost = favMemberPostRepository.findByPostId(post.getId())
                 .orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_FAVPOST.getMessage()));
         return new LectureResponseDto(favMemberPost.getPost());
@@ -63,7 +63,7 @@ public class BookmarkServiceImpl implements BookmarkService {
         //  -> findByPostIdAndMemberId 통해 해당 기록을 가져오고, 해당기록의 내용을 반대로 변경시켜준다.
         
         if(!hasFavPost(postId, member)) {
-            Lecture post = postService.getPostById(postId);
+            Lecture post = postService.getLectureById(postId);
             Bookmark data = createFavPost(post, member);
             return data.isStatus();
         }

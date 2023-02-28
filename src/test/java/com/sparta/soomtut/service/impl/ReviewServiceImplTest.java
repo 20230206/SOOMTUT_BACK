@@ -1,5 +1,6 @@
 package com.sparta.soomtut.service.impl;
 
+import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
@@ -27,7 +28,7 @@ class ReviewServiceImplTest {
 
 
     @Mock
-    LectureRequestRepository tuitionRequestRepository;
+    LectureRequestRepository lectureRequestRepository;
 
     @Mock
     ReviewRepository reviewRepository;
@@ -39,10 +40,10 @@ class ReviewServiceImplTest {
     // @DisplayName("신청강좌 찾기")
     // void findTuitionRequest() {
 
-    //     TuitionRequest tuitionRequest = new TuitionRequest(TuitionState.DONE,1L,1L);
-    //     given(tuitionRequestRepository.findByPostIdAndTuteeId(anyLong(),anyLong())).willReturn(Optional.ofNullable(tuitionRequest));
+    //     LectureRequest tuitionRequest = new LectureRequest(LectureState.DONE,1L,1L);
+    //     given(lectureRequestRepository.findByPostIdAndTuteeId(anyLong(),anyLong())).willReturn(Optional.ofNullable(tuitionRequest));
 
-    //     TuitionRequest tut = reviewService.findTuitionRequest(1L,1L);
+    //     LectureRequest tut = reviewService.findTuitionRequest(1L,1L);
 
     //     assertThat(tuitionRequest.getPostId()).isEqualTo(tut.getPostId());
     // }
@@ -60,10 +61,10 @@ class ReviewServiceImplTest {
     // @Test
     // @DisplayName("완료된 강좌인지 판단하기")
     // void checkTuitionState() {
-    //     TuitionRequest tuitionRequest = new TuitionRequest(TuitionState.DONE,1L,1L);
+    //     LectureRequest tuitionRequest = new LectureRequest(LectureState.DONE,1L,1L);
     //     //given(reviewService.findTuitionRequest(any(),any())).willReturn(tuitionRequest);
     //     tuitionRequest.changeTuitionState();
-    //     given(tuitionRequestRepository.findByPostIdAndTuteeId(anyLong(),anyLong())).willReturn(Optional.ofNullable(tuitionRequest));
+    //     given(lectureRequestRepository.findByPostIdAndTuteeId(anyLong(),anyLong())).willReturn(Optional.ofNullable(tuitionRequest));
 
     //     assertThat(reviewService.checkTuitionState(anyLong(),anyLong())).isEqualTo(true);
     // }
