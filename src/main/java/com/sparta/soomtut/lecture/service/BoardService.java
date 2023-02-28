@@ -7,5 +7,5 @@ import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 
 public interface BoardService {
     Page<LectureResponseDto> getPostsByMemberId(Long memberId, Pageable pageable);
-    Page<LectureResponseDto> getAllPost(Long category, Pageable pageable);
+    Page<LectureResponseDto> getAllPost(int category, Pageable pageable);
 }

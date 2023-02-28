@@ -68,7 +68,7 @@ public class LectureController {
     // 수업 전체 조회
     @GetMapping
     public ResponseEntity<?> getAllLeuctures(
-        @RequestParam(required = false, value = "category") Long category,
+        @RequestParam(required = false, value = "category") int category,
         @ModelAttribute PageRequestDto pageable
     ){
         var data = boardService.getAllPost(category, pageable.toPageable());

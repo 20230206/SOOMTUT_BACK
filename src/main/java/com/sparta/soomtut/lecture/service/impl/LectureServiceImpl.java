@@ -1,19 +1,16 @@
 package com.sparta.soomtut.lecture.service.impl;
 
-import com.sparta.soomtut.lecture.dto.request.CategoryRequestDto;
 import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lecture.entity.Category;
 import com.sparta.soomtut.lecture.entity.Lecture;
-import com.sparta.soomtut.lecture.repository.CategoryRepository;
 import com.sparta.soomtut.lecture.repository.LectureRepository;
 import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberRole;
-import com.sparta.soomtut.util.dto.request.PageRequestDto;
 import com.sparta.soomtut.util.enums.LectureState;
 
 import com.sparta.soomtut.util.response.ErrorCode;
@@ -36,7 +33,6 @@ public class LectureServiceImpl implements LectureService {
 
     private final LectureRepository postRepository;
     private final LocationService locationService;
-    private final CategoryRepository categoryRepository;
     private final LectureRequestRepository tuitionRequestRepository;
 
     
@@ -89,19 +85,6 @@ public class LectureServiceImpl implements LectureService {
         postRepository.deleteById(postId);
     }
 
-    //카테고리 생성
-    public String createCategory(CategoryRequestDto categoryRequestDto) {
-        Category category = new Category(categoryRequestDto);
-
-        categoryRepository.save(category);
-
-        return "카테고리 저장완료";
-    }
-
-    public List<Category> getCategory() {
-        List<Category> category = categoryRepository.findAllBy();
-        return category;
-    }
 
     @Override
     @Transactional
@@ -194,8 +177,8 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     @Transactional(readOnly = true) 
-    public Page<Lecture> getPosts(Long category, Pageable pageable){
-        return postRepository.findAllByCategoryId(category, pageable);
+    public Page<Lecture> getPosts(int category, Pageable pageable){
+        return postRepository.findAllByCategory(Category.valueOf(category), pageable);
     }
 
     @Override

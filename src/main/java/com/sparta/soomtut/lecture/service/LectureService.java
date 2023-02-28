@@ -24,11 +24,8 @@ public interface LectureService {
 
     LectureResponseDto getPost(Long postId);
 
-    String createCategory(CategoryRequestDto categoryRequestDto);
-
     boolean checkLectureAuthor(Long postId, Member member);
 
-    List<Category> getCategory();
     String classConfirmed(Long postId, Member member);
     String classComplete(Long postId, Member member);
     List<Lecture> getCompletePost(Member member);
@@ -40,7 +37,7 @@ public interface LectureService {
 
     Page<Lecture> getAllPostByMemberId(Long memberId, Pageable pageable);
     Page<Lecture> getPosts(Pageable pageable);
-    Page<Lecture> getPosts(Long category, Pageable pageable);
+    Page<Lecture> getPosts(int category, Pageable pageable);
 
     Page<LectureResponseDto> searchByKeyword(String keyword,Pageable pageable);
 

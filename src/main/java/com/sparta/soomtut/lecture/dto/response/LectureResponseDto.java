@@ -12,7 +12,7 @@ public class LectureResponseDto {
     private Long postId;
     private String title;
     private String content;
-    private Long categoryId;
+    private int categoryId;
     private String image;
     private int fee;
     private String tutorNickname;
@@ -22,7 +22,7 @@ public class LectureResponseDto {
         this.postId = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
-        this.categoryId = post.getCategoryId();
+        this.categoryId = post.getCategory().getValue();
         this.image = post.getImage();
         this.fee = post.getFee();
         this.tutorNickname = post.getMember().getNickname();
@@ -32,7 +32,7 @@ public class LectureResponseDto {
         this.postId = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
-        this.categoryId = post.getCategoryId();
+        this.categoryId = post.getCategory().getValue();
         this.image = post.getImage();
         this.fee = post.getFee();
         this.tutorNickname = post.getMember().getNickname();
@@ -44,7 +44,7 @@ public class LectureResponseDto {
         this.postId = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
-        this.categoryId = post.getCategoryId();
+        this.categoryId = post.getCategory().getValue();
 
         this.image = post.getImage();
         this.fee = post.getFee();

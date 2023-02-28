@@ -42,6 +42,8 @@ public enum ErrorCode {
     ALREADY_HAVA_REVIEW(500,"이미 작성된 후기가 존재합니다."),
 
     NOT_PROGRESS_CLASS(500, "아직 수강이 완료되지 않았습니다!"),
+
+    CATEGORY_OUTOFINDEX(500, "인덱스 길이를 초과하였습니다."),
 //    ALREADY_SELLER_MANAGEMENT_STATUS_DROP("판매자 권한 회수 상태로 처리가 불가능합니다."),
 //    ALREADY_SELLER_MANAGEMENT_STATUS_COMPLETE("판매자 권한 승인 상태로 처리가 불가능합니다."),
 //    ALREADY_SELLER_MANAGEMENT_STATUS_REJECT("판매자 승인 취소 상태로 처리가 불가능합니다. 다시 권한 신청해주세요"),
