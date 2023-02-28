@@ -1,5 +1,7 @@
 package com.sparta.soomtut.review.service.impl;
 
+import com.sparta.soomtut.lecture.entity.Lecture;
+import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
@@ -22,16 +24,18 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
-    private final LectureRequestRepository tuitionRequestRepository;
+    private final LectureRequestRepository lectureRequestRepository;
+    private final LectureService lectureService;
     private final ReviewRepository reviewRepository;
 
     @Override
     @Transactional(readOnly = true)
-    public LectureRequest findTuitionRequest(Long postId, Long tuteeId) {
-        LectureRequest tuitionRequest = tuitionRequestRepository.findByPostIdAndTuteeId(postId, tuteeId).orElseThrow(
+    public LectureRequest findTuitionRequest(Long lectureId, Long tuteeId) {
+        Lecture lecture = lectureService.getLectureById(lectureId);
+        LectureRequest lectureRequest = lectureRequestRepository.findByLectureAndTuteeId(lecture, tuteeId).orElseThrow(
                 () -> new IllegalArgumentException("신청한 강좌 목록이 없습니다!")
         );
-        return tuitionRequest;
+        return lectureRequest;
     }
     @Transactional
     public Review findReviewById(Long reviewId){
@@ -73,8 +77,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public boolean checkTuitionState(Long postId, Long tuteeId) {
 
-        LectureState tuitionState = findTuitionRequest(postId, tuteeId).getTuitionState();
-        if (tuitionState.equals(LectureState.IN_PROGRESS)) {
+        LectureState lectureState = findTuitionRequest(postId, tuteeId).getLectureState();
+        if (lectureState.equals(LectureState.IN_PROGRESS)) {
             return false;
         }
         return true;
