@@ -32,7 +32,7 @@ public class LectureServiceImpl implements LectureService {
 
     private final LectureRepository lectureRepository;
     private final LocationService locationService;
-    private final LectureRequestRepository tuitionRequestRepository;
+    private final LectureRequestRepository lectureRequestRepository;
 
     @Override
     @Transactional
@@ -105,7 +105,8 @@ public class LectureServiceImpl implements LectureService {
     public LectureResponseDto getMyLecture(Member member) {
         Lecture lecture = lectureRepository.findByMemberId(member.getId())
                 .orElseThrow(() -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage()));
-        LectureResponseDto lectureResponseDto = new LectureResponseDto(lecture, member.getNickname(), locationService.findMemberLocation(member.getId()));
+        LectureResponseDto lectureResponseDto = 
+                new LectureResponseDto(lecture, member.getNickname(), locationService.findMemberLocation(member.getId()).getAddress());
         return lectureResponseDto;
     }
 
@@ -133,8 +134,8 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     @Transactional(readOnly = true) 
-    public Page<Lecture> getPosts(int category, Pageable pageable){
-        return postRepository.findAllByCategory(Category.valueOf(category), pageable);
+    public Page<Lecture> getLectures(int category, Pageable pageable){
+        return lectureRepository.findAllByCategory(Category.valueOf(category), pageable);
     }
 
     @Override
@@ -155,4 +156,5 @@ public class LectureServiceImpl implements LectureService {
         return lectureRepository.findLectureByKeyword(keyword,pageable);
 
     }
+
 }

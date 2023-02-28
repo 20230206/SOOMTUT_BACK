@@ -82,7 +82,7 @@ public class LectureController {
         @ModelAttribute PageRequestDto pageable
     )
     {
-        var data = boardService.getPostsByMemberId(userDetails.getMember().getId(), pageable.toPageable());
+        var data = boardService.getLecturesByMemberId(userDetails.getMember().getId(), pageable.toPageable());
         return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURES_OK);
     }
     

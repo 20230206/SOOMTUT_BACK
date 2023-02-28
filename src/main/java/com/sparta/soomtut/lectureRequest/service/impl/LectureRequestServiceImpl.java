@@ -1,8 +1,9 @@
-package com.sparta.soomtut.lectureRequest.service;
+package com.sparta.soomtut.lectureRequest.service.impl;
 
 import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
+import com.sparta.soomtut.lectureRequest.service.LectureRequestService;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.util.response.ErrorCode;
 import lombok.RequiredArgsConstructor;

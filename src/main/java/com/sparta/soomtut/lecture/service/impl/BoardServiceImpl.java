@@ -24,12 +24,12 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<LectureResponseDto> getPostsByMemberId(Long memberId, Pageable pageable) {
+    public Page<LectureResponseDto> getLecturesByMemberId(Long memberId, Pageable pageable) {
         Page<Lecture> lecture = lectureService.getAllLectureByMemberId(memberId, pageable);
 
         return lecture.map(item -> new LectureResponseDto(item,
                                          item.getTutorNickname(),
-                                         locationService.getLocation(item.getMember())));
+                                         locationService.getLocation(item.getMember()).getAddress()));
     }
 
     @Override
