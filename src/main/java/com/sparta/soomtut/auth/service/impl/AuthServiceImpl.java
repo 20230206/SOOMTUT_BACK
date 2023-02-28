@@ -15,10 +15,11 @@ import com.sparta.soomtut.auth.repository.AuthRepository;
 import com.sparta.soomtut.auth.service.AuthService;
 import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.member.entity.Member;
+import com.sparta.soomtut.member.entity.enums.MemberRole;
+import com.sparta.soomtut.member.entity.enums.MemberState;
 import com.sparta.soomtut.member.service.MemberService;
 import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.location.service.LocationService;
-import com.sparta.soomtut.util.enums.MemberRole;
 import com.sparta.soomtut.util.jwt.JwtProvider;
 import com.sparta.soomtut.util.jwt.TokenType;
 import com.sparta.soomtut.util.response.ErrorCode;
@@ -73,12 +74,9 @@ public class AuthServiceImpl implements AuthService {
         if(!isMatchedPassword(password, member)) 
             throw new CustomException(ErrorCode.INVALID_PASSWORD);
 
-        if (!member.isState()) 
-            throw new CustomException(ErrorCode.SECESSION_USER);
-
         String token = createRefreshToken(member.getEmail(), member.getMemberRole());
         
-        return LoginResponse.builder().token(token).build();
+        return LoginResponse.builder().state(member.getState()).token(token).build();
     }
 
     @Override
@@ -128,7 +126,7 @@ public class AuthServiceImpl implements AuthService {
         member.updateNickName(request.getNickname());
         Location location = locationService.findMemberLocation(member.getId());
         location.updateLocation(request.getAddress(), request.getVectorX(), request.getVectorY());
-        member.changeState(true);
+        member.changeState(MemberState.ACTIVE);
 
         return MemberInfoResponse.toDto(member, location);
     }

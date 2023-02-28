@@ -4,6 +4,7 @@ import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
 import com.sparta.soomtut.member.entity.Member;
+import com.sparta.soomtut.member.entity.enums.MemberState;
 import com.sparta.soomtut.member.repository.MemberRepository;
 import com.sparta.soomtut.member.service.MemberService;
 import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
@@ -12,8 +13,8 @@ import com.sparta.soomtut.review.service.ReviewService;
 import com.sparta.soomtut.util.dto.request.PageRequestDto;
 import com.sparta.soomtut.util.response.ErrorCode;
 import com.sparta.soomtut.location.service.LocationService;
-import com.sparta.soomtut.lectureRequest.entity.TuitionRequest;
-import com.sparta.soomtut.lectureRequest.repository.TuitionRequestRepository;
+import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
+import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.admin.service.DeleteReviewRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,7 +34,7 @@ public class MemberServiceImpl implements MemberService{
     private final ReviewService reviewService;
     private final LocationService locationService;
     private final DeleteReviewRequestService deleteReviewRequestService;
-    private final TuitionRequestRepository tuitionRequestRepository;
+    private final LectureRequestRepository tuitionRequestRepository;
 
     @Override
     public String updateNickname(String nickname, Member member) {
@@ -81,7 +82,7 @@ public class MemberServiceImpl implements MemberService{
         Long tutorId = postService.getTutorId(postId);
         reviewService.saveReview(tutorId,reviewRequestDto,member.getId());
 
-        TuitionRequest tuitionRequest = tuitionRequestRepository.findByPostId(postId).orElseThrow(
+        LectureRequest tuitionRequest = tuitionRequestRepository.findByPostId(postId).orElseThrow(
                 () -> new IllegalArgumentException("Error")
         );
 
@@ -94,12 +95,13 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     @Transactional
-    public String suspendAccount(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(
-                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage())
-        );
-        member.changeState(false);
-        return "계정이 비활성화 되었습니다.";
+    public MemberInfoResponse suspendAccount(Long memberId) {
+        Member member = getMemberById(memberId);
+    
+        member.changeState(MemberState.SUSPEND);
+        var location = locationService.findMemberLocation(memberId);
+
+        return MemberInfoResponse.toDto(member, location);
     }
 
 

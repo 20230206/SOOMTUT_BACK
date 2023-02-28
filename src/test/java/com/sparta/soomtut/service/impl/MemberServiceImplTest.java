@@ -2,8 +2,8 @@ package com.sparta.soomtut.service.impl;
 
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.service.impl.LectureServiceImpl;
-import com.sparta.soomtut.lectureRequest.entity.TuitionRequest;
-import com.sparta.soomtut.lectureRequest.repository.TuitionRequestRepository;
+import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
+import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.service.impl.MemberServiceImpl;
 import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
@@ -36,7 +36,7 @@ class MemberServiceImplTest {
     LocationServiceImpl locationService;
 
     @Mock
-    TuitionRequestRepository tuitionRequestRepository;
+    LectureRequestRepository tuitionRequestRepository;
 
     @InjectMocks
     MemberServiceImpl memberService;
@@ -121,7 +121,7 @@ class MemberServiceImplTest {
 
         given(reviewService.checkTuitionState(1L,member.getId())).willReturn(true);
         given(postService.getTutorId(postId)).willReturn(tutorId);
-        given(tuitionRequestRepository.findByPostId(anyLong())).willReturn(Optional.ofNullable(mock(TuitionRequest.class)));
+        given(tuitionRequestRepository.findByPostId(anyLong())).willReturn(Optional.ofNullable(mock(LectureRequest.class)));
 
         String msg = memberService.createReview(postId,createReviewRequestDto,member);
        // verify(reviewRepository,times(1)).save(isA(Review.class));
