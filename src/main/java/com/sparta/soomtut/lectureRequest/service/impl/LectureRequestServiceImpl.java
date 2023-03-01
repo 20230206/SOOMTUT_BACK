@@ -1,5 +1,6 @@
 package com.sparta.soomtut.lectureRequest.service.impl;
 
+import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.repository.LectureRepository;
 import com.sparta.soomtut.lecture.service.LectureService;
@@ -7,6 +8,7 @@ import com.sparta.soomtut.lectureRequest.dto.LecReqResponseDto;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.lectureRequest.service.LectureRequestService;
+import com.sparta.soomtut.location.service.LocationService;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.util.enums.LectureState;
 import com.sparta.soomtut.util.response.ErrorCode;
@@ -25,6 +27,8 @@ public class LectureRequestServiceImpl implements LectureRequestService{
 
     private final LectureRequestRepository lectureRequestRepository;
     private final LectureService lectureService;
+
+    private final LocationService locationService;
 
     // 수업 신청
     @Override
@@ -46,6 +50,8 @@ public class LectureRequestServiceImpl implements LectureRequestService{
                 lectureRequest.getReviewFilter()
         );
     }
+
+    // TODO: 성공 메시지로 바꿔주세요. 그리고 Member 객체 안 쓰시면 안 넘겨줘도 됩니다. 컨트롤러에서만 받으시면 됩니다.
 
     @Override
     @Transactional
@@ -71,23 +77,24 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     // 완료한 수업 목록 조회
     @Override
     @Transactional
-    public Page<Lecture> getCompleteLecture(Long memberId, Pageable pageable) {
-        //List<Lecture> lectureList = lectureRequestList.stream().map((item) -> item.getLecture()).collect(Collectors.toList());
-        Page<LectureRequest> lectureRequestPage = getAllByTuteeIdByAndStateIsDone(memberId);
+    public Page<LectureResponseDto> getCompleteLecture(Long memberId, Pageable pageable) {
+        Page<LectureRequest> lectureRequestPage = getAllByTuteeIdByAndStateIsDone(memberId, pageable);
         Page<Lecture> lectureList = lectureRequestPage.map(lectureRequest -> lectureRequest.getLecture());
-
-        return lectureList;
+        return lectureList.map(item->new LectureResponseDto(item, locationService.findMemberLocation(memberId)));
     }
 
     // 완료된 수업중 리뷰가 없는 수업목록 조회
     @Override
     @Transactional
-    public Page<Lecture> reviewFilter(Long memberId, Pageable pageable) {
-        Page<LectureRequest> lectureRequestPage = getAllByTuteeIdByAndStateIsDoneAndFalse(memberId);
+    public Page<LectureResponseDto> reviewFilter(Long memberId, Pageable pageable) {
+        Page<LectureRequest> lectureRequestPage = getAllByTuteeIdByAndStateIsDoneAndFalse(memberId, pageable);
         Page<Lecture> lectureList = lectureRequestPage.map(lectureRequest -> lectureRequest.getLecture());
-        return lectureList;
+        return lectureList.map(item->new LectureResponseDto(item, locationService.findMemberLocation(memberId)));
     }
 
+
+
+    // 레파지토리 접근 함수.
     @Override
     public LectureRequest getLectureRequestById(Long lectureRequestId) {
         return lectureRequestRepository.findById(lectureRequestId).orElseThrow(
@@ -96,13 +103,13 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     }
 
     @Override
-    public Page<LectureRequest> getAllByTuteeIdByAndStateIsDoneAndFalse(Long tuteeId) {
-        return lectureRequestRepository.findAllByTuteeIdByAndStateIsDoneAndFalse(tuteeId);
+    public Page<LectureRequest> getAllByTuteeIdByAndStateIsDoneAndFalse(Long tuteeId, Pageable pageable) {
+        return lectureRequestRepository.findAllByTuteeIdByAndStateIsDoneAndFalse(tuteeId, pageable);
     }
 
     @Override
-    public Page<LectureRequest> getAllByTuteeIdByAndStateIsDone(Long tuteeId) {
-        return lectureRequestRepository.findAllByTuteeIdByAndStateIsDone(tuteeId);
+    public Page<LectureRequest> getAllByTuteeIdByAndStateIsDone(Long tuteeId, Pageable pageable) {
+        return lectureRequestRepository.findAllByTuteeIdByAndStateIsDone(tuteeId, pageable);
     }
 
 
