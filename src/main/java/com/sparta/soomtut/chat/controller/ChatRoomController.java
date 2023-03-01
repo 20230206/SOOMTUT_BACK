@@ -39,13 +39,3 @@ public class ChatRoomController {
 
 
 
-/*
-    // 채팅방 가져오기 (생성 or 조회)
-    @PostMapping("/{lectureRequestId}")
-    public ResponseEntity<?> getMyChatRoom(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @PathVariable Long lectureRequestId)
-    {
-        ChatRoomResponse data = chatRoomService.getMyChatRoom(userDetails.getMemberId(), lectureRequestId);
-        return ToResponse.of(data, SuccessCode.MESSGE_OK);
-    }*/
