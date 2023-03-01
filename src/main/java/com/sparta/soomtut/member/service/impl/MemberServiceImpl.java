@@ -37,11 +37,14 @@ public class MemberServiceImpl implements MemberService{
     private final LectureRequestRepository lectureRequestRepository;
 
     @Override
-    public String updateNickname(String nickname, Member member) {
+    @Transactional
+    public MemberInfoResponse updateNickname(String nickname, Member member) {
+        
+        var temp = getMemberById(member.getId());
+        temp.updateNickName(nickname);
+        var location = locationService.findMemberLocation(member.getId());
 
-        member.updateNickName(nickname);
-
-        return "수정이 완료되었습니다!";
+        return MemberInfoResponse.toDto(temp, location);
     }
 
     @Override
