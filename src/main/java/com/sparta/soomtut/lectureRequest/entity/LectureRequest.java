@@ -22,7 +22,7 @@ public class LectureRequest {
     private LectureState lectureState;
 
     @JoinColumn(name = "lecture_Id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Lecture lecture;
 
     @OneToOne(mappedBy = "lectureRequest")

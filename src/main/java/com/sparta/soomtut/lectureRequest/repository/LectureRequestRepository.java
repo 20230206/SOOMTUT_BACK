@@ -12,8 +12,9 @@ public interface LectureRequestRepository extends JpaRepository<LectureRequest,L
 
     Optional<LectureRequest> findById(Long lectureRequestId);
     Optional<LectureRequest> findByLectureAndTuteeId(Lecture lecture, Long tuteeId);
+    List<LectureRequest> findAllByTuteeIdAndLectureStateAndReviewFilterIsFalse(Long TuteeId, LectureState lectureState);
     Optional<LectureRequest> findByLecture(Lecture lecture);
-   List<LectureRequest> findAllByTuteeIdAndLectureState(Long TuteeId, LectureState lectureState);
+   List<LectureRequest> findAllByTuteeIdAndLectureState(Long TuteeId, LectureState LectureState);
 
 
 }

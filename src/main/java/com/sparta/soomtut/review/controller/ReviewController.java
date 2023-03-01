@@ -28,7 +28,7 @@ public class ReviewController {
     private final MemberService memberService;
 
     // 리뷰 생성
-    @PostMapping(value = "/{lectureid}")
+    @PostMapping(value = "/create/{lectureid}")
     public ResponseEntity<?> createReview(
             @PathVariable Long lectureid,
             @RequestBody CreateReviewRequestDto reviewRequestDto,

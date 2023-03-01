@@ -1,5 +1,6 @@
 package com.sparta.soomtut.lectureRequest.controller;
 
+import com.sparta.soomtut.lectureRequest.dto.LectureResponseDto;
 import com.sparta.soomtut.lectureRequest.service.LectureRequestService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,17 +30,17 @@ public class LectureRequestController {
     // 수업 신청
     @PostMapping("/{lectureid}")
     public ResponseEntity<?> createLectureRequest(
-        @PathVariable Long lectureid,
-        @AuthenticationPrincipal UserDetailsImpl userDetails
+            @PathVariable Long lectureid,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        
-        return ToResponse.of(null, SuccessCode.LECTUREREQUEST_CREATE_OK);
+        LectureResponseDto application = lectureRequestService.createLectureRequest(lectureid, userDetails.getMemberId());
+        return ToResponse.of(application, SuccessCode.LECTUREREQUEST_CREATE_OK);
     }
 
     // 수업 확정
     @PostMapping("/{lecturerequestid}/accept")
     public ResponseEntity<?> lectureConfirmed(
-        @PathVariable Long lecturerequestid, 
+        @PathVariable Long lecturerequestid,
         @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         String confiremd = lectureRequestService.lectureConfirmed(lecturerequestid, userDetails.getMember());
@@ -69,8 +70,15 @@ public class LectureRequestController {
     // TODO: 수업의 완료라기 보다는 수업 신청의 완료라고 보는 것이 타당한 것 같습니다.
     @GetMapping("/done")
     public ResponseEntity<?> getCompleteLectrue(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        var data = lectureService.getCompleteLecture(userDetails.getMember());
+        var data = lectureRequestService.getCompleteLecture(userDetails.getMember());
         return ToResponse.of(data, SuccessCode.LECTURE_GETDONELECUTES_OK);
+    }
+
+    //완료된 수업중 리뷰작성이 안된 수업조회
+    @GetMapping("/reviewfilter")
+    public ResponseEntity<?> reviewFilter(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        var data = lectureRequestService.reviewFilter(userDetails.getMember());
+        return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURE_OK);
     }
 
 }

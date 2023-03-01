@@ -22,6 +22,8 @@ public enum ErrorCode {
 
     NOT_FOUND_POST(500, "게시글이 존재하지 않습니다."),
 
+    NOT_FOUND_REQUEST(500, "신청한 수강목록이 없습니다."),
+
     EMPTY_FILE(500, "파일이 없습니다."),
     NOT_IMAGE_FILE(500, "이미지 파일이 아닙니다."),
     NOT_FOUND_CLASS(500, "해당 수업을 찾을 수 없습니다."),
