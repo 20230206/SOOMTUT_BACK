@@ -69,8 +69,7 @@ public class SecurityConfig {
                         .userService(oAuth2UserService)
                 );
 
-        http.cors()
-                .configurationSource(corsConfigurationSource());
+        // http.cors().configurationSource(corsConfigurationSource());
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
