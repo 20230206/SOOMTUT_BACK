@@ -25,7 +25,7 @@ public interface LectureService {
 
     boolean checkLectureAuthor(Long postId, Member member);
 
-    List<Lecture> getCompleteLecture(Member member);
+
     //Page<Post> getReviewFilter(PageRequestDto pageRequestDto, Member member);
 
     Lecture getLectureById(Long lectureId);
