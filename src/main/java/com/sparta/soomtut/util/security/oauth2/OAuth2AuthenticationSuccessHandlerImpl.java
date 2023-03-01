@@ -22,7 +22,7 @@ public class OAuth2AuthenticationSuccessHandlerImpl extends SimpleUrlAuthenticat
 
     private final AuthService authService;
 
-    private String ENDPOINT_FRONT = "http://13.124.209.136";
+    @Value("${endpoint.front}") private String ENDPOINT_FRONT;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
