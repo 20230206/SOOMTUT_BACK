@@ -1,19 +1,25 @@
 package com.sparta.soomtut.lectureRequest.service;
 
 import com.sparta.soomtut.lecture.entity.Lecture;
-import com.sparta.soomtut.lectureRequest.dto.LectureResponseDto;
+import com.sparta.soomtut.lectureRequest.dto.LecReqResponseDto;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import com.sparta.soomtut.member.entity.Member;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 
 import java.util.List;
-import java.util.Optional;
 
 public interface LectureRequestService {
 
-    LectureResponseDto createLectureRequest(Long lectureid, Long memberId);
+    LecReqResponseDto createLectureRequest(Long lectureid, Long memberId);
     String lectureConfirmed(Long lectureId, Member member);
     String lectureComplete(Long lectureId, Member member);
-    List<Lecture> getCompleteLecture(Member member);
-    List<Lecture> reviewFilter(Member member);
+    Page<Lecture> getCompleteLecture(Long memberId, Pageable pageable);
+    Page<Lecture> reviewFilter(Long memberId, Pageable pageable);
     LectureRequest getLectureRequestById(Long lectureRequestId);
+
+    Page<LectureRequest> getAllByTuteeIdByAndStateIsDoneAndFalse(Long tuteeId);
+
+    Page<LectureRequest> getAllByTuteeIdByAndStateIsDone(Long tuteeId);
 }
