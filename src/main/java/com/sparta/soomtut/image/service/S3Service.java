@@ -92,7 +92,7 @@ public class S3Service {
         }
 
         SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
-        String fileName = postdir + "/" + file.getOriginalFilename() + "-" + date.format(new Date());
+        String fileName = postdir + "/" + date.format(new Date()) + "-" + file.getOriginalFilename();
 
         lecture.updateLectureImage(CLOUD_FRONT_DOMAIN_NAME + fileName);
 

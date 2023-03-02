@@ -20,8 +20,9 @@ public class ChatBrokerController {
     public void sendMessage(ChatRequestDto chatRequest) {
         // db 저장 메시지 하나 들어올 때, 저장
         chatService.save(chatRequest);
+
         ///subscribe/room/{roomId} 대상에 구독한 모든 클라이언트에게 메시지를 전송
-        simpMessagingTemplate.convertAndSend("/subscribe/room/" + chatRequest.getRoomId(), chatRequest.getMessage());
+        simpMessagingTemplate.convertAndSend("/subscribe/room/" + chatRequest.getRoomId(), chatRequest);
     }
 
 }

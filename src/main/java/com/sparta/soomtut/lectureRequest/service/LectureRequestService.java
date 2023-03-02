@@ -7,9 +7,6 @@ import com.sparta.soomtut.member.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-
-import java.util.List;
-
 public interface LectureRequestService {
 
     LecReqResponseDto createLectureRequest(Long lectureid, Long memberId);
@@ -22,4 +19,7 @@ public interface LectureRequestService {
     Page<LectureRequest> getAllByTuteeIdByAndStateIsDoneAndFalse(Long tuteeId, Pageable pageable);
 
     Page<LectureRequest> getAllByTuteeIdByAndStateIsDone(Long tuteeId, Pageable pageable);
+
+    boolean existsLectureRequestByStateIsNotComplete(Long memberId, Long lectureId);
+    LecReqResponseDto getLectureRequestByStateIsNotComplete(Long memberId, Long lectureId);
 }

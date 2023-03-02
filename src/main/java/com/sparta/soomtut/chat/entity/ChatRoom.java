@@ -1,6 +1,5 @@
 package com.sparta.soomtut.chat.entity;
 
-import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
