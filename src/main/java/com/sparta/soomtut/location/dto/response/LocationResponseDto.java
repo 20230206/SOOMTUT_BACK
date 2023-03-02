@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,4 +19,10 @@ public class LocationResponseDto {
 
     private String nickname;
     private String image;
+
+    private String email;
+
+    private LocalDate createdAt;
+    private Long memberId;
+
 }

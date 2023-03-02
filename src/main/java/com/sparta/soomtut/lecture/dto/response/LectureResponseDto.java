@@ -18,6 +18,8 @@ public class LectureResponseDto {
     private String tutorNickname;
     private String address;
 
+    private Long memberId;
+
     public LectureResponseDto(Lecture lecture) {
         this.lectureId = lecture.getId();
         this.title = lecture.getTitle();
@@ -26,6 +28,7 @@ public class LectureResponseDto {
         this.image = lecture.getImage();
         this.fee = lecture.getFee();
         this.tutorNickname = lecture.getMember().getNickname();
+        this.memberId = lecture.getMember().getId();
     }
 
     public LectureResponseDto(Lecture lecture, Location location) {
@@ -37,6 +40,7 @@ public class LectureResponseDto {
         this.fee = lecture.getFee();
         this.tutorNickname = lecture.getMember().getNickname();
         this.address = location.getAddress();
+        this.memberId = lecture.getMember().getId();
     }
 
 
@@ -50,6 +54,7 @@ public class LectureResponseDto {
         this.fee = lecture.getFee();
         this.tutorNickname = nickName ;
         this.address = location;
+        this.memberId = lecture.getMember().getId();
     }
 
     public LectureResponseDto(LectureResponseDto lectureResponse) {
