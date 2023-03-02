@@ -48,8 +48,11 @@ public enum SuccessCode {
     REVIEW_GETBYMEMBER_OK("해당 유저의 리뷰 조회 성공", 200),
     
     IMG_PROFILE_OK("프로필 업로드 성공", 200),
+    IMG_POSTIMG_OK("강의글 이미지 업로드 성공", 200),
 
-    IMG_POSTIMG_OK("강의글 이미지 업로드 성공", 200);
+    CHATROOM_GET_OK("채팅방 정보 가져오기 성공", 200),
+    
+    CHAT_GETMESSAGES_OK("채팅방 메시지 전체 가져오기 성공", 200);
 
     private final String message;
     private final int status;

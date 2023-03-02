@@ -1,13 +1,13 @@
-package com.sparta.soomtut.chat.service;
+package com.sparta.soomtut.chat.service.impl;
 
 import com.sparta.soomtut.chat.dto.ChatRoomResponse;
 import com.sparta.soomtut.chat.entity.ChatRoom;
 import com.sparta.soomtut.chat.repository.ChatRoomRepository;
+import com.sparta.soomtut.chat.service.ChatRoomService;
 import com.sparta.soomtut.lecture.service.LectureService;
-import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import com.sparta.soomtut.lectureRequest.service.LectureRequestService;
 import com.sparta.soomtut.member.service.MemberService;
-
+import com.sparta.soomtut.util.exception.CustomException;
 import com.sparta.soomtut.util.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,26 +21,38 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     private final ChatRoomRepository chatRoomRepository;
     private final MemberService memberService;
-    private final ChatService chatService;
     private final LectureService lectureService;
     private final LectureRequestService lectureRequestService;
 
-    // 새로운 채팅방 생성
-    @Override
-    public ChatRoomResponse createRoom(Long memberId, Long lectureRequestId) {
-        // 기존 채팅방이 있는지 없는지 확인.
-        if(!chatRoomRepository.existsByLectureRequestId(lectureRequestId)){
-            new IllegalArgumentException(ErrorCode.NOT_FOUND_CHATROOM.getMessage());
-        }
-        LectureRequest lectureRequest = lectureRequestService.getLectureRequestById(lectureRequestId);
-        ChatRoom chatRoom = ChatRoom.of(lectureRequest);
-        chatRoomRepository.save(chatRoom);
 
-        return ChatRoomResponse.of(chatRoom
-                , memberService.getMemberInfoResponseDto(chatRoom.getTuteeId())
-                , memberService.getMemberInfoResponseDto(chatRoom.getTutorId())
-                ,chatService.getAllChatMessages(chatRoom.getId())
-                ,lectureService.getLecture(chatRoom.getLectureId())
+    @Override
+    public ChatRoomResponse getChatRoom(Long tuteeId, Long lectureRequestId) {
+        ChatRoom chatRoom;
+        if(chatRoomRepository.existsByLectureRequestId(lectureRequestId)) {
+            chatRoom = getChatRoomByTuteeIdAndLectureRequestId(tuteeId, lectureRequestId);
+        }
+        else {
+            chatRoom = createChatRoom(tuteeId, lectureRequestId);
+        }
+        
+        return ChatRoomResponse.of(chatRoom, 
+                                   memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()), 
+                                   memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
+                                   lectureService.getLecture(chatRoom.getLectureId()));
+    }
+    
+    @Transactional
+    private ChatRoom createChatRoom(Long tuteeId, Long lectureRequestId) {
+        var lectureRequest = lectureRequestService.getLectureRequestById(lectureRequestId);
+        ChatRoom chatRoom = ChatRoom.of(lectureRequest);
+        return chatRoomRepository.save(chatRoom);
+        
+    }
+
+    @Transactional(readOnly = true)
+    private ChatRoom getChatRoomByTuteeIdAndLectureRequestId(Long tuteeId, Long lectureRequestId) {
+        return chatRoomRepository.findByTuteeIdAndLectureRequestId(tuteeId, lectureRequestId).orElseThrow(
+            () -> new CustomException(ErrorCode.NOT_FOUND_CHATROOM)
         );
     }
 
@@ -53,7 +65,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         return chatRoomList.map(chatRoom -> ChatRoomResponse.of(chatRoom,
                 memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
                 memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
-                chatService.getAllChatMessages(chatRoom.getId()),
                 lectureService.getLecture(chatRoom.getLectureId())));
     }
 
