@@ -12,6 +12,7 @@ import com.sparta.soomtut.location.service.LocationService;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.util.enums.LectureState;
 import com.sparta.soomtut.util.response.ErrorCode;
+import com.sparta.soomtut.util.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -112,5 +113,29 @@ public class LectureRequestServiceImpl implements LectureRequestService{
         return lectureRequestRepository.findAllByTuteeIdByAndStateIsDone(tuteeId, pageable);
     }
 
+    @Override
+    @Transactional(readOnly=true)
+    public boolean existsLectureRequestByStateIsNotComplete(Long memberId, Long lectureId) {
+        if(existsLectureRequestByMemberIdAndLectureId(memberId, lectureId, LectureState.NONE) ||
+        existsLectureRequestByMemberIdAndLectureId(memberId, lectureId, LectureState.IN_PROGRESS))
+            return true;
 
+        return false;
+    }
+
+    private boolean existsLectureRequestByMemberIdAndLectureId(Long memberId, Long lectureId, LectureState lectureState) {
+        return lectureRequestRepository.existsByTuteeIdAndLectureIdAndLectureState(memberId, lectureId, lectureState);
+    }
+
+    @Override
+    @Transactional(readOnly=true)
+    public LecReqResponseDto getLectureRequestByStateIsNotComplete(Long memberId, Long lectureId) {
+        LectureRequest lecreq = getLectureRequestByTuteeIdAndLectureIdAndLectureState(memberId, lectureId);
+        return LecReqResponseDto.of(lecreq.getId(), lecreq.getLecture(), lecreq.getTuteeId(), lecreq.getReviewFilter());
+    }
+
+    private LectureRequest getLectureRequestByTuteeIdAndLectureIdAndLectureState(Long memberId, Long lectureId) {
+        return lectureRequestRepository.findByTuteeIdAndLectureIdAndLectureStateIsNotDone(memberId, lectureId)
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_LECTURE_REQUEST));
+    }
 }

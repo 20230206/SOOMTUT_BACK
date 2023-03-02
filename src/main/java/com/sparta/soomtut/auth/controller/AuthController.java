@@ -22,6 +22,7 @@ import com.sparta.soomtut.util.cookies.RefreshCookie;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.response.ToResponse;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -51,7 +52,7 @@ public class AuthController {
     )
     {
         var data = authService.register(requestDto);
-        return ToResponse.of(data, SuccessCode.LOGIN_OK);
+        return ToResponse.of(data, SuccessCode.AUTH_REGISTER_OK);
     }
 
     @GetMapping(value = "/register/check")

@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -19,24 +18,24 @@ public class ChatRoomResponse {
 
     private MemberInfoResponse tutor;
 
-    private List<ChatResponseDto> chats;
-
     private LectureResponseDto lecture;
+
+    private Long lecreqId;
 
     private LocalDateTime createdAt;
     private ChatRoomResponse(
             Long id,
             MemberInfoResponse tutee,
             MemberInfoResponse tutor,
-            List<ChatResponseDto> chats,
             LocalDateTime createdAt,
+            Long lecreqId,
             LectureResponseDto lecture ) {
 
         this.id = id;
         this.tutee = tutee;
         this.tutor = tutor;
-        this.chats = chats;
         this.createdAt = createdAt;
+        this.lecreqId = lecreqId;
         this.lecture = lecture;
     }
 
@@ -44,14 +43,14 @@ public class ChatRoomResponse {
             ChatRoom chatRoom,
             MemberInfoResponse tutee,
             MemberInfoResponse tutor,
-            List<ChatResponseDto> chats,
-            LectureResponseDto lecture){
+            LectureResponseDto lecture,
+            Long lecreqId){
         return new ChatRoomResponse(
                 chatRoom.getId(),
                 tutee,
                 tutor,
-                chats,
                 chatRoom.getCreatedAt(),
+                lecreqId,
                 lecture
         );
     }
