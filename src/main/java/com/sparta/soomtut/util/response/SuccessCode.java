@@ -46,7 +46,7 @@ public enum SuccessCode {
     
     IMG_PROFILE_OK("프로필 업로드 성공", 200),
 
-    IMG_POSTIMG_OK("강의글 이미지 업로드 성공", 200);
+    IMG_LECTUREIMG_OK("강의글 이미지 업로드 성공", 200);
 
     private final String message;
     private final int status;

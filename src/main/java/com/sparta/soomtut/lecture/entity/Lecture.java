@@ -40,9 +40,9 @@ public class Lecture {
     private int favorite;
 
 
-    public Lecture(CreateLectureRequestDto postRequestDto, Member member) {
+    public Lecture(CreateLectureRequestDto postRequestDto,String filePath, Member member) {
       this.title = postRequestDto.getTitle();
-      this.image = postRequestDto.getImage();
+      this.image = filePath;
       this.content = postRequestDto.getContent();
       this.fee = postRequestDto.getFee();
       this.categoryId = postRequestDto.getCategory();

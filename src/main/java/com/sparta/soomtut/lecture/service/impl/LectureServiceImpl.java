@@ -20,11 +20,16 @@ import com.sparta.soomtut.location.service.LocationService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,10 +37,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LectureServiceImpl implements LectureService {
 
+    @Value("${cloud.aws.s3.postdir}")
+    private String postdir;
     private final LectureRepository lectureRepository;
     private final LocationService locationService;
     private final CategoryRepository categoryRepository;
     private final LectureRequestRepository lectureRequestRepository;
+    public static final String CLOUD_FRONT_DOMAIN_NAME = "https://d14tc44lwo36do.cloudfront.net/";
 
     // 수업 아이디로 수업 하나 찾아옴
 
@@ -50,8 +58,10 @@ public class LectureServiceImpl implements LectureService {
     // 게시글 작성
     @Override
     @Transactional
-    public LectureResponseDto createLecture(Member member, CreateLectureRequestDto lectureRequestDto) {
-        Lecture lecture = new Lecture(lectureRequestDto, member);
+    public LectureResponseDto createLecture(Member member, CreateLectureRequestDto lectureRequestDto, MultipartFile file) {
+        SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
+        String fileName = postdir + "/" + date.format(new Date()) + "-" + file.getOriginalFilename();
+        Lecture lecture = new Lecture(lectureRequestDto,CLOUD_FRONT_DOMAIN_NAME + fileName, member);
         lectureRepository.save(lecture);
         return new LectureResponseDto(lecture, locationService.findMemberLocation(member.getId()));
     }
