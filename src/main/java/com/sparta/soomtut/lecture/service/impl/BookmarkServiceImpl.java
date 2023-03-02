@@ -37,10 +37,10 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Transactional
     @Override
     public LectureResponseDto findFavPost(Long id){
-        Lecture post = postService.getLectureById(id);
-        Bookmark favMemberPost = favMemberPostRepository.findByPostId(post.getId())
+        Lecture lecture = postService.getLectureById(id);
+        Bookmark favMemberPost = favMemberPostRepository.findByLectureId(lecture.getId())
                 .orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_FAVPOST.getMessage()));
-        return new LectureResponseDto(favMemberPost.getPost());
+        return new LectureResponseDto(favMemberPost.getLecture());
     }
 
     //즐겨찾기 전체 조회
@@ -49,7 +49,7 @@ public class BookmarkServiceImpl implements BookmarkService {
     public Page<LectureResponseDto> getLecturesByBookmarked(Pageable pageable, Member member){
         // PageRequest pageables = PageRequest.of(reqeust.getPage(), 5);
         Page<Bookmark> favlist = favMemberPostRepository.findAllByMemberIdAndStatusIsTrue(member.getId(), pageable);
-        return favlist.map((item) -> new LectureResponseDto(item.getPost()));
+        return favlist.map((item) -> new LectureResponseDto(item.getLecture()));
     }
     
 
@@ -76,20 +76,20 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     //즐겨찾기 추가
     @Transactional
-    public Bookmark createFavPost(Lecture post, Member member){
-        return favMemberPostRepository.save(Bookmark.builder().post(post).member(member).build());
+    public Bookmark createFavPost(Lecture lecture, Member member){
+        return favMemberPostRepository.save(Bookmark.builder().lecture(lecture).member(member).build());
     }
 
     //글과 멤버의 값을 가지고 있다면 true 아니라면 false 용도의 함수
     @Transactional(readOnly = true)
-    public boolean hasFavPost(Long postId, Member member){
+    public boolean hasFavPost(Long lectureId, Member member){
         //Optional 값을 가지고 있다면 ture 아니면 false ->existsBy로 변경
-        return favMemberPostRepository.existsByPostIdAndMemberId(postId, member.getId()); 
+        return favMemberPostRepository.existsByLectureIdAndMemberId(lectureId, member.getId());
     }
 
     @Transactional(readOnly = true)
-    private Bookmark findByPostIdAndMemberId(Long postId, Long memberId) {
-        return favMemberPostRepository.findByPostIdAndMemberId(postId, memberId).orElseThrow(
+    public Bookmark findByPostIdAndMemberId(Long lectureId, Long memberId) {
+        return favMemberPostRepository.findByLectureIdAndMemberId(lectureId, memberId).orElseThrow(
             () -> new IllegalArgumentException("로그가 존재하지 않습니다.")
         );
     }

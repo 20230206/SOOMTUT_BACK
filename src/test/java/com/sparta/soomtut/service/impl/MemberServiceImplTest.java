@@ -5,6 +5,7 @@ import com.sparta.soomtut.lecture.service.impl.LectureServiceImpl;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.member.entity.Member;
+import com.sparta.soomtut.member.repository.MemberRepository;
 import com.sparta.soomtut.member.service.impl.MemberServiceImpl;
 import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.review.repository.ReviewRepository;
@@ -36,8 +37,7 @@ class MemberServiceImplTest {
     LocationServiceImpl locationService;
 
     @Mock
-    LectureRequestRepository lectureRequestRepository;
-
+    MemberRepository memberRepository;
     @InjectMocks
     MemberServiceImpl memberService;
 
@@ -52,10 +52,11 @@ class MemberServiceImplTest {
     void updateNickname() {
 
         Member member = new Member("user@user.com","asd12345","user1");
-
-        var msg = memberService.updateNickname("new nickname", member);
-
-        assertThat(member.getNickname()).isEqualTo("new nickname");
+        given(memberRepository.findById(anyLong())).willReturn(Optional.ofNullable(member));
+        Member foundMember = memberService.getMemberById(anyLong());
+        foundMember.updateNickName("수정");
+        //given(locationService.findMemberLocation(anyLong())).willReturn(mock(Location.class));
+        assertThat(foundMember.getNickname()).isEqualTo("수정");
 
     }
 
