@@ -26,7 +26,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
 
     @Override
-    public ChatRoomResponse getChatRoom(Long tuteeId, Long lectureRequestId) {
+    public ChatRoomResponse getChatRoomForTutee(Long tuteeId, Long lectureRequestId) {
         ChatRoom chatRoom;
         if(chatRoomRepository.existsByLectureRequestId(lectureRequestId)) {
             chatRoom = getChatRoomByTuteeIdAndLectureRequestId(tuteeId, lectureRequestId);
@@ -38,7 +38,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         return ChatRoomResponse.of(chatRoom, 
                                    memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()), 
                                    memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
-                                   lectureService.getLecture(chatRoom.getLectureId()));
+                                   lectureService.getLecture(chatRoom.getLectureId()),
+                                   chatRoom.getLectureRequest().getId());
     }
     
     @Transactional
@@ -56,6 +57,23 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         );
     }
 
+    @Override
+    public ChatRoomResponse getChatRoomForTutor(Long tutorId, Long lectureRequestId) {
+        ChatRoom chatRoom = getChatRoomByTutorIdAndLectureRequestId(tutorId, lectureRequestId);
+        return ChatRoomResponse.of(chatRoom, 
+                                    memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()), 
+                                    memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
+                                    lectureService.getLecture(chatRoom.getLectureId()),
+                                    chatRoom.getLectureRequest().getId());
+    }
+
+    @Transactional(readOnly=true)
+    private ChatRoom getChatRoomByTutorIdAndLectureRequestId(Long tutorId, Long lectureRequestId) {
+        return chatRoomRepository.findByTutorIdAndLectureRequestId(tutorId, lectureRequestId)
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_CHATROOM));
+    }
+
+
     // 채팅방 여러개 가져오기
     @Override
     @Transactional(readOnly = true)
@@ -65,7 +83,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         return chatRoomList.map(chatRoom -> ChatRoomResponse.of(chatRoom,
                 memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
                 memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
-                lectureService.getLecture(chatRoom.getLectureId())));
+                lectureService.getLecture(chatRoom.getLectureId()),
+                chatRoom.getLectureRequest().getId()));
     }
 
     // 지원 함수

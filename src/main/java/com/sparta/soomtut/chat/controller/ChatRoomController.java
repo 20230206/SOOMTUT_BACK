@@ -18,12 +18,22 @@ public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
 
-    @PostMapping("/{lectureRequestId}")
-    public ResponseEntity<?> getChatRoom(
+    @PostMapping("/{lectureRequestId}/tutee")
+    public ResponseEntity<?> getChatRoomForTutee(
         @AuthenticationPrincipal UserDetailsImpl userDetails,
         @PathVariable Long lectureRequestId
     ) {
-        var date = chatRoomService.getChatRoom(userDetails.getMemberId(), lectureRequestId);
+        var date = chatRoomService.getChatRoomForTutee(userDetails.getMemberId(), lectureRequestId);
+        // 성공 메시지 바꿔야함.
+        return ToResponse.of(date, SuccessCode.CHATROOM_GET_OK);
+    }
+    
+    @PostMapping("/{lectureRequestId}/tutor")
+    public ResponseEntity<?> getChatRoomForTutor(
+        @AuthenticationPrincipal UserDetailsImpl userDetails,
+        @PathVariable Long lectureRequestId
+    ) {
+        var date = chatRoomService.getChatRoomForTutor(userDetails.getMemberId(), lectureRequestId);
         // 성공 메시지 바꿔야함.
         return ToResponse.of(date, SuccessCode.CHATROOM_GET_OK);
     }

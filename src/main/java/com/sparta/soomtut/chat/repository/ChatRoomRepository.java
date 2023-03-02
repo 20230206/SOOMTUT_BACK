@@ -24,6 +24,7 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 
 
     Optional<ChatRoom> findByTuteeIdAndLectureRequestId(Long TuteeId, Long LectureRequestId);
+    Optional<ChatRoom> findByTutorIdAndLectureRequestId(Long tutorId, Long lectureRequestId);
 }
 
 
