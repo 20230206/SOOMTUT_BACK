@@ -29,8 +29,8 @@ public class LectureRequestController {
             @PathVariable Long lectureid,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        LecReqResponseDto application = lectureRequestService.createLectureRequest(lectureid, userDetails.getMemberId());
-        return ToResponse.of(application, SuccessCode.LECTUREREQUEST_CREATE_OK);
+        var data = lectureRequestService.createLectureRequest(lectureid, userDetails.getMemberId());
+        return ToResponse.of(data, SuccessCode.LECTUREREQUEST_CREATE_OK);
     }
 
     // 수업 확정
@@ -53,6 +53,26 @@ public class LectureRequestController {
         return ToResponse.of(complete, SuccessCode.LECTUREREQUEST_COMPLETE_OK);
     }
 
+    // 수업 신청 중 완료가 안된 신청이 있는지 조회
+    @GetMapping("/{lectureId}/existsLectureRequest") 
+    public ResponseEntity<?> existsLectureRequest(
+        @AuthenticationPrincipal UserDetailsImpl userDetails,
+        @PathVariable Long lectureId
+    )
+    {
+        var data = lectureRequestService.existsLectureRequestByStateIsNotComplete(userDetails.getMemberId(), lectureId);
+        return ToResponse.of(data, SuccessCode.LECTUREREQUEST_ISEXISTS_OK);
+    }
+
+    @GetMapping("/{lectureId}") 
+    public ResponseEntity<?> getLectureRequest(
+        @AuthenticationPrincipal UserDetailsImpl userDetails,
+        @PathVariable Long lectureId
+    )
+    {
+        var data = lectureRequestService.getLectureRequestByStateIsNotComplete(userDetails.getMemberId(), lectureId);
+        return ToResponse.of(data, SuccessCode.LECTUREREQUEST_GET_OK);
+    }
 
     // TODO: 제 생각에, 아래 3개 메서드는 Lecture 로 가야하는 게 맞는 것 같습니다. 그리고 서비스단은 boardService 로!
     // 수업 신청 목록 조회
@@ -76,7 +96,7 @@ public class LectureRequestController {
         return ToResponse.of(data, SuccessCode.LECTURE_GETDONELECUTES_OK);
     }
 
-    //완료된 수업중 리뷰작성이 안된 수업조회
+    // 완료된 수업중 리뷰작성이 안된 수업조회
     @GetMapping("/reviewfilter")
     public ResponseEntity<?> reviewFilter(
             @AuthenticationPrincipal UserDetailsImpl userDetails,

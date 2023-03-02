@@ -52,7 +52,7 @@ public class AuthController {
     )
     {
         var data = authService.register(requestDto);
-        return ToResponse.of(data, SuccessCode.LOGIN_OK);
+        return ToResponse.of(data, SuccessCode.AUTH_REGISTER_OK);
     }
 
     @GetMapping(value = "/register/check")

@@ -9,6 +9,7 @@ public enum SuccessCode {
 
     // auth responses
     LOGIN_OK("로그인에 성공하였습니다", 200),
+    AUTH_REGISTER_OK("회원가입에 성공했습니다", 203),
     MESSGE_OK("메세지가 전달 되었습니다", 200),
     REGISTER_CHECK_OK("회원가입-유효성 검사에 성공하였습니다", 200),
     LOGOUT_OK("로그아웃에 성공하였습니다", 200),
@@ -37,6 +38,8 @@ public enum SuccessCode {
     LECTUREREQUEST_ACCEPT_OK("수업 확정 성공", 200),
     LECTUREREQUEST_COMPLETE_OK("수업 완료 성공", 200),
     LECTUREREQUEST_GETREQUESTS_OK("수업 목록 조회 성공", 200),
+    LECTUREREQUEST_ISEXISTS_OK("완료되지 않은 수업 신청 있는지 조회 성공", 200),
+    LECTUREREQUEST_GET_OK("수업 신청 조회 성공", 200),
     
     REVIEW_CREATE_OK("리뷰 생성 성공", 200),
     REVIEW_GET_OK("리뷰 조회 성공", 200),
