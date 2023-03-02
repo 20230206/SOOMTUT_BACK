@@ -1,5 +1,6 @@
 package com.sparta.soomtut.lecture.controller;
 
+import com.sparta.soomtut.image.service.S3Service;
 import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
@@ -17,6 +18,9 @@ import com.sparta.soomtut.lecture.service.impl.BoardServiceImpl;
 import com.sparta.soomtut.util.dto.request.PageRequestDto;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.response.ToResponse;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 import java.util.List;
 
@@ -27,15 +31,19 @@ public class LectureController {
     private final LectureService lectureService;
     private final BoardServiceImpl boardService;
     private final BookmarkService favMemberPostService;
+    private final S3Service s3Service;
     
     // 수업 등록
     @PostMapping
     public ResponseEntity<?> createLecture(
-        @RequestBody CreateLectureRequestDto postRequestDto,
-        @AuthenticationPrincipal UserDetailsImpl userDetails)
+        @RequestPart CreateLectureRequestDto postRequestDto,
+        @AuthenticationPrincipal UserDetailsImpl userDetails,
+        @RequestPart("file") MultipartFile file) throws IOException
     {
-        var data = lectureService.createLecture(userDetails.getMember(), postRequestDto);
-        return ToResponse.of(data, SuccessCode.LECTURE_CREATE_OK);
+        var data = lectureService.createLecture(userDetails.getMember(), postRequestDto,file);
+        ToResponse.of(data, SuccessCode.LECTURE_CREATE_OK);
+        var fullData = s3Service.uploadLectureImage(data.getLectureId(),file);
+        return ToResponse.of(null, SuccessCode.IMG_LECTUREIMG_OK);
     }
 
     // 수업 수정
