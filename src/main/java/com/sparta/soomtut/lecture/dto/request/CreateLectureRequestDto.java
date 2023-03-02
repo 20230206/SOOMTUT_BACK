@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class CreateLectureRequestDto {
     private String title;
-    private String image;
+    private String imgPath;
     private String content;
     private int category;
     private int fee;
