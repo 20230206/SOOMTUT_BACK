@@ -18,6 +18,8 @@ import com.sparta.soomtut.util.dto.request.PageRequestDto;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.response.ToResponse;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/lecture")
@@ -133,5 +135,18 @@ public class LectureController {
         @ModelAttribute PageRequestDto pageRequestDto,
         @RequestParam String keyword){
         return lectureService.searchByKeyword(keyword,pageRequestDto.toPageable());
+    }
+
+    //특정 회원 수업 모두 조회
+    @GetMapping(value ="/{memberId}/all")
+    public ResponseEntity<?> getMemberLecture(
+            @PathVariable Long memberId,
+            @RequestParam(required = false, value = "category") int category,
+            @ModelAttribute PageRequestDto pageRequestDto
+
+    )
+    {
+        Page<LectureResponseDto> data = lectureService.getMemberLecture(category,memberId,pageRequestDto.toPageable());
+        return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURES_OK);
     }
 }

@@ -35,6 +35,8 @@ public interface LectureService {
     Page<Lecture> getAllLectureByMemberId(Long memberId, Pageable pageable);
     Page<Lecture> getLectures(Pageable pageable);
     Page<Lecture> getLectures(int category, Pageable pageable);
+    Page<LectureResponseDto> getMemberLecture(int category,Long memberId,Pageable pageable);
+    Page<Lecture> getMemberLectures(int category,Long memberId,Pageable pageable);
 
     Page<LectureResponseDto> searchByKeyword(String keyword,Pageable pageable);
 
