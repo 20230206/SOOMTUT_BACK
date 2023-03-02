@@ -3,7 +3,6 @@ package com.sparta.soomtut.chat.dto;
 import com.sparta.soomtut.chat.entity.ChatRoom;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
-import com.sparta.soomtut.lectureRequest.dto.LecReqResponseDto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
