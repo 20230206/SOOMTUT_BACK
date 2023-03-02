@@ -25,7 +25,7 @@ public interface LectureService {
 
     boolean checkLectureAuthor(Long postId, Member member);
 
-    List<Lecture> getCompleteLecture(Member member);
+
     //Page<Post> getReviewFilter(PageRequestDto pageRequestDto, Member member);
 
     Lecture getLectureById(Long lectureId);
@@ -35,6 +35,8 @@ public interface LectureService {
     Page<Lecture> getAllLectureByMemberId(Long memberId, Pageable pageable);
     Page<Lecture> getLectures(Pageable pageable);
     Page<Lecture> getLectures(int category, Pageable pageable);
+    Page<LectureResponseDto> getMemberLecture(int category,Long memberId,Pageable pageable);
+    Page<Lecture> getMemberLectures(int category,Long memberId,Pageable pageable);
 
     Page<LectureResponseDto> searchByKeyword(String keyword,Pageable pageable);
 

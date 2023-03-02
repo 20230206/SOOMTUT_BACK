@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public interface MemberService {
 
-    String updateNickname(String nickname, Member member);
+    MemberInfoResponse updateNickname(String nickname, Member member);
     String getNickname(Member member);
     String getLocation(Member member);
 

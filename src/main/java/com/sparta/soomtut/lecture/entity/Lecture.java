@@ -76,4 +76,8 @@ public class Lecture {
         return member.getNickname();
     }
 
+    public void updateLectureImage(String filePath) {
+        this.image = filePath;
+    }
+
 }

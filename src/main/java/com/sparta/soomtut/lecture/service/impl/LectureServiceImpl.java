@@ -42,6 +42,21 @@ public class LectureServiceImpl implements LectureService {
         return new LectureResponseDto(lecture, locationService.findMemberLocation(lecture.getTutorId()));
     }
 
+    @Override
+    @Transactional
+    public Page<LectureResponseDto> getMemberLecture(int category,Long memberId,Pageable pageable) {
+
+        if(category == 0 ){
+            Page<Lecture> lectures = this.getAllLectureByMemberId(memberId,pageable);
+            return lectures.map(item -> new LectureResponseDto(item));
+        }
+        else {
+            Page<Lecture> lectures = this.getMemberLectures(category, memberId,pageable);
+            return lectures.map(item -> new LectureResponseDto(item));
+        }
+
+    }
+
     // 게시글 작성
     @Override
     @Transactional
@@ -111,15 +126,6 @@ public class LectureServiceImpl implements LectureService {
     }
 
 
-    // 완료한 수업 목록 조회
-    @Override
-    @Transactional
-    public List<Lecture> getCompleteLecture(Member member) {
-        List<LectureRequest> lectureRequestList = lectureRequestRepository.findAllByTuteeIdAndLectureState(member.getId(), LectureState.DONE);
-        List<Lecture> postList = lectureRequestList.stream().map((item) -> item.getLecture()).collect(Collectors.toList());
-        return postList;
-    }
-
 
     @Override
     @Transactional(readOnly = true) 
@@ -136,6 +142,12 @@ public class LectureServiceImpl implements LectureService {
     @Transactional(readOnly = true) 
     public Page<Lecture> getLectures(int category, Pageable pageable){
         return lectureRepository.findAllByCategory(Category.valueOf(category), pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Lecture> getMemberLectures(int category,Long memberId ,Pageable pageable){
+        return lectureRepository.findAllByCategoryAndMemberId(Category.valueOf(category),memberId, pageable);
     }
 
     @Override
