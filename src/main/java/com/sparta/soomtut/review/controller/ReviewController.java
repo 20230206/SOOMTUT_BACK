@@ -27,8 +27,8 @@ public class ReviewController {
         
     private final MemberService memberService;
 
-    // 리뷰 생성
-    @PostMapping(value = "/{lectureid}")
+    // 리뷰 생성 - 리뷰 삭제랑 겹쳐서 임시로 create 넣어둠.
+    @PostMapping(value = "/create/{lectureid}")
     public ResponseEntity<?> createReview(
             @PathVariable Long lectureid,
             @RequestBody CreateReviewRequestDto reviewRequestDto,
@@ -61,15 +61,6 @@ public class ReviewController {
         String msg = memberService.deleteReviewRequest(reviewId);
         return ToResponse.of(msg, SuccessCode.REVIEW_DELETE_OK);
     }
-    
-//    // 후기(작성/미작성) 수업 조회
-//    @GetMapping(value = "/reviewFilter")
-//    public Page<Post> getReviewFilter(
-//            @ModelAttribute PageRequestDto pageRequest,
-//            @AuthenticationPrincipal UserDetailsImpl userDetails
-//    ){
-//        return postService.getReviewFilter(pageRequest, userDetails.getMember());
-//    }
 
     // 게시된 강의의 리뷰 조회
     @GetMapping(value = "/{lectureid}")
@@ -87,3 +78,17 @@ public class ReviewController {
         return ToResponse.of(null, SuccessCode.REVIEW_GETBYMEMBER_OK);
     }
 }
+
+
+
+
+
+
+//    // 후기(작성/미작성) 수업 조회
+//    @GetMapping(value = "/reviewFilter")
+//    public Page<Post> getReviewFilter(
+//            @ModelAttribute PageRequestDto pageRequest,
+//            @AuthenticationPrincipal UserDetailsImpl userDetails
+//    ){
+//        return postService.getReviewFilter(pageRequest, userDetails.getMember());
+//    }

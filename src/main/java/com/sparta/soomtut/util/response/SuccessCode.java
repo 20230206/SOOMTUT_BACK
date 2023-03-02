@@ -44,7 +44,9 @@ public enum SuccessCode {
     REVIEW_GETBYLECTURE_OK("강의의 리뷰 조회 성공", 200),
     REVIEW_GETBYMEMBER_OK("해당 유저의 리뷰 조회 성공", 200),
     
-    IMG_PROFILE_OK("프로필 업로드 성공", 200);
+    IMG_PROFILE_OK("프로필 업로드 성공", 200),
+
+    IMG_POSTIMG_OK("강의글 이미지 업로드 성공", 200);
 
     private final String message;
     private final int status;

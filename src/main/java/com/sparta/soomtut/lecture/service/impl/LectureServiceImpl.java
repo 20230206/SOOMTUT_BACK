@@ -126,15 +126,6 @@ public class LectureServiceImpl implements LectureService {
     }
 
 
-    // 완료한 수업 목록 조회
-    @Override
-    @Transactional
-    public List<Lecture> getCompleteLecture(Member member) {
-        List<LectureRequest> lectureRequestList = lectureRequestRepository.findAllByTuteeIdAndLectureState(member.getId(), LectureState.DONE);
-        List<Lecture> postList = lectureRequestList.stream().map((item) -> item.getLecture()).collect(Collectors.toList());
-        return postList;
-    }
-
 
     @Override
     @Transactional(readOnly = true) 
