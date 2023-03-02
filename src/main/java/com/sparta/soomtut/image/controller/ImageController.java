@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class ImageController {
     private final S3Service s3Service;
 
-    //마이페이지 이미지 업로드
+    //마이페이지 이미지 최초 업로드 및 수정
     @PostMapping(value = "/member")
     public ResponseEntity<?> profileImage(
         @AuthenticationPrincipal UserDetailsImpl userDetails,
@@ -34,13 +34,13 @@ public class ImageController {
         return ToResponse.of(null, SuccessCode.IMG_PROFILE_OK);
     }
 
-     //수업글 이미지 업로드
-     @PostMapping("/lecture")
-     public ResponseEntity<?> postImage(
-             @AuthenticationPrincipal UserDetailsImpl userDetails,
+     //수업글 이미지 수정용
+     @PostMapping("/lecture/{lectureId}")
+     public ResponseEntity<?> lectureImage(
+             @PathVariable(value = "lectureId") Long id,
              @RequestParam("file") MultipartFile file) throws IOException
      {
-         String imgPath = s3Service.uploadLectureImage(userDetails.getMemberId(), file);
-         return ToResponse.of(null, SuccessCode.IMG_PROFILE_OK);
+         String imgPath = s3Service.uploadLectureImage(id, file);
+         return ToResponse.of(null, SuccessCode.IMG_LECTUREIMG_OK);
      }
 }
