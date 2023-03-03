@@ -15,32 +15,27 @@ public class Lecture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column
     private String image;
-
     @Column(nullable = false)
     private String title;
-
     @Column(nullable = false)
     private String content;
-
     @Column(nullable = false)
     private int fee;
-
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
-
     @Column
     private Category category;
-
-    //즐겨찾기 수
     @Column(nullable = true)
     private int favorite = 0;
 
-
-    public Lecture(CreateLectureRequestDto postRequestDto,String filePath, Member member) {
+    public Lecture(
+            CreateLectureRequestDto postRequestDto,
+            String filePath,
+            Member member)
+    {
       this.title = postRequestDto.getTitle();
       this.image = filePath;
       this.content = postRequestDto.getContent();

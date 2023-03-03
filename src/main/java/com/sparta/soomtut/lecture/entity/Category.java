@@ -31,4 +31,5 @@ public enum Category {
                         .filter(item -> item.getValue() == value)
                         .findFirst().orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_OUTOFINDEX));
     }
+
 }

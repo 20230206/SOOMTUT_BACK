@@ -15,16 +15,13 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 
     Page<ChatRoom> findAllByTuteeIdOrTutorId(Long tuteeId, Long tutorId, Pageable pageable);
     Optional<ChatRoom> findByLectureRequest(LectureRequest lectureRequest);
-
     @Query("SELECT c FROM ChatRoom c WHERE c.lectureRequest.id = :lectureRequestId")
     ChatRoom findByLectureRequestId(@Param("lectureRequestId") Long lectureRequestId);
-
     @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM ChatRoom c WHERE c.lectureRequest.id = :lectureRequestId")
     boolean existsByLectureRequestId(@Param("lectureRequestId") Long lectureRequestId);
-
-
     Optional<ChatRoom> findByTuteeIdAndLectureRequestId(Long TuteeId, Long LectureRequestId);
     Optional<ChatRoom> findByTutorIdAndLectureRequestId(Long tutorId, Long lectureRequestId);
+
 }
 
 
