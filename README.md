@@ -6,6 +6,22 @@
 - 박상훈
 - 이은섭
 - 임동규
+- 
+## 서비스 및 프로젝트 소개 
+
+## 프로젝트 목표 
+## 사용 기술 및 개발 환경
 
 ## 서비스 아키텍처
 ![image](https://user-images.githubusercontent.com/79249838/222732859-05e28a84-8bb8-4ecf-9162-e5482a3cf939.png)
+
+##  Git-Flow 브랜치 전략
+
+
+## 화면 구성도
+## ERD 구조
+## Technical Issue
+- 예시 : https://github.com/f-lab-edu/Hello-World/wiki/04-Issues-&-Resolutions-(Blogs)
+## 기능 정의 
+- 예시 : https://github.com/f-lab-edu/Hello-World/wiki/01-Use-Case
+## 
