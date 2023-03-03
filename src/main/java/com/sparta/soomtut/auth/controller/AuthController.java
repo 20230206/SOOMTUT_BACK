@@ -25,31 +25,27 @@ import com.sparta.soomtut.util.response.ToResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
-@RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
+@RestController
 
 public class AuthController {
     private final MemberService memberService;
     private final AuthService authService;
-
     private static final String REFRESH_KEY = "refresh";
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(
-        @RequestBody LoginRequest requestDto
-    )
+        @RequestBody LoginRequest requestDto)
     {
         var data = authService.login(requestDto);
         var cookie = RefreshCookie.getCookie(data.getToken(), true);
-
         return ToResponse.of(data, cookie, SuccessCode.LOGIN_OK);
     }
 
     @PostMapping(value = "/register")
     public ResponseEntity<?> register(
-        @RequestBody RegisterRequest requestDto
-    )
+        @RequestBody RegisterRequest requestDto)
     {
         var data = authService.register(requestDto);
         return ToResponse.of(data, SuccessCode.AUTH_REGISTER_OK);
@@ -58,19 +54,22 @@ public class AuthController {
     @GetMapping(value = "/register/check")
     public ResponseEntity<?> checkduple (
         @RequestParam(required = false, value = "email") String email, 
-        @RequestParam(required = false, value = "nickname") String nickname
-    ) {
+        @RequestParam(required = false, value = "nickname") String nickname)
+    {
         boolean data = false;
-        if(nickname == null && email != null) { data = memberService.existsMemberByEmail(email); }
-        if(email == null && nickname != null) { data = memberService.existsMemberByNickname(nickname); }
+        if(nickname == null && email != null) {
+            data = memberService.existsMemberByEmail(email);
+        }
+        if(email == null && nickname != null) {
+            data = memberService.existsMemberByNickname(nickname);
+        }
 
         return ToResponse.of(data, SuccessCode.REGISTER_CHECK_OK);
     }
 
     @PostMapping(value = "/logout")
     public ResponseEntity<?> logout(
-        @CookieValue(name = REFRESH_KEY, required=false) String refresh
-    )
+        @CookieValue(name = REFRESH_KEY, required=false) String refresh)
     {   
         // TODO: refresh token을 black list 처리 할지 아직 정해지지 않음
         // redis 서버 이용하거나
@@ -83,7 +82,7 @@ public class AuthController {
 
     @GetMapping(value = "/get-accesstoken")
     public ResponseEntity<?> getAccessToken(
-        @CookieValue(name = REFRESH_KEY, required=false) String refresh) 
+        @CookieValue(name = REFRESH_KEY, required=false) String refresh)
     {
         if(refresh == null) return ResponseEntity.ok().body(false);
 
@@ -106,10 +105,10 @@ public class AuthController {
     @PutMapping(value="/oauth-updateinfo")
     public ResponseEntity<?> updateOAuthInfo(
         @RequestBody OAuthInfoRequest request,
-        @CookieValue(REFRESH_KEY) String refresh
-    ) 
+        @CookieValue(REFRESH_KEY) String refresh)
     {
         var data = authService.updateOAuthInfo(request, refresh);
         return ToResponse.of(data, SuccessCode.OAUTH_LOGIN_OK);
     }
+
 }

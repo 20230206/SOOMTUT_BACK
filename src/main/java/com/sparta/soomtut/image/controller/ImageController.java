@@ -18,9 +18,9 @@ import com.sparta.soomtut.util.response.ToResponse;
 
 import lombok.RequiredArgsConstructor;
 
-@RestController
 @RequestMapping("/image")
 @RequiredArgsConstructor
+@RestController
 public class ImageController {
     private final S3Service s3Service;
 
@@ -43,4 +43,5 @@ public class ImageController {
          String imgPath = s3Service.uploadLectureImage(id, file);
          return ToResponse.of(null, SuccessCode.IMG_LECTUREIMG_OK);
      }
+
 }

@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ImageRequest {
-
     private Long id;
     private String filePath;
 

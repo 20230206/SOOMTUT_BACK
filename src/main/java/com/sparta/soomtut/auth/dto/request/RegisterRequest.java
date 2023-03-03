@@ -15,8 +15,8 @@ public class RegisterRequest {
     private String nickname;
     private String email;
     private String password;
-
     private String address;
     private float vectorX;
     private float vectorY;
+
 }

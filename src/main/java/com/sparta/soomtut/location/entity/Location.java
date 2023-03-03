@@ -8,13 +8,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-// lombok
 @Getter
 @NoArgsConstructor
-
-// jpa
 @Entity
 public class Location {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -63,4 +61,5 @@ public class Location {
     public void updateAddress(String address) {
         this.address = address;
     }
+
 }

@@ -9,10 +9,10 @@ import com.sparta.soomtut.auth.entity.Auth;
 import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
 
 public interface AuthService {
+
     MemberInfoResponse register(RegisterRequest request);
     LoginResponse login(LoginRequest request);
     LoginResponse oauthLogin(OAuthLoginRequest request);
-
     String createAccessToken(String refresh);
     void saveAuth(Auth auth);
     MemberInfoResponse updateOAuthInfo(OAuthInfoRequest request, String refresh);

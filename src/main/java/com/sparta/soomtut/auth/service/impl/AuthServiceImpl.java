@@ -35,9 +35,7 @@ import lombok.RequiredArgsConstructor;
 // jpa
 @Service
 public class AuthServiceImpl implements AuthService {
-
     private final AuthRepository authRepository;
-
     private final MemberService memberService;
     private final LocationService locationService;
     private final PasswordEncoder passwordEncoder;
@@ -59,7 +57,6 @@ public class AuthServiceImpl implements AuthService {
             // email, password, nickname
         Member member = memberService.saveMember(Member.userDetailRegister().email(email).password(password).nickname(nickname).build());
         Location location = locationService.saveLocation(requestDto, member);
-
         return MemberInfoResponse.toDto(member, location);
     }
 
@@ -68,29 +65,25 @@ public class AuthServiceImpl implements AuthService {
     public LoginResponse login(LoginRequest requestDto) {
         String email = requestDto.getEmail();      
         String password = requestDto.getPassword();
-        
         Member member = memberService.getMemberByEmail(email);
 
-        if(!isMatchedPassword(password, member)) 
+        if(!isMatchedPassword(password, member))
             throw new CustomException(ErrorCode.INVALID_PASSWORD);
-
         String token = createRefreshToken(member.getEmail(), member.getMemberRole());
-        
         return LoginResponse.builder().state(member.getState()).token(token).build();
     }
 
     @Override
+    @Transactional
     public LoginResponse oauthLogin(OAuthLoginRequest request) {
         String email = request.getEmail();
         int hash = request.getHash();
-
         Auth auth = isValidOAuthLoginRequest(email, hash);
         MemberRole role = MemberRole.valueOf(request.getRole());
-        authRepository.delete(auth);
 
+        authRepository.delete(auth);
         String refresh = createRefreshToken(email, role);
 
-        
         return LoginResponse.builder().token(refresh).build();
     };
 
@@ -98,18 +91,19 @@ public class AuthServiceImpl implements AuthService {
         return passwordEncoder.matches(input, member.getPassword());
     }
 
-    @Transactional(readOnly = true)
+
     private Auth isValidOAuthLoginRequest(String email, int hash) {
         return authRepository.findByEmailAndHash(email, hash).orElseThrow(
-            () -> new CustomException(ErrorCode.LOGIN_FAILED)
-        );
+            () -> new CustomException(ErrorCode.LOGIN_FAILED));
     }
 
+    @Transactional
     public String createRefreshToken(String username, MemberRole role) {
         return jwtProvider.createToken(username, role, TokenType.REFRESH);
     }
     
     @Override
+    @Transactional
     public String createAccessToken(String refresh) { 
         if(!validToken(refresh)) throw new CustomException(ErrorCode.INVALID_TOKEN);
 
@@ -132,10 +126,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     // 토큰 동작
+
     private boolean validToken(String token) {
         return jwtProvider.validateToken(token);
     }
 
+    @Transactional
     public String createToken(String email, MemberRole role, TokenType type) {
         return jwtProvider.createToken(email, role, type);
     }
