@@ -33,7 +33,7 @@ public interface LectureRequestRepository extends JpaRepository<LectureRequest,L
     @Query("SELECT COUNT(lr) > 0 FROM LectureRequest lr WHERE lr.tuteeId = :tuteeId AND lr.lecture.id = :lectureId AND lr.lectureState = :lectureState")
     boolean existsByTuteeIdAndLectureIdAndLectureState(@Param("tuteeId") Long tuteeId, @Param("lectureId") Long lectureId, @Param("lectureState") LectureState lectureState);
 
-    @Query("SELECT lr FROM LectureRequest lr WHERE lr.tuteeId = :tuteeId AND lr.lecture.id = :lectureId AND lr.lectureState = 'NONE' OR lr.lectureState = 'IN_PROGRESS'")
+    @Query("SELECT lr FROM LectureRequest lr WHERE lr.tuteeId = :tuteeId AND lr.lecture.id = :lectureId AND (lr.lectureState = 'NONE' OR lr.lectureState = 'IN_PROGRESS')")
     Optional<LectureRequest> findByTuteeIdAndLectureIdAndLectureStateIsNotDone (@Param("tuteeId")Long tuteeId, @Param("lectureId")Long lectureId);
 
 }
