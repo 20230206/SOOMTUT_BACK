@@ -39,7 +39,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                                    memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()), 
                                    memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
                                    lectureService.getLecture(chatRoom.getLectureId()),
-                                   chatRoom.getLectureRequest().getId());
+                                   chatRoom.getLectureRequest());
     }
     
     @Transactional
@@ -64,7 +64,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                                     memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()), 
                                     memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
                                     lectureService.getLecture(chatRoom.getLectureId()),
-                                    chatRoom.getLectureRequest().getId());
+                                    chatRoom.getLectureRequest());
     }
 
     @Transactional(readOnly=true)
@@ -84,7 +84,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
                 memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
                 lectureService.getLecture(chatRoom.getLectureId()),
-                chatRoom.getLectureRequest().getId()));
+                chatRoom.getLectureRequest()));
     }
 
     // 지원 함수

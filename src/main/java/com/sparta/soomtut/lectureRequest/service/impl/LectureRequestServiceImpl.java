@@ -56,19 +56,18 @@ public class LectureRequestServiceImpl implements LectureRequestService{
 
     @Override
     @Transactional
-    public String lectureConfirmed(Long lectureRequestId, Member member) {
+    public LecReqResponseDto acceptLecture(Long lectureRequestId, Member member) {
         LectureRequest lectureRequest = getLectureRequestById(lectureRequestId);
         lectureRequest.changeConfirmed();
-        return "";
+        return LecReqResponseDto.of(lectureRequest.getId(), lectureRequest.getLecture(), lectureRequest.getTuteeId(), lectureRequest.getReviewFilter());
     }
 
     @Override
     @Transactional
-    public String lectureComplete(Long lectureRequestId, Member member) {
+    public LecReqResponseDto completeLecture(Long lectureRequestId, Member member) {
         LectureRequest lectureRequest = getLectureRequestById(lectureRequestId);
-
         lectureRequest.changeComplete();
-        return "";
+        return LecReqResponseDto.of(lectureRequest.getId(), lectureRequest.getLecture(), lectureRequest.getTuteeId(), lectureRequest.getReviewFilter());
     }
 
     // TODO: 객체 그 자체를 반환해주기보다 DTO 를 반환해주는 것이 좋습니다.

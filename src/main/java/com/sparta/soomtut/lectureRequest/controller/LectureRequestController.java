@@ -35,22 +35,22 @@ public class LectureRequestController {
 
     // 수업 확정
     @PostMapping("/{lecturerequestid}/accept")
-    public ResponseEntity<?> lectureConfirmed(
+    public ResponseEntity<?> acceptLecture(
         @PathVariable Long lecturerequestid,
         @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        String confiremd = lectureRequestService.lectureConfirmed(lecturerequestid, userDetails.getMember());
-        return ToResponse.of(confiremd, SuccessCode.LECTUREREQUEST_ACCEPT_OK);
+        var data = lectureRequestService.acceptLecture(lecturerequestid, userDetails.getMember());
+        return ToResponse.of(data, SuccessCode.LECTUREREQUEST_ACCEPT_OK);
     }
 
     // 수업 완료
-    @PutMapping("/{lecturerequestid}/complete")
-    public ResponseEntity<?> lectureComplete(
+    @PostMapping("/{lecturerequestid}/complete")
+    public ResponseEntity<?> complete(
         @PathVariable Long lecturerequestid,
         @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        String complete = lectureRequestService.lectureComplete(lecturerequestid, userDetails.getMember());
-        return ToResponse.of(complete, SuccessCode.LECTUREREQUEST_COMPLETE_OK);
+        var data = lectureRequestService.completeLecture(lecturerequestid, userDetails.getMember());
+        return ToResponse.of(data, SuccessCode.LECTUREREQUEST_COMPLETE_OK);
     }
 
     // 수업 신청 중 완료가 안된 신청이 있는지 조회

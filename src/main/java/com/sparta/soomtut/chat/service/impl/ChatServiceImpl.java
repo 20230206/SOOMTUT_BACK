@@ -1,9 +1,10 @@
-package com.sparta.soomtut.chat.service;
+package com.sparta.soomtut.chat.service.impl;
 
 import com.sparta.soomtut.chat.dto.ChatRequestDto;
 import com.sparta.soomtut.chat.dto.ChatResponseDto;
 import com.sparta.soomtut.chat.entity.ChatMessage;
 import com.sparta.soomtut.chat.repository.ChatMessageRepository;
+import com.sparta.soomtut.chat.service.ChatService;
 import com.sparta.soomtut.util.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
