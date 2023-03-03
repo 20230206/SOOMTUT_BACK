@@ -117,14 +117,15 @@ public class LectureController {
     }
 
     //즐겨찾기 추가 및 취소
-    @PostMapping(value = "/bookmark/{lectureid}")
+    @PostMapping(value = "/bookmark/{lectureId}")
     public ResponseEntity<?> updateBookmark(
             @PathVariable Long lectureid,
             @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        var data = favMemberPostService.updateBookmark(lectureid, userDetails.getMember());
+        var data = favMemberPostService.updateBookmark(lectureId, userDetails.getMember());
         return ToResponse.of(data, SuccessCode.LECTURE_UPDATEBOOKMARK_OK);
     }
+
     
     //즐겨찾기된 수업 전체 조회
     @GetMapping(value = "/bookmark")

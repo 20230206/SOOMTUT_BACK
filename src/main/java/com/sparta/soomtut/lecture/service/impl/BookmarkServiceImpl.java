@@ -49,7 +49,7 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Override
     public Page<LectureResponseDto> getLecturesByBookmarked(Pageable pageable, Member member) {
         Page<Bookmark> favlist = favMemberPostRepository.findAllByMemberIdAndStatusIsTrue(member.getId(), pageable);
-        return favlist.map((item) -> new LectureResponseDto(item.getPost()));
+        return favlist.map((item) -> new LectureResponseDto(item.getLecture()));
     }
 
     //즐겨찾기 업데이트
@@ -82,7 +82,7 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Transactional(readOnly = true)
     public boolean hasFavPost(Long postId, Member member) {
         //Optional 값을 가지고 있다면 ture 아니면 false ->existsBy로 변경
-        return favMemberPostRepository.existsByPostIdAndMemberId(postId, member.getId()); 
+        return favMemberPostRepository.existsByLectureIdAndMemberId(lectureId, member.getId());
     }
 
     @Transactional(readOnly = true)
