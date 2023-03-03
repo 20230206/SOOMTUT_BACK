@@ -22,7 +22,7 @@ public class DeleteReviewRequest {
     private Long reviewId;
 
     public DeleteReviewRequest(Review review) {
-        this.tutorId = review.getTutorId();
-        this.reviewId = review.getId();
+//        this.tutorId = review.getTutorId();
+//        this.reviewId = review.getId();
     }
 }
