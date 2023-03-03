@@ -7,23 +7,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 
-@Entity
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
+@Entity
 public class ChatMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-
     private Long senderId;
-
     private LocalDateTime sentAt;
-
     private Long roomId;
 
     private ChatMessage(String content, Long senderId, Long roomId) {
@@ -33,13 +29,11 @@ public class ChatMessage {
         this.roomId = roomId;
     }
 
-    public static ChatMessage of(ChatRequestDto chatRequestDto){
+    public static ChatMessage of(ChatRequestDto chatRequestDto) {
         return new ChatMessage(
                 chatRequestDto.getMessage(),
                 chatRequestDto.getSenderId(),
-                chatRequestDto.getRoomId()
-        );
+                chatRequestDto.getRoomId());
     }
-
 
 }

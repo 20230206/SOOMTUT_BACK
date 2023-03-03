@@ -17,23 +17,20 @@ public class ChatRoomResponse {
 
     private Long id;
     private MemberInfoResponse tutee;
-
     private MemberInfoResponse tutor;
-
     private LectureResponseDto lecture;
-
     private Long lecreqId;
     private LectureState state;
-
     private LocalDateTime createdAt;
+
     private ChatRoomResponse(
             Long id,
             MemberInfoResponse tutee,
             MemberInfoResponse tutor,
             LocalDateTime createdAt,
             LectureRequest lecreq,
-            LectureResponseDto lecture ) {
-
+            LectureResponseDto lecture
+    ) {
         this.id = id;
         this.tutee = tutee;
         this.tutor = tutor;
@@ -48,7 +45,8 @@ public class ChatRoomResponse {
             MemberInfoResponse tutee,
             MemberInfoResponse tutor,
             LectureResponseDto lecture,
-            LectureRequest lecreq){
+            LectureRequest lecreq
+    ) {
         return new ChatRoomResponse(
                 chatRoom.getId(),
                 tutee,
@@ -58,4 +56,5 @@ public class ChatRoomResponse {
                 lecture
         );
     }
+
 }

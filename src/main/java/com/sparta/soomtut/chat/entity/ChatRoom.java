@@ -4,12 +4,11 @@ import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 
-@Entity
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
+@Entity
 public class ChatRoom {
 
     @Id

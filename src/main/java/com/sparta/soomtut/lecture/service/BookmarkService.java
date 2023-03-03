@@ -8,9 +8,10 @@ import org.springframework.data.domain.Pageable;
 
 
 public interface BookmarkService {
+
     boolean updateBookmark(Long postId, Member member);
     boolean getState(Long postId, Member member);
-
     Page<LectureResponseDto> getLecturesByBookmarked(Pageable pageable, Member member);
     LectureResponseDto findFavPost(Long id);
+
 }

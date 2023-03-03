@@ -9,18 +9,18 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class LecReqResponseDto {
+
     private Long lectureRequestId;
     private Lecture lecture;
     private Long tuteeId;
     private Boolean reviewFilter;
 
-
     private LecReqResponseDto(
             Long lectureRequestId,
             Lecture lecture,
             Long tuteeId,
-            Boolean reviewFilter
-    ){
+            Boolean reviewFilter)
+    {
         this.lectureRequestId = lectureRequestId;
         this.lecture = lecture;
         this.tuteeId = tuteeId;
@@ -31,15 +31,13 @@ public class LecReqResponseDto {
             Long lectureRequestId,
             Lecture lecture,
             Long tuteeId,
-            Boolean reviewFilter
-    ){
+            Boolean reviewFilter)
+    {
         return new LecReqResponseDto(
                 lectureRequestId,
                 lecture,
                 tuteeId,
-                reviewFilter
-        );
+                reviewFilter);
     }
-
 
 }

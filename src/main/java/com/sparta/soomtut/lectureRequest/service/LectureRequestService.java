@@ -15,11 +15,9 @@ public interface LectureRequestService {
     Page<LectureResponseDto> getCompleteLecture(Long memberId, Pageable pageable);
     Page<LectureResponseDto> reviewFilter(Long memberId, Pageable pageable);
     LectureRequest getLectureRequestById(Long lectureRequestId);
-
     Page<LectureRequest> getAllByTuteeIdByAndStateIsDoneAndFalse(Long tuteeId, Pageable pageable);
-
     Page<LectureRequest> getAllByTuteeIdByAndStateIsDone(Long tuteeId, Pageable pageable);
-
     boolean existsLectureRequestByStateIsNotComplete(Long memberId, Long lectureId);
     LecReqResponseDto getLectureRequestByStateIsNotComplete(Long memberId, Long lectureId);
+
 }
