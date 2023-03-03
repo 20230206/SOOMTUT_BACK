@@ -9,7 +9,9 @@ public interface ChatRoomService {
 
     ChatRoomResponse getChatRoomForTutee(Long tuteeId, Long lectureRequestId);
     ChatRoomResponse getChatRoomForTutor(Long tutorId, Long lectureRequestId);
-    Page<ChatRoomResponse> getMyChatRooms(Long memberId, Pageable pageable);
+
+    Page<ChatRoomResponse> getMyChatRooms(Long memberId, int state, Pageable pageable);
+
     Page<ChatRoom> getAllMyChatRooms(Long memberId, Pageable pageable);
 
 }

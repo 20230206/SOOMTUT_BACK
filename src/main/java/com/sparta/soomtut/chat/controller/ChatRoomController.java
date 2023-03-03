@@ -41,10 +41,10 @@ public class ChatRoomController {
     // 나의 채팅방 목록 조회 (완료)
     @GetMapping
     public ResponseEntity<?> getMyChatRooms(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @ModelAttribute PageRequestDto pageable)
-    {
-        var data = chatRoomService.getMyChatRooms(userDetails.getMemberId(),pageable.toPageable());
+        @RequestParam("state") int state,
+        @AuthenticationPrincipal UserDetailsImpl userDetails,
+        @ModelAttribute PageRequestDto pageable) {
+        var data = chatRoomService.getMyChatRooms(userDetails.getMemberId(), state, pageable.toPageable());
         // 성공 메시지 바꿔야함.
         return ToResponse.of(data, SuccessCode.MESSGE_OK);
     }

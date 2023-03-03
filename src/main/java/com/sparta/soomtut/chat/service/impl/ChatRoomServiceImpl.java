@@ -6,6 +6,7 @@ import com.sparta.soomtut.chat.repository.ChatRoomRepository;
 import com.sparta.soomtut.chat.service.ChatRoomService;
 import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.lectureRequest.service.LectureRequestService;
+import com.sparta.soomtut.lectureRequest.entity.LectureState;
 import com.sparta.soomtut.member.service.MemberService;
 import com.sparta.soomtut.util.exception.CustomException;
 import com.sparta.soomtut.util.response.ErrorCode;
@@ -77,19 +78,35 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     // 채팅방 여러개 가져오기
     @Override
     @Transactional(readOnly = true)
-    public Page<ChatRoomResponse> getMyChatRooms(Long memberId, Pageable pageable) {
-        Page<ChatRoom> chatRoomList = getAllMyChatRooms(memberId,pageable);
-        return chatRoomList.map(chatRoom -> ChatRoomResponse.of(
-                chatRoom,
-                memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
-                memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
-                lectureService.getLecture(chatRoom.getLectureId()),
-                chatRoom.getLectureRequest()));
+    public Page<ChatRoomResponse> getMyChatRooms(Long memberId, int state, Pageable pageable) {
+
+        if(state == 0) {
+            Page<ChatRoom> chatRooms = getAllMyChatRooms(memberId, pageable);
+
+            return chatRooms.map(chatRoom -> ChatRoomResponse.of(chatRoom,
+                    memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
+                    memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
+                    lectureService.getLecture(chatRoom.getLectureId()),
+                    chatRoom.getLectureRequest()));
+        }
+        else {
+            Page<ChatRoom> chatRooms = getAllMyChatRoomsByState(memberId, state, pageable);
+            
+            return chatRooms.map(chatRoom -> ChatRoomResponse.of(chatRoom,
+                    memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
+                    memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
+                    lectureService.getLecture(chatRoom.getLectureId()),
+                    chatRoom.getLectureRequest()));
+        }
     }
 
     @Override
     public Page<ChatRoom> getAllMyChatRooms(Long memberId, Pageable pageable) {
         return chatRoomRepository.findAllByTuteeIdOrTutorId(memberId, memberId, pageable);
+    }
+    
+    private Page<ChatRoom> getAllMyChatRoomsByState(Long memberId, int state, Pageable pageable) {
+        return chatRoomRepository.findAllByTuteeIdOrTutorIdAndLectureState(memberId, memberId, LectureState.valueOf(state), pageable);
     }
 
 }

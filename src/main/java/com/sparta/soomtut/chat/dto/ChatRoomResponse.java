@@ -3,8 +3,8 @@ package com.sparta.soomtut.chat.dto;
 import com.sparta.soomtut.chat.entity.ChatRoom;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
+import com.sparta.soomtut.lectureRequest.entity.LectureState;
 import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
-import com.sparta.soomtut.util.enums.LectureState;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +21,8 @@ public class ChatRoomResponse {
     private LectureResponseDto lecture;
     private Long lecreqId;
     private LectureState state;
+    private boolean reviewed;
+
     private LocalDateTime createdAt;
 
     private ChatRoomResponse(
@@ -38,6 +40,7 @@ public class ChatRoomResponse {
         this.lecreqId = lecreq.getId();
         this.state = lecreq.getLectureState();
         this.lecture = lecture;
+        this.reviewed = lecreq.getReviewFilter();
     }
 
     public static ChatRoomResponse of(

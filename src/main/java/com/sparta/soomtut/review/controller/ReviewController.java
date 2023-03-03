@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.response.ToResponse;
 import com.sparta.soomtut.util.dto.request.PageRequestDto;
-import com.sparta.soomtut.member.service.MemberService;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
+
+import com.sparta.soomtut.review.service.ReviewService;
+import com.sparta.soomtut.member.service.MemberService;
 
 import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
 
@@ -25,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 public class ReviewController {
-        
+    
     private final MemberService memberService;
 
     @PostMapping(value = "/create/{lectureid}")
@@ -39,7 +41,7 @@ public class ReviewController {
     }
 
     //리뷰 조회
-    @GetMapping(value = "/{reviewid}")
+    @GetMapping(value = "/{lectureRequestId}")
     public ResponseEntity<?> getReview(
         @ModelAttribute PageRequestDto pageRequest,
         @AuthenticationPrincipal UserDetailsImpl userDetails)

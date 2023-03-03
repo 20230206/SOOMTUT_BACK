@@ -3,13 +3,13 @@ package com.sparta.soomtut.review.service.impl;
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
+import com.sparta.soomtut.lectureRequest.entity.LectureState;
 import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
 import com.sparta.soomtut.review.entity.Review;
 import com.sparta.soomtut.review.repository.ReviewRepository;
 import com.sparta.soomtut.review.service.ReviewService;
 import com.sparta.soomtut.util.dto.request.PageRequestDto;
-import com.sparta.soomtut.util.enums.LectureState;
 import com.sparta.soomtut.util.response.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
