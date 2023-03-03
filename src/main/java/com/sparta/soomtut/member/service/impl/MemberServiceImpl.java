@@ -72,9 +72,11 @@ public class MemberServiceImpl implements MemberService{
     @Override
     @Transactional
     public String createReview(Long lectureId, CreateReviewRequestDto reviewRequestDto, Member member) {
+
         if(!reviewService.checkTuitionState(lectureId,member.getId())){
             throw new IllegalArgumentException(ErrorCode.NOT_PROGRESS_CLASS.getMessage());
         }
+
         Long tutorId = lectureService.getTutorId(lectureId);
         reviewService.saveReview(tutorId,reviewRequestDto,member.getId());
         Lecture lecture = lectureService.getLectureById(lectureId);
@@ -109,7 +111,8 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Member getMemberByNickname(String nickname) {
-        return memberRepository.findByNickname(nickname).orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage()));
+        return memberRepository.findByNickname(nickname)
+                .orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage()));
     }
 
     @Override

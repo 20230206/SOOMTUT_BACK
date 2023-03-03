@@ -30,18 +30,16 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional(readOnly = true)
     public LectureRequest findTuitionRequest(Long lectureId, Long tuteeId) {
         Lecture lecture = lectureService.getLectureById(lectureId);
-        LectureRequest lectureRequest = lectureRequestRepository.findByLectureAndTuteeId(lecture, tuteeId).orElseThrow(
+        return lectureRequestRepository.findByLectureAndTuteeId(lecture, tuteeId).orElseThrow(
                 () -> new IllegalArgumentException("신청한 강좌 목록이 없습니다!")
         );
-        return lectureRequest;
     }
 
     @Override
     @Transactional(readOnly = true)
     public Page<Review> findReviewByTutorId(PageRequestDto pageRequestDto, Long tutorId) {
         Pageable pageable = PageRequest.of(pageRequestDto.getPage(),pageRequestDto.getSize());
-        Page<Review> reviews = reviewRepository.findAllByTutorId(tutorId,pageable);
-        return reviews;
+        return reviewRepository.findAllByTutorId(tutorId,pageable);
     }
 
     @Override
@@ -56,10 +54,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public boolean checkTuitionState(Long postId, Long tuteeId) {
         LectureState lectureState = findTuitionRequest(postId, tuteeId).getLectureState();
-        if (lectureState.equals(LectureState.IN_PROGRESS)) {
-            return false;
-        }
-        return true;
+        return !lectureState.equals(LectureState.IN_PROGRESS);
     }
 
     @Override

@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
-    Optional<Bookmark> findByPostIdAndMemberId(Long postId, Long memberId);
-    boolean existsByPostIdAndMemberId(Long postId, Long memberId);
-    Optional<Bookmark> findByPostId(Long postId);
+    Optional<Bookmark> findByLectureIdAndMemberId(Long lectureId, Long memberId);
+    boolean existsByLectureIdAndMemberId(Long lectureId, Long memberId);
+    Optional<Bookmark> findByLectureId(Long lectureId);
     Page<Bookmark> findAllByMemberIdAndStatusIsTrue(Long memberId, Pageable pageable);
 
 }

@@ -44,14 +44,14 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     }
     
     @Transactional
-    private ChatRoom createChatRoom(Long lectureRequestId) {
+    public ChatRoom createChatRoom(Long lectureRequestId) {
         var lectureRequest = lectureRequestService.getLectureRequestById(lectureRequestId);
         ChatRoom chatRoom = ChatRoom.of(lectureRequest);
         return chatRoomRepository.save(chatRoom);
     }
 
     @Transactional(readOnly = true)
-    private ChatRoom getChatRoomByTuteeIdAndLectureRequestId(Long tuteeId, Long lectureRequestId) {
+    public ChatRoom getChatRoomByTuteeIdAndLectureRequestId(Long tuteeId, Long lectureRequestId) {
         return chatRoomRepository.findByTuteeIdAndLectureRequestId(tuteeId, lectureRequestId).orElseThrow(
             () -> new CustomException(ErrorCode.NOT_FOUND_CHATROOM)
         );
@@ -69,7 +69,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     }
 
     @Transactional(readOnly=true)
-    private ChatRoom getChatRoomByTutorIdAndLectureRequestId(Long tutorId, Long lectureRequestId) {
+    public ChatRoom getChatRoomByTutorIdAndLectureRequestId(Long tutorId, Long lectureRequestId) {
         return chatRoomRepository.findByTutorIdAndLectureRequestId(tutorId, lectureRequestId)
                     .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_CHATROOM));
     }

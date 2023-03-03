@@ -65,7 +65,7 @@ public class S3Service {
              }
         }
 
-        SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
+        SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmss");
         String fileName = profiledir + "/"  + date.format(new Date())+ "-" + file.getOriginalFilename();
         member.updateProfileImage(CLOUD_FRONT_DOMAIN_NAME + fileName);
         s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(),null)
@@ -86,7 +86,7 @@ public class S3Service {
             }
         }
 
-        SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
+        SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmss");
         String fileName = postdir + "/" + date.format(new Date()) + "-" + file.getOriginalFilename();
 
         lecture.updateLectureImage(CLOUD_FRONT_DOMAIN_NAME + fileName);

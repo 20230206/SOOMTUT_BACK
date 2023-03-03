@@ -40,7 +40,7 @@ public class LectureController {
     {
         var data = lectureService.createLecture(userDetails.getMember(), postRequestDto,file);
         ToResponse.of(data, SuccessCode.LECTURE_CREATE_OK);
-        var fullData = s3Service.uploadLectureImage(data.getLectureId(),file);
+        s3Service.uploadLectureImage(data.getLectureId(),file);
         return ToResponse.of(data, SuccessCode.IMG_LECTUREIMG_OK);
     }
 
@@ -68,8 +68,7 @@ public class LectureController {
     // 수업 단일 조회
     @GetMapping(value ="/{lectureid}")
     public ResponseEntity<?> getLecture(
-            @PathVariable Long lectureid,
-            @AuthenticationPrincipal UserDetailsImpl userDtails)
+            @PathVariable Long lectureid)
     {
         LectureResponseDto data = lectureService.getLecture(lectureid);
         return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURE_OK);
@@ -122,7 +121,7 @@ public class LectureController {
             @PathVariable Long lectureid,
             @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        var data = favMemberPostService.updateBookmark(lectureId, userDetails.getMember());
+        var data = favMemberPostService.updateBookmark(lectureid, userDetails.getMember());
         return ToResponse.of(data, SuccessCode.LECTURE_UPDATEBOOKMARK_OK);
     }
 
@@ -137,7 +136,7 @@ public class LectureController {
         return ToResponse.of(data, SuccessCode.LECTURE_GETBOOKMARKEDLECTURES_OK);
     }
 
-    //키워드로 상품 검색하기
+    //키워드로 수업 검색하기
     @GetMapping("/search")
     public Page<LectureResponseDto> searchByKeyword(
             @ModelAttribute PageRequestDto pageRequestDto,

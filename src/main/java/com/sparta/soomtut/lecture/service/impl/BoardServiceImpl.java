@@ -33,14 +33,16 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional(readOnly = true)
     public Page<LectureResponseDto> getAllPost(int category, Pageable pageable) {
+        Page<Lecture> lectures;
+
         if(category == 0 ){
-            Page<Lecture> lectures = lectureService.getLectures(pageable);
-            return lectures.map(LectureResponseDto::new);
+            lectures = lectureService.getLectures(pageable);
         }
         else {
-            Page<Lecture> lectures = lectureService.getLectures(category, pageable);
-            return lectures.map(LectureResponseDto::new);
+            lectures = lectureService.getLectures(category, pageable);
         }
+
+        return lectures.map(LectureResponseDto::new);
     }
 
 }

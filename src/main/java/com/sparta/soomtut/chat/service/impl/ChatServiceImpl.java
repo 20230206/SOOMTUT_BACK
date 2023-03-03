@@ -28,7 +28,6 @@ public class ChatServiceImpl implements ChatService{
     public ChatResponseDto getLastChatMessage(Long roomId) {
          ChatMessage chatMessage = chatMessageRepository.findByRoomIdOrderBySentAtDesc(roomId)
                  .orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage()));
-
          return ChatResponseDto.of(chatMessage);
     }
 
@@ -39,7 +38,6 @@ public class ChatServiceImpl implements ChatService{
         List<ChatMessage> chatMessages = chatMessageRepository.findByRoomId(roomId);
         List<ChatResponseDto> chatRequestDtoList = new ArrayList<>();
         chatMessages.forEach(chat -> chatRequestDtoList.add(ChatResponseDto.of(chat)));
-
         return chatRequestDtoList;
     }
 

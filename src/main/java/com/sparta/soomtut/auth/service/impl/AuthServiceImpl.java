@@ -83,9 +83,8 @@ public class AuthServiceImpl implements AuthService {
 
         authRepository.delete(auth);
         String refresh = createRefreshToken(email, role);
-
         return LoginResponse.builder().token(refresh).build();
-    };
+    }
 
     private boolean isMatchedPassword(String input, Member member) {
         return passwordEncoder.matches(input, member.getPassword());
@@ -106,9 +105,8 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public String createAccessToken(String refresh) { 
         if(!validToken(refresh)) throw new CustomException(ErrorCode.INVALID_TOKEN);
-
         return jwtProvider.createToken(refresh) ;
-    };
+    }
 
     @Override
     @Transactional
@@ -121,19 +119,12 @@ public class AuthServiceImpl implements AuthService {
         Location location = locationService.findMemberLocation(member.getId());
         location.updateLocation(request.getAddress(), request.getVectorX(), request.getVectorY());
         member.changeState(MemberState.ACTIVE);
-
         return MemberInfoResponse.toDto(member, location);
     }
 
     // 토큰 동작
-
     private boolean validToken(String token) {
         return jwtProvider.validateToken(token);
-    }
-
-    @Transactional
-    public String createToken(String email, MemberRole role, TokenType type) {
-        return jwtProvider.createToken(email, role, type);
     }
 
     private String getEmailFromToken(String token) {

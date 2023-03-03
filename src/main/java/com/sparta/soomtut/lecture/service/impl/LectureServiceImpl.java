@@ -98,6 +98,7 @@ public class LectureServiceImpl implements LectureService {
         if (member.getMemberRole() == MemberRole.ADMIN) {
             lectureRepository.delete(lecture);
         }
+
         lectureRepository.deleteById(lectureId);
     }
 

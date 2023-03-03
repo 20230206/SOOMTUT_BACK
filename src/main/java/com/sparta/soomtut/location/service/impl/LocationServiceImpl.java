@@ -9,16 +9,12 @@ import com.sparta.soomtut.location.service.LocationService;
 import com.sparta.soomtut.util.response.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sparta.soomtut.auth.dto.request.RegisterRequest;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -28,9 +24,8 @@ public class LocationServiceImpl implements LocationService {
     @Override
     @Transactional
     public Location findMemberLocation(Long memberId) {
-        Location location = locationRepository.findByMemberId(memberId).orElseThrow(
+        return locationRepository.findByMemberId(memberId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_LOCATION.getMessage()));
-        return location;
     }
 
     public Location getLocation(Member member) {
