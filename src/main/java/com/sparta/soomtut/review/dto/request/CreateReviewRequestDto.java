@@ -11,10 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateReviewRequestDto {
 
-
     private float star_rating;
-
     private String review_content;
-
 
 }

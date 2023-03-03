@@ -11,4 +11,5 @@ public class OAuthLoginRequest {
     private String email;
     private String role;
     private int hash;
+
 }

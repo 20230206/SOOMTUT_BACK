@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class LocationRequestDto {
-
     private float vectorX;
     private float vectorY;
     private String address;

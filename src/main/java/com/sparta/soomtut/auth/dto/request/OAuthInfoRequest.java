@@ -10,4 +10,5 @@ public class OAuthInfoRequest {
     private String address;
     private float vectorX;
     private float vectorY;
+
 }

@@ -25,7 +25,6 @@ import java.util.Date;
 @Service
 @RequiredArgsConstructor
 public class S3Service {
-
     private AmazonS3 s3Client;
     @Value("${cloud.aws.credentials.access-key}")
     private String accessKey;
@@ -41,9 +40,7 @@ public class S3Service {
     private String postdir;
 
     public static final String CLOUD_FRONT_DOMAIN_NAME = "https://d14tc44lwo36do.cloudfront.net/";
-
     private final MemberService memberService;
-
     private final LectureService lectureService;
 
     @PostConstruct
@@ -63,7 +60,6 @@ public class S3Service {
 
         if(key.length() > 0){
              boolean isExistObject = s3Client.doesObjectExist(bucket, key);
-
              if (isExistObject) {
                  s3Client.deleteObject(bucket, key);
              }
@@ -71,9 +67,7 @@ public class S3Service {
 
         SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
         String fileName = profiledir + "/"  + date.format(new Date())+ "-" + file.getOriginalFilename();
-
         member.updateProfileImage(CLOUD_FRONT_DOMAIN_NAME + fileName);
-
         s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(),null)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
         return fileName;
@@ -101,5 +95,6 @@ public class S3Service {
                 .withCannedAcl(CannedAccessControlList.PublicRead));
         return fileName;
     }
+
 }
 

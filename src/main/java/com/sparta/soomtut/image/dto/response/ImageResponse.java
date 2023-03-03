@@ -7,7 +7,6 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 public class ImageResponse {
-
     private Long id;
     private String filePath;
     private String imgFullPath;
@@ -18,4 +17,5 @@ public class ImageResponse {
         this.filePath = filePath;
         this.imgFullPath = imgFullPath;
     }
+
 }

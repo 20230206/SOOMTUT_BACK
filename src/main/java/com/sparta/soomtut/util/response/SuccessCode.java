@@ -57,4 +57,5 @@ public enum SuccessCode {
 
     private final String message;
     private final int status;
+
 }

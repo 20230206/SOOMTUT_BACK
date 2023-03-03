@@ -14,7 +14,6 @@ public interface LocationService {
 
     Location findMemberLocation(Long memberId);
     Location updateLocation(LocationRequestDto locationRequestDto, Member member);
-
     Location getLocation(Member member);
     Location saveLocation(RegisterRequest requestDto, Member member);
     Location saveLocation(Location location);

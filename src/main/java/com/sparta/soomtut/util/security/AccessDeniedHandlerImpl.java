@@ -17,14 +17,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
+
     private static final SecurityExceptionDto exceptionDto = 
             new SecurityExceptionDto(HttpStatus.FORBIDDEN.value(), SecurityExceptionDto.ResponseMessage.FORBBIDEN);
     
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
             AccessDeniedException accessDeniedException) throws IOException, ServletException {
-                
-        
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.FORBIDDEN.value());
 
@@ -33,7 +32,6 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
             objectMapper.writeValue(os, exceptionDto);
             os.flush();
         }
-        
     }
-    
+
 }
