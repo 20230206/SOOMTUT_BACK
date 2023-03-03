@@ -1,5 +1,5 @@
 # soomtut
-
+![image](https://user-images.githubusercontent.com/79249838/222735913-0f5a3a5f-52a9-4b65-8450-7de37ab9c22c.png)
 ## 팀원
 - 이신희 LEADER
 - 정성윤 VICE LEADER
