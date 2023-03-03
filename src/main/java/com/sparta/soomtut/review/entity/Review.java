@@ -1,8 +1,12 @@
 package com.sparta.soomtut.review.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
+import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
 
 @Getter
 @NoArgsConstructor
@@ -13,9 +17,11 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long tutorId;
-
+    @Column(nullable = false)
     private Long tuteeId;
+
+    @Column(nullable = false)
+    private Long lectureId;
 
     @Column(nullable = false)
     private float star_rating;
@@ -23,11 +29,16 @@ public class Review {
     @Column(nullable = false)
     private String review_content;
 
-    public Review(Long tutorId, Long tuteeId, float star_rating, String review_content) {
-        this.tutorId = tutorId;
-        this.tuteeId = tuteeId;
-        this.star_rating = star_rating;
-        this.review_content = review_content;
-    }
+    @OneToOne
+    @JoinColumn(name="lecture_request_id")
+    private LectureRequest lectureRequest;
 
+    public Review(LectureRequest lectureRequest, CreateReviewRequestDto requestDto) {
+        this.tuteeId = lectureRequest.getLectureId();
+        this.lectureId = lectureRequest.getLectureId();
+        this.star_rating = requestDto.getStar_rating();
+        this.review_content = requestDto.getReview_content();
+        this.lectureRequest = lectureRequest;
+    }
+    
 }

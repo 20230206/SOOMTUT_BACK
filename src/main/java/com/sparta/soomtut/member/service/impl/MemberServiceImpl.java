@@ -71,23 +71,6 @@ public class MemberServiceImpl implements MemberService{
     
     @Override
     @Transactional
-    public String createReview(Long lectureId, CreateReviewRequestDto reviewRequestDto, Member member) {
-
-        if(!reviewService.checkTuitionState(lectureId,member.getId())){
-            throw new IllegalArgumentException(ErrorCode.NOT_PROGRESS_CLASS.getMessage());
-        }
-
-        Long tutorId = lectureService.getTutorId(lectureId);
-        reviewService.saveReview(tutorId,reviewRequestDto,member.getId());
-        Lecture lecture = lectureService.getLectureById(lectureId);
-        LectureRequest lectureRequest = lectureRequestRepository.findByLecture(lecture).orElseThrow(
-                () -> new IllegalArgumentException("Error"));
-        lectureRequest.ChangTuitionReview(lecture);
-        return "수강후기 작성이 완료되었습니다!";
-    }
-
-    @Override
-    @Transactional
     public MemberInfoResponse suspendAccount(Long memberId) {
         Member member = getMemberById(memberId);
         member.changeState(MemberState.SUSPEND);
@@ -134,12 +117,6 @@ public class MemberServiceImpl implements MemberService{
             () -> new IllegalArgumentException("등록된 사용자가 없습니다!")
         );
 
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Page<Review> getReview(PageRequestDto pageRequestDto, Member member) {
-        return reviewService.getReview(pageRequestDto, member.getId());
     }
 
     @Override

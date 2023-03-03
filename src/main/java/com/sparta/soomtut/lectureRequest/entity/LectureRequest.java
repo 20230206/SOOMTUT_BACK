@@ -22,6 +22,7 @@ public class LectureRequest {
     @JoinColumn(name = "lecture_Id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Lecture lecture;
+
     @OneToOne(mappedBy = "lectureRequest")
     private ChatRoom chatRoom;
     @Column
@@ -44,8 +45,7 @@ public class LectureRequest {
         this.lectureState = LectureState.DONE;
     }
 
-    public void ChangTuitionReview(Lecture lecture) {
-        this.lecture = lecture;
+    public void updateReview() {
         this.reviewFilter = true;
     }
 
