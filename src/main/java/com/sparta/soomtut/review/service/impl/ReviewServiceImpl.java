@@ -19,9 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-@Service
 @RequiredArgsConstructor
+@Service
 public class ReviewServiceImpl implements ReviewService {
     private final LectureRequestRepository lectureRequestRepository;
     private final LectureService lectureService;
@@ -76,8 +75,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public Review findReviewById(Long reviewId) {
         return reviewRepository.findById(reviewId).orElseThrow(
-                ()-> new IllegalArgumentException(ErrorCode.NOT_FOUND_REVIEW.getMessage())
-        );
+                ()-> new IllegalArgumentException(ErrorCode.NOT_FOUND_REVIEW.getMessage()));
     }
 
 }
