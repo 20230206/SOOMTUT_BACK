@@ -1,16 +1,11 @@
 package com.sparta.soomtut.util.exception;
 
 import java.util.HashMap;
-
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import com.sparta.soomtut.util.response.ToResponse;
-
 import java.util.Map;
-
 
 @RestControllerAdvice
 public class CustomExceptionHandler {
@@ -24,4 +19,5 @@ public class CustomExceptionHandler {
 
         return ToResponse.of(data, e.getErrorCode());
     }
+
 }

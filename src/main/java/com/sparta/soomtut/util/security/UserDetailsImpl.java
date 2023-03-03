@@ -20,7 +20,6 @@ import java.util.Map;
 @Getter
 @ToString
 public class UserDetailsImpl implements UserDetails, OAuth2User {
-
     private Member member;
     private Map<String, Object> attributes;
 
@@ -30,16 +29,16 @@ public class UserDetailsImpl implements UserDetails, OAuth2User {
     }
 
     // OAuth2User: OAuth2Login 사용 시
-    public UserDetailsImpl(Member member, Map<String, Object> attributes){
+    public UserDetailsImpl(Member member, Map<String, Object> attributes) {
         this.member = member;
         this.attributes = attributes;
     }
 
-    public Member getMember(){
+    public Member getMember() {
         return member;
     }
 
-    public Long getMemberId(){
+    public Long getMemberId() {
         return member.getId();
     }
 
@@ -90,4 +89,5 @@ public class UserDetailsImpl implements UserDetails, OAuth2User {
     public String getName() {
         return null;
     }
+
 }

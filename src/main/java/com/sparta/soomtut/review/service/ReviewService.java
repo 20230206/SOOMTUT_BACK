@@ -11,12 +11,10 @@ import org.springframework.data.domain.Page;
 public interface ReviewService {
 
     LectureRequest findTuitionRequest(Long postId, Long tuteeId);
-
     boolean checkTuitionState(Long postId, Long tuteeId);
-
     Review saveReview(Long tutorId, CreateReviewRequestDto reviewRequestDto, Long id);
     Page<Review> getReview(PageRequestDto pageRequestDto, Long tutorId);
     Page<Review> findReviewByTutorId(PageRequestDto pageRequestDto, Long tutorId);
-
     Review findReview(Long reviewId);
+
 }

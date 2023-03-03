@@ -62,7 +62,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
     }
 
-
 	@Override
 	// 특정 URI에서 접근할 시, JWT TOKEN에 대한 검증 절차를 무시하고 필터를 통과시킨다.
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
@@ -75,7 +74,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	// 쿠키
 	private String extractCookie(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
-
 		if(cookies != null) {
 			for(Cookie cookie : cookies) {
 				if("refresh".equals(cookie.getName())){
@@ -86,8 +84,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		return null;
 	}
-
-
-
 
 }

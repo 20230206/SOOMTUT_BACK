@@ -30,14 +30,12 @@ import org.springframework.context.annotation.Bean;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
     private final JwtProvider jwtProvider;
     private final UserDetailsServiceImpl userDetailsService;
     private final AccessDeniedHandlerImpl accessDeniedHandler;
     private final AuthdenticationEntryPointImpl authdenticationEntryPoint;
     private final OAuth2UserServiceImpl oAuth2UserService;
     private final OAuth2AuthenticationSuccessHandlerImpl successHandler;
-
     public static final String ALLOWED_METHOD_NAMES = "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH";
     public static final String ALLOWED_HEADERS_NAME = "" + HttpHeaders.AUTHORIZATION + "," + HttpHeaders.SET_COOKIE;
 

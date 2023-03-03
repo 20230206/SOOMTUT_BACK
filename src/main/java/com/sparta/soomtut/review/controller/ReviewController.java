@@ -20,25 +20,21 @@ import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
 
 import lombok.RequiredArgsConstructor;
 
-@RestController
+
 @RequestMapping("/review")
 @RequiredArgsConstructor
+@RestController
 public class ReviewController {
         
     private final MemberService memberService;
 
-    // 리뷰 생성 - 리뷰 삭제랑 겹쳐서 임시로 create 넣어둠.
     @PostMapping(value = "/create/{lectureid}")
     public ResponseEntity<?> createReview(
             @PathVariable Long lectureid,
             @RequestBody CreateReviewRequestDto reviewRequestDto,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
-            /* UserDetails */
-    ) {
-        // Service
+            @AuthenticationPrincipal UserDetailsImpl userDetails)
+    {
         String msg = memberService.createReview(lectureid,reviewRequestDto,userDetails.getMember());
-        // return
-
         return ToResponse.of(msg, SuccessCode.REVIEW_CREATE_OK);
     }
 
@@ -46,43 +42,35 @@ public class ReviewController {
     @GetMapping(value = "/{reviewid}")
     public ResponseEntity<?> getReview(
         @ModelAttribute PageRequestDto pageRequest,
-        @AuthenticationPrincipal UserDetailsImpl userDetails
-    ) {
+        @AuthenticationPrincipal UserDetailsImpl userDetails)
+    {
         var data = memberService.getReview(pageRequest,userDetails.getMember());
         return ToResponse.of(data, SuccessCode.REVIEW_GET_OK);
     }
 
     //리뷰 삭제
     @PostMapping(value = "/{reviewId}")
-    public ResponseEntity<?> deleteReviewRequest(
-            @PathVariable Long reviewId
-
-    ) {
+    public ResponseEntity<?> deleteReviewRequest(@PathVariable Long reviewId)
+    {
         String msg = memberService.deleteReviewRequest(reviewId);
         return ToResponse.of(msg, SuccessCode.REVIEW_DELETE_OK);
     }
 
     // 게시된 강의의 리뷰 조회
     @GetMapping(value = "/{lectureid}")
-    public ResponseEntity<?> getReviewsByPost (
-        @PathVariable Long lectureid
-    ) {
+    public ResponseEntity<?> getReviewsByPost(@PathVariable Long lectureid)
+    {
         return ToResponse.of(null, SuccessCode.REVIEW_GETBYLECTURE_OK);
     }
 
     // 해당 멤버의 리뷰 조회
     @GetMapping(value = "/{memberid}") 
-    public ResponseEntity<?> getReviewsByMember (
-        @PathVariable Long memberid
-    ) {
+    public ResponseEntity<?> getReviewsByMember(@PathVariable Long memberid)
+    {
         return ToResponse.of(null, SuccessCode.REVIEW_GETBYMEMBER_OK);
     }
+
 }
-
-
-
-
-
 
 //    // 후기(작성/미작성) 수업 조회
 //    @GetMapping(value = "/reviewFilter")

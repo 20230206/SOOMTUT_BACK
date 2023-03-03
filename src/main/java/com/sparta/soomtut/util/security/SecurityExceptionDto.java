@@ -18,4 +18,5 @@ public class SecurityExceptionDto {
         public static final String FORBBIDEN = "접근이 거부됨";
         public static final String UNAUTHORIZED = "인증이 불가능함";
     }
+
 }

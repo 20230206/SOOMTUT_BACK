@@ -29,13 +29,11 @@ public class JwtProvider {
     public static final String USER_EMAIL = "email";
     private static final String BEARER_PREFIX = "Bearer"; // Token 앞에 붙는 식별자
 
-
     @Value("${jwt.secret.key}") // application.properties에 지정한 key 값을 가져온다
     private String secretKey;
     private Key key; // 토큰을 생성할 때 넣어줄 key 값
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256; // key 객체를 암호화할 알고리즘
 
-    
     @PostConstruct // 객체가 생성될 때 초기화 해주는 기능
     public void init() {
         byte[] bytes = Base64.getDecoder().decode(secretKey); // Base64로 incoding 되어있는 상태를 decode 해주는 과정
@@ -47,7 +45,7 @@ public class JwtProvider {
         Date date = new Date();
         if(key == null) this.init();
         String token = "";
-        
+
         // 토큰 정보 추가
         Claims claims = Jwts.claims();
         claims.setSubject(username);
@@ -61,6 +59,7 @@ public class JwtProvider {
                             .setIssuedAt(date) // 토큰이 언제 만들어졌는지
                             .signWith(key, signatureAlgorithm) // secret key를 이용해 만든 key 객체를 어떠한 알고리즘을 통해 암호화 할 것인지 지정
                             .compact();
+
         return token;
     }
 
@@ -68,16 +67,16 @@ public class JwtProvider {
 
         Claims claims = getUserInfoFromToken(refreshToken);
         String token = createToken((String)claims.get(USER_EMAIL), MemberRole.valueOf((String)claims.get(AUTHORIZATION_KEY)), TokenType.ACCESS);
+
         return token;
     }
 
     public String resolveToken(HttpServletRequest request) { // HttpServletRequest객체의 Header 안에 토큰이 들어있음
-
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER); // AUTHORIZATION_HEADER를 파라미터로 Header에 있는 Token 값을 가져온다
-
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX) && bearerToken.length() > 7) {
             return bearerToken.substring(7);
         }
+
         return null;
     }
 
@@ -95,17 +94,20 @@ public class JwtProvider {
         } catch (IllegalArgumentException e) {
             log.info("잘못된 JWT 토큰 입니다.");
         }
+
         return false;
     }
 
     // 토큰의 타입 확인    
     public TokenType getTokenType(String token) {
         Claims claims = getUserInfoFromToken(token);
+
         return TokenType.valueOf((String)claims.get(TOKEN_TYPE));
     }
 
     public String getEmail(String token) {
         Claims claims = getUserInfoFromToken(token);
+
         return (String)claims.get(USER_EMAIL);
     }
 

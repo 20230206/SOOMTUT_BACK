@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class AuthdenticationEntryPointImpl implements AuthenticationEntryPoint {
+
     private static final SecurityExceptionDto exceptionDto = 
             new SecurityExceptionDto(HttpStatus.UNAUTHORIZED.value(), SecurityExceptionDto.ResponseMessage.UNAUTHORIZED);
 
@@ -33,4 +34,5 @@ public class AuthdenticationEntryPointImpl implements AuthenticationEntryPoint {
 				os.flush();
 			}
 	}
+
 }

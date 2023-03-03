@@ -1,13 +1,10 @@
 package com.sparta.soomtut.util.response;
 
 import org.springframework.http.ResponseEntity;
-
 import java.util.Map;
 import java.util.HashMap;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
-
 
 public class ToResponse {
     

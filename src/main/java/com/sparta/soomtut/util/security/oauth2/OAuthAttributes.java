@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum OAuthAttributes {
+
     GOOGLE("google", (attributes) -> {
         Map<String, Object> res = new HashMap<String, Object>();
         res.put("attributes", attributes);
@@ -51,4 +52,5 @@ public enum OAuthAttributes {
                 .findFirst().orElseThrow(IllegalArgumentException::new)
                 .of.apply(attributes);
     }
+
 }
