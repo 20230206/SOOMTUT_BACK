@@ -43,7 +43,7 @@ public class LectureController {
         var data = lectureService.createLecture(userDetails.getMember(), postRequestDto,file);
         ToResponse.of(data, SuccessCode.LECTURE_CREATE_OK);
         var fullData = s3Service.uploadLectureImage(data.getLectureId(),file);
-        return ToResponse.of(null, SuccessCode.IMG_LECTUREIMG_OK);
+        return ToResponse.of(data, SuccessCode.IMG_LECTUREIMG_OK);
     }
 
     // 수업 수정
