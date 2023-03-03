@@ -32,7 +32,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             chatRoom = getChatRoomByTuteeIdAndLectureRequestId(tuteeId, lectureRequestId);
         }
         else {
-            chatRoom = createChatRoom(tuteeId, lectureRequestId);
+            chatRoom = createChatRoom(lectureRequestId);
         }
         
         return ChatRoomResponse.of(
@@ -44,7 +44,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     }
     
     @Transactional
-    private ChatRoom createChatRoom(Long tuteeId, Long lectureRequestId) {
+    private ChatRoom createChatRoom(Long lectureRequestId) {
         var lectureRequest = lectureRequestService.getLectureRequestById(lectureRequestId);
         ChatRoom chatRoom = ChatRoom.of(lectureRequest);
         return chatRoomRepository.save(chatRoom);

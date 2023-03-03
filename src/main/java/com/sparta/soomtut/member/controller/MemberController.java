@@ -20,7 +20,7 @@ public class MemberController  {
     private final MemberService memberService;
 
     // 내 정보 불러오기
-    @GetMapping(value = "/info/myinfo")
+    @GetMapping(value = "/info/myInfo")
     public ResponseEntity<?> getMyInfo(
             @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
@@ -29,9 +29,9 @@ public class MemberController  {
     }
 
     // 회원 정보 조회
-    @GetMapping(value = "/info/{memberid}")
+    @GetMapping(value = "/info/{memberId}")
     public ResponseEntity<?> getMemberInfo(
-        @PathVariable Long memberid,
+        @PathVariable Long memberId,
         @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         return ToResponse.of(null, SuccessCode.MEMBER_GETINFO_OK);
@@ -58,9 +58,9 @@ public class MemberController  {
     }
 
     // 회원 탈퇴 취소
-    @PutMapping(value = "/recover/{memberid}")
+    @PutMapping(value = "/recover/{memberId}")
     public ResponseEntity<?> recoverAccount(
-        @RequestParam Long memberid)
+        @PathVariable Long memberId)
     {
         return ToResponse.of(null, SuccessCode.MEMBER_RECOVER_OK);
     }

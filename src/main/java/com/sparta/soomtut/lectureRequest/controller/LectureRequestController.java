@@ -21,32 +21,32 @@ public class LectureRequestController {
     private final LectureRequestService lectureRequestService;
 
     // 수업 신청
-    @PostMapping("/{lectureid}")
+    @PostMapping("/{lectureId}")
     public ResponseEntity<?> createLectureRequest(
-            @PathVariable Long lectureid,
+            @PathVariable Long lectureId,
             @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        var data = lectureRequestService.createLectureRequest(lectureid, userDetails.getMemberId());
+        var data = lectureRequestService.createLectureRequest(lectureId, userDetails.getMemberId());
         return ToResponse.of(data, SuccessCode.LECTUREREQUEST_CREATE_OK);
     }
 
     // 수업 확정
-    @PostMapping("/{lecturerequestid}/accept")
+    @PostMapping("/{lectureRequestId}/accept")
     public ResponseEntity<?> acceptLecture(
-        @PathVariable Long lecturerequestid,
+        @PathVariable Long lectureRequestId,
         @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        var data = lectureRequestService.acceptLecture(lecturerequestid, userDetails.getMember());
+        var data = lectureRequestService.acceptLecture(lectureRequestId, userDetails.getMember());
         return ToResponse.of(data, SuccessCode.LECTUREREQUEST_ACCEPT_OK);
     }
 
     // 수업 완료
-    @PostMapping("/{lecturerequestid}/complete")
+    @PostMapping("/{lectureRequestId}/complete")
     public ResponseEntity<?> complete(
-        @PathVariable Long lecturerequestid,
+        @PathVariable Long lectureRequestId,
         @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        var data = lectureRequestService.completeLecture(lecturerequestid, userDetails.getMember());
+        var data = lectureRequestService.completeLecture(lectureRequestId, userDetails.getMember());
         return ToResponse.of(data, SuccessCode.LECTUREREQUEST_COMPLETE_OK);
     }
 
@@ -80,7 +80,7 @@ public class LectureRequestController {
     }
 
     // 완료된 수업중 리뷰작성이 안된 수업조회
-    @GetMapping("/reviewfilter")
+    @GetMapping("/reviewFilter")
     public ResponseEntity<?> reviewFilter(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @ModelAttribute PageRequestDto pageable)

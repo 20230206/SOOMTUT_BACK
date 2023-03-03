@@ -10,11 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,11 +35,11 @@ public class BoardServiceImpl implements BoardService {
     public Page<LectureResponseDto> getAllPost(int category, Pageable pageable) {
         if(category == 0 ){
             Page<Lecture> lectures = lectureService.getLectures(pageable);
-            return lectures.map(item -> new LectureResponseDto(item));
+            return lectures.map(LectureResponseDto::new);
         }
         else {
             Page<Lecture> lectures = lectureService.getLectures(category, pageable);
-            return lectures.map(item -> new LectureResponseDto(item));
+            return lectures.map(LectureResponseDto::new);
         }
     }
 

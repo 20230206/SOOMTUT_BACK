@@ -7,11 +7,8 @@ import com.sparta.soomtut.lecture.entity.Category;
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.repository.LectureRepository;
 import com.sparta.soomtut.lecture.service.LectureService;
-import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
-import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberRole;
-import com.sparta.soomtut.util.enums.LectureState;
 
 import com.sparta.soomtut.util.response.ErrorCode;
 import com.sparta.soomtut.location.service.LocationService;
@@ -23,13 +20,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +34,6 @@ public class LectureServiceImpl implements LectureService {
     private String postdir;
     private final LectureRepository lectureRepository;
     private final LocationService locationService;
-    private final LectureRequestRepository lectureRequestRepository;
     public static final String CLOUD_FRONT_DOMAIN_NAME = "https://d14tc44lwo36do.cloudfront.net/";
 
     @Override
@@ -53,14 +47,14 @@ public class LectureServiceImpl implements LectureService {
     @Override
     @Transactional(readOnly = true)
     public Page<LectureResponseDto> getMemberLecture(int category,Long memberId,Pageable pageable) {
+        Page<Lecture> lectures;
         if(category == 0 ){
-            Page<Lecture> lectures = this.getAllLectureByMemberId(memberId,pageable);
-            return lectures.map(item -> new LectureResponseDto(item));
+            lectures = this.getAllLectureByMemberId(memberId, pageable);
         }
         else {
-            Page<Lecture> lectures = this.getMemberLectures(category, memberId,pageable);
-            return lectures.map(item -> new LectureResponseDto(item));
+            lectures = this.getMemberLectures(category, memberId, pageable);
         }
+        return lectures.map(LectureResponseDto::new);
     }
 
     // 게시글 작성
@@ -71,7 +65,7 @@ public class LectureServiceImpl implements LectureService {
             CreateLectureRequestDto lectureRequestDto,
             MultipartFile file)
     {
-        SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
+        SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmss");
         String fileName = postdir + "/" + date.format(new Date()) + "-" + file.getOriginalFilename();
         Lecture lecture = new Lecture(lectureRequestDto,CLOUD_FRONT_DOMAIN_NAME + fileName, member);
         lectureRepository.save(lecture);
@@ -110,9 +104,8 @@ public class LectureServiceImpl implements LectureService {
     @Override
     @Transactional(readOnly = true)
     public Lecture getLectureById(Long lectureId) {
-       Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
-                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage()));
-        return lecture;
+        return lectureRepository.findById(lectureId).orElseThrow(
+                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage()));
     }
 
     @Override
@@ -125,11 +118,10 @@ public class LectureServiceImpl implements LectureService {
     public LectureResponseDto getMyLecture(Member member) {
         Lecture lecture = lectureRepository.findByMemberId(member.getId())
                 .orElseThrow(() -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage()));
-        LectureResponseDto lectureResponseDto = new LectureResponseDto(
+        return new LectureResponseDto(
                 lecture,
                 member.getNickname(),
                 locationService.findMemberLocation(member.getId()).getAddress());
-        return lectureResponseDto;
     }
 
     @Override

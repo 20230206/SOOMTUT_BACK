@@ -2,7 +2,6 @@ package com.sparta.soomtut.lectureRequest.service.impl;
 
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lecture.entity.Lecture;
-import com.sparta.soomtut.lecture.repository.LectureRepository;
 import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.lectureRequest.dto.LecReqResponseDto;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
@@ -18,9 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +34,7 @@ public class LectureRequestServiceImpl implements LectureRequestService{
 
         if(lectureRequestRepository.existsByTuteeIdAndLectureId(memberId, lectureId)) {
             // 에러메시지 수정 필요.
-           new IllegalArgumentException(ErrorCode.NOT_FOUND_REQUEST.getMessage());
+            throw new IllegalArgumentException(ErrorCode.NOT_FOUND_REQUEST.getMessage());
         }
 
         LectureRequest lectureRequest = new LectureRequest(lecture, memberId);
@@ -78,7 +74,7 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     @Transactional
     public Page<LectureResponseDto> getCompleteLecture(Long memberId, Pageable pageable) {
         Page<LectureRequest> lectureRequestPage = getAllByTuteeIdByAndStateIsDone(memberId, pageable);
-        Page<Lecture> lectureList = lectureRequestPage.map(lectureRequest -> lectureRequest.getLecture());
+        Page<Lecture> lectureList = lectureRequestPage.map(LectureRequest::getLecture);
         return lectureList.map(item-> new LectureResponseDto(item, locationService.findMemberLocation(memberId)));
     }
 
@@ -87,7 +83,7 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     @Transactional
     public Page<LectureResponseDto> reviewFilter(Long memberId, Pageable pageable) {
         Page<LectureRequest> lectureRequestPage = getAllByTuteeIdByAndStateIsDoneAndFalse(memberId, pageable);
-        Page<Lecture> lectureList = lectureRequestPage.map(lectureRequest -> lectureRequest.getLecture());
+        Page<Lecture> lectureList = lectureRequestPage.map(LectureRequest::getLecture);
         return lectureList.map(item-> new LectureResponseDto(item, locationService.findMemberLocation(memberId)));
     }
 
@@ -112,10 +108,8 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     @Override
     @Transactional(readOnly=true)
     public boolean existsLectureRequestByStateIsNotComplete(Long memberId, Long lectureId) {
-        if(existsLectureRequestByMemberIdAndLectureId(memberId, lectureId, LectureState.NONE) ||
-        existsLectureRequestByMemberIdAndLectureId(memberId, lectureId, LectureState.IN_PROGRESS)) {
-            return true;
-        } return false;
+        return existsLectureRequestByMemberIdAndLectureId(memberId, lectureId, LectureState.NONE) ||
+                existsLectureRequestByMemberIdAndLectureId(memberId, lectureId, LectureState.IN_PROGRESS);
     }
 
     private boolean existsLectureRequestByMemberIdAndLectureId(Long memberId, Long lectureId, LectureState lectureState) {
