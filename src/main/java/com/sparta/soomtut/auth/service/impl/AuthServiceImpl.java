@@ -64,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public LoginResponse login(LoginRequest requestDto) {
         String email = requestDto.getEmail();      
         String password = requestDto.getPassword();
@@ -80,7 +80,6 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional
     public LoginResponse oauthLogin(OAuthLoginRequest request) {
         String email = request.getEmail();
         int hash = request.getHash();
@@ -99,6 +98,7 @@ public class AuthServiceImpl implements AuthService {
         return passwordEncoder.matches(input, member.getPassword());
     }
 
+    @Transactional(readOnly = true)
     private Auth isValidOAuthLoginRequest(String email, int hash) {
         return authRepository.findByEmailAndHash(email, hash).orElseThrow(
             () -> new CustomException(ErrorCode.LOGIN_FAILED)
@@ -145,6 +145,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     // repository 지원 함수
+    @Transactional
     public void saveAuth(Auth auth) {
         authRepository.save(auth);
     }

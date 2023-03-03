@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberInfoResponse {
+
     private Long memberId;
     private String email;
     private String nickname;

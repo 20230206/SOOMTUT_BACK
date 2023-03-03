@@ -79,6 +79,7 @@ public class S3Service {
         return fileName;
     }
 
+    @Transactional
     public String uploadLectureImage(Long lectureId, MultipartFile file) throws IOException{
         var lecture = lectureService.getLectureById(lectureId);
         String key = lecture.getImage().substring(38);

@@ -9,4 +9,5 @@ public class CreateLectureRequestDto {
     private String content;
     private int category;
     private int fee;
+
 }

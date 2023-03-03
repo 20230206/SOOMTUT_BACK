@@ -16,7 +16,6 @@ public class LectureRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private LectureState lectureState;
@@ -24,13 +23,10 @@ public class LectureRequest {
     @JoinColumn(name = "lecture_Id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Lecture lecture;
-
     @OneToOne(mappedBy = "lectureRequest")
     private ChatRoom chatRoom;
-
     @Column
     private Long tuteeId;
-
     @Column
     private Boolean reviewFilter;
 
@@ -61,6 +57,5 @@ public class LectureRequest {
     public Long getTutorId(){
         return lecture.getTutorId();
     }
-
 
 }
