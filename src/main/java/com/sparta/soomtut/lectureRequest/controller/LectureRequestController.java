@@ -1,6 +1,5 @@
 package com.sparta.soomtut.lectureRequest.controller;
 
-import com.sparta.soomtut.lectureRequest.dto.LecReqResponseDto;
 import com.sparta.soomtut.lectureRequest.service.LectureRequestService;
 import com.sparta.soomtut.util.dto.request.PageRequestDto;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import com.sparta.soomtut.util.security.UserDetailsImpl;
 import com.sparta.soomtut.util.response.ToResponse;
 import com.sparta.soomtut.util.response.SuccessCode;
 
-import com.sparta.soomtut.lecture.service.LectureService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 public class LectureRequestController {
     
     private final LectureRequestService lectureRequestService;
-    private final LectureService lectureService;
 
     // 수업 신청
     @PostMapping("/{lectureid}")
@@ -70,14 +67,6 @@ public class LectureRequestController {
     {
         var data = lectureRequestService.getLectureRequestByStateIsNotComplete(userDetails.getMemberId(), lectureId);
         return ToResponse.of(data, SuccessCode.LECTUREREQUEST_GET_OK);
-    }
-
-    @GetMapping
-    public ResponseEntity<?> getLecturesRequests(
-        @AuthenticationPrincipal UserDetailsImpl userDetails,
-        @ModelAttribute PageRequestDto pageable)
-    {
-        return ToResponse.of(null, SuccessCode.LECTUREREQUEST_GETREQUESTS_OK);
     }
 
     // 완료된 수업 목록 조회

@@ -43,7 +43,7 @@ public class LectureServiceImpl implements LectureService {
     public static final String CLOUD_FRONT_DOMAIN_NAME = "https://d14tc44lwo36do.cloudfront.net/";
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public LectureResponseDto getLecture(Long lectureId) {
         Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
             () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage()));
@@ -51,7 +51,7 @@ public class LectureServiceImpl implements LectureService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<LectureResponseDto> getMemberLecture(int category,Long memberId,Pageable pageable) {
         if(category == 0 ){
             Page<Lecture> lectures = this.getAllLectureByMemberId(memberId,pageable);
@@ -108,7 +108,7 @@ public class LectureServiceImpl implements LectureService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Lecture getLectureById(Long lectureId) {
        Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage()));
