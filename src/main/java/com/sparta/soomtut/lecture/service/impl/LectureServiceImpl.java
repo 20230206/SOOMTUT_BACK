@@ -53,7 +53,6 @@ public class LectureServiceImpl implements LectureService {
     @Override
     @Transactional
     public Page<LectureResponseDto> getMemberLecture(int category,Long memberId,Pageable pageable) {
-
         if(category == 0 ){
             Page<Lecture> lectures = this.getAllLectureByMemberId(memberId,pageable);
             return lectures.map(item -> new LectureResponseDto(item));
@@ -62,13 +61,16 @@ public class LectureServiceImpl implements LectureService {
             Page<Lecture> lectures = this.getMemberLectures(category, memberId,pageable);
             return lectures.map(item -> new LectureResponseDto(item));
         }
-
     }
 
     // 게시글 작성
     @Override
     @Transactional
-    public LectureResponseDto createLecture(Member member, CreateLectureRequestDto lectureRequestDto, MultipartFile file) {
+    public LectureResponseDto createLecture(
+            Member member,
+            CreateLectureRequestDto lectureRequestDto,
+            MultipartFile file)
+    {
         SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
         String fileName = postdir + "/" + date.format(new Date()) + "-" + file.getOriginalFilename();
         Lecture lecture = new Lecture(lectureRequestDto,CLOUD_FRONT_DOMAIN_NAME + fileName, member);
@@ -83,13 +85,11 @@ public class LectureServiceImpl implements LectureService {
         Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
         );
-
         // 작성자 또는 관리자만 수정가능
         if (member.getMemberRole() != MemberRole.ADMIN) {
             if (!lecture.getTutorId().equals(member.getId()))
                 throw new IllegalArgumentException(ErrorCode.AUTHORIZATION.getMessage());
         }
-
         lecture.update(lectureRequestDto);
         return new LectureResponseDto(lecture);
     }
@@ -99,23 +99,19 @@ public class LectureServiceImpl implements LectureService {
     @Transactional
     public void deleteLecture(Long lectureId, Member member) {
         Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
-                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
-        );
+                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage()));
 
-        if (member.getMemberRole() == MemberRole.ADMIN)
+        if (member.getMemberRole() == MemberRole.ADMIN) {
             lectureRepository.delete(lecture);
-
+        }
         lectureRepository.deleteById(lectureId);
     }
 
-
     @Override
     @Transactional
-    public Lecture getLectureById(Long lectureId){
+    public Lecture getLectureById(Long lectureId) {
        Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
-                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage())
-        );
-
+                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage()));
         return lecture;
     }
 
@@ -125,38 +121,34 @@ public class LectureServiceImpl implements LectureService {
         return getLectureById(lectureId).getTutorId();
     }
 
-    // 이상한데, 멤버 Id 로 수업을 찾아오면 수업이 여러개 있을 수 있는거 아닌가?
     @Override
     public LectureResponseDto getMyLecture(Member member) {
         Lecture lecture = lectureRepository.findByMemberId(member.getId())
                 .orElseThrow(() -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage()));
-        LectureResponseDto lectureResponseDto = 
-                new LectureResponseDto(lecture, member.getNickname(), locationService.findMemberLocation(member.getId()).getAddress());
+        LectureResponseDto lectureResponseDto = new LectureResponseDto(
+                lecture,
+                member.getNickname(),
+                locationService.findMemberLocation(member.getId()).getAddress());
         return lectureResponseDto;
     }
 
-
-
     @Override
     @Transactional(readOnly = true) 
-    public boolean checkLectureAuthor(Long lectureId, Member member)
-    {
+    public boolean checkLectureAuthor(Long lectureId, Member member) {
         Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
-            () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage())
-        );
-
+            () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage()));
         return lecture.getTutorId().equals(member.getId());
     }
 
     @Override
     @Transactional(readOnly = true) 
-    public Page<Lecture> getLectures(int category, Pageable pageable){
+    public Page<Lecture> getLectures(int category, Pageable pageable) {
         return lectureRepository.findAllByCategory(Category.valueOf(category), pageable);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Lecture> getMemberLectures(int category,Long memberId ,Pageable pageable){
+    public Page<Lecture> getMemberLectures(int category,Long memberId ,Pageable pageable) {
         return lectureRepository.findAllByCategoryAndMemberId(Category.valueOf(category),memberId, pageable);
     }
 
@@ -176,7 +168,6 @@ public class LectureServiceImpl implements LectureService {
     @Transactional
     public Page<LectureResponseDto> searchByKeyword(String keyword,Pageable pageable) {
         return lectureRepository.findLectureByKeyword(keyword,pageable);
-
     }
 
 }

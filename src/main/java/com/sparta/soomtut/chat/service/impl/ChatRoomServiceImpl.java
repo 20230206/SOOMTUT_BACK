@@ -24,22 +24,23 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     private final LectureService lectureService;
     private final LectureRequestService lectureRequestService;
 
-
     @Override
     public ChatRoomResponse getChatRoomForTutee(Long tuteeId, Long lectureRequestId) {
         ChatRoom chatRoom;
-        if(chatRoomRepository.existsByLectureRequestId(lectureRequestId)) {
+
+        if (chatRoomRepository.existsByLectureRequestId(lectureRequestId)) {
             chatRoom = getChatRoomByTuteeIdAndLectureRequestId(tuteeId, lectureRequestId);
         }
         else {
             chatRoom = createChatRoom(tuteeId, lectureRequestId);
         }
         
-        return ChatRoomResponse.of(chatRoom, 
-                                   memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()), 
-                                   memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
-                                   lectureService.getLecture(chatRoom.getLectureId()),
-                                   chatRoom.getLectureRequest());
+        return ChatRoomResponse.of(
+                chatRoom,
+                memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
+                memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
+                lectureService.getLecture(chatRoom.getLectureId()),
+                chatRoom.getLectureRequest());
     }
     
     @Transactional
@@ -47,7 +48,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         var lectureRequest = lectureRequestService.getLectureRequestById(lectureRequestId);
         ChatRoom chatRoom = ChatRoom.of(lectureRequest);
         return chatRoomRepository.save(chatRoom);
-        
     }
 
     @Transactional(readOnly = true)
@@ -60,11 +60,12 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public ChatRoomResponse getChatRoomForTutor(Long tutorId, Long lectureRequestId) {
         ChatRoom chatRoom = getChatRoomByTutorIdAndLectureRequestId(tutorId, lectureRequestId);
-        return ChatRoomResponse.of(chatRoom, 
-                                    memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()), 
-                                    memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
-                                    lectureService.getLecture(chatRoom.getLectureId()),
-                                    chatRoom.getLectureRequest());
+        return ChatRoomResponse.of(
+                chatRoom,
+                memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
+                memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
+                lectureService.getLecture(chatRoom.getLectureId()),
+                chatRoom.getLectureRequest());
     }
 
     @Transactional(readOnly=true)
@@ -73,25 +74,22 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                     .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_CHATROOM));
     }
 
-
     // 채팅방 여러개 가져오기
     @Override
     @Transactional(readOnly = true)
     public Page<ChatRoomResponse> getMyChatRooms(Long memberId, Pageable pageable) {
         Page<ChatRoom> chatRoomList = getAllMyChatRooms(memberId,pageable);
-
-        return chatRoomList.map(chatRoom -> ChatRoomResponse.of(chatRoom,
+        return chatRoomList.map(chatRoom -> ChatRoomResponse.of(
+                chatRoom,
                 memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
                 memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
                 lectureService.getLecture(chatRoom.getLectureId()),
                 chatRoom.getLectureRequest()));
     }
 
-    // 지원 함수
     @Override
     public Page<ChatRoom> getAllMyChatRooms(Long memberId, Pageable pageable) {
         return chatRoomRepository.findAllByTuteeIdOrTutorId(memberId, memberId, pageable);
     }
-
 
 }

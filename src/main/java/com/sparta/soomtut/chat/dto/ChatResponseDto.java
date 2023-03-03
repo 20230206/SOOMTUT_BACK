@@ -20,7 +20,7 @@ public class ChatResponseDto {
         this.sentAt = sentAt;
     }
 
-    public static ChatResponseDto of(ChatMessage chatMessage){
+    public static ChatResponseDto of(ChatMessage chatMessage) {
         return new ChatResponseDto(
                 chatMessage.getSenderId(),
                 chatMessage.getContent(),

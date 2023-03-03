@@ -21,14 +21,12 @@ import java.util.List;
 public class BoardServiceImpl implements BoardService {
 
     private final LectureService lectureService;
-    
     private final LocationService locationService;
 
     @Override
     @Transactional(readOnly = true)
     public Page<LectureResponseDto> getLecturesByMemberId(Long memberId, Pageable pageable) {
         Page<Lecture> lecture = lectureService.getAllLectureByMemberId(memberId, pageable);
-
         return lecture.map(item -> new LectureResponseDto(item,
                                          item.getTutorNickname(),
                                          locationService.getLocation(item.getMember()).getAddress()));
@@ -37,7 +35,6 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional(readOnly = true)
     public Page<LectureResponseDto> getAllPost(int category, Pageable pageable) {
-
         if(category == 0 ){
             Page<Lecture> lectures = lectureService.getLectures(pageable);
             return lectures.map(item -> new LectureResponseDto(item));
@@ -46,7 +43,6 @@ public class BoardServiceImpl implements BoardService {
             Page<Lecture> lectures = lectureService.getLectures(category, pageable);
             return lectures.map(item -> new LectureResponseDto(item));
         }
-
     }
 
 }

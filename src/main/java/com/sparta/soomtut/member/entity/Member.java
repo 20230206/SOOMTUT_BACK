@@ -11,54 +11,38 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-// lombok
 @Getter
 @NoArgsConstructor
-
-// jpa
 @Entity
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false, unique = true)
     private String email;
-
     @Column(nullable = false)
     private String password;
-
     @Column(nullable = false, unique = true)
     private String nickname;
-
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private MemberRole memberRole;
-
     @Column(nullable = false)
     private LocalDate createdAt;
-    
     @Column
     private float starRating;
-
     @Column
     private int level;
-
     @Column
     private String image;
-
     @Column 
     private String provider;
-
     @Column
     private String oauthEmail;
-
     @Column
     @Enumerated(EnumType.STRING)
     private MemberState state;
-
-
 
     @Builder(builderClassName = "UserDetailRegister", builderMethodName = "userDetailRegister")
     public Member(String email, String password, String nickname) {
@@ -105,4 +89,5 @@ public class Member {
     public boolean isActive() {
         return MemberState.ACTIVE.equals(state);
     }
+
 }

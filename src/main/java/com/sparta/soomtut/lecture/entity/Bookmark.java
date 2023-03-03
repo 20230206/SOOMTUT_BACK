@@ -8,12 +8,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-// lombok
 @Getter
 @NoArgsConstructor
-// jpa
 @Entity
 public class Bookmark extends TimeStamped {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

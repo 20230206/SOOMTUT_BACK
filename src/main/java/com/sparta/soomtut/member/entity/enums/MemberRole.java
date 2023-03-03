@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum MemberRole {
+
     MEMBER(Authority.MEMBER),
     ADMIN(Authority.ADMIN);
 
@@ -15,4 +16,5 @@ public enum MemberRole {
         static String MEMBER = "ROLE_MEMBER";
         static String ADMIN = "ROLE_ADMIN";
     }
+
 }

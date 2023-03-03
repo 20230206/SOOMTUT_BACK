@@ -28,7 +28,6 @@ public class LectureRequestServiceImpl implements LectureRequestService{
 
     private final LectureRequestRepository lectureRequestRepository;
     private final LectureService lectureService;
-
     private final LocationService locationService;
 
     // 수업 신청
@@ -37,29 +36,29 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     public LecReqResponseDto createLectureRequest(Long lectureId, Long memberId) {
         Lecture lecture = lectureService.getLectureById(lectureId);
 
-        if(lectureRequestRepository.existsByTuteeIdAndLectureId(memberId, lectureId)){
+        if(lectureRequestRepository.existsByTuteeIdAndLectureId(memberId, lectureId)) {
             // 에러메시지 수정 필요.
            new IllegalArgumentException(ErrorCode.NOT_FOUND_REQUEST.getMessage());
         }
 
         LectureRequest lectureRequest = new LectureRequest(lecture, memberId);
         lectureRequestRepository.save(lectureRequest);
-
         return LecReqResponseDto.of(lectureRequest.getLectureId(),
                 lectureRequest.getLecture(),
                 lectureRequest.getTuteeId(),
-                lectureRequest.getReviewFilter()
-        );
+                lectureRequest.getReviewFilter());
     }
-
-    // TODO: 성공 메시지로 바꿔주세요. 그리고 Member 객체 안 쓰시면 안 넘겨줘도 됩니다. 컨트롤러에서만 받으시면 됩니다.
 
     @Override
     @Transactional
     public LecReqResponseDto acceptLecture(Long lectureRequestId, Member member) {
         LectureRequest lectureRequest = getLectureRequestById(lectureRequestId);
         lectureRequest.changeConfirmed();
-        return LecReqResponseDto.of(lectureRequest.getId(), lectureRequest.getLecture(), lectureRequest.getTuteeId(), lectureRequest.getReviewFilter());
+        return LecReqResponseDto.of(
+                lectureRequest.getId(),
+                lectureRequest.getLecture(),
+                lectureRequest.getTuteeId(),
+                lectureRequest.getReviewFilter());
     }
 
     @Override
@@ -67,12 +66,12 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     public LecReqResponseDto completeLecture(Long lectureRequestId, Member member) {
         LectureRequest lectureRequest = getLectureRequestById(lectureRequestId);
         lectureRequest.changeComplete();
-        return LecReqResponseDto.of(lectureRequest.getId(), lectureRequest.getLecture(), lectureRequest.getTuteeId(), lectureRequest.getReviewFilter());
+        return LecReqResponseDto.of(
+                lectureRequest.getId(),
+                lectureRequest.getLecture(),
+                lectureRequest.getTuteeId(),
+                lectureRequest.getReviewFilter());
     }
-
-    // TODO: 객체 그 자체를 반환해주기보다 DTO 를 반환해주는 것이 좋습니다.
-    // 이유는 제가 노션 3월2일 페이지에 정리해두었습니다.
-    // 목록 조회는 페이징이 필요합니다.
 
     // 완료한 수업 목록 조회
     @Override
@@ -80,7 +79,7 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     public Page<LectureResponseDto> getCompleteLecture(Long memberId, Pageable pageable) {
         Page<LectureRequest> lectureRequestPage = getAllByTuteeIdByAndStateIsDone(memberId, pageable);
         Page<Lecture> lectureList = lectureRequestPage.map(lectureRequest -> lectureRequest.getLecture());
-        return lectureList.map(item->new LectureResponseDto(item, locationService.findMemberLocation(memberId)));
+        return lectureList.map(item-> new LectureResponseDto(item, locationService.findMemberLocation(memberId)));
     }
 
     // 완료된 수업중 리뷰가 없는 수업목록 조회
@@ -89,16 +88,14 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     public Page<LectureResponseDto> reviewFilter(Long memberId, Pageable pageable) {
         Page<LectureRequest> lectureRequestPage = getAllByTuteeIdByAndStateIsDoneAndFalse(memberId, pageable);
         Page<Lecture> lectureList = lectureRequestPage.map(lectureRequest -> lectureRequest.getLecture());
-        return lectureList.map(item->new LectureResponseDto(item, locationService.findMemberLocation(memberId)));
+        return lectureList.map(item-> new LectureResponseDto(item, locationService.findMemberLocation(memberId)));
     }
-
-
 
     // 레파지토리 접근 함수.
     @Override
     public LectureRequest getLectureRequestById(Long lectureRequestId) {
         return lectureRequestRepository.findById(lectureRequestId).orElseThrow(
-                ()->new IllegalArgumentException(ErrorCode.NOT_FOUND_LECTURE_REQUEST.getMessage())
+                ()-> new IllegalArgumentException(ErrorCode.NOT_FOUND_LECTURE_REQUEST.getMessage())
         );
     }
 
@@ -116,10 +113,9 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     @Transactional(readOnly=true)
     public boolean existsLectureRequestByStateIsNotComplete(Long memberId, Long lectureId) {
         if(existsLectureRequestByMemberIdAndLectureId(memberId, lectureId, LectureState.NONE) ||
-        existsLectureRequestByMemberIdAndLectureId(memberId, lectureId, LectureState.IN_PROGRESS))
+        existsLectureRequestByMemberIdAndLectureId(memberId, lectureId, LectureState.IN_PROGRESS)) {
             return true;
-
-        return false;
+        } return false;
     }
 
     private boolean existsLectureRequestByMemberIdAndLectureId(Long memberId, Long lectureId, LectureState lectureState) {

@@ -27,8 +27,8 @@ public class LectureRequestController {
     @PostMapping("/{lectureid}")
     public ResponseEntity<?> createLectureRequest(
             @PathVariable Long lectureid,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
-    ) {
+            @AuthenticationPrincipal UserDetailsImpl userDetails)
+    {
         var data = lectureRequestService.createLectureRequest(lectureid, userDetails.getMemberId());
         return ToResponse.of(data, SuccessCode.LECTUREREQUEST_CREATE_OK);
     }
@@ -37,8 +37,8 @@ public class LectureRequestController {
     @PostMapping("/{lecturerequestid}/accept")
     public ResponseEntity<?> acceptLecture(
         @PathVariable Long lecturerequestid,
-        @AuthenticationPrincipal UserDetailsImpl userDetails
-    ) {
+        @AuthenticationPrincipal UserDetailsImpl userDetails)
+    {
         var data = lectureRequestService.acceptLecture(lecturerequestid, userDetails.getMember());
         return ToResponse.of(data, SuccessCode.LECTUREREQUEST_ACCEPT_OK);
     }
@@ -47,8 +47,8 @@ public class LectureRequestController {
     @PostMapping("/{lecturerequestid}/complete")
     public ResponseEntity<?> complete(
         @PathVariable Long lecturerequestid,
-        @AuthenticationPrincipal UserDetailsImpl userDetails
-    ) {
+        @AuthenticationPrincipal UserDetailsImpl userDetails)
+    {
         var data = lectureRequestService.completeLecture(lecturerequestid, userDetails.getMember());
         return ToResponse.of(data, SuccessCode.LECTUREREQUEST_COMPLETE_OK);
     }
@@ -57,8 +57,7 @@ public class LectureRequestController {
     @GetMapping("/{lectureId}/existsLectureRequest") 
     public ResponseEntity<?> existsLectureRequest(
         @AuthenticationPrincipal UserDetailsImpl userDetails,
-        @PathVariable Long lectureId
-    )
+        @PathVariable Long lectureId)
     {
         var data = lectureRequestService.existsLectureRequestByStateIsNotComplete(userDetails.getMemberId(), lectureId);
         return ToResponse.of(data, SuccessCode.LECTUREREQUEST_ISEXISTS_OK);
@@ -67,31 +66,26 @@ public class LectureRequestController {
     @GetMapping("/{lectureId}") 
     public ResponseEntity<?> getLectureRequest(
         @AuthenticationPrincipal UserDetailsImpl userDetails,
-        @PathVariable Long lectureId
-    )
+        @PathVariable Long lectureId)
     {
         var data = lectureRequestService.getLectureRequestByStateIsNotComplete(userDetails.getMemberId(), lectureId);
         return ToResponse.of(data, SuccessCode.LECTUREREQUEST_GET_OK);
     }
 
-    // TODO: 제 생각에, 아래 3개 메서드는 Lecture 로 가야하는 게 맞는 것 같습니다. 그리고 서비스단은 boardService 로!
-    // 수업 신청 목록 조회
     @GetMapping
     public ResponseEntity<?> getLecturesRequests(
         @AuthenticationPrincipal UserDetailsImpl userDetails,
-        @ModelAttribute PageRequestDto pageable
-    )
+        @ModelAttribute PageRequestDto pageable)
     {
         return ToResponse.of(null, SuccessCode.LECTUREREQUEST_GETREQUESTS_OK);
     }
 
     // 완료된 수업 목록 조회
-    // TODO: 수업의 완료라기 보다는 수업 신청의 완료라고 보는 것이 타당한 것 같습니다.
     @GetMapping("/done")
     public ResponseEntity<?> getCompleteLecture(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @ModelAttribute PageRequestDto pageable
-    ) {
+            @ModelAttribute PageRequestDto pageable)
+    {
         var data = lectureRequestService.getCompleteLecture(userDetails.getMemberId(),pageable.toPageable());
         return ToResponse.of(data, SuccessCode.LECTURE_GETDONELECUTES_OK);
     }
@@ -100,8 +94,8 @@ public class LectureRequestController {
     @GetMapping("/reviewfilter")
     public ResponseEntity<?> reviewFilter(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @ModelAttribute PageRequestDto pageable
-    ) {
+            @ModelAttribute PageRequestDto pageable)
+    {
         var data = lectureRequestService.reviewFilter(userDetails.getMemberId(),pageable.toPageable());
         return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURE_OK);
     }

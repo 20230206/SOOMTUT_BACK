@@ -25,43 +25,41 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Transactional
     @Override
     public boolean getState(Long postId, Member member) {
-        if(!hasFavPost(postId, member)) return false;
+        if (!hasFavPost(postId, member)) {
+            return false;
+        }
         else {
             Bookmark fav = findByPostIdAndMemberId(postId, member.getId());
             return fav.isStatus();
         }
-
     }
     
     //즐겨찾기 특정 Id 조회
     @Transactional
     @Override
-    public LectureResponseDto findFavPost(Long id){
+    public LectureResponseDto findFavPost(Long id) {
         Lecture post = postService.getLectureById(id);
         Bookmark favMemberPost = favMemberPostRepository.findByPostId(post.getId())
-                .orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_FAVPOST.getMessage()));
+                .orElseThrow(()-> new IllegalArgumentException(ErrorCode.NOT_FOUND_FAVPOST.getMessage()));
         return new LectureResponseDto(favMemberPost.getPost());
     }
 
     //즐겨찾기 전체 조회
     @Transactional
     @Override
-    public Page<LectureResponseDto> getLecturesByBookmarked(Pageable pageable, Member member){
-        // PageRequest pageables = PageRequest.of(reqeust.getPage(), 5);
+    public Page<LectureResponseDto> getLecturesByBookmarked(Pageable pageable, Member member) {
         Page<Bookmark> favlist = favMemberPostRepository.findAllByMemberIdAndStatusIsTrue(member.getId(), pageable);
         return favlist.map((item) -> new LectureResponseDto(item.getPost()));
     }
-    
 
     //즐겨찾기 업데이트
     @Transactional
     @Override
     public boolean updateBookmark(Long postId, Member member) {
-        // 1. existsByPostIdAndMemberId를 통해서 return이 false 일시
-        //  -> 새로운 FavMemberPost를 생성하고, save 해주고 return true
-        // 2. existsByPostIdAndMemberId를 통해서 return이 true 일시
-        //  -> findByPostIdAndMemberId 통해 해당 기록을 가져오고, 해당기록의 내용을 반대로 변경시켜준다.
-        
+        /* 1. existsByPostIdAndMemberId를 통해서 return이 false 일시
+          -> 새로운 FavMemberPost를 생성하고, save 해주고 return true
+         2. existsByPostIdAndMemberId를 통해서 return이 true 일시
+          -> findByPostIdAndMemberId 통해 해당 기록을 가져오고, 해당기록의 내용을 반대로 변경시켜준다.*/
         if(!hasFavPost(postId, member)) {
             Lecture post = postService.getLectureById(postId);
             Bookmark data = createFavPost(post, member);
@@ -76,13 +74,13 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     //즐겨찾기 추가
     @Transactional
-    public Bookmark createFavPost(Lecture post, Member member){
+    public Bookmark createFavPost(Lecture post, Member member) {
         return favMemberPostRepository.save(Bookmark.builder().post(post).member(member).build());
     }
 
     //글과 멤버의 값을 가지고 있다면 true 아니라면 false 용도의 함수
     @Transactional(readOnly = true)
-    public boolean hasFavPost(Long postId, Member member){
+    public boolean hasFavPost(Long postId, Member member) {
         //Optional 값을 가지고 있다면 ture 아니면 false ->existsBy로 변경
         return favMemberPostRepository.existsByPostIdAndMemberId(postId, member.getId()); 
     }
@@ -90,8 +88,7 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Transactional(readOnly = true)
     private Bookmark findByPostIdAndMemberId(Long postId, Long memberId) {
         return favMemberPostRepository.findByPostIdAndMemberId(postId, memberId).orElseThrow(
-            () -> new IllegalArgumentException("로그가 존재하지 않습니다.")
-        );
+            () -> new IllegalArgumentException("로그가 존재하지 않습니다."));
     }
 
 }
