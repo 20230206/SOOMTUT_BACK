@@ -1,5 +1,5 @@
 # soomtut
-------------
+
 ## 팀원
 - 이신희 LEADER
 - 정성윤 VICE LEADER
