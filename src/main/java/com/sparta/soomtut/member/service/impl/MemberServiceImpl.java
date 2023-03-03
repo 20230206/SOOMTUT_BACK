@@ -8,14 +8,14 @@ import com.sparta.soomtut.member.entity.enums.MemberState;
 import com.sparta.soomtut.member.repository.MemberRepository;
 import com.sparta.soomtut.member.service.MemberService;
 import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
-import com.sparta.soomtut.review.entity.Review;
-import com.sparta.soomtut.review.service.ReviewService;
 import com.sparta.soomtut.util.dto.request.PageRequestDto;
 import com.sparta.soomtut.util.response.ErrorCode;
 import com.sparta.soomtut.location.service.LocationService;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.admin.service.DeleteReviewRequestService;
+import com.sparta.soomtut.review.entity.Review;
+import com.sparta.soomtut.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -31,8 +31,8 @@ public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
     private final LectureService lectureService;
-    private final ReviewService reviewService;
     private final LocationService locationService;
+    private final ReviewService reviewService;
     private final DeleteReviewRequestService deleteReviewRequestService;
     private final LectureRequestRepository lectureRequestRepository;
 
@@ -69,23 +69,6 @@ public class MemberServiceImpl implements MemberService{
         return member.getImage();
     }
     
-    @Override
-    @Transactional
-    public String createReview(Long lectureId, CreateReviewRequestDto reviewRequestDto, Member member) {
-
-        if(!reviewService.checkTuitionState(lectureId,member.getId())){
-            throw new IllegalArgumentException(ErrorCode.NOT_PROGRESS_CLASS.getMessage());
-        }
-
-        Long tutorId = lectureService.getTutorId(lectureId);
-        reviewService.saveReview(tutorId,reviewRequestDto,member.getId());
-        Lecture lecture = lectureService.getLectureById(lectureId);
-        LectureRequest lectureRequest = lectureRequestRepository.findByLecture(lecture).orElseThrow(
-                () -> new IllegalArgumentException("Error"));
-        lectureRequest.ChangTuitionReview(lecture);
-        return "수강후기 작성이 완료되었습니다!";
-    }
-
     @Override
     @Transactional
     public MemberInfoResponse suspendAccount(Long memberId) {
@@ -131,13 +114,9 @@ public class MemberServiceImpl implements MemberService{
     @Transactional(readOnly = true)
     public Member getMemberByEmail(String email) {
         return memberRepository.findByEmail(email).orElseThrow(
-            () -> new IllegalArgumentException("등록된 사용자가 없습니다!"));
-    }
+            () -> new IllegalArgumentException("등록된 사용자가 없습니다!")
+        );
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<Review> getReview(PageRequestDto pageRequestDto, Member member) {
-        return reviewService.getReview(pageRequestDto, member.getId());
     }
 
     @Override

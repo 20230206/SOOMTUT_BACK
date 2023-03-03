@@ -19,7 +19,6 @@ public interface MemberService {
     LocalDate getSignupDate(Member member);
     int getLevel(Member member);
     String getImage(Member member);
-    String createReview(Long postId, CreateReviewRequestDto reviewRequestDto, Member member);
     MemberInfoResponse suspendAccount(Long memberId);
 
     // Repository 지원 함수
@@ -29,7 +28,6 @@ public interface MemberService {
     Member getMemberByNickname(String nickname);
     boolean existsMemberByEmail(String email);
     boolean existsMemberByNickname(String nickname);
-    Page<Review> getReview(PageRequestDto pageRequestDto, Member member);
     String deleteReviewRequest(Long reviewId);
     MemberInfoResponse getMemberInfo(Member member);
     MemberInfoResponse getMemberInfoResponseDto(Long memberId);

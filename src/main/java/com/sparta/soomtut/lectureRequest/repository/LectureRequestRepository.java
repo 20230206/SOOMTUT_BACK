@@ -2,7 +2,8 @@ package com.sparta.soomtut.lectureRequest.repository;
 
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
-import com.sparta.soomtut.util.enums.LectureState;
+import com.sparta.soomtut.lectureRequest.entity.LectureState;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

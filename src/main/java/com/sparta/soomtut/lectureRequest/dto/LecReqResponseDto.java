@@ -14,6 +14,7 @@ public class LecReqResponseDto {
     private Lecture lecture;
     private Long tuteeId;
     private Boolean reviewFilter;
+    private Long chatroomId;
 
     private LecReqResponseDto(
             Long lectureRequestId,

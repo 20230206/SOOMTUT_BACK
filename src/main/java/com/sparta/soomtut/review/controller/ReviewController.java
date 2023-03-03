@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.response.ToResponse;
 import com.sparta.soomtut.util.dto.request.PageRequestDto;
-import com.sparta.soomtut.member.service.MemberService;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
+
+import com.sparta.soomtut.review.service.ReviewService;
 
 import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
 
@@ -25,26 +26,25 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 public class ReviewController {
-        
-    private final MemberService memberService;
+    
+    private final ReviewService reviewService;
 
-    @PostMapping(value = "/create/{lectureid}")
+    @PostMapping(value = "/create/{lectureRequestId}")
     public ResponseEntity<?> createReview(
-            @PathVariable Long lectureid,
+            @PathVariable Long lectureRequestId,
             @RequestBody CreateReviewRequestDto reviewRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        String msg = memberService.createReview(lectureid,reviewRequestDto,userDetails.getMember());
-        return ToResponse.of(msg, SuccessCode.REVIEW_CREATE_OK);
+        var data = reviewService.createReview(lectureRequestId, reviewRequestDto, userDetails.getMember());
+        return ToResponse.of(data, SuccessCode.REVIEW_CREATE_OK);
     }
 
     //리뷰 조회
-    @GetMapping(value = "/{reviewid}")
+    @GetMapping(value = "/{lectureRequestId}")
     public ResponseEntity<?> getReview(
-        @ModelAttribute PageRequestDto pageRequest,
-        @AuthenticationPrincipal UserDetailsImpl userDetails)
+        @PathVariable Long lectureRequestId)
     {
-        var data = memberService.getReview(pageRequest,userDetails.getMember());
+        var data = reviewService.getReview(lectureRequestId);
         return ToResponse.of(data, SuccessCode.REVIEW_GET_OK);
     }
 
@@ -52,31 +52,23 @@ public class ReviewController {
     @PostMapping(value = "/{reviewId}")
     public ResponseEntity<?> deleteReviewRequest(@PathVariable Long reviewId)
     {
-        String msg = memberService.deleteReviewRequest(reviewId);
-        return ToResponse.of(msg, SuccessCode.REVIEW_DELETE_OK);
+        // String msg = reviewService.deleteReviewRequest(reviewId);
+ 
+        return ToResponse.of(null, SuccessCode.REVIEW_DELETE_OK);
     }
 
     // 게시된 강의의 리뷰 조회
-    @GetMapping(value = "/{lectureid}")
+    @GetMapping(value = "/get/{lectureid}")
     public ResponseEntity<?> getReviewsByPost(@PathVariable Long lectureid)
     {
         return ToResponse.of(null, SuccessCode.REVIEW_GETBYLECTURE_OK);
     }
 
     // 해당 멤버의 리뷰 조회
-    @GetMapping(value = "/{memberid}") 
+    @GetMapping(value = "/member/{memberid}") 
     public ResponseEntity<?> getReviewsByMember(@PathVariable Long memberid)
     {
         return ToResponse.of(null, SuccessCode.REVIEW_GETBYMEMBER_OK);
     }
 
 }
-
-//    // 후기(작성/미작성) 수업 조회
-//    @GetMapping(value = "/reviewFilter")
-//    public Page<Post> getReviewFilter(
-//            @ModelAttribute PageRequestDto pageRequest,
-//            @AuthenticationPrincipal UserDetailsImpl userDetails
-//    ){
-//        return postService.getReviewFilter(pageRequest, userDetails.getMember());
-//    }

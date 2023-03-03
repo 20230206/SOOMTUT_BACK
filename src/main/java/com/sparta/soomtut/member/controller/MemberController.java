@@ -20,7 +20,7 @@ public class MemberController  {
     private final MemberService memberService;
 
     // 내 정보 불러오기
-    @GetMapping(value = "/info/myInfo")
+    @GetMapping(value = "/myInfo")
     public ResponseEntity<?> getMyInfo(
             @AuthenticationPrincipal UserDetailsImpl userDetails)
     {

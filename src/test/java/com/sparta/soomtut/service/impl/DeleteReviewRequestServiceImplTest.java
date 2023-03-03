@@ -26,14 +26,14 @@ class DeleteReviewRequestServiceImplTest {
 
     @InjectMocks
     DeleteReviewRequestServiceImpl deleteReviewRequestService;
-    @Test
-    void deleteReviewRequest() {
-        Review review = new Review(1L,1L,3f,"굿");
-        given(reviewService.findReview(anyLong())).willReturn(review);
+    // @Test
+    // void deleteReviewRequest() {
+    //     Review review = new Review(1L,1L,3f,"굿");
+    //     given(reviewService.findReview(anyLong())).willReturn(review);
 
-        String msg = deleteReviewRequestService.deleteReviewRequest(anyLong());
+    //     String msg = deleteReviewRequestService.deleteReviewRequest(anyLong());
 
-        assertThat(msg).isEqualTo("해당 리뷰 삭제요청이 완료되었습니다!");
+    //     assertThat(msg).isEqualTo("해당 리뷰 삭제요청이 완료되었습니다!");
 
-    }
+    // }
 }

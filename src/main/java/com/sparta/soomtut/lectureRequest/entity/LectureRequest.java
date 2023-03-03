@@ -2,7 +2,6 @@ package com.sparta.soomtut.lectureRequest.entity;
 
 import com.sparta.soomtut.chat.entity.ChatRoom;
 import com.sparta.soomtut.lecture.entity.Lecture;
-import com.sparta.soomtut.util.enums.LectureState;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -23,6 +22,7 @@ public class LectureRequest {
     @JoinColumn(name = "lecture_Id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Lecture lecture;
+
     @OneToOne(mappedBy = "lectureRequest")
     private ChatRoom chatRoom;
     @Column
@@ -45,8 +45,7 @@ public class LectureRequest {
         this.lectureState = LectureState.DONE;
     }
 
-    public void ChangTuitionReview(Lecture lecture) {
-        this.lecture = lecture;
+    public void updateReview() {
         this.reviewFilter = true;
     }
 
