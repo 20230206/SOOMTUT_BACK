@@ -39,10 +39,7 @@ public class LectureRequestServiceImpl implements LectureRequestService{
 
         LectureRequest lectureRequest = new LectureRequest(lecture, memberId);
         lectureRequestRepository.save(lectureRequest);
-        return LecReqResponseDto.of(lectureRequest.getLectureId(),
-                lectureRequest.getLecture(),
-                lectureRequest.getTuteeId(),
-                lectureRequest.getReviewFilter());
+        return LecReqResponseDto.toDto().lectureRequest(lectureRequest).build();
     }
 
     @Override
@@ -50,11 +47,7 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     public LecReqResponseDto acceptLecture(Long lectureRequestId, Member member) {
         LectureRequest lectureRequest = getLectureRequestById(lectureRequestId);
         lectureRequest.changeConfirmed();
-        return LecReqResponseDto.of(
-                lectureRequest.getId(),
-                lectureRequest.getLecture(),
-                lectureRequest.getTuteeId(),
-                lectureRequest.getReviewFilter());
+        return LecReqResponseDto.toDto().lectureRequest(lectureRequest).build();
     }
 
     @Override
@@ -62,11 +55,7 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     public LecReqResponseDto completeLecture(Long lectureRequestId, Member member) {
         LectureRequest lectureRequest = getLectureRequestById(lectureRequestId);
         lectureRequest.changeComplete();
-        return LecReqResponseDto.of(
-                lectureRequest.getId(),
-                lectureRequest.getLecture(),
-                lectureRequest.getTuteeId(),
-                lectureRequest.getReviewFilter());
+        return LecReqResponseDto.toDto().lectureRequest(lectureRequest).build();
     }
 
     // 완료한 수업 목록 조회
@@ -119,8 +108,8 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     @Override
     @Transactional(readOnly=true)
     public LecReqResponseDto getLectureRequestByStateIsNotComplete(Long memberId, Long lectureId) {
-        LectureRequest lecreq = getLectureRequestByTuteeIdAndLectureIdAndLectureState(memberId, lectureId);
-        return LecReqResponseDto.of(lecreq.getId(), lecreq.getLecture(), lecreq.getTuteeId(), lecreq.getReviewFilter());
+        LectureRequest lectureRequest = getLectureRequestByTuteeIdAndLectureIdAndLectureState(memberId, lectureId);
+        return LecReqResponseDto.toDto().lectureRequest(lectureRequest).build();
     }
 
     private LectureRequest getLectureRequestByTuteeIdAndLectureIdAndLectureState(Long memberId, Long lectureId) {
