@@ -83,4 +83,17 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository.findAllByTuteeId(memberId, pageable);
     }
 
+    @Override
+    @Transactional
+    public ReviewResponseDto deleteReview(Long reviewId, Long memberId) {
+        Review review = this.getReviewById(reviewId);
+        if(review.getTuteeId() != memberId) throw new CustomException(ErrorCode.NOT_FOUND_REVIEW);
+
+        var response = ReviewResponseDto.toDto().review(review).build();
+        reviewRepository.delete(review);
+
+        return response;
+        
+    }
+
 }

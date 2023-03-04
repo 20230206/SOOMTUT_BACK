@@ -13,6 +13,7 @@ public interface ReviewService {
     ReviewResponseDto createReview(Long lectureRequestId, CreateReviewRequestDto request, Member member);
     ReviewResponseDto getReview(Long lectureRequestId);
     ReviewResponseDto updateReview(Long reviewId, Long memberId, CreateReviewRequestDto request);
+    ReviewResponseDto deleteReview(Long reviewId, Long memberId);
 
     Page<ReviewResponseDto> getReviewsByMember(Long memberId, Pageable pageable);
 

@@ -62,11 +62,13 @@ public class ReviewController {
 
     //리뷰 삭제
     @PostMapping(value = "/{reviewId}")
-    public ResponseEntity<?> deleteReview(@PathVariable Long reviewId)
+    public ResponseEntity<?> deleteReview(
+        @PathVariable Long reviewId,
+        @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        // String msg = reviewService.deleteReviewRequest(reviewId);
+        var data = reviewService.deleteReview(reviewId, userDetails.getMemberId());
  
-        return ToResponse.of(null, SuccessCode.REVIEW_DELETE_OK);
+        return ToResponse.of(data, SuccessCode.REVIEW_DELETE_OK);
     }
 
     // 게시된 강의의 리뷰 조회
@@ -83,6 +85,15 @@ public class ReviewController {
         @ModelAttribute PageRequestDto pageRequest)
     {
         var data = reviewService.getReviewsByMember(memberId, pageRequest.toPageable());
+        return ToResponse.of(data, SuccessCode.REVIEW_GETBYMEMBER_OK);
+    }
+
+    @GetMapping(value = "/myReviews") 
+    public ResponseEntity<?> getMyReviews(
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @ModelAttribute PageRequestDto pageRequest)
+    {
+        var data = reviewService.getReviewsByMember(userDetailsImpl.getMemberId(), pageRequest.toPageable());
         return ToResponse.of(data, SuccessCode.REVIEW_GETBYMEMBER_OK);
     }
 

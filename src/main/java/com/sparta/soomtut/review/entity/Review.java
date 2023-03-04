@@ -1,7 +1,6 @@
 package com.sparta.soomtut.review.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
