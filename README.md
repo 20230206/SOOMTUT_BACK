@@ -1,5 +1,5 @@
 # soomtut
-![image](https://user-images.githubusercontent.com/79249838/222735913-0f5a3a5f-52a9-4b65-8450-7de37ab9c22c.png)
+![White Blue Clean Illustrative (People) Finance Pitch Deck Presentation (5)](https://user-images.githubusercontent.com/79249838/222885404-8b0a392b-f8c1-4b65-8a7d-daac48b668fb.png)
 ## 팀원
 - 이신희 LEADER
 - 정성윤 VICE LEADER
