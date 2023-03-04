@@ -16,13 +16,9 @@ public class DeleteReviewRequest {
     private Long id;
 
     @Column
-    private Long tutorId;
-
-    @Column
     private Long reviewId;
 
     public DeleteReviewRequest(Review review) {
-        this.tutorId = review.getTutorId();
         this.reviewId = review.getId();
     }
 }
