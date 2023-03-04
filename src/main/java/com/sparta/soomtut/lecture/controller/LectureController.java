@@ -28,7 +28,7 @@ import java.io.IOException;
 public class LectureController {
     private final LectureService lectureService;
     private final BoardServiceImpl boardService;
-    private final BookmarkService favMemberPostService;
+    private final BookmarkService bookmarkService;
     private final S3Service s3Service;
     
     // 수업 등록
@@ -105,23 +105,23 @@ public class LectureController {
     }
     
     // 현재 글의 즐겨찾기 상태 확인
-    @GetMapping(value = "/bookmark/{postId}")
+    @GetMapping(value = "/bookmark/{lectureId}")
     public ResponseEntity<?> getBookmarkState(
-            @PathVariable Long postId,
+            @PathVariable Long lectureId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     )
     {
-        var data = favMemberPostService.getState(postId, userDetails.getMember());
+        var data = bookmarkService.getState(lectureId, userDetails.getMember());
         return ResponseEntity.ok().body(data);
     }
 
     //즐겨찾기 추가 및 취소
     @PostMapping(value = "/bookmark/{lectureId}")
     public ResponseEntity<?> updateBookmark(
-            @PathVariable Long lectureid,
+            @PathVariable Long lectureId,
             @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        var data = favMemberPostService.updateBookmark(lectureid, userDetails.getMember());
+        var data = bookmarkService.updateBookmark(lectureId, userDetails.getMember());
         return ToResponse.of(data, SuccessCode.LECTURE_UPDATEBOOKMARK_OK);
     }
 
@@ -132,7 +132,7 @@ public class LectureController {
             @ModelAttribute PageRequestDto pageRequest,
             @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        var data = favMemberPostService.getLecturesByBookmarked(pageRequest.toPageable(), userDetails.getMember());
+        var data = bookmarkService.getLecturesByBookmarked(pageRequest.toPageable(), userDetails.getMember());
         return ToResponse.of(data, SuccessCode.LECTURE_GETBOOKMARKEDLECTURES_OK);
     }
 
