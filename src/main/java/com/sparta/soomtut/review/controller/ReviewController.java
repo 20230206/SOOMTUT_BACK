@@ -92,6 +92,7 @@ public class ReviewController {
         return ToResponse.of(data, SuccessCode.REVIEW_GETBYMEMBER_OK);
     }
 
+    // 나의 리뷰 조회
     @GetMapping(value = "/myReviews") 
     public ResponseEntity<?> getMyReviews(
         @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,

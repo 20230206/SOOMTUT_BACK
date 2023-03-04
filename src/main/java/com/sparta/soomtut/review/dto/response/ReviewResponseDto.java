@@ -15,6 +15,7 @@ public class ReviewResponseDto {
     private String contents;
 
     private LecReqResponseDto lectureRequest;
+
     private String memberNickname;
 
     @Builder(builderClassName = "ReviewToDto", builderMethodName="toDto")
