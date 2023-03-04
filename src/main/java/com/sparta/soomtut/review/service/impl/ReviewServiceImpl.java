@@ -50,7 +50,7 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = getReviewById(reviewId);
         
         if(review.getTuteeId() != memberId) throw new CustomException(ErrorCode.MISMATCH_CREATOR);
-
+        if(review.isDeleted()) throw new CustomException(ErrorCode.DELETED_REVIEW);
         review.updateReview(request);
 
         return ReviewResponseDto.toDto().review(review).build();
@@ -80,7 +80,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Transactional(readOnly=true)
     public Page<Review> getReviewsByMemberId(Long memberId, Pageable pageable) {
-        return reviewRepository.findAllByTuteeId(memberId, pageable);
+        return reviewRepository.findAllByTuteeIdAndDeletedIsFalse(memberId, pageable);
     }
 
     @Override
@@ -88,11 +88,9 @@ public class ReviewServiceImpl implements ReviewService {
     public ReviewResponseDto deleteReview(Long reviewId, Long memberId) {
         Review review = this.getReviewById(reviewId);
         if(review.getTuteeId() != memberId) throw new CustomException(ErrorCode.NOT_FOUND_REVIEW);
+        review.deleteReview();
 
-        var response = ReviewResponseDto.toDto().review(review).build();
-        reviewRepository.delete(review);
-
-        return response;
+        return ReviewResponseDto.toDto().review(review).build();
         
     }
 
