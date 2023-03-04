@@ -21,8 +21,8 @@ public class DeleteReviewRequestServiceImpl implements DeleteReviewRequestServic
     @Override
     @Transactional
     public String deleteReviewRequest(Long reviewId) {
-//        Review foundReview = reviewService.findReview(reviewId);
-//        deleteReviewRequestRepository.save(new DeleteReviewRequest(foundReview));
+        // Review foundReview = reviewService.getReview(reviewId);
+        // deleteReviewRequestRepository.save(new DeleteReviewRequest(foundReview));
         return "해당 리뷰 삭제요청이 완료되었습니다!";
     }
 }

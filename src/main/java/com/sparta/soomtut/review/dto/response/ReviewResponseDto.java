@@ -1,30 +1,30 @@
 package com.sparta.soomtut.review.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import com.sparta.soomtut.lectureRequest.dto.LecReqResponseDto;
 import com.sparta.soomtut.review.entity.Review;
 
 @Getter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class ReviewResponseDto {
-    private Long reviewId;
-    private Long lectureId;
-    private Long lectureRequestId;
+    private Long id;
     private float starScore;
-    private String content;
+    private String contents;
 
-    public static ReviewResponseDto toDto(Review review) {
-        return ReviewResponseDto.builder()
-                .reviewId(review.getId())
-                .lectureId(review.getLectureId())
-                .lectureRequestId(review.getLectureRequest().getId())
-                .starScore(review.getStar_rating())
-                .content(review.getReview_content())
-                .build();
+    private LecReqResponseDto lectureRequest;
+
+    private String memberNickname;
+
+    @Builder(builderClassName = "ReviewToDto", builderMethodName="toDto")
+    public ReviewResponseDto (Review review, String memberNickname){
+        this.id = review.getId();
+        this.starScore = review.getStar_rating();
+        this.contents = review.getReview_content();
+
+        this.lectureRequest = LecReqResponseDto.toDto().lectureRequest(review.getLectureRequest()).build();
+        this.memberNickname = memberNickname;
     }
 }

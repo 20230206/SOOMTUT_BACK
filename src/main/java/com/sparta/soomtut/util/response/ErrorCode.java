@@ -34,7 +34,9 @@ public enum ErrorCode {
     NOT_PROGRESS_CLASS(500, "아직 수강이 완료되지 않았습니다!"),
     CATEGORY_OUTOFINDEX(500, "인덱스 길이를 초과하였습니다."),
     REVIEW_NOT_FOUND(500, "리뷰를 찾을 수 없습니다."),
-    INTERNAL_SERVER_ERROR(500, "서버 오류");
+    INTERNAL_SERVER_ERROR(500, "서버 오류"),
+    MISMATCH_CREATOR(401, "수정 권한이 없습니다."),
+    DELETED_REVIEW(400, "삭제된 리뷰 입니다.");
 
     //    ALREADY_SELLER_MANAGEMENT_STATUS_DROP("판매자 권한 회수 상태로 처리가 불가능합니다."),
 //    ALREADY_SELLER_MANAGEMENT_STATUS_COMPLETE("판매자 권한 승인 상태로 처리가 불가능합니다."),
