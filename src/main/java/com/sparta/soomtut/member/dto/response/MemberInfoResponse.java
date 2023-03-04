@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberInfoResponse {
+
     private Long memberId;
     private String email;
     private String nickname;
@@ -29,20 +30,20 @@ public class MemberInfoResponse {
     private float vectorX;
     private float vectorY;
 
-    public static MemberInfoResponse toDto(Member member, Location location) {
-        return MemberInfoResponse.builder()
-                .memberId(member.getId())
-                .email(member.getEmail())
-                .nickname(member.getNickname())
-                .createAt(member.getCreatedAt())
-                .starRating(member.getStarRating())
-                .level(member.getLevel())
-                .state(member.getState())
-                .profileImage(member.getImage())
-                .address(location.getAddress())
-                .vectorX(location.getVectorX())
-                .vectorY(location.getVectorY())
-                .build();
+
+    @Builder(builderClassName = "MemberInfoToDto", builderMethodName = "toDto")
+    public MemberInfoResponse(Member member, Location location) {
+        this.memberId = member.getId();
+        this.email = member.getEmail();
+        this.nickname = member.getNickname();
+        this.createAt = member.getCreatedAt();
+        this.starRating = member.getStarRating();
+        this.level = member.getLevel();
+        this.profileImage = member.getImage();
+        this.state = member.getState();
+
+        this.address = location.getAddress();
+        this.vectorX = location.getVectorX();
+        this.vectorY = location.getVectorY();
     }
-    
 }

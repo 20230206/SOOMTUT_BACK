@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface AuthRepository extends JpaRepository<Auth, Long>{
 
     Optional<Auth> findByEmailAndHash(String email, int hash);
+
 }

@@ -10,16 +10,14 @@ import org.springframework.data.domain.Pageable;
 public interface LectureRequestService {
 
     LecReqResponseDto createLectureRequest(Long lectureid, Long memberId);
-    String lectureConfirmed(Long lectureId, Member member);
-    String lectureComplete(Long lectureId, Member member);
+    LecReqResponseDto acceptLecture(Long lectureId, Member member);
+    LecReqResponseDto completeLecture(Long lectureId, Member member);
     Page<LectureResponseDto> getCompleteLecture(Long memberId, Pageable pageable);
     Page<LectureResponseDto> reviewFilter(Long memberId, Pageable pageable);
     LectureRequest getLectureRequestById(Long lectureRequestId);
-
     Page<LectureRequest> getAllByTuteeIdByAndStateIsDoneAndFalse(Long tuteeId, Pageable pageable);
-
     Page<LectureRequest> getAllByTuteeIdByAndStateIsDone(Long tuteeId, Pageable pageable);
-
     boolean existsLectureRequestByStateIsNotComplete(Long memberId, Long lectureId);
     LecReqResponseDto getLectureRequestByStateIsNotComplete(Long memberId, Long lectureId);
+
 }

@@ -9,52 +9,39 @@ import com.sparta.soomtut.location.service.LocationService;
 import com.sparta.soomtut.util.response.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sparta.soomtut.auth.dto.request.RegisterRequest;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class LocationServiceImpl implements LocationService {
-
     private final LocationRepository locationRepository;
 
     @Override
     @Transactional
-    public Location findMemberLocation(Long memberId){
-        Location location = locationRepository.findByMemberId(memberId).orElseThrow(
-                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_LOCATION.getMessage())
-        );
-        return location;
+    public Location findMemberLocation(Long memberId) {
+        return locationRepository.findByMemberId(memberId).orElseThrow(
+                () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_LOCATION.getMessage()));
     }
 
-
     public Location getLocation(Member member) {
-
         //아마 API에서 시,구,동을 넘겨줄텐데, 각각 넘겨 받아서 String address하나로 이어붙이거나 해야될듯..?
         //그래서 일단 위치 정보 객체 전부 받아오게 작성해놓겠습니다.
         //여기서 프로필이니까 x,y값은 빼고 줘야할듯 합니다.
-
         return findMemberLocation(member.getId());
     }
 
     @Override
     @Transactional
-    public Location updateLocation(LocationRequestDto locationRequestDto, Member member){ 
-
+    public Location updateLocation(LocationRequestDto locationRequestDto, Member member) {
             Location location = findMemberLocation(member.getId());
             location.updateLocation(locationRequestDto);
-            
         return location;
     }
-
 
     @Override
     @Transactional
@@ -66,7 +53,6 @@ public class LocationServiceImpl implements LocationService {
                     .vectorY(requestDto.getVectorY())
                     .build());
     }
-
 
     @Override
     @Transactional
@@ -80,12 +66,10 @@ public class LocationServiceImpl implements LocationService {
         String myCityName = myLocation.getAddress();
         String myCityNameFirst = myCityName.split(" ")[0];
         List<LocationResponseDto> cityUserLocations = locationRepository.findAllByAddress(myCityNameFirst);
-
         cityUserLocations.stream()
                 .filter(s->s.getAddress().equals(myCityName))
                 .toList()
                 .forEach(cityUserLocations::remove);
-
         return cityUserLocations;
     }
     

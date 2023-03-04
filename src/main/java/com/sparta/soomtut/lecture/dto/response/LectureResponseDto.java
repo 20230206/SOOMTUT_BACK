@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class LectureResponseDto {
+
     private Long lectureId;
     private String title;
     private String content;
@@ -17,7 +18,6 @@ public class LectureResponseDto {
     private int fee;
     private String tutorNickname;
     private String address;
-
     private Long memberId;
 
     public LectureResponseDto(Lecture lecture) {
@@ -43,13 +43,11 @@ public class LectureResponseDto {
         this.memberId = lecture.getMember().getId();
     }
 
-
     public LectureResponseDto(Lecture lecture, String nickName, String location) {
         this.lectureId = lecture.getId();
         this.title = lecture.getTitle();
         this.content = lecture.getContent();
         this.categoryId = lecture.getCategory().getValue();
-
         this.image = lecture.getImage();
         this.fee = lecture.getFee();
         this.tutorNickname = nickName ;
@@ -64,7 +62,16 @@ public class LectureResponseDto {
         this.tutorNickname = lectureResponse.tutorNickname;
     }
 
-    public LectureResponseDto(String image,int fee, String address,String tutorNickname,String content,String title ) {
+    public LectureResponseDto(
+            Long lectureId,
+            String image,
+            int fee,
+            String address,
+            String tutorNickname,
+            String content,
+            String title )
+    {
+        this.lectureId = lectureId;
         this.image = image;
         this.fee = fee;
         this.address = address;
@@ -72,4 +79,5 @@ public class LectureResponseDto {
         this.content = content;
         this.title = title;
     }
+
 }

@@ -8,12 +8,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-// lombok
 @Getter
 @NoArgsConstructor
-// jpa
 @Entity
 public class Bookmark extends TimeStamped {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,16 +22,16 @@ public class Bookmark extends TimeStamped {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="post_id", nullable = false)
-    private Lecture post;
+    @JoinColumn(name="lecture_id", nullable = false)
+    private Lecture lecture;
 
     // 북마크 true = 추가, false = 취소
     @Column(nullable = false)
     private boolean status;
 
     @Builder
-    public Bookmark(Lecture post, Member member){
-        this.post = post;
+    public Bookmark(Lecture lecture, Member member){
+        this.lecture = lecture;
         this.member = member;
         this.status = true;
     }

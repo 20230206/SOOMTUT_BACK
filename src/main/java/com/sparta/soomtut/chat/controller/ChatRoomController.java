@@ -21,8 +21,8 @@ public class ChatRoomController {
     @PostMapping("/{lectureRequestId}/tutee")
     public ResponseEntity<?> getChatRoomForTutee(
         @AuthenticationPrincipal UserDetailsImpl userDetails,
-        @PathVariable Long lectureRequestId
-    ) {
+        @PathVariable Long lectureRequestId)
+    {
         var date = chatRoomService.getChatRoomForTutee(userDetails.getMemberId(), lectureRequestId);
         // 성공 메시지 바꿔야함.
         return ToResponse.of(date, SuccessCode.CHATROOM_GET_OK);
@@ -31,8 +31,8 @@ public class ChatRoomController {
     @PostMapping("/{lectureRequestId}/tutor")
     public ResponseEntity<?> getChatRoomForTutor(
         @AuthenticationPrincipal UserDetailsImpl userDetails,
-        @PathVariable Long lectureRequestId
-    ) {
+        @PathVariable Long lectureRequestId)
+    {
         var date = chatRoomService.getChatRoomForTutor(userDetails.getMemberId(), lectureRequestId);
         // 성공 메시지 바꿔야함.
         return ToResponse.of(date, SuccessCode.CHATROOM_GET_OK);
@@ -40,8 +40,11 @@ public class ChatRoomController {
 
     // 나의 채팅방 목록 조회 (완료)
     @GetMapping
-    public ResponseEntity<?> getMyChatRooms(@AuthenticationPrincipal UserDetailsImpl userDetails, @ModelAttribute PageRequestDto pageable) {
-        var data = chatRoomService.getMyChatRooms(userDetails.getMemberId(),pageable.toPageable());
+    public ResponseEntity<?> getMyChatRooms(
+        @RequestParam("state") int state,
+        @AuthenticationPrincipal UserDetailsImpl userDetails,
+        @ModelAttribute PageRequestDto pageable) {
+        var data = chatRoomService.getMyChatRooms(userDetails.getMemberId(), state, pageable.toPageable());
         // 성공 메시지 바꿔야함.
         return ToResponse.of(data, SuccessCode.MESSGE_OK);
     }

@@ -1,22 +1,21 @@
 package com.sparta.soomtut.review.service;
 
-import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
-import com.sparta.soomtut.review.entity.Review;
-import com.sparta.soomtut.util.dto.request.PageRequestDto;
+import com.sparta.soomtut.review.dto.response.ReviewResponseDto;
+import com.sparta.soomtut.member.entity.Member;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 
 public interface ReviewService {
 
-    LectureRequest findTuitionRequest(Long postId, Long tuteeId);
+    ReviewResponseDto createReview(Long lectureRequestId, CreateReviewRequestDto request, Member member);
+    ReviewResponseDto getReview(Long lectureRequestId);
+    ReviewResponseDto updateReview(Long reviewId, Long memberId, CreateReviewRequestDto request);
+    ReviewResponseDto deleteReview(Long reviewId, Long memberId);
 
-    boolean checkTuitionState(Long postId, Long tuteeId);
+    Page<ReviewResponseDto> getReviewsByLecture(Long lectureId, Pageable pageable);
+    Page<ReviewResponseDto> getReviewsByMember(Long memberId, Pageable pageable);
 
-    Review saveReview(Long tutorId, CreateReviewRequestDto reviewRequestDto, Long id);
-    Page<Review> getReview(PageRequestDto pageRequestDto, Long tutorId);
-    Page<Review> findReviewByTutorId(PageRequestDto pageRequestDto, Long tutorId);
-
-    Review findReview(Long reviewId);
 }

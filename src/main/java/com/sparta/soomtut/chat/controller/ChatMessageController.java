@@ -20,17 +20,21 @@ public class ChatMessageController {
 
     private final ChatService chatService;
 
-    // 채팅 메시지 하나 불러오기 _ 가장 최근 메시지 1개만 불러온다. <-
     @GetMapping("/message")
-    public ResponseEntity<?> getLastChatMessage(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam Long roomId) {
+    public ResponseEntity<?> getLastChatMessage(
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestParam Long roomId
+    ) {
         ChatResponseDto data = chatService.getLastChatMessage(roomId);
         return ResponseEntity.ok(data);
     }
-    // 채팅 메시지 전부 불러오기 (완료 )
+    // 채팅 메시지 전부 불러오기 (완료)
     @GetMapping("/messages")
-    public ResponseEntity<?> getAllChatMessages(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam Long roomId) {
+    public ResponseEntity<?> getAllChatMessages(
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestParam Long roomId
+    ) {
         var data = chatService.getAllChatMessages(roomId);
         return ToResponse.of(data, SuccessCode.CHAT_GETMESSAGES_OK);
-
     }
 }

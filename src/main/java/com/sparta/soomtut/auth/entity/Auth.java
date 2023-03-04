@@ -10,15 +10,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-// lombok
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
-// jpa
 @Entity
 public class Auth {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,4 +26,5 @@ public class Auth {
 
     @Column
     private int hash;
+
 }

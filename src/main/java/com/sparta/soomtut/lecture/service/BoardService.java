@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 
 public interface BoardService {
+
     Page<LectureResponseDto> getLecturesByMemberId(Long memberId, Pageable pageable);
     Page<LectureResponseDto> getAllPost(int category, Pageable pageable);
+
 }

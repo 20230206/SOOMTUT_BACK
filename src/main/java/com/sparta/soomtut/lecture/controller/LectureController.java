@@ -22,36 +22,34 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-import java.util.List;
-
-@RestController
 @RequiredArgsConstructor
+@RestController
 @RequestMapping("/lecture")
 public class LectureController {
     private final LectureService lectureService;
     private final BoardServiceImpl boardService;
-    private final BookmarkService favMemberPostService;
+    private final BookmarkService bookmarkService;
     private final S3Service s3Service;
     
     // 수업 등록
     @PostMapping
     public ResponseEntity<?> createLecture(
-        @RequestPart CreateLectureRequestDto postRequestDto,
-        @AuthenticationPrincipal UserDetailsImpl userDetails,
-        @RequestPart("file") MultipartFile file) throws IOException
+            @RequestPart CreateLectureRequestDto postRequestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestPart("file") MultipartFile file) throws IOException
     {
         var data = lectureService.createLecture(userDetails.getMember(), postRequestDto,file);
         ToResponse.of(data, SuccessCode.LECTURE_CREATE_OK);
-        var fullData = s3Service.uploadLectureImage(data.getLectureId(),file);
-        return ToResponse.of(null, SuccessCode.IMG_LECTUREIMG_OK);
+        s3Service.uploadLectureImage(data.getLectureId(),file);
+        return ToResponse.of(data, SuccessCode.IMG_LECTUREIMG_OK);
     }
 
     // 수업 수정
     @PutMapping("/{lectureid}")
     public ResponseEntity<?> updateLecture(
-        @PathVariable Long lectureid, 
-        @RequestBody UpdateLectureRequestDto updatePostRequestDto, 
-        @AuthenticationPrincipal UserDetailsImpl userDetails) 
+            @PathVariable Long lectureid,
+            @RequestBody UpdateLectureRequestDto updatePostRequestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         var data = lectureService.updateLecture(lectureid, updatePostRequestDto, userDetails.getMember());
         return ToResponse.of(data, SuccessCode.LECTURE_UPDATE_OK);
@@ -59,7 +57,10 @@ public class LectureController {
 
     // 수업 삭제
     @DeleteMapping(value = "/{lectureid}")
-    public ResponseEntity<?> deleteLecture(@PathVariable Long lectureid, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<?> deleteLecture(
+            @PathVariable Long lectureid,
+            @AuthenticationPrincipal UserDetailsImpl userDetails)
+    {
         lectureService.deleteLecture(lectureid, userDetails.getMember());
         return ToResponse.of(null, SuccessCode.LECTURE_DELETE_OK);
     }
@@ -67,9 +68,7 @@ public class LectureController {
     // 수업 단일 조회
     @GetMapping(value ="/{lectureid}")
     public ResponseEntity<?> getLecture(
-        @PathVariable Long lectureid,
-        @AuthenticationPrincipal UserDetailsImpl userDtails
-    )
+            @PathVariable Long lectureid)
     {
         LectureResponseDto data = lectureService.getLecture(lectureid);
         return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURE_OK);
@@ -78,9 +77,9 @@ public class LectureController {
     // 수업 전체 조회
     @GetMapping
     public ResponseEntity<?> getAllLeuctures(
-        @RequestParam(required = false, value = "category") int category,
-        @ModelAttribute PageRequestDto pageable
-    ){
+            @RequestParam(required = false, value = "category") int category,
+            @ModelAttribute PageRequestDto pageable)
+    {
         var data = boardService.getAllPost(category, pageable.toPageable());
         return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURES_OK);
     }
@@ -88,9 +87,8 @@ public class LectureController {
     // 나의 수업 전체 조회
     @GetMapping("/mylectures")
     public ResponseEntity<?> getMyAllLectures(
-        @AuthenticationPrincipal UserDetailsImpl userDetails,
-        @ModelAttribute PageRequestDto pageable
-    )
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @ModelAttribute PageRequestDto pageable)
     {
         var data = boardService.getLecturesByMemberId(userDetails.getMember().getId(), pageable.toPageable());
         return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURES_OK);
@@ -99,49 +97,51 @@ public class LectureController {
     // 나의 수업인지 확인
     @GetMapping("/{lectureid}/check")
     public ResponseEntity<?> checkLectureAuthor(
-        @PathVariable Long lectureid,
-        @AuthenticationPrincipal UserDetailsImpl userDetails
-    ) {
+            @PathVariable Long lectureid,
+            @AuthenticationPrincipal UserDetailsImpl userDetails)
+    {
         boolean isMyPost = lectureService.checkLectureAuthor(lectureid, userDetails.getMember());
         return ToResponse.of(isMyPost, SuccessCode.LECTURE_CHECK_OK);
     }
     
     // 현재 글의 즐겨찾기 상태 확인
-    @GetMapping(value = "/bookmark/{postId}")
+    @GetMapping(value = "/bookmark/{lectureId}")
     public ResponseEntity<?> getBookmarkState(
-        @PathVariable Long postId,
-        @AuthenticationPrincipal UserDetailsImpl userDetails
+            @PathVariable Long lectureId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     )
     {
-        var data = favMemberPostService.getState(postId, userDetails.getMember());
+        var data = bookmarkService.getState(lectureId, userDetails.getMember());
         return ResponseEntity.ok().body(data);
     }
 
     //즐겨찾기 추가 및 취소
-    @PostMapping(value = "/bookmark/{lectureid}")
+    @PostMapping(value = "/bookmark/{lectureId}")
     public ResponseEntity<?> updateBookmark(
-        @PathVariable Long lectureid,
-        @AuthenticationPrincipal UserDetailsImpl userDetails) 
+            @PathVariable Long lectureId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        var data = favMemberPostService.updateBookmark(lectureid, userDetails.getMember());
+        var data = bookmarkService.updateBookmark(lectureId, userDetails.getMember());
         return ToResponse.of(data, SuccessCode.LECTURE_UPDATEBOOKMARK_OK);
     }
+
     
     //즐겨찾기된 수업 전체 조회
     @GetMapping(value = "/bookmark")
     public ResponseEntity<?> getLecturesByBookmarked(
-        @ModelAttribute PageRequestDto pageRequest,
-        @AuthenticationPrincipal UserDetailsImpl userDetails)
+            @ModelAttribute PageRequestDto pageRequest,
+            @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        var data = favMemberPostService.getLecturesByBookmarked(pageRequest.toPageable(), userDetails.getMember());
+        var data = bookmarkService.getLecturesByBookmarked(pageRequest.toPageable(), userDetails.getMember());
         return ToResponse.of(data, SuccessCode.LECTURE_GETBOOKMARKEDLECTURES_OK);
     }
 
-    //키워드로 상품 검색하기
+    //키워드로 수업 검색하기
     @GetMapping("/search")
     public Page<LectureResponseDto> searchByKeyword(
-        @ModelAttribute PageRequestDto pageRequestDto,
-        @RequestParam String keyword){
+            @ModelAttribute PageRequestDto pageRequestDto,
+            @RequestParam String keyword)
+    {
         return lectureService.searchByKeyword(keyword,pageRequestDto.toPageable());
     }
 
@@ -150,9 +150,7 @@ public class LectureController {
     public ResponseEntity<?> getMemberLecture(
             @PathVariable Long memberId,
             @RequestParam(required = false, value = "category") int category,
-            @ModelAttribute PageRequestDto pageRequestDto
-
-    )
+            @ModelAttribute PageRequestDto pageRequestDto)
     {
         Page<LectureResponseDto> data = lectureService.getMemberLecture(category,memberId,pageRequestDto.toPageable());
         return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURES_OK);

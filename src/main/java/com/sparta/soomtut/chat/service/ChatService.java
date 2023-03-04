@@ -8,9 +8,7 @@ import java.util.List;
 public interface ChatService {
 
     void save(ChatRequestDto chatRequest);
-
     ChatResponseDto getLastChatMessage(Long memberId);
-
     List<ChatResponseDto> getAllChatMessages(Long memberId);
 
 }
