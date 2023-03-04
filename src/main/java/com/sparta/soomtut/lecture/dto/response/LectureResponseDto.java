@@ -63,6 +63,7 @@ public class LectureResponseDto {
     }
 
     public LectureResponseDto(
+            Long lectureId,
             String image,
             int fee,
             String address,
@@ -70,6 +71,7 @@ public class LectureResponseDto {
             String content,
             String title )
     {
+        this.lectureId = lectureId;
         this.image = image;
         this.fee = fee;
         this.address = address;
