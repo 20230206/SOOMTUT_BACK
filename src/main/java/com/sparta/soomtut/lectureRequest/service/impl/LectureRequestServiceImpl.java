@@ -32,9 +32,8 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     public LecReqResponseDto createLectureRequest(Long lectureId, Long memberId) {
         Lecture lecture = lectureService.getLectureById(lectureId);
 
-        if(lectureRequestRepository.existsByTuteeIdAndLectureId(memberId, lectureId)) {
-            // 에러메시지 수정 필요.
-            throw new IllegalArgumentException(ErrorCode.NOT_FOUND_REQUEST.getMessage());
+        if(this.existsLectureRequestByStateIsNotComplete(memberId, lectureId)) {
+            throw new CustomException(ErrorCode.NOT_FOUND_REQUEST);
         }
 
         LectureRequest lectureRequest = new LectureRequest(lecture, memberId);
