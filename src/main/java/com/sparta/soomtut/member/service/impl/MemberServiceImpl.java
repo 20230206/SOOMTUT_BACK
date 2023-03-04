@@ -38,11 +38,11 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     @Transactional
-    public MemberInfoResponse updateNickname(String nickname, Member member) {
-        var temp = getMemberById(member.getId());
-        temp.updateNickName(nickname);
+    public MemberInfoResponse updateNickname(String nickname, Member memberId) {
+        Member member = getMemberById(memberId.getId());
+        member.updateNickName(nickname);
         var location = locationService.findMemberLocation(member.getId());
-        return MemberInfoResponse.toDto(temp, location);
+        return MemberInfoResponse.toDto().member(member).location(location).build();
     }
 
     @Override
@@ -75,7 +75,7 @@ public class MemberServiceImpl implements MemberService{
         Member member = getMemberById(memberId);
         member.changeState(MemberState.SUSPEND);
         var location = locationService.findMemberLocation(memberId);
-        return MemberInfoResponse.toDto(member, location);
+        return MemberInfoResponse.toDto().member(member).location(location).build();
     }
 
     // repository 지원 함수
@@ -126,7 +126,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public MemberInfoResponse getMemberInfo(Member member) {
-        return MemberInfoResponse.toDto(member, locationService.findMemberLocation(member.getId()));
+        return MemberInfoResponse.toDto().member(member).location(locationService.findMemberLocation(member.getId())).build();
     }
 
     @Override
@@ -139,7 +139,7 @@ public class MemberServiceImpl implements MemberService{
     public MemberInfoResponse getMemberInfoResponseDto(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage()));
-        return MemberInfoResponse.toDto(member,locationService.findMemberLocation(memberId));
+        return MemberInfoResponse.toDto().member(member).location(locationService.findMemberLocation(memberId)).build();
     }
 
 }

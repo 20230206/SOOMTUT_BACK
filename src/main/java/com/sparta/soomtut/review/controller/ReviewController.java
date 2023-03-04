@@ -73,10 +73,13 @@ public class ReviewController {
     }
 
     // 게시된 강의의 리뷰 조회
-    @GetMapping(value = "/get/{lectureid}")
-    public ResponseEntity<?> getReviewsByPost(@PathVariable Long lectureid)
+    @GetMapping(value = "/lecture")
+    public ResponseEntity<?> getReviewsByLecture(
+        @RequestParam("lectureId") Long lectureId,
+        @ModelAttribute PageRequestDto pageRequest)
     {
-        return ToResponse.of(null, SuccessCode.REVIEW_GETBYLECTURE_OK);
+        var data = reviewService.getReviewsByLecture(lectureId, pageRequest.toPageable());
+        return ToResponse.of(data, SuccessCode.REVIEW_GETBYLECTURE_OK);
     }
 
     // 해당 멤버의 리뷰 조회

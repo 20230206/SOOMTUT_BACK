@@ -57,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
             // email, password, nickname
         Member member = memberService.saveMember(Member.userDetailRegister().email(email).password(password).nickname(nickname).build());
         Location location = locationService.saveLocation(requestDto, member);
-        return MemberInfoResponse.toDto(member, location);
+        return MemberInfoResponse.toDto().member(member).location(location).build();
     }
 
     @Override
@@ -119,7 +119,7 @@ public class AuthServiceImpl implements AuthService {
         Location location = locationService.findMemberLocation(member.getId());
         location.updateLocation(request.getAddress(), request.getVectorX(), request.getVectorY());
         member.changeState(MemberState.ACTIVE);
-        return MemberInfoResponse.toDto(member, location);
+        return MemberInfoResponse.toDto().member(member).location(location).build();
     }
 
     // 토큰 동작

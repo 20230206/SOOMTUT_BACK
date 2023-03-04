@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
+import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
 
 @Getter
@@ -15,7 +16,7 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
     @Column(nullable = false)
     private Long tuteeId;
 
@@ -35,7 +36,7 @@ public class Review {
     @JoinColumn(name="lecture_request_id")
     private LectureRequest lectureRequest;
 
-    public Review(LectureRequest lectureRequest, CreateReviewRequestDto requestDto) {
+    public Review(LectureRequest lectureRequest, CreateReviewRequestDto requestDto, Member member) {
         this.tuteeId = lectureRequest.getTuteeId();
         this.lectureId = lectureRequest.getLectureId();
         this.star_rating = requestDto.getStar_rating();

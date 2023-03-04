@@ -14,9 +14,13 @@ import com.sparta.soomtut.util.exception.CustomException;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.ArrayList;
 
 @RequiredArgsConstructor
 @Service
@@ -24,7 +28,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     
     private final LectureRequestService lectureRequestService;
-
+    
     @Override
     @Transactional
     public ReviewResponseDto createReview(Long lectureRequestId, CreateReviewRequestDto requestDto, Member member)
@@ -32,7 +36,7 @@ public class ReviewServiceImpl implements ReviewService {
         var lectureRequest = lectureRequestService.getLectureRequestById(lectureRequestId);
         lectureRequest.updateReview();
 
-        Review review = reviewRepository.save(new Review(lectureRequest, requestDto));
+        Review review = reviewRepository.save(new Review(lectureRequest, requestDto, member));
 
         return ReviewResponseDto.toDto().review(review).build();
     }
@@ -76,6 +80,25 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository.findById(reviewId).orElseThrow(
             () -> new CustomException(ErrorCode.NOT_FOUND_REVIEW)
         );
+    }
+
+    @Override
+    @Transactional(readOnly=true)
+    public Page<ReviewResponseDto> getReviewsByLecture(Long lectureId, Pageable pageable) {
+        List<Review> reviews = this.getReviewsByLectureId(lectureId);
+        var memberName = reviewRepository.findCreatorAllByLectureId(lectureId);
+
+        List<ReviewResponseDto> result = new ArrayList<>();
+        for(int i=0; i<reviews.size(); i++) {
+            result.add(ReviewResponseDto.toDto().review(reviews.get(i)).memberNickname(memberName.get(i)).build());
+        }
+        Page<ReviewResponseDto> response = new PageImpl<>(result, pageable, result.size());
+        return response;
+    }
+
+    @Transactional(readOnly=true) 
+    public List<Review> getReviewsByLectureId(Long lectureId) {
+        return reviewRepository.findAllByLectureId(lectureId);
     }
 
     @Transactional(readOnly=true)

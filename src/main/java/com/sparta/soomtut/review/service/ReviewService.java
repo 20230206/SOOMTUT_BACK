@@ -15,6 +15,7 @@ public interface ReviewService {
     ReviewResponseDto updateReview(Long reviewId, Long memberId, CreateReviewRequestDto request);
     ReviewResponseDto deleteReview(Long reviewId, Long memberId);
 
+    Page<ReviewResponseDto> getReviewsByLecture(Long lectureId, Pageable pageable);
     Page<ReviewResponseDto> getReviewsByMember(Long memberId, Pageable pageable);
 
 }

@@ -15,13 +15,15 @@ public class ReviewResponseDto {
     private String contents;
 
     private LecReqResponseDto lectureRequest;
+    private String memberNickname;
 
     @Builder(builderClassName = "ReviewToDto", builderMethodName="toDto")
-    public ReviewResponseDto (Review review){
+    public ReviewResponseDto (Review review, String memberNickname){
         this.id = review.getId();
         this.starScore = review.getStar_rating();
         this.contents = review.getReview_content();
 
         this.lectureRequest = LecReqResponseDto.toDto().lectureRequest(review.getLectureRequest()).build();
+        this.memberNickname = memberNickname;
     }
 }
