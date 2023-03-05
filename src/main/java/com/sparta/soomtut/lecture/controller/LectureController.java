@@ -157,4 +157,10 @@ public class LectureController {
         Page<LectureResponseDto> data = lectureService.getMemberLecture(category,memberId,pageRequestDto.toPageable());
         return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURES_OK);
     }
+
+    @GetMapping(value = "/popular")
+    public ResponseEntity<?> getPopularLectures(){
+       var date =  lectureService.getPopularLectures();
+        return ToResponse.of(date, SuccessCode.MESSGE_OK);
+    }
 }
