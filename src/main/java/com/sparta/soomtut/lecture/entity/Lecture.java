@@ -45,9 +45,9 @@ public class Lecture {
       this.favorite = 0;
     }
 
-    public void update(UpdateLectureRequestDto updatePostRequestDto) {
+    public void update(UpdateLectureRequestDto updatePostRequestDto,String filePath) {
       this.title = updatePostRequestDto.getTitle();
-      this.image = updatePostRequestDto.getImage();
+      this.image = filePath;
       this.content = updatePostRequestDto.getContent();
       this.fee = updatePostRequestDto.getFee();
     }

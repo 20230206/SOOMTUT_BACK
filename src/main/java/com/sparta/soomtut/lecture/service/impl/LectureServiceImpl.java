@@ -77,7 +77,7 @@ public class LectureServiceImpl implements LectureService {
     // 게시글 수정
     @Override
     @Transactional
-    public LectureResponseDto updateLecture(Long lectureId, UpdateLectureRequestDto lectureRequestDto, Member member) {
+    public LectureResponseDto updateLecture(Long lectureId, UpdateLectureRequestDto lectureRequestDto, Member member,MultipartFile file) {
         Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
         );
@@ -86,7 +86,9 @@ public class LectureServiceImpl implements LectureService {
             if (!lecture.getTutorId().equals(member.getId()))
                 throw new IllegalArgumentException(ErrorCode.AUTHORIZATION.getMessage());
         }
-        lecture.update(lectureRequestDto);
+        SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmss");
+        String fileName = postdir + "/" + date.format(new Date()) + "-" + file.getOriginalFilename();
+        lecture.update(lectureRequestDto,CLOUD_FRONT_DOMAIN_NAME+fileName);
         return new LectureResponseDto(lecture);
     }
 
