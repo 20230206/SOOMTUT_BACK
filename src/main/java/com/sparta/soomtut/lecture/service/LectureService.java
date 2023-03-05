@@ -19,7 +19,7 @@ public interface LectureService {
 //     글작성
     LectureResponseDto createLecture(Member member, CreateLectureRequestDto lectureRequestDto, MultipartFile file);
 //     글수정
-    LectureResponseDto updateLecture(Long lectureId, UpdateLectureRequestDto lectureRequestDto, Member member);
+    LectureResponseDto updateLecture(Long lectureId, UpdateLectureRequestDto lectureRequestDto, Member member,MultipartFile file);
     void deleteLecture(Long lectureId, Member member);
     LectureResponseDto getLecture(Long lectureId);
     boolean checkLectureAuthor(Long postId, Member member);

@@ -48,10 +48,12 @@ public class LectureController {
     @PutMapping("/{lectureid}")
     public ResponseEntity<?> updateLecture(
             @PathVariable Long lectureid,
-            @RequestBody UpdateLectureRequestDto updatePostRequestDto,
-            @AuthenticationPrincipal UserDetailsImpl userDetails)
+            @RequestPart UpdateLectureRequestDto updatePostRequestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestPart("file") MultipartFile file) throws IOException
     {
-        var data = lectureService.updateLecture(lectureid, updatePostRequestDto, userDetails.getMember());
+        var data = lectureService.updateLecture(lectureid, updatePostRequestDto, userDetails.getMember(),file);
+        s3Service.uploadLectureImage(data.getLectureId(),file);
         return ToResponse.of(data, SuccessCode.LECTURE_UPDATE_OK);
     }
 
