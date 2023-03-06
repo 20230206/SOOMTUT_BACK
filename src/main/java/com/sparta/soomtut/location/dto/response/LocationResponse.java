@@ -8,13 +8,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LocationResponseDto {
+public class LocationResponse {
     private Long id;
     private String address;
     private float posX;
@@ -24,7 +22,7 @@ public class LocationResponseDto {
     private String bname;
     
     @Builder(builderClassName="LocationResponseToDto", builderMethodName="toDto")
-    public LocationResponseDto(Location location) {
+    public LocationResponse(Location location) {
         this.id = location.getId();
         this.address = location.getAddress();
         this.posX = location.getPosX();

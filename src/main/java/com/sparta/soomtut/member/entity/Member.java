@@ -2,6 +2,9 @@ package com.sparta.soomtut.member.entity;
 
 import com.sparta.soomtut.member.entity.enums.MemberRole;
 import com.sparta.soomtut.member.entity.enums.MemberState;
+
+import com.sparta.soomtut.auth.dto.request.RegisterRequest;
+
 import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.util.constants.Constants;
 
@@ -49,34 +52,16 @@ public class Member {
     @Column
     private Location location;
 
-    @Builder(builderClassName = "UserDetailRegister", builderMethodName = "userDetailRegister")
-    public Member(String email, String password, String nickname) {
-        this.email = email;
-        this.password = password;
-        this.nickname = nickname;
-        this.memberRole = MemberRole.MEMBER;
-        this.createdAt = LocalDate.now();
-        this.starRating = 0.0f;
-        this.level = 0;
-        this.image = Constants.STANDARD_USER_IMAGE;
-        this.provider = null;
-        this.oauthEmail = null;
-        this.state = MemberState.ACTIVE;
+    @Builder
+    public Member(RegisterRequest request, Location location) {
+        this.email = request.getEmail();
+        this.nickname = request.getNickname();
+     
+        this.location = location;
     }
 
-    @Builder(builderClassName = "OAuth2Register", builderMethodName = "oauth2Register")
-    public Member(String email, String password, String nickname, String provider, String oauthEmail) {
-        this.email = email;
+    public void updatePassword(String password) {
         this.password = password;
-        this.nickname = nickname;
-        this.memberRole =  MemberRole.MEMBER;
-        this.createdAt = LocalDate.now();
-        this.starRating = 0.0f;
-        this.level = 0;
-        this.image = Constants.STANDARD_USER_IMAGE;
-        this.provider = provider;
-        this.oauthEmail = oauthEmail;
-        this.state = MemberState.INIT;
     }
 
     public void updateNickName(String nickname) {

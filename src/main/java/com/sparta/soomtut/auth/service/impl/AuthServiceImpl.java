@@ -18,6 +18,8 @@ import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberRole;
 import com.sparta.soomtut.member.entity.enums.MemberState;
 import com.sparta.soomtut.member.service.MemberService;
+import com.sparta.soomtut.location.dto.request.LocationRequest;
+import com.sparta.soomtut.location.dto.request.LocationUpdateRequest;
 import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.location.service.LocationService;
 import com.sparta.soomtut.util.jwt.JwtProvider;
@@ -43,10 +45,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public MemberInfoResponse register(RegisterRequest requestDto) {
-        String email = requestDto.getEmail();
-        String password = passwordEncoder.encode(requestDto.getPassword());
-        String nickname = requestDto.getNickname();
+    public MemberInfoResponse register(RegisterRequest request) {
+        String email = request.getEmail();
+        String password = passwordEncoder.encode(request.getPassword());
+        String nickname = request.getNickname();
 
         if(memberService.existsMemberByEmail(email))
             throw new CustomException(ErrorCode.DUPLICATED_EMAIL);
@@ -54,11 +56,12 @@ public class AuthServiceImpl implements AuthService {
         if(memberService.existsMemberByNickname(nickname))
             throw new CustomException(ErrorCode.DUPLICATED_NICKNAME);
 
+        var locationRequest = LocationRequest.convert().request(request);
+        Location location = locationService.saveLocation(request);
             // email, password, nickname
         Member member = memberService.saveMember(Member.userDetailRegister().email(email).password(password).nickname(nickname).build());
-        Location location = locationService.saveLocation(requestDto, member);
-        member.updateLocationId(location.getId());
-        return MemberInfoResponse.toDto().member(member).location(location).build();
+        
+        return MemberInfoResponse.toDto().member(member).build();
     }
 
     @Override

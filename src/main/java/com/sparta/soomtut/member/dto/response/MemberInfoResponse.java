@@ -4,7 +4,7 @@ import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberState;
 
-import com.sparta.soomtut.location.dto.response.LocationResponseDto;
+import com.sparta.soomtut.location.dto.response.LocationResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +28,7 @@ public class MemberInfoResponse {
     private String profileImage;
     private MemberState state;
 
-    private LocationResponseDto location;
+    private LocationResponse location;
 
 
     @Builder(builderClassName = "MemberInfoToDto", builderMethodName = "toDto")
@@ -42,6 +42,6 @@ public class MemberInfoResponse {
         this.profileImage = member.getImage();
         this.state = member.getState();
 
-        this.location = LocationResponseDto.toDto().location(member.getLocation()).build();
+        this.location = LocationResponse.toDto().location(member.getLocation()).build();
     }
 }
