@@ -2,7 +2,6 @@ package com.sparta.soomtut.location.controller;
 
 import com.sparta.soomtut.location.dto.request.LocationRequest;
 import com.sparta.soomtut.location.dto.response.LocationResponse;
-import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.location.service.LocationService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +30,14 @@ public class LocationController {
         return ResponseEntity.ok().body(data);
     }
 
+    @Transactional
+    @GetMapping("/showNearTutor")
+    public List<LocationResponse> getNearTutor(
+            @AuthenticationPrincipal UserDetailsImpl userDetails)
+    {
+        // Location myLocation = locationService.getLocation(userDetails.getMember());
+        // List<LocationResponse> otherLocation =  locationService.getAllLocation(myLocation);
+        return null;
+    }
 
 }

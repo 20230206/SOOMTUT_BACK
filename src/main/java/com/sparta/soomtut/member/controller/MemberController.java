@@ -1,23 +1,16 @@
 package com.sparta.soomtut.member.controller;
 
-import com.sparta.soomtut.location.dto.response.LocationResponse;
-import com.sparta.soomtut.location.entity.Location;
-import com.sparta.soomtut.location.service.LocationService;
-import com.sparta.soomtut.member.dto.response.MemberResponse;
 import com.sparta.soomtut.util.response.ToResponse;
 import com.sparta.soomtut.member.service.MemberService;
 import com.sparta.soomtut.util.cookies.RefreshCookie;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,7 +18,6 @@ import java.util.List;
 public class MemberController  {
 
     private final MemberService memberService;
-    private final LocationService locationService;
 
     // 내 정보 불러오기
     @GetMapping(value = "/myInfo")
@@ -71,16 +63,6 @@ public class MemberController  {
         @PathVariable Long memberId)
     {
         return ToResponse.of(null, SuccessCode.MEMBER_RECOVER_OK);
-    }
-
-
-    @Transactional
-    @GetMapping("/showNearTutor")
-    public List<MemberResponse> getNearTutor(
-            @AuthenticationPrincipal UserDetailsImpl userDetails)
-    {
-        Location myLocation = locationService.getLocation(userDetails.getMember());
-        return memberService.getAllLocation(myLocation,userDetails.getMember());
     }
 
 }
