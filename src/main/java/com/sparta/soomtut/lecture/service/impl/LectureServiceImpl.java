@@ -162,8 +162,8 @@ public class LectureServiceImpl implements LectureService {
     @Override
     @Transactional
     public Page<LectureResponseDto> searchByKeyword(String keyword,Pageable pageable) {
-        // return lectureRepository.findLectureByKeyword(keyword,pageable);
-        return null;
+        Page<Lecture> lectures = lectureRepository.findLectureByKeyword(keyword,pageable);
+        return lectures.map(item -> LectureResponseDto.toDto().lecture(item).build());
     }
 
     @Override
