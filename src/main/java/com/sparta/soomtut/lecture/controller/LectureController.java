@@ -33,7 +33,7 @@ public class LectureController {
     private final S3Service s3Service;
     
     // 수업 등록
-    @PostMapping("/create")
+    @PostMapping("/{lectureid}")
     public ResponseEntity<?> createLecture(
             @RequestPart CreateLectureRequestDto postRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails,
@@ -69,7 +69,7 @@ public class LectureController {
     }
 
     // 수업 단일 조회
-    @GetMapping(value ="/{lectureid}")
+    @GetMapping(value ="/public/{lectureid}")
     public ResponseEntity<?> getLecture(
             @PathVariable Long lectureid)
     {
@@ -78,7 +78,7 @@ public class LectureController {
     }
 
     // 수업 전체 조회
-    @GetMapping
+    @GetMapping(value="/public")
     public ResponseEntity<?> getAllLeuctures(
             @RequestParam(required = false, value = "category") int category,
             @ModelAttribute PageRequestDto pageable)
@@ -140,7 +140,7 @@ public class LectureController {
     }
 
     //키워드로 수업 검색하기
-    @GetMapping("/search")
+    @GetMapping("/public/search")
     public Page<LectureResponseDto> searchByKeyword(
             @ModelAttribute PageRequestDto pageRequestDto,
             @RequestParam String keyword)
@@ -149,7 +149,7 @@ public class LectureController {
     }
 
     //특정 회원 수업 모두 조회
-    @GetMapping(value ="/{memberId}/all")
+    @GetMapping(value ="/public/{memberId}/all")
     public ResponseEntity<?> getMemberLecture(
             @PathVariable Long memberId,
             @RequestParam(required = false, value = "category") int category,
@@ -159,7 +159,7 @@ public class LectureController {
         return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURES_OK);
     }
 
-    @GetMapping(value = "/popular")
+    @GetMapping(value = "/public/popular")
     public ResponseEntity<?> getPopularLectures(){
        var date =  lectureService.getPopularLectures();
         return ToResponse.of(date, SuccessCode.MESSGE_OK);

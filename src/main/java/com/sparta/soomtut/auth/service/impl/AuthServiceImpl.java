@@ -126,6 +126,7 @@ public class AuthServiceImpl implements AuthService {
         LocationRequest locationRequest = LocationRequest.oauthInitconvert().request(request).build();
         locationService.updateLocation(member.getLocation().getId(), locationRequest);
 
+        member.updateNickName(request.getNickname());
         member.changeState(MemberState.ACTIVE);
         return MemberResponse.toDto().member(member).build();
     }
