@@ -60,56 +60,6 @@ class MemberServiceImplTest {
     }
 
     @Test
-    @DisplayName("닉네임 가져오기")
-    void getNickname(){
-        Member member = new Member("user@user.com","asd12345","user1");
-        //given(memberService.findMemberById(member.getId())).willReturn(member);
-        String nickName = memberService.getNickname(member);
-        assertThat(member.getNickname()).isEqualTo(nickName);
-
-    }
-
-    @Test
-    @DisplayName("위치정보 가져오기")
-    void getLocation(){
-        Member member = new Member("user@user.com","asd12345","user1");
-        Location location = new Location(member,"서울",3f,3f);
-        given(locationService.getLocation(member)).willReturn(location);
-        String address = memberService.getLocation(member);
-        assertThat(address).isEqualTo("서울");
-
-    }
-
-    @Test
-    @DisplayName("가입일자 가져오기")
-    void getSignupDate(){
-        Member member = new Member("user@user.com","asd12345","user1");
-        LocalDate signupDate = memberService.getSignupDate(member);
-
-        assertThat(signupDate).isEqualTo(member.getCreatedAt());
-
-    }
-
-    @Test
-    @DisplayName("레벨 가져오기")
-    void getLevel(){
-        Member member = new Member("user@user.com","asd12345","user1");
-        int level = memberService.getLevel(member);
-        assertThat(level).isEqualTo(0);
-
-    }
-
-    @Test
-    @DisplayName("이미지 가져오기")
-    void getImage(){
-        Member member = new Member("user@user.com","asd12345","user1");
-        String image = memberService.getImage(member);
-        assertThat(image).isEqualTo(member.getImage());
-
-
-    }
-
-    @Test
     @DisplayName("수강 후기 작성(MemberService)")
     void createReview(){
         // Long postId = 1L;

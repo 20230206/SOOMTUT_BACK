@@ -36,12 +36,10 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             chatRoom = createChatRoom(lectureRequestId);
         }
         
-        return ChatRoomResponse.of(
-                chatRoom,
-                memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
-                memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
-                lectureService.getLecture(chatRoom.getLectureId()),
-                chatRoom.getLectureRequest());
+        return ChatRoomResponse.toDto().chatRoom(chatRoom)
+                    .tutee(memberService.getMemberById(chatRoom.getTuteeId()))
+                    .lectureRequest(chatRoom.getLectureRequest())
+                    .build();
     }
     
     @Transactional
@@ -61,12 +59,10 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public ChatRoomResponse getChatRoomForTutor(Long tutorId, Long lectureRequestId) {
         ChatRoom chatRoom = getChatRoomByTutorIdAndLectureRequestId(tutorId, lectureRequestId);
-        return ChatRoomResponse.of(
-                chatRoom,
-                memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
-                memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
-                lectureService.getLecture(chatRoom.getLectureId()),
-                chatRoom.getLectureRequest());
+        return ChatRoomResponse.toDto().chatRoom(chatRoom)
+        .tutee(memberService.getMemberById(chatRoom.getTuteeId()))
+        .lectureRequest(chatRoom.getLectureRequest())
+        .build();
     }
 
     @Transactional(readOnly=true)
@@ -83,20 +79,18 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         if(state == 0) {
             Page<ChatRoom> chatRooms = getAllMyChatRooms(memberId, pageable);
 
-            return chatRooms.map(chatRoom -> ChatRoomResponse.of(chatRoom,
-                    memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
-                    memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
-                    lectureService.getLecture(chatRoom.getLectureId()),
-                    chatRoom.getLectureRequest()));
+            return chatRooms.map(chatRoom -> ChatRoomResponse.toDto().chatRoom(chatRoom)
+            .tutee(memberService.getMemberById(chatRoom.getTuteeId()))
+            .lectureRequest(chatRoom.getLectureRequest())
+            .build());
         }
         else {
             Page<ChatRoom> chatRooms = getAllMyChatRoomsByState(memberId, state, pageable);
             
-            return chatRooms.map(chatRoom -> ChatRoomResponse.of(chatRoom,
-                    memberService.getMemberInfoResponseDto(chatRoom.getTuteeId()),
-                    memberService.getMemberInfoResponseDto(chatRoom.getTutorId()),
-                    lectureService.getLecture(chatRoom.getLectureId()),
-                    chatRoom.getLectureRequest()));
+            return chatRooms.map(chatRoom -> ChatRoomResponse.toDto().chatRoom(chatRoom)
+            .tutee(memberService.getMemberById(chatRoom.getTuteeId()))
+            .lectureRequest(chatRoom.getLectureRequest())
+            .build());
         }
     }
 

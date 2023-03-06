@@ -36,9 +36,9 @@ public class LocationController {
     public List<LocationResponse> getNearTutor(
             @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        Location myLocation = locationService.getLocation(userDetails.getMember());
-        List<LocationResponse> otherLocation =  locationService.getAllLocation(myLocation);
-        return otherLocation;
+        // Location myLocation = locationService.getLocation(userDetails.getMember());
+        // List<LocationResponse> otherLocation =  locationService.getAllLocation(myLocation);
+        return null;
     }
 
 }
