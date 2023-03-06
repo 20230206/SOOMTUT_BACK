@@ -158,10 +158,12 @@ public class LectureServiceImpl implements LectureService {
         return lectureRepository.findAllByMemberId(memberId, pageable);
     }
 
+    // TODO : 변경
     @Override
     @Transactional
     public Page<LectureResponseDto> searchByKeyword(String keyword,Pageable pageable) {
-        return lectureRepository.findLectureByKeyword(keyword,pageable);
+        // return lectureRepository.findLectureByKeyword(keyword,pageable);
+        return null;
     }
 
     @Override

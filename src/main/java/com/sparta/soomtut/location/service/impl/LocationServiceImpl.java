@@ -60,14 +60,15 @@ public class LocationServiceImpl implements LocationService {
     @Override
     @Transactional(readOnly=true)
     public List<LocationResponse> getAllLocation(Location myLocation) {
-        String myCityName = myLocation.getAddress();
-        String myCityNameFirst = myCityName.split(" ")[0];
-        List<LocationResponse> cityUserLocations = locationRepository.findAllByAddress(myCityNameFirst);
-        cityUserLocations.stream()
-                .filter(s->s.getAddress().equals(myCityName))
-                .toList()
-                .forEach(cityUserLocations::remove);
-        return cityUserLocations;
+        // TODO : 변경
+        // String myCityName = myLocation.getAddress();
+        // String myCityNameFirst = myCityName.split(" ")[0];
+        // List<LocationResponse> cityUserLocations = locationRepository.findAllByAddress(myCityNameFirst);
+        // cityUserLocations.stream()
+        //         .filter(s->s.getAddress().equals(myCityName))
+        //         .toList()
+        //         .forEach(cityUserLocations::remove);
+        return null;
     }
     
 }

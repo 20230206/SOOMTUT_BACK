@@ -47,7 +47,7 @@ public class Member {
     private MemberState state;
 
     @OneToOne
-    @Column
+    @JoinColumn(name="location_id")
     private Location location;
 
     @Builder
