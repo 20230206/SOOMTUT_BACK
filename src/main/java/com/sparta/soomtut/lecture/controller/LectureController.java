@@ -33,7 +33,7 @@ public class LectureController {
     private final S3Service s3Service;
     
     // 수업 등록
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<?> createLecture(
             @RequestPart CreateLectureRequestDto postRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails,

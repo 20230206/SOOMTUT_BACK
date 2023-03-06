@@ -10,6 +10,7 @@ public enum SuccessCode {
     // auth responses
     LOGIN_OK("로그인에 성공하였습니다", 200),
     AUTH_REGISTER_OK("회원가입에 성공했습니다", 203),
+    AUTH_VALID_OK("로그인 확인에 성공했습니다.", 200),
     MESSGE_OK("메세지가 전달 되었습니다", 200),
     REGISTER_CHECK_OK("회원가입-유효성 검사에 성공하였습니다", 200),
     LOGOUT_OK("로그아웃에 성공하였습니다", 200),

@@ -25,15 +25,18 @@ import com.sparta.soomtut.util.response.ToResponse;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@RequestMapping("/auth")
 @RestController
-
 public class AuthController {
     private final MemberService memberService;
     private final AuthService authService;
     private static final String REFRESH_KEY = "refresh";
 
-    @PostMapping(value = "/login")
+    @GetMapping(value = "/valid")
+    public ResponseEntity<?> validCheck() {
+        return ToResponse.of(true, SuccessCode.AUTH_VALID_OK);
+    }
+
+    @PostMapping(value = "/auth/login")
     public ResponseEntity<?> login(
         @RequestBody LoginRequest requestDto)
     {
@@ -42,7 +45,7 @@ public class AuthController {
         return ToResponse.of(data, cookie, SuccessCode.LOGIN_OK);
     }
 
-    @PostMapping(value = "/register")
+    @PostMapping(value = "/auth/register")
     public ResponseEntity<?> register(
         @RequestBody RegisterRequest requestDto)
     {
@@ -50,7 +53,7 @@ public class AuthController {
         return ToResponse.of(data, SuccessCode.AUTH_REGISTER_OK);
     }
 
-    @GetMapping(value = "/register/check")
+    @GetMapping(value = "/auth/register/check")
     public ResponseEntity<?> checkduple (
         @RequestParam(required = false, value = "email") String email, 
         @RequestParam(required = false, value = "nickname") String nickname)
@@ -66,7 +69,7 @@ public class AuthController {
         return ToResponse.of(data, SuccessCode.REGISTER_CHECK_OK);
     }
 
-    @PostMapping(value = "/logout")
+    @PostMapping(value = "/auth/logout")
     public ResponseEntity<?> logout(
         @CookieValue(name = REFRESH_KEY, required=false) String refresh)
     {   
@@ -79,7 +82,7 @@ public class AuthController {
         return ToResponse.of(data, cookie, SuccessCode.LOGOUT_OK);
     }
 
-    @GetMapping(value = "/get-accesstoken")
+    @GetMapping(value = "/auth/get-accesstoken")
     public ResponseEntity<?> getAccessToken(
         @CookieValue(name = REFRESH_KEY, required=false) String refresh)
     {
@@ -92,7 +95,7 @@ public class AuthController {
         return ToResponse.of(true, headers, SuccessCode.TOKEN_CHECK_OK);
     }
     
-    @PostMapping(value="/oauth-login") 
+    @PostMapping(value="/auth/oauth-login") 
     public ResponseEntity<?> oauthLogin(@RequestBody OAuthLoginRequest request) {
         var token = authService.oauthLogin(request);
         var cookie = RefreshCookie.getCookie(token.getToken(), true);
@@ -100,7 +103,7 @@ public class AuthController {
         return ToResponse.of(true, cookie, SuccessCode.REFRESH_OK);
     }
 
-    @PutMapping(value="/oauth-updateinfo")
+    @PutMapping(value="/auth/oauth-updateinfo")
     public ResponseEntity<?> updateOAuthInfo(
         @RequestBody OAuthInitRequest request,
         @CookieValue(REFRESH_KEY) String refresh)

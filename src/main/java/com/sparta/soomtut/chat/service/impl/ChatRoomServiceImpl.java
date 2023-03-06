@@ -4,7 +4,6 @@ import com.sparta.soomtut.chat.dto.ChatRoomResponse;
 import com.sparta.soomtut.chat.entity.ChatRoom;
 import com.sparta.soomtut.chat.repository.ChatRoomRepository;
 import com.sparta.soomtut.chat.service.ChatRoomService;
-import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.lectureRequest.service.LectureRequestService;
 import com.sparta.soomtut.lectureRequest.entity.LectureState;
 import com.sparta.soomtut.member.service.MemberService;
@@ -22,7 +21,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     private final ChatRoomRepository chatRoomRepository;
     private final MemberService memberService;
-    private final LectureService lectureService;
     private final LectureRequestService lectureRequestService;
 
     @Override

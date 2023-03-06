@@ -71,10 +71,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		{
 			ret = true;
 		}
+		if (path.equals("/lecture")){
+			ret = true;
+		}
 		return ret;
 	}
 
-	private static String[] URIs = {"/auth", "/connect", "/login", "/favicon", "/lecture"}; 
+	private static String[] URIs = {"/auth", "/connect", "/login", "/favicon"}; 
 	private boolean notFilterStartWithURIs(String path) {
 		for(String uri : URIs) {
 			System.out.println(uri + ":" + path);
