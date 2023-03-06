@@ -1,6 +1,5 @@
 package com.sparta.soomtut.member.dto.response;
 
-import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberState;
 
@@ -17,14 +16,13 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberInfoResponse {
+public class MemberResponse {
 
     private Long memberId;
     private String email;
     private String nickname;
     private LocalDate createAt;
-    private float starRating;
-    private int level;
+    private float starScore;
     private String profileImage;
     private MemberState state;
 
@@ -32,13 +30,12 @@ public class MemberInfoResponse {
 
 
     @Builder(builderClassName = "MemberInfoToDto", builderMethodName = "toDto")
-    public MemberInfoResponse(Member member) {
+    public MemberResponse(Member member) {
         this.memberId = member.getId();
         this.email = member.getEmail();
         this.nickname = member.getNickname();
         this.createAt = member.getCreatedAt();
-        this.starRating = member.getStarScore();
-        this.level = member.getLevel();
+        this.starScore = member.getStarScore();
         this.profileImage = member.getImage();
         this.state = member.getState();
 

@@ -3,7 +3,7 @@ package com.sparta.soomtut.lecture.dto.response;
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.member.entity.Member;
 
-import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
+import com.sparta.soomtut.member.dto.response.MemberResponse;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +21,7 @@ public class LectureResponseDto {
     private int favorit;
     private int fee;
 
-    private MemberInfoResponse member;
+    private MemberResponse member;
 
     @Builder(builderClassName="LectureResponseToDto", builderMethodName="toDto")
     public LectureResponseDto(Lecture lecture) {
@@ -33,6 +33,6 @@ public class LectureResponseDto {
         this.favorit = lecture.getFavorite();
         this.fee = lecture.getFee();
 
-        this.member = MemberInfoResponse.toDto().member(lecture.getMember()).build();
+        this.member = MemberResponse.toDto().member(lecture.getMember()).build();
     }
 }

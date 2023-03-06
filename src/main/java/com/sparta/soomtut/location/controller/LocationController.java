@@ -27,7 +27,7 @@ public class LocationController {
         @RequestBody LocationRequest locationRequestDto,
         @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        var data = locationService.updateLocation(locationRequestDto, userDetails.getMember());
+        var data = locationService.updateLocation(userDetails.getMember().getLocation().getId(), locationRequestDto);
         return ResponseEntity.ok().body(data);
     }
 

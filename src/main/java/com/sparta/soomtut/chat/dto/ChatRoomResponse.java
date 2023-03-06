@@ -4,7 +4,7 @@ import com.sparta.soomtut.chat.entity.ChatRoom;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import com.sparta.soomtut.lectureRequest.entity.LectureState;
-import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
+import com.sparta.soomtut.member.dto.response.MemberResponse;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 public class ChatRoomResponse {
 
     private Long id;
-    private MemberInfoResponse tutee;
-    private MemberInfoResponse tutor;
+    private MemberResponse tutee;
+    private MemberResponse tutor;
     private LectureResponseDto lecture;
     private Long lecreqId;
     private LectureState state;
@@ -27,8 +27,8 @@ public class ChatRoomResponse {
 
     private ChatRoomResponse(
             Long id,
-            MemberInfoResponse tutee,
-            MemberInfoResponse tutor,
+            MemberResponse tutee,
+            MemberResponse tutor,
             LocalDateTime createdAt,
             LectureRequest lecreq,
             LectureResponseDto lecture
@@ -45,8 +45,8 @@ public class ChatRoomResponse {
 
     public static ChatRoomResponse of(
             ChatRoom chatRoom,
-            MemberInfoResponse tutee,
-            MemberInfoResponse tutor,
+            MemberResponse tutee,
+            MemberResponse tutor,
             LectureResponseDto lecture,
             LectureRequest lecreq
     ) {

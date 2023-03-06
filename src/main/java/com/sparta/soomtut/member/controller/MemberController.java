@@ -24,7 +24,7 @@ public class MemberController  {
     public ResponseEntity<?> getMyInfo(
             @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        var data = memberService.getMemberInfo(userDetails.getMember());
+        var data = memberService.getMemberInfo(userDetails.getMember().getId());
         return ToResponse.of(data, SuccessCode.MEMBER_GETMYINFO_OK);
     }
 

@@ -13,7 +13,7 @@ import com.sparta.soomtut.auth.dto.response.LoginResponse;
 import com.sparta.soomtut.auth.entity.Auth;
 import com.sparta.soomtut.auth.repository.AuthRepository;
 import com.sparta.soomtut.auth.service.AuthService;
-import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
+import com.sparta.soomtut.member.dto.response.MemberResponse;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberRole;
 import com.sparta.soomtut.member.entity.enums.MemberState;
@@ -44,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public MemberInfoResponse register(RegisterRequest request) {
+    public MemberResponse register(RegisterRequest request) {
         String email = request.getEmail();
         String password = passwordEncoder.encode(request.getPassword());
         String nickname = request.getNickname();
@@ -64,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
 
         memberService.saveMember(member);
         
-        return MemberInfoResponse.toDto().member(member).build();
+        return MemberResponse.toDto().member(member).build();
     }
 
     @Override
@@ -117,7 +117,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public MemberInfoResponse updateOAuthInfo(OAuthInitRequest request, String refresh) {
+    public MemberResponse updateOAuthInfo(OAuthInitRequest request, String refresh) {
         if(!validToken(refresh)) throw new CustomException(ErrorCode.INVALID_TOKEN);
 
         String email = getEmailFromToken(refresh);
@@ -127,7 +127,7 @@ public class AuthServiceImpl implements AuthService {
         locationService.updateLocation(member.getLocation().getId(), locationRequest);
 
         member.changeState(MemberState.ACTIVE);
-        return MemberInfoResponse.toDto().member(member).build();
+        return MemberResponse.toDto().member(member).build();
     }
 
     // 토큰 동작

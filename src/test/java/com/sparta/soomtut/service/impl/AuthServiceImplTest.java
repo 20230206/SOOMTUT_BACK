@@ -15,7 +15,7 @@ import com.sparta.soomtut.auth.dto.request.LoginRequest;
 import com.sparta.soomtut.auth.dto.request.RegisterRequest;
 import com.sparta.soomtut.auth.dto.response.LoginResponse;
 import com.sparta.soomtut.auth.service.impl.AuthServiceImpl;
-import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
+import com.sparta.soomtut.member.dto.response.MemberResponse;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.repository.MemberRepository;
 import com.sparta.soomtut.member.service.impl.MemberServiceImpl;
@@ -92,7 +92,7 @@ public class AuthServiceImplTest {
         when(locationService.saveLocation(requestDto, member)).thenReturn(location);
 
         // when
-        MemberInfoResponse res = authService.register(requestDto);
+        MemberResponse res = authService.register(requestDto);
 
         // then
         // Hibernate: 
