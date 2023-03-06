@@ -4,6 +4,8 @@ import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberState;
 
+import com.sparta.soomtut.location.dto.response.LocationResponseDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,13 +28,11 @@ public class MemberInfoResponse {
     private String profileImage;
     private MemberState state;
 
-    private String address;
-    private float vectorX;
-    private float vectorY;
+    private LocationResponseDto location;
 
 
     @Builder(builderClassName = "MemberInfoToDto", builderMethodName = "toDto")
-    public MemberInfoResponse(Member member, Location location) {
+    public MemberInfoResponse(Member member) {
         this.memberId = member.getId();
         this.email = member.getEmail();
         this.nickname = member.getNickname();
@@ -42,8 +42,6 @@ public class MemberInfoResponse {
         this.profileImage = member.getImage();
         this.state = member.getState();
 
-        this.address = location.getAddress();
-        this.vectorX = location.getVectorX();
-        this.vectorY = location.getVectorY();
+        this.location = LocationResponseDto.toDto().location(member.getLocation()).build();
     }
 }

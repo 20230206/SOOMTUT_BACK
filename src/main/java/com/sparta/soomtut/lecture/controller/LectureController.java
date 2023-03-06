@@ -41,7 +41,7 @@ public class LectureController {
     {
         var data = lectureService.createLecture(userDetails.getMember(), postRequestDto,file);
         ToResponse.of(data, SuccessCode.LECTURE_CREATE_OK);
-        s3Service.uploadLectureImage(data.getLectureId(),file);
+        s3Service.uploadLectureImage(data.getId(),file);
         return ToResponse.of(data, SuccessCode.IMG_LECTUREIMG_OK);
     }
 
@@ -54,7 +54,7 @@ public class LectureController {
             @RequestPart("file") MultipartFile file) throws IOException
     {
         var data = lectureService.updateLecture(lectureid, updatePostRequestDto, userDetails.getMember(),file);
-        s3Service.uploadLectureImage(data.getLectureId(),file);
+        s3Service.uploadLectureImage(data.getId(),file);
         return ToResponse.of(data, SuccessCode.LECTURE_UPDATE_OK);
     }
 

@@ -57,6 +57,7 @@ public class AuthServiceImpl implements AuthService {
             // email, password, nickname
         Member member = memberService.saveMember(Member.userDetailRegister().email(email).password(password).nickname(nickname).build());
         Location location = locationService.saveLocation(requestDto, member);
+        member.updateLocationId(location.getId());
         return MemberInfoResponse.toDto().member(member).location(location).build();
     }
 

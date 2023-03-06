@@ -84,7 +84,7 @@ public class AuthController {
     public ResponseEntity<?> getAccessToken(
         @CookieValue(name = REFRESH_KEY, required=false) String refresh)
     {
-        if(refresh == null) return ResponseEntity.ok().body(false);
+        if(refresh == null) return ToResponse.of(false,SuccessCode.TOKEN_CHECK_OK);
 
         String accesstoken = authService.createAccessToken(refresh);
         HttpHeaders headers = new HttpHeaders();
@@ -95,7 +95,6 @@ public class AuthController {
     
     @PostMapping(value="/oauth-login") 
     public ResponseEntity<?> oauthLogin(@RequestBody OAuthLoginRequest request) {
-        System.out.print(request);
         var token = authService.oauthLogin(request);
         var cookie = RefreshCookie.getCookie(token.getToken(), true);
 

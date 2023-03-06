@@ -19,15 +19,12 @@ import org.springframework.data.domain.Pageable;
 public class BoardServiceImpl implements BoardService {
 
     private final LectureService lectureService;
-    private final LocationService locationService;
 
     @Override
     @Transactional(readOnly = true)
     public Page<LectureResponseDto> getLecturesByMemberId(Long memberId, Pageable pageable) {
         Page<Lecture> lecture = lectureService.getAllLectureByMemberId(memberId, pageable);
-        return lecture.map(item -> new LectureResponseDto(item,
-                                         item.getTutorNickname(),
-                                         locationService.getLocation(item.getMember()).getAddress()));
+        return lecture.map(item -> LectureResponseDto.toDto().lecture(item).build());
     }
 
     @Override
@@ -42,7 +39,7 @@ public class BoardServiceImpl implements BoardService {
             lectures = lectureService.getLectures(category, pageable);
         }
 
-        return lectures.map(LectureResponseDto::new);
+        return lectures.map(item -> LectureResponseDto.toDto().lecture(item).build());
     }
 
 }

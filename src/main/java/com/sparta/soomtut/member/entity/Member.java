@@ -2,6 +2,7 @@ package com.sparta.soomtut.member.entity;
 
 import com.sparta.soomtut.member.entity.enums.MemberRole;
 import com.sparta.soomtut.member.entity.enums.MemberState;
+import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.util.constants.Constants;
 
 import jakarta.persistence.*;
@@ -43,6 +44,10 @@ public class Member {
     @Column
     @Enumerated(EnumType.STRING)
     private MemberState state;
+
+    @OneToOne
+    @Column
+    private Location location;
 
     @Builder(builderClassName = "UserDetailRegister", builderMethodName = "userDetailRegister")
     public Member(String email, String password, String nickname) {
@@ -89,5 +94,4 @@ public class Member {
     public boolean isActive() {
         return MemberState.ACTIVE.equals(state);
     }
-
 }

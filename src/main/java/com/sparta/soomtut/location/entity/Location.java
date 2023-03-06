@@ -25,10 +25,12 @@ public class Location {
     private String address;
 
     @Column(nullable = false)
-    private float vectorX;
+    private float posX;
 
     @Column(nullable = false)
-    private float vectorY;
+    private float posY;
+
+
 
     @Builder(builderClassName = "ForNewMember", builderMethodName="forNewMember")
     public Location(Member member,String address, float vectorX, float vectorY) {
