@@ -10,6 +10,7 @@ import com.sparta.soomtut.util.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -156,5 +157,11 @@ public class LectureController {
     {
         Page<LectureResponseDto> data = lectureService.getMemberLecture(category,memberId,pageRequestDto.toPageable());
         return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURES_OK);
+    }
+
+    @GetMapping(value = "/popular")
+    public ResponseEntity<?> getPopularLectures(){
+       var date =  lectureService.getPopularLectures();
+        return ToResponse.of(date, SuccessCode.MESSGE_OK);
     }
 }

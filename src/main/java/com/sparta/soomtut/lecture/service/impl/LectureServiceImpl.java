@@ -7,9 +7,6 @@ import com.sparta.soomtut.lecture.entity.Category;
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.repository.LectureRepository;
 import com.sparta.soomtut.lecture.service.LectureService;
-import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
-import com.sparta.soomtut.lectureRequest.entity.LectureState;
-import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberRole;
 import com.sparta.soomtut.util.response.ErrorCode;
@@ -18,6 +15,7 @@ import com.sparta.soomtut.location.service.LocationService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
@@ -26,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -165,6 +165,15 @@ public class LectureServiceImpl implements LectureService {
     @Transactional
     public Page<LectureResponseDto> searchByKeyword(String keyword,Pageable pageable) {
         return lectureRepository.findLectureByKeyword(keyword,pageable);
+    }
+
+    @Override
+    public List<LectureResponseDto> getPopularLectures() {
+        Pageable pageable = PageRequest.of(0, 9);
+        List<Lecture> top9Lectures = lectureRepository.findTop9ByFavorite(pageable);
+        return top9Lectures.stream()
+                .map(LectureResponseDto::new)
+                .collect(Collectors.toList());
     }
 
 }
