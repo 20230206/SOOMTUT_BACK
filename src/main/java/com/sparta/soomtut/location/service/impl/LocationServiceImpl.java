@@ -57,18 +57,6 @@ public class LocationServiceImpl implements LocationService {
         return getLocationById(member.getId());
     }
 
-    @Override
-    @Transactional(readOnly=true)
-    public List<LocationResponse> getAllLocation(Location myLocation) {
-        // TODO : 변경
-        // String myCityName = myLocation.getAddress();
-        // String myCityNameFirst = myCityName.split(" ")[0];
-        // List<LocationResponse> cityUserLocations = locationRepository.findAllByAddress(myCityNameFirst);
-        // cityUserLocations.stream()
-        //         .filter(s->s.getAddress().equals(myCityName))
-        //         .toList()
-        //         .forEach(cityUserLocations::remove);
-        return null;
-    }
+
     
 }

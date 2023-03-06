@@ -30,14 +30,4 @@ public class LocationController {
         return ResponseEntity.ok().body(data);
     }
 
-    @Transactional
-    @GetMapping("/showNearTutor")
-    public List<LocationResponse> getNearTutor(
-            @AuthenticationPrincipal UserDetailsImpl userDetails)
-    {
-        // Location myLocation = locationService.getLocation(userDetails.getMember());
-        // List<LocationResponse> otherLocation =  locationService.getAllLocation(myLocation);
-        return null;
-    }
-
 }
