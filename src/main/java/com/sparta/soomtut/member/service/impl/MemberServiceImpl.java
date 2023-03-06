@@ -1,5 +1,6 @@
 package com.sparta.soomtut.member.service.impl;
 
+import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.member.dto.response.MemberResponse;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberState;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -102,5 +104,18 @@ public class MemberServiceImpl implements MemberService{
     public Optional<Member> findByProviderAndOauthEmail(String provider, String email) {
         return memberRepository.findByProviderAndOauthEmail(provider, email);
     }
+
+
+    @Override
+    @Transactional(readOnly=true)
+    public List<MemberResponse> getAllLocation(Location myLocation,Member member) {
+        // TODO : 변경
+         String myCitySido = myLocation.getSido();
+         List<Member> cityUserLocations = memberRepository.findAllByAddress(myCitySido,member.getId());
+
+
+
+        return cityUserLocations.stream().map(item -> MemberResponse.toDto().member(item).build()).toList();
+}
 
 }

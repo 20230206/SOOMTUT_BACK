@@ -1,8 +1,10 @@
 package com.sparta.soomtut.member.service;
 
+import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.member.dto.response.MemberResponse;
 import com.sparta.soomtut.member.entity.Member;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberService {
@@ -22,5 +24,6 @@ public interface MemberService {
     boolean existsMemberByNickname(String nickname);
     String deleteReviewRequest(Long reviewId);
     Optional<Member> findByProviderAndOauthEmail(String provider, String email);
+    List<MemberResponse> getAllLocation( Location myLocation,Member member);
 
 }
