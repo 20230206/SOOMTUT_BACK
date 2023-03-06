@@ -7,7 +7,6 @@ import com.sparta.soomtut.lecture.entity.Category;
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.repository.LectureRepository;
 import com.sparta.soomtut.lecture.service.LectureService;
-import com.sparta.soomtut.lectureRequest.dto.LecReqResponseDto;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberRole;
 import com.sparta.soomtut.util.response.ErrorCode;
@@ -16,6 +15,7 @@ import com.sparta.soomtut.location.service.LocationService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
@@ -169,8 +169,9 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     public List<LectureResponseDto> getPopularLectures() {
-        List<Lecture> top8Lectures = lectureRepository.findTop8ByFavorite();
-        return top8Lectures.stream()
+        Pageable pageable = PageRequest.of(0, 9);
+        List<Lecture> top9Lectures = lectureRepository.findTop9ByFavorite(pageable);
+        return top9Lectures.stream()
                 .map(LectureResponseDto::new)
                 .collect(Collectors.toList());
     }

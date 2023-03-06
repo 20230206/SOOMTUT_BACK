@@ -25,7 +25,7 @@ public interface LectureRepository extends JpaRepository <Lecture, Long> {
     @Query("select new com.sparta.soomtut.lecture.dto.response.LectureResponseDto(p.id,p.image,p.fee,l.address,m.nickname,p.content,p.title) " +
             "from Lecture p join Member m on p.member.id = m.id join Location l on l.member.id=m.id where p.content LIKE :keyword%")
     Page<LectureResponseDto> findLectureByKeyword(String keyword, Pageable pageable);
-    @Query("select l from Lecture l ORDER BY l.favorite DESC, l.createdAt ASC")
-    List<Lecture> findTop8ByFavorite();
+    @Query("select l from Lecture l ORDER BY l.favorite DESC, l.createdAt DESC")
+    List<Lecture> findTop9ByFavorite(Pageable pageable);
 
 }
