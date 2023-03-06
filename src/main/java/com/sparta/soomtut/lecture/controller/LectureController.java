@@ -10,7 +10,6 @@ import com.sparta.soomtut.util.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +32,7 @@ public class LectureController {
     private final S3Service s3Service;
     
     // 수업 등록
-    @PostMapping("/{lectureid}")
+    @PostMapping
     public ResponseEntity<?> createLecture(
             @RequestPart CreateLectureRequestDto postRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails,
