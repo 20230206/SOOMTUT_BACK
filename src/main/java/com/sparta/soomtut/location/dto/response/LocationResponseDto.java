@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LocationResponseDto {
+    private Long id;
     private String address;
     private float posX;
     private float posY;
@@ -24,6 +25,7 @@ public class LocationResponseDto {
     
     @Builder(builderClassName="LocationResponseToDto", builderMethodName="toDto")
     public LocationResponseDto(Location location) {
+        this.id = location.getId();
         this.address = location.getAddress();
         this.posX = location.getPosX();
         this.posY = location.getPosY();

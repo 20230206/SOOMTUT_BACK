@@ -1,7 +1,7 @@
 package com.sparta.soomtut.location.service.impl;
 
 import com.sparta.soomtut.member.entity.Member;
-import com.sparta.soomtut.location.dto.request.LocationRequestDto;
+import com.sparta.soomtut.location.dto.request.LocationUpdateRequest;
 import com.sparta.soomtut.location.dto.response.LocationResponseDto;
 import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.location.repository.LocationRepository;
@@ -37,7 +37,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional
-    public Location updateLocation(LocationRequestDto locationRequestDto, Member member) {
+    public Location updateLocation(LocationUpdateRequest locationRequestDto, Member member) {
             Location location = findMemberLocation(member.getId());
             location.updateLocation(locationRequestDto);
         return location;

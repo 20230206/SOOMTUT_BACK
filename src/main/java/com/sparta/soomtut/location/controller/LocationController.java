@@ -1,6 +1,6 @@
 package com.sparta.soomtut.location.controller;
 
-import com.sparta.soomtut.location.dto.request.LocationRequestDto;
+import com.sparta.soomtut.location.dto.request.LocationUpdateRequest;
 import com.sparta.soomtut.location.dto.response.LocationResponseDto;
 import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.location.service.LocationService;
@@ -26,7 +26,7 @@ public class LocationController {
     @Transactional
     @PutMapping(value = "/updatelocation")
     public ResponseEntity<?> saveLocation(
-        @RequestBody LocationRequestDto locationRequestDto,
+        @RequestBody LocationUpdateRequest locationRequestDto,
         @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         var data = locationService.updateLocation(locationRequestDto, userDetails.getMember());

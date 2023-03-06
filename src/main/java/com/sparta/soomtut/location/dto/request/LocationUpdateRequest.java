@@ -7,9 +7,11 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class LocationRequestDto {
+public class LocationUpdateRequest {
     private float vectorX;
     private float vectorY;
     private String address;
-
+    private String sido;
+    private String sigungu;
+    private String bname;
 }
