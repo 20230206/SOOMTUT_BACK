@@ -31,5 +31,4 @@ public class LocationResponse {
         this.sigungu = location.getSigungu();
         this.bname = location.getBname();
     }
-
 }

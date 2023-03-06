@@ -6,7 +6,7 @@ import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lecture.entity.Category;
 import com.sparta.soomtut.lecture.entity.Lecture;
-import com.sparta.soomtut.lectureRequest.dto.LecReqResponseDto;
+import com.sparta.soomtut.lectureRequest.dto.LectureRequestResponse;
 import com.sparta.soomtut.member.entity.Member;
 
 import org.springframework.data.domain.Page;

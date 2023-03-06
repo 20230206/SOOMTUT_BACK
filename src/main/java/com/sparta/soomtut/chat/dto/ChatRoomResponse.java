@@ -2,7 +2,7 @@ package com.sparta.soomtut.chat.dto;
 
 import com.sparta.soomtut.chat.entity.ChatRoom;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
-import com.sparta.soomtut.lectureRequest.dto.LecReqResponseDto;
+import com.sparta.soomtut.lectureRequest.dto.LectureRequestResponse;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import com.sparta.soomtut.member.dto.response.MemberResponse;
 import com.sparta.soomtut.member.entity.Member;
@@ -23,7 +23,7 @@ public class ChatRoomResponse {
     private MemberResponse tutee;
     private MemberResponse tutor;
     private LectureResponseDto lecture;
-    private LecReqResponseDto lectureRequest;
+    private LectureRequestResponse lectureRequest;
 
     @Builder(builderClassName="ChatRoomResponseToDto", builderMethodName="toDto")
     public ChatRoomResponse (ChatRoom chatRoom, Member tutee, LectureRequest lectureRequest)
@@ -35,6 +35,6 @@ public class ChatRoomResponse {
         this.tutor = MemberResponse.toDto().member(lectureRequest.getLecture().getMember()).build();
 
         this.lecture = LectureResponseDto.toDto().lecture(lectureRequest.getLecture()).build();
-        this.lectureRequest = LecReqResponseDto.toDto().lectureRequest(lectureRequest).build();
+        this.lectureRequest = LectureRequestResponse.toDto().lectureRequest(lectureRequest).build();
     }
 }

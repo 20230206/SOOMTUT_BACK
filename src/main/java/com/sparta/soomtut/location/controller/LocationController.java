@@ -2,7 +2,6 @@ package com.sparta.soomtut.location.controller;
 
 import com.sparta.soomtut.location.dto.request.LocationRequest;
 import com.sparta.soomtut.location.dto.response.LocationResponse;
-import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.location.service.LocationService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

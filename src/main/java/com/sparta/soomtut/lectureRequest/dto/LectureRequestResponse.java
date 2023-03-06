@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class LecReqResponseDto {
+public class LectureRequestResponse {
 
     private Long id;
     private Long tuteeId;
@@ -22,11 +22,11 @@ public class LecReqResponseDto {
     private Lecture lecture;
 
     @Builder(builderClassName="LectureRequestToDto", builderMethodName="toDto")
-    public LecReqResponseDto(LectureRequest lectureRequest) {
+    public LectureRequestResponse(LectureRequest lectureRequest) {
         this.id = lectureRequest.getId();
         this.state = lectureRequest.getLectureState();
         this.tuteeId = lectureRequest.getTuteeId();
-        this.reviewed = lectureRequest.getReviewFilter();
+        this.reviewed = lectureRequest.getReviewed();
         this.lecture = lectureRequest.getLecture();
     }
 }

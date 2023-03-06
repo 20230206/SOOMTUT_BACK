@@ -61,6 +61,9 @@ public class Member {
         this.location = location;
 
         this.image = Constants.STANDARD_USER_IMAGE;
+        this.memberRole = MemberRole.MEMBER;
+        this.createdAt = LocalDate.now();
+        this.starScore = 0.0f;
     }
 
     public void updatePassword(String password) {

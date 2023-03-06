@@ -18,12 +18,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class MemberResponse {
 
-    private Long memberId;
+    private Long id;
     private String email;
     private String nickname;
     private LocalDate createAt;
     private float starScore;
-    private String profileImage;
+    private String image;
     private MemberState state;
 
     private LocationResponse location;
@@ -31,12 +31,12 @@ public class MemberResponse {
 
     @Builder(builderClassName = "MemberInfoToDto", builderMethodName = "toDto")
     public MemberResponse(Member member) {
-        this.memberId = member.getId();
+        this.id = member.getId();
         this.email = member.getEmail();
         this.nickname = member.getNickname();
         this.createAt = member.getCreatedAt();
         this.starScore = member.getStarScore();
-        this.profileImage = member.getImage();
+        this.image = member.getImage();
         this.state = member.getState();
 
         this.location = LocationResponse.toDto().location(member.getLocation()).build();

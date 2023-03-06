@@ -1,7 +1,6 @@
 package com.sparta.soomtut.lecture.dto.response;
 
 import com.sparta.soomtut.lecture.entity.Lecture;
-import com.sparta.soomtut.member.entity.Member;
 
 import com.sparta.soomtut.member.dto.response.MemberResponse;
 

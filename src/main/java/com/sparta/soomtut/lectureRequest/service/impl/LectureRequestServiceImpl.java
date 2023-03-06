@@ -3,7 +3,7 @@ package com.sparta.soomtut.lectureRequest.service.impl;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.service.LectureService;
-import com.sparta.soomtut.lectureRequest.dto.LecReqResponseDto;
+import com.sparta.soomtut.lectureRequest.dto.LectureRequestResponse;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import com.sparta.soomtut.lectureRequest.entity.LectureState;
 import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
@@ -28,7 +28,7 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     // 수업 신청
     @Override
     @Transactional
-    public LecReqResponseDto createLectureRequest(Long lectureId, Long memberId) {
+    public LectureRequestResponse createLectureRequest(Long lectureId, Long memberId) {
         Lecture lecture = lectureService.getLectureById(lectureId);
 
         if(this.existsLectureRequestByStateIsNotComplete(memberId, lectureId)) {
@@ -37,23 +37,23 @@ public class LectureRequestServiceImpl implements LectureRequestService{
 
         LectureRequest lectureRequest = new LectureRequest(lecture, memberId);
         lectureRequestRepository.save(lectureRequest);
-        return LecReqResponseDto.toDto().lectureRequest(lectureRequest).build();
+        return LectureRequestResponse.toDto().lectureRequest(lectureRequest).build();
     }
 
     @Override
     @Transactional
-    public LecReqResponseDto acceptLecture(Long lectureRequestId, Member member) {
+    public LectureRequestResponse acceptLecture(Long lectureRequestId, Member member) {
         LectureRequest lectureRequest = getLectureRequestById(lectureRequestId);
         lectureRequest.changeConfirmed();
-        return LecReqResponseDto.toDto().lectureRequest(lectureRequest).build();
+        return LectureRequestResponse.toDto().lectureRequest(lectureRequest).build();
     }
 
     @Override
     @Transactional
-    public LecReqResponseDto completeLecture(Long lectureRequestId, Member member) {
+    public LectureRequestResponse completeLecture(Long lectureRequestId, Member member) {
         LectureRequest lectureRequest = getLectureRequestById(lectureRequestId);
         lectureRequest.changeComplete();
-        return LecReqResponseDto.toDto().lectureRequest(lectureRequest).build();
+        return LectureRequestResponse.toDto().lectureRequest(lectureRequest).build();
     }
 
     // 완료한 수업 목록 조회
@@ -105,9 +105,9 @@ public class LectureRequestServiceImpl implements LectureRequestService{
 
     @Override
     @Transactional(readOnly=true)
-    public LecReqResponseDto getLectureRequestByStateIsNotComplete(Long memberId, Long lectureId) {
+    public LectureRequestResponse getLectureRequestByStateIsNotComplete(Long memberId, Long lectureId) {
         LectureRequest lectureRequest = getLectureRequestByTuteeIdAndLectureIdAndLectureState(memberId, lectureId);
-        return LecReqResponseDto.toDto().lectureRequest(lectureRequest).build();
+        return LectureRequestResponse.toDto().lectureRequest(lectureRequest).build();
     }
 
     private LectureRequest getLectureRequestByTuteeIdAndLectureIdAndLectureState(Long memberId, Long lectureId) {
