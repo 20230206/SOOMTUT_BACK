@@ -43,7 +43,7 @@ public class LectureServiceImpl implements LectureService {
     public LectureResponseDto getLecture(Long lectureId) {
         Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
             () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage()));
-        return new LectureResponseDto(lecture, locationService.findMemberLocation(lecture.getTutorId()));
+        return new LectureResponseDto(lecture, locationService.getLocationById(lecture.getTutorId()));
     }
 
     @Override
@@ -71,7 +71,7 @@ public class LectureServiceImpl implements LectureService {
         String fileName = postdir + "/" + date.format(new Date()) + "-" + file.getOriginalFilename();
         Lecture lecture = new Lecture(lectureRequestDto,CLOUD_FRONT_DOMAIN_NAME + fileName, member);
         lectureRepository.save(lecture);
-        return new LectureResponseDto(lecture, locationService.findMemberLocation(member.getId()));
+        return new LectureResponseDto(lecture, locationService.getLocationById(member.getId()));
     }
 
     // 게시글 수정
@@ -126,7 +126,7 @@ public class LectureServiceImpl implements LectureService {
         return new LectureResponseDto(
                 lecture,
                 member.getNickname(),
-                locationService.findMemberLocation(member.getId()).getAddress());
+                locationService.getLocationById(member.getId()).getAddress());
     }
 
     @Override

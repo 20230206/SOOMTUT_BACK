@@ -9,7 +9,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.sparta.soomtut.member.entity.Member;
+import com.sparta.soomtut.member.entity.enums.MemberState;
 import com.sparta.soomtut.member.service.MemberService;
+import com.sparta.soomtut.auth.dto.request.RegisterRequest;
 import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.location.service.LocationService;
 import com.sparta.soomtut.util.constants.Constants;
@@ -34,7 +36,6 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
     private static final String PROVIDER = "provider";
     private static final String PROVIDERID = "providerid";
     private static final String EMAIL = "email";
-    private static final String ADDRESS = "서울특별시 서초구 반포동";
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest request) throws OAuth2AuthenticationException {
@@ -50,7 +51,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
         String nickname = provider + "_" + providerId;
         String uuid = UUID.randomUUID().toString().substring(0,6);
         String password = passwordEncoder.encode(Constants.STANDARD_OAUTH2_PASS + uuid);
-        String email = attributes.get(EMAIL).toString();
+        String email = attributes.get(EMAIL).toString() + "@" + provider;
         Member member = memberService.findByProviderAndOauthEmail(provider, email)
                         .orElseGet( () -> createNewMember(email, nickname, password, provider));
 
@@ -59,8 +60,14 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 
     private Member createNewMember(String email, String nickname, String password, String provider) {
         // email, password, nickname, provier
-        Member member = memberService.saveMember(Member.oauth2Register().email(email).nickname(nickname).password(password).provider(provider).oauthEmail(email).build());
-        locationService.saveLocation(Location.forNewMember().member(member).address(ADDRESS).vectorX(0).vectorY(0).build());
+        var request = RegisterRequest.builder().email(email).nickname(nickname).provider(provider).providerId(email).build();
+        Location location = locationService.saveLocation(new Location());
+        Member member = Member.builder().request(request).location(location).build();
+        member.updatePassword(password);
+        member.changeState(MemberState.INIT);
+        memberService.saveMember(member);
+        
         return member;
+
     }
 }

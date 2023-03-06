@@ -41,7 +41,7 @@ public class MemberServiceImpl implements MemberService{
     public MemberInfoResponse updateNickname(String nickname, Member memberId) {
         Member member = getMemberById(memberId.getId());
         member.updateNickName(nickname);
-        var location = locationService.findMemberLocation(member.getId());
+        var location = locationService.getLocationById(member.getId());
         return MemberInfoResponse.toDto().member(member).location(location).build();
     }
 
@@ -74,7 +74,7 @@ public class MemberServiceImpl implements MemberService{
     public MemberInfoResponse suspendAccount(Long memberId) {
         Member member = getMemberById(memberId);
         member.changeState(MemberState.SUSPEND);
-        var location = locationService.findMemberLocation(memberId);
+        var location = locationService.getLocationById(memberId);
         return MemberInfoResponse.toDto().member(member).location(location).build();
     }
 
@@ -126,7 +126,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public MemberInfoResponse getMemberInfo(Member member) {
-        return MemberInfoResponse.toDto().member(member).location(locationService.findMemberLocation(member.getId())).build();
+        return MemberInfoResponse.toDto().member(member).location(locationService.getLocationById(member.getId())).build();
     }
 
     @Override
@@ -139,7 +139,7 @@ public class MemberServiceImpl implements MemberService{
     public MemberInfoResponse getMemberInfoResponseDto(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage()));
-        return MemberInfoResponse.toDto().member(member).location(locationService.findMemberLocation(memberId)).build();
+        return MemberInfoResponse.toDto().member(member).location(locationService.getLocationById(memberId)).build();
     }
 
 }

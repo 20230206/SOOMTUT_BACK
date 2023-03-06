@@ -35,9 +35,7 @@ public class Member {
     @Column(nullable = false)
     private LocalDate createdAt;
     @Column
-    private float starRating;
-    @Column
-    private int level;
+    private float starScore;
     @Column
     private String image;
     @Column 
@@ -57,7 +55,12 @@ public class Member {
         this.email = request.getEmail();
         this.nickname = request.getNickname();
      
+        this.provider = request.getProvider();
+        this.oauthEmail = request.getProviderId();
+
         this.location = location;
+
+        this.image = Constants.STANDARD_USER_IMAGE;
     }
 
     public void updatePassword(String password) {

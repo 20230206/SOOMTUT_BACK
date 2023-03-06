@@ -5,10 +5,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class OAuthInfoRequest {
+public class OAuthInitRequest {
     private String nickname;
+    
+    private float posX;
+    private float posY;
     private String address;
-    private float vectorX;
-    private float vectorY;
-
+    private String sido;
+    private String sigungu;
+    private String bname;
 }

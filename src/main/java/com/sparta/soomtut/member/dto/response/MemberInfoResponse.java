@@ -37,7 +37,7 @@ public class MemberInfoResponse {
         this.email = member.getEmail();
         this.nickname = member.getNickname();
         this.createAt = member.getCreatedAt();
-        this.starRating = member.getStarRating();
+        this.starRating = member.getStarScore();
         this.level = member.getLevel();
         this.profileImage = member.getImage();
         this.state = member.getState();

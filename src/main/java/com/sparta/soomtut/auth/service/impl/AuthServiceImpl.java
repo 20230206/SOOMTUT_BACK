@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sparta.soomtut.auth.dto.request.LoginRequest;
-import com.sparta.soomtut.auth.dto.request.OAuthInfoRequest;
+import com.sparta.soomtut.auth.dto.request.OAuthInitRequest;
 import com.sparta.soomtut.auth.dto.request.OAuthLoginRequest;
 import com.sparta.soomtut.auth.dto.request.RegisterRequest;
 import com.sparta.soomtut.auth.dto.response.LoginResponse;
@@ -19,7 +19,6 @@ import com.sparta.soomtut.member.entity.enums.MemberRole;
 import com.sparta.soomtut.member.entity.enums.MemberState;
 import com.sparta.soomtut.member.service.MemberService;
 import com.sparta.soomtut.location.dto.request.LocationRequest;
-import com.sparta.soomtut.location.dto.request.LocationUpdateRequest;
 import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.location.service.LocationService;
 import com.sparta.soomtut.util.jwt.JwtProvider;
@@ -56,10 +55,14 @@ public class AuthServiceImpl implements AuthService {
         if(memberService.existsMemberByNickname(nickname))
             throw new CustomException(ErrorCode.DUPLICATED_NICKNAME);
 
-        var locationRequest = LocationRequest.convert().request(request);
-        Location location = locationService.saveLocation(request);
-            // email, password, nickname
-        Member member = memberService.saveMember(Member.userDetailRegister().email(email).password(password).nickname(nickname).build());
+        LocationRequest locationRequest = LocationRequest.registerConvert().request(request).build();
+        Location location = locationService.saveLocation(locationRequest);
+        
+        Member member = Member.builder().request(request).location(location).build();
+        member.updatePassword(password);
+        member.changeState(MemberState.ACTIVE);
+
+        memberService.saveMember(member);
         
         return MemberInfoResponse.toDto().member(member).build();
     }
@@ -114,16 +117,17 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public MemberInfoResponse updateOAuthInfo(OAuthInfoRequest request, String refresh) {
+    public MemberInfoResponse updateOAuthInfo(OAuthInitRequest request, String refresh) {
         if(!validToken(refresh)) throw new CustomException(ErrorCode.INVALID_TOKEN);
 
         String email = getEmailFromToken(refresh);
         Member member = memberService.getMemberByEmail(email);
-        member.updateNickName(request.getNickname());
-        Location location = locationService.findMemberLocation(member.getId());
-        location.updateLocation(request.getAddress(), request.getVectorX(), request.getVectorY());
+
+        LocationRequest locationRequest = LocationRequest.oauthInitconvert().request(request).build();
+        locationService.updateLocation(member.getLocation().getId(), locationRequest);
+
         member.changeState(MemberState.ACTIVE);
-        return MemberInfoResponse.toDto().member(member).location(location).build();
+        return MemberInfoResponse.toDto().member(member).build();
     }
 
     // 토큰 동작

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sparta.soomtut.auth.dto.request.LoginRequest;
-import com.sparta.soomtut.auth.dto.request.OAuthInfoRequest;
+import com.sparta.soomtut.auth.dto.request.OAuthInitRequest;
 import com.sparta.soomtut.auth.dto.request.OAuthLoginRequest;
 import com.sparta.soomtut.auth.dto.request.RegisterRequest;
 import com.sparta.soomtut.auth.service.AuthService;
@@ -22,7 +22,6 @@ import com.sparta.soomtut.util.cookies.RefreshCookie;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.response.ToResponse;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -103,7 +102,7 @@ public class AuthController {
 
     @PutMapping(value="/oauth-updateinfo")
     public ResponseEntity<?> updateOAuthInfo(
-        @RequestBody OAuthInfoRequest request,
+        @RequestBody OAuthInitRequest request,
         @CookieValue(REFRESH_KEY) String refresh)
     {
         var data = authService.updateOAuthInfo(request, refresh);

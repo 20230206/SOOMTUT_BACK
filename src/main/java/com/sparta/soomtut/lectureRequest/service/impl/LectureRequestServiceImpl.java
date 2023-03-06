@@ -63,7 +63,7 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     public Page<LectureResponseDto> getCompleteLecture(Long memberId, Pageable pageable) {
         Page<LectureRequest> lectureRequestPage = getAllByTuteeIdByAndStateIsDone(memberId, pageable);
         Page<Lecture> lectureList = lectureRequestPage.map(LectureRequest::getLecture);
-        return lectureList.map(item-> new LectureResponseDto(item, locationService.findMemberLocation(memberId)));
+        return lectureList.map(item-> new LectureResponseDto(item, locationService.getLocationById(memberId)));
     }
 
     // 완료된 수업중 리뷰가 없는 수업목록 조회
@@ -72,7 +72,7 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     public Page<LectureResponseDto> reviewFilter(Long memberId, Pageable pageable) {
         Page<LectureRequest> lectureRequestPage = getAllByTuteeIdByAndStateIsDoneAndFalse(memberId, pageable);
         Page<Lecture> lectureList = lectureRequestPage.map(LectureRequest::getLecture);
-        return lectureList.map(item-> new LectureResponseDto(item, locationService.findMemberLocation(memberId)));
+        return lectureList.map(item-> new LectureResponseDto(item, locationService.getLocationById(memberId)));
     }
 
     // 레파지토리 접근 함수.
