@@ -82,6 +82,7 @@ public class LectureController {
     @GetMapping(value="/public")
     public ResponseEntity<?> getAllLeuctures(
             @RequestParam(required = false, value = "category") int category,
+            @RequestParam(required = false, value = "region") String region,
             @ModelAttribute PageRequestDto pageable)
     {
         var data = boardService.getAllPost(category, pageable.toPageable());
@@ -153,6 +154,7 @@ public class LectureController {
     public ResponseEntity<?> getMemberLecture(
             @PathVariable Long memberId,
             @RequestParam(required = false, value = "category") int category,
+            @RequestParam(required = false, value = "region") String region,
             @ModelAttribute PageRequestDto pageRequestDto)
     {
         Page<LectureResponseDto> data = lectureService.getMemberLecture(category,memberId,pageRequestDto.toPageable());
