@@ -49,7 +49,44 @@
     <li>Git Actions</li>
     <li>AWS CodeDeploy</li>
   </ul>
+  
+## 설치 및 실행 방법
 
+### 프론트
+1. 숨튜 프론트 프로젝트 클론
+```
+git clone https://github.com/20230206/SOOMTUT_FRONT.git
+```
+2. 프로젝트 디렉토리 이동
+```
+cd SOOMTUT_FRONT
+```
+3. 라이브러리 설치 
+```
+npm install
+```
+4. 프론트 개발 서버 실행
+```
+npm start
+``` 
+
+### 백엔드
+1. 숨튜 백엔드 프로젝트 클론
+```
+git clone https://github.com/20230206/SOOMTUT_BACK.git
+```
+2. 프로젝트 디렉토리 이동
+```
+cd SOOMTUT_BACK
+```
+3. 라이브러리 설치 
+```
+./gradlew build
+```
+4. 프론트 개발 서버 실행
+```
+java -jar build/libs/soomtut-0.0.1-SNAPSHOT.jar
+``` 
 ## 프로젝트 목표 
 
 ## 서비스 아키텍처
