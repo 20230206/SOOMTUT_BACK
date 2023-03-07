@@ -25,6 +25,3 @@
 - 예시 : https://github.com/f-lab-edu/Hello-World/wiki/04-Issues-&-Resolutions-(Blogs)
 ## 기능 정의 
 - 예시 : https://github.com/f-lab-edu/Hello-World/wiki/01-Use-Case
-## 
-
-이미지 출처 : https://leverageedu.com/blog/what-are-your-hobbies/
