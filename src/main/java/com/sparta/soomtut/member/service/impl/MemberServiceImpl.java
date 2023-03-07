@@ -89,7 +89,7 @@ public class MemberServiceImpl implements MemberService{
     @Transactional(readOnly = true)
     public Member getMemberByEmail(String email) {
         return memberRepository.findByEmail(email).orElseThrow(
-            () -> new IllegalArgumentException("등록된 사용자가 없습니다!")
+            () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage())
         );
 
     }

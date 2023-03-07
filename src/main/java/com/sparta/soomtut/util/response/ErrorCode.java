@@ -27,6 +27,7 @@ public enum ErrorCode {
     NOT_FOUND_REVIEW(500, "해당 리뷰를 찾을 수 없습니다."),
     NOT_FOUND_CATEGORY(500, "해당 카테고리를 찾을 수 없습니다."),
     NOT_FOUND_FAVPOST(500,"해당 즐겨찾기를 찾을 수 없습니다"),
+    NOT_FOUND_LOG(500, "해당 로그를 찾을 수 없습니다"),
     NOT_FIND_REQUEST(500,"요청내용을 찾을 수 없습니다."),
     DUPLICATED_CHATTING(500,"이미 채팅방이 존재합니다."),
     ALREADY_REQUEST_SELLER(500,"신청 가능한 상태가 아닙니다."),

@@ -95,7 +95,7 @@ public class LectureController {
             @ModelAttribute PageRequestDto pageable)
     {
         var data = boardService.getLecturesByMemberId(userDetails.getMember().getId(), pageable.toPageable());
-        return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURES_OK);
+        return ToResponse.of(data, SuccessCode.LECTURE_GETMYLECTURES_OK);
     }
     
     // 나의 수업인지 확인
@@ -112,11 +112,10 @@ public class LectureController {
     @GetMapping(value = "/bookmark/{lectureId}")
     public ResponseEntity<?> getBookmarkState(
             @PathVariable Long lectureId,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
-    )
+            @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         var data = bookmarkService.getState(lectureId, userDetails.getMember());
-        return ResponseEntity.ok().body(data);
+        return ToResponse.of(data, SuccessCode.LECTURE_BOOKMARKCHECK_OK);
     }
 
     //즐겨찾기 추가 및 취소
@@ -160,9 +159,11 @@ public class LectureController {
         return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURES_OK);
     }
 
-    @GetMapping(value = "/public/popular")
-    public ResponseEntity<?> getPopularLectures(){
+
+    @GetMapping(value = "/popular")
+    public ResponseEntity<?> getPopularLectures() {
        var date =  lectureService.getPopularLectures();
-        return ToResponse.of(date, SuccessCode.MESSGE_OK);
+        return ToResponse.of(date, SuccessCode.LECTURE_POPULARLECTURES_OK);
     }
+
 }
