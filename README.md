@@ -20,6 +20,7 @@
 
 ## 화면 구성도
 ## ERD 구조
+![image](https://user-images.githubusercontent.com/79249838/223445731-1ca05cac-9be8-449a-b04c-e0a2114003c2.png)
 ## Technical Issue
 - 예시 : https://github.com/f-lab-edu/Hello-World/wiki/04-Issues-&-Resolutions-(Blogs)
 ## 기능 정의 
