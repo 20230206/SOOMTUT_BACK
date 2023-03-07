@@ -1,7 +1,6 @@
 package com.sparta.soomtut.location.controller;
 
 import com.sparta.soomtut.location.dto.request.LocationRequest;
-import com.sparta.soomtut.location.dto.response.LocationResponse;
 import com.sparta.soomtut.location.service.LocationService;
 import com.sparta.soomtut.util.response.SuccessCode;
 import com.sparta.soomtut.util.response.ToResponse;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
 
 import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 @RequestMapping("/location")
 @RequiredArgsConstructor

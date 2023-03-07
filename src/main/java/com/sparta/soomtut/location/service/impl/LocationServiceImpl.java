@@ -2,7 +2,6 @@ package com.sparta.soomtut.location.service.impl;
 
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.location.dto.request.LocationRequest;
-import com.sparta.soomtut.location.dto.response.LocationResponse;
 import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.location.repository.LocationRepository;
 import com.sparta.soomtut.location.service.LocationService;
@@ -11,8 +10,6 @@ import com.sparta.soomtut.util.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
