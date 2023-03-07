@@ -1,5 +1,6 @@
 # soomtut
 ![image](https://user-images.githubusercontent.com/79249838/222885484-b215ab57-3599-46a7-a5e5-15f825c202ea.png)
+
 ## 팀원
 - 이신희 LEADER
 - 정성윤 VICE LEADER
@@ -8,26 +9,48 @@
 - 임동규
 
 ## 서비스 및 프로젝트 소개 
+ <h3>프론트엔드</h3>
+  <ul>
+    <li>React</li>
+    <li>React Router</li>
+    <li>Node.js</li>
+    <li>Nginx</li>
+  </ul>
+
+  <h3>백엔드</h3>
+  <ul>
+    <li>Spring Boot</li>
+    <li>Embedded Tomcat</li>
+    <li>Gradle</li>
+    <li>JDK 17</li>
+  </ul>
+
+  <h3>서버 간의 소통</h3>
+  <ul>
+    <li>Axios</li>
+    <li>WebSocket</li>
+    <li>Stomp</li>
+  </ul>
+
+  <h3>데이터베이스</h3>
+  <ul>
+    <li>MySQL</li>
+  </ul>
+
+  <h3>클라우드 플랫폼</h3>
+  <ul>
+    <li>Amazon RDS (Relational Database Service)</li>
+    <li>Amazon EC2 (Elastic Compute Cloud)</li>
+    <li>Amazon S3 (Simple Storage Service)</li>
+  </ul>
+
+  <h3>배포</h3>
+  <ul>
+    <li>Git Actions</li>
+    <li>AWS CodeDeploy</li>
+  </ul>
 
 ## 프로젝트 목표 
-## 사용 기술 및 개발 환경
-- 프론트
-<div>
-<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-<img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
-<img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
-<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
-<img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
-</div>
-- 백엔드 
-<div>
-<img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
-<img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white">
-<img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">
-<img src="https://img.shields.io/badge/apache tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=white">
-</div>
-- DB
-<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 
 ## 서비스 아키텍처
 ![image](https://user-images.githubusercontent.com/79249838/222732859-05e28a84-8bb8-4ecf-9162-e5482a3cf939.png)
