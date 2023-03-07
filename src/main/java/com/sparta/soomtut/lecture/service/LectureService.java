@@ -1,12 +1,8 @@
 package com.sparta.soomtut.lecture.service;
 
-import com.sparta.soomtut.lecture.dto.request.CategoryRequestDto;
 import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
-import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
-import com.sparta.soomtut.lecture.entity.Category;
 import com.sparta.soomtut.lecture.entity.Lecture;
-import com.sparta.soomtut.lectureRequest.dto.LectureRequestResponse;
 import com.sparta.soomtut.member.entity.Member;
 
 import org.springframework.data.domain.Page;
@@ -20,7 +16,7 @@ public interface LectureService {
 //     글작성
     LectureResponseDto createLecture(Member member, CreateLectureRequestDto lectureRequestDto, MultipartFile file);
 //     글수정
-    LectureResponseDto updateLecture(Long lectureId, UpdateLectureRequestDto lectureRequestDto, Member member,MultipartFile file);
+    LectureResponseDto updateLecture(Long lectureId, CreateLectureRequestDto postRequestDto, Member member, MultipartFile file);
     void deleteLecture(Long lectureId, Member member);
     LectureResponseDto getLecture(Long lectureId);
     boolean checkLectureAuthor(Long postId, Member member);

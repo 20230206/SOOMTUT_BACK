@@ -1,7 +1,6 @@
 package com.sparta.soomtut.lecture.service.impl;
 
 import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
-import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lecture.entity.Category;
 import com.sparta.soomtut.lecture.entity.Lecture;
@@ -77,7 +76,7 @@ public class LectureServiceImpl implements LectureService {
     // 게시글 수정
     @Override
     @Transactional
-    public LectureResponseDto updateLecture(Long lectureId, UpdateLectureRequestDto lectureRequestDto, Member member,MultipartFile file) {
+    public LectureResponseDto updateLecture(Long lectureId, CreateLectureRequestDto postRequestDto, Member member,MultipartFile file) {
         Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
         );
@@ -87,8 +86,17 @@ public class LectureServiceImpl implements LectureService {
                 throw new IllegalArgumentException(ErrorCode.AUTHORIZATION.getMessage());
         }
         SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmss");
-        String fileName = postdir + "/" + date.format(new Date()) + "-" + file.getOriginalFilename();
-        lecture.update(lectureRequestDto,CLOUD_FRONT_DOMAIN_NAME+fileName);
+        System.out.println(file);
+
+
+        if(file == null){
+            String fileName = lecture.getImage();
+            lecture.update(postRequestDto,fileName);
+        }else{
+            String fileName = postdir + "/" + date.format(new Date()) + "-" + file.getOriginalFilename();
+            lecture.update(postRequestDto,CLOUD_FRONT_DOMAIN_NAME+fileName);
+        }
+
         return new LectureResponseDto(lecture);
     }
 

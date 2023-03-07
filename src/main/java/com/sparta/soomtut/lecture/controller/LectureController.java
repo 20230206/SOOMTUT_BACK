@@ -2,7 +2,6 @@ package com.sparta.soomtut.lecture.controller;
 
 import com.sparta.soomtut.image.service.S3Service;
 import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
-import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lecture.service.BookmarkService;
 import com.sparta.soomtut.lecture.service.LectureService;
@@ -48,13 +47,16 @@ public class LectureController {
     @PutMapping("/{lectureid}")
     public ResponseEntity<?> updateLecture(
             @PathVariable Long lectureid,
-            @RequestPart UpdateLectureRequestDto updatePostRequestDto,
+            @RequestPart CreateLectureRequestDto postRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestPart("file") MultipartFile file) throws IOException
+            @RequestPart(value = "file",required = false) MultipartFile file) throws IOException
     {
-        var data = lectureService.updateLecture(lectureid, updatePostRequestDto, userDetails.getMember(),file);
-        s3Service.uploadLectureImage(data.getId(),file);
+        var data = lectureService.updateLecture(lectureid, postRequestDto, userDetails.getMember(),file);
+        if (file!=null) {
+            s3Service.uploadLectureImage(data.getId(), file);
+        }
         return ToResponse.of(data, SuccessCode.LECTURE_UPDATE_OK);
+
     }
 
     // 수업 삭제
