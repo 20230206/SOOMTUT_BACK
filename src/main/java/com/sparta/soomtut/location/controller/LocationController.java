@@ -3,6 +3,8 @@ package com.sparta.soomtut.location.controller;
 import com.sparta.soomtut.location.dto.request.LocationRequest;
 import com.sparta.soomtut.location.dto.response.LocationResponse;
 import com.sparta.soomtut.location.service.LocationService;
+import com.sparta.soomtut.util.response.SuccessCode;
+import com.sparta.soomtut.util.response.ToResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +29,7 @@ public class LocationController {
         @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         var data = locationService.updateLocation(userDetails.getMember().getLocation().getId(), locationRequestDto);
-        return ResponseEntity.ok().body(data);
+        return ToResponse.of(data, SuccessCode.LOCATION_SAVE_OK);
     }
 
 }

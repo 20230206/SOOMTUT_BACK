@@ -88,7 +88,7 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Transactional(readOnly = true)
     public Bookmark findByLectureIdAndMemberId(Long lectureId, Long memberId) {
         return favMemberPostRepository.findByLectureIdAndMemberId(lectureId, memberId).orElseThrow(
-            () -> new IllegalArgumentException("로그가 존재하지 않습니다."));
+            () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_LOG.getMessage()));
     }
 
 }
