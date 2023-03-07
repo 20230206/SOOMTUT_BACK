@@ -28,13 +28,13 @@ public class LectureRequest {
     @Column
     private Long tuteeId;
     @Column
-    private Boolean reviewFilter;
+    private Boolean reviewed;
 
     public LectureRequest(Lecture lecture, Long tuteeId) {
         this.lectureState = LectureState.NONE;
         this.lecture = lecture;
         this.tuteeId = tuteeId;
-        this.reviewFilter = false;
+        this.reviewed = false;
     }
 
     public void changeConfirmed(){
@@ -46,7 +46,7 @@ public class LectureRequest {
     }
 
     public void updateReview() {
-        this.reviewFilter = true;
+        this.reviewed = true;
     }
 
     public Long getLectureId(){

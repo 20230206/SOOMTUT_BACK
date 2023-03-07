@@ -1,15 +1,12 @@
 package com.sparta.soomtut.lecture.entity;
 
 import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
-import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.util.constants.Constants;
 import com.sparta.soomtut.util.entity.TimeStamped;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -48,11 +45,12 @@ public class Lecture extends TimeStamped {
       this.favorite = 0;
     }
 
-    public void update(UpdateLectureRequestDto updatePostRequestDto,String filePath) {
-      this.title = updatePostRequestDto.getTitle();
+    public void update(CreateLectureRequestDto postRequestDto,String filePath) {
+      this.title = postRequestDto.getTitle();
       this.image = filePath;
-      this.content = updatePostRequestDto.getContent();
-      this.fee = updatePostRequestDto.getFee();
+      this.content = postRequestDto.getContent();
+        this.category = Category.valueOf(postRequestDto.getCategory());
+      this.fee = postRequestDto.getFee();
     }
 
     public Lecture(String content, int categoryId, int fee) {

@@ -1,57 +1,42 @@
-package com.sparta.soomtut.location.entity;
+package com.sparta.soomtut.location.dto.request;
 
-import com.sparta.soomtut.location.dto.request.LocationRequest;
+import com.sparta.soomtut.auth.dto.request.RegisterRequest;
+import com.sparta.soomtut.auth.dto.request.OAuthInitRequest;
 
-import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
 @Getter
 @NoArgsConstructor
-@Entity
-public class Location {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column
-    private String address;
-
-    @Column
+public class LocationRequest {
     private float posX;
-
-    @Column
     private float posY;
-
-    @Column
+    private String address;
     private String sido;
-    
-    @Column
     private String sigungu;
-    
-    @Column
     private String bname;
 
-    @Builder
-    public Location(LocationRequest request) {
-        this.address = request.getAddress();
+    @Builder(builderClassName="RegisterRequestConvert", builderMethodName="registerConvert")
+    public LocationRequest (RegisterRequest request) {
         this.posX = request.getPosX();
         this.posY = request.getPosY();
+        this.address = request.getAddress();
         this.sido = request.getSido();
         this.sigungu = request.getSigungu();
         this.bname = request.getBname();
     }
 
-    public void updateLocation(LocationRequest request) {
-        this.address = request.getAddress();
+    @Builder(builderClassName="OAuthInitRequestConvert", builderMethodName="oauthInitconvert")
+    public LocationRequest (OAuthInitRequest request) {
         this.posX = request.getPosX();
         this.posY = request.getPosY();
+        this.address = request.getAddress();
         this.sido = request.getSido();
         this.sigungu = request.getSigungu();
         this.bname = request.getBname();
-
     }
 
 }

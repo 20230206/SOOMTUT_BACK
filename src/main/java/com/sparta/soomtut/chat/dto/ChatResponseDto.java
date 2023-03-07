@@ -10,21 +10,21 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ChatResponseDto {
 
+    private Long id;
     private Long senderId;
     private String message;
     private LocalDateTime sentAt;
 
-    private ChatResponseDto(Long senderId, String message, LocalDateTime sentAt) {
-        this.senderId = senderId;
-        this.message = message;
-        this.sentAt = sentAt;
+    private ChatResponseDto(ChatMessage chatMessage) {
+        this.id = chatMessage.getId();
+        this.senderId = chatMessage.getSenderId();
+        this.message = chatMessage.getContent();
+        this.sentAt = chatMessage.getSentAt();
     }
 
     public static ChatResponseDto of(ChatMessage chatMessage) {
         return new ChatResponseDto(
-                chatMessage.getSenderId(),
-                chatMessage.getContent(),
-                chatMessage.getSentAt()
+                chatMessage
         );
     }
 

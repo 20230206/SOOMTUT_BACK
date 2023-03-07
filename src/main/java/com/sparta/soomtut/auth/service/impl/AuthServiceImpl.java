@@ -6,18 +6,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sparta.soomtut.auth.dto.request.LoginRequest;
-import com.sparta.soomtut.auth.dto.request.OAuthInfoRequest;
+import com.sparta.soomtut.auth.dto.request.OAuthInitRequest;
 import com.sparta.soomtut.auth.dto.request.OAuthLoginRequest;
 import com.sparta.soomtut.auth.dto.request.RegisterRequest;
 import com.sparta.soomtut.auth.dto.response.LoginResponse;
 import com.sparta.soomtut.auth.entity.Auth;
 import com.sparta.soomtut.auth.repository.AuthRepository;
 import com.sparta.soomtut.auth.service.AuthService;
-import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
+import com.sparta.soomtut.member.dto.response.MemberResponse;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberRole;
 import com.sparta.soomtut.member.entity.enums.MemberState;
 import com.sparta.soomtut.member.service.MemberService;
+import com.sparta.soomtut.location.dto.request.LocationRequest;
 import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.location.service.LocationService;
 import com.sparta.soomtut.util.jwt.JwtProvider;
@@ -43,10 +44,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public MemberInfoResponse register(RegisterRequest requestDto) {
-        String email = requestDto.getEmail();
-        String password = passwordEncoder.encode(requestDto.getPassword());
-        String nickname = requestDto.getNickname();
+    public MemberResponse register(RegisterRequest request) {
+        String email = request.getEmail();
+        String password = passwordEncoder.encode(request.getPassword());
+        String nickname = request.getNickname();
 
         if(memberService.existsMemberByEmail(email))
             throw new CustomException(ErrorCode.DUPLICATED_EMAIL);
@@ -54,10 +55,16 @@ public class AuthServiceImpl implements AuthService {
         if(memberService.existsMemberByNickname(nickname))
             throw new CustomException(ErrorCode.DUPLICATED_NICKNAME);
 
-            // email, password, nickname
-        Member member = memberService.saveMember(Member.userDetailRegister().email(email).password(password).nickname(nickname).build());
-        Location location = locationService.saveLocation(requestDto, member);
-        return MemberInfoResponse.toDto().member(member).location(location).build();
+        LocationRequest locationRequest = LocationRequest.registerConvert().request(request).build();
+        Location location = locationService.saveLocation(locationRequest);
+        
+        Member member = Member.builder().request(request).location(location).build();
+        member.updatePassword(password);
+        member.changeState(MemberState.ACTIVE);
+
+        memberService.saveMember(member);
+        
+        return MemberResponse.toDto().member(member).build();
     }
 
     @Override
@@ -110,16 +117,18 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public MemberInfoResponse updateOAuthInfo(OAuthInfoRequest request, String refresh) {
+    public MemberResponse updateOAuthInfo(OAuthInitRequest request, String refresh) {
         if(!validToken(refresh)) throw new CustomException(ErrorCode.INVALID_TOKEN);
 
         String email = getEmailFromToken(refresh);
         Member member = memberService.getMemberByEmail(email);
+
+        LocationRequest locationRequest = LocationRequest.oauthInitconvert().request(request).build();
+        locationService.updateLocation(member.getLocation().getId(), locationRequest);
+
         member.updateNickName(request.getNickname());
-        Location location = locationService.findMemberLocation(member.getId());
-        location.updateLocation(request.getAddress(), request.getVectorX(), request.getVectorY());
         member.changeState(MemberState.ACTIVE);
-        return MemberInfoResponse.toDto().member(member).location(location).build();
+        return MemberResponse.toDto().member(member).build();
     }
 
     // 토큰 동작

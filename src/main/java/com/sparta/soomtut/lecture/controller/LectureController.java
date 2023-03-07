@@ -2,7 +2,6 @@ package com.sparta.soomtut.lecture.controller;
 
 import com.sparta.soomtut.image.service.S3Service;
 import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
-import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lecture.service.BookmarkService;
 import com.sparta.soomtut.lecture.service.LectureService;
@@ -10,7 +9,6 @@ import com.sparta.soomtut.util.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +39,7 @@ public class LectureController {
     {
         var data = lectureService.createLecture(userDetails.getMember(), postRequestDto,file);
         ToResponse.of(data, SuccessCode.LECTURE_CREATE_OK);
-        s3Service.uploadLectureImage(data.getLectureId(),file);
+        s3Service.uploadLectureImage(data.getId(),file);
         return ToResponse.of(data, SuccessCode.IMG_LECTUREIMG_OK);
     }
 
@@ -49,13 +47,16 @@ public class LectureController {
     @PutMapping("/{lectureid}")
     public ResponseEntity<?> updateLecture(
             @PathVariable Long lectureid,
-            @RequestPart UpdateLectureRequestDto updatePostRequestDto,
+            @RequestPart CreateLectureRequestDto postRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestPart("file") MultipartFile file) throws IOException
+            @RequestPart(value = "file",required = false) MultipartFile file) throws IOException
     {
-        var data = lectureService.updateLecture(lectureid, updatePostRequestDto, userDetails.getMember(),file);
-        s3Service.uploadLectureImage(data.getLectureId(),file);
+        var data = lectureService.updateLecture(lectureid, postRequestDto, userDetails.getMember(),file);
+        if (file!=null) {
+            s3Service.uploadLectureImage(data.getId(), file);
+        }
         return ToResponse.of(data, SuccessCode.LECTURE_UPDATE_OK);
+
     }
 
     // 수업 삭제
@@ -69,7 +70,7 @@ public class LectureController {
     }
 
     // 수업 단일 조회
-    @GetMapping(value ="/{lectureid}")
+    @GetMapping(value ="/public/{lectureid}")
     public ResponseEntity<?> getLecture(
             @PathVariable Long lectureid)
     {
@@ -78,7 +79,7 @@ public class LectureController {
     }
 
     // 수업 전체 조회
-    @GetMapping
+    @GetMapping(value="/public")
     public ResponseEntity<?> getAllLeuctures(
             @RequestParam(required = false, value = "category") int category,
             @ModelAttribute PageRequestDto pageable)
@@ -140,7 +141,7 @@ public class LectureController {
     }
 
     //키워드로 수업 검색하기
-    @GetMapping("/search")
+    @GetMapping("/public/search")
     public Page<LectureResponseDto> searchByKeyword(
             @ModelAttribute PageRequestDto pageRequestDto,
             @RequestParam String keyword)
@@ -149,7 +150,7 @@ public class LectureController {
     }
 
     //특정 회원 수업 모두 조회
-    @GetMapping(value ="/{memberId}/all")
+    @GetMapping(value ="/public/{memberId}/all")
     public ResponseEntity<?> getMemberLecture(
             @PathVariable Long memberId,
             @RequestParam(required = false, value = "category") int category,
@@ -159,7 +160,7 @@ public class LectureController {
         return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURES_OK);
     }
 
-    @GetMapping(value = "/popular")
+    @GetMapping(value = "/public/popular")
     public ResponseEntity<?> getPopularLectures(){
        var date =  lectureService.getPopularLectures();
         return ToResponse.of(date, SuccessCode.MESSGE_OK);
