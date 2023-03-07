@@ -26,7 +26,7 @@ public class ChatMessageController {
             @RequestParam Long roomId
     ) {
         ChatResponseDto data = chatService.getLastChatMessage(roomId);
-        return ResponseEntity.ok(data);
+        return ToResponse.of(data, SuccessCode.CHAT_LASTMESSAGES_OK);
     }
     // 채팅 메시지 전부 불러오기 (완료)
     @GetMapping("/messages")

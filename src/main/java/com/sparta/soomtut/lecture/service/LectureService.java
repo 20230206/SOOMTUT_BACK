@@ -1,10 +1,7 @@
 package com.sparta.soomtut.lecture.service;
 
-import com.sparta.soomtut.lecture.dto.request.CategoryRequestDto;
 import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
-import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
-import com.sparta.soomtut.lecture.entity.Category;
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.member.entity.Member;
 
@@ -19,7 +16,7 @@ public interface LectureService {
 //     글작성
     LectureResponseDto createLecture(Member member, CreateLectureRequestDto lectureRequestDto, MultipartFile file);
 //     글수정
-    LectureResponseDto updateLecture(Long lectureId, UpdateLectureRequestDto lectureRequestDto, Member member);
+    LectureResponseDto updateLecture(Long lectureId, CreateLectureRequestDto postRequestDto, Member member, MultipartFile file);
     void deleteLecture(Long lectureId, Member member);
     LectureResponseDto getLecture(Long lectureId);
     boolean checkLectureAuthor(Long postId, Member member);
@@ -33,5 +30,5 @@ public interface LectureService {
     Page<LectureResponseDto> getMemberLecture(int category,Long memberId,Pageable pageable);
     Page<Lecture> getMemberLectures(int category,Long memberId,Pageable pageable);
     Page<LectureResponseDto> searchByKeyword(String keyword,Pageable pageable);
-
+    List<LectureResponseDto> getPopularLectures();
 }

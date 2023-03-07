@@ -2,10 +2,12 @@ package com.sparta.soomtut.chat.dto;
 
 import com.sparta.soomtut.chat.entity.ChatRoom;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
+import com.sparta.soomtut.lectureRequest.dto.LectureRequestResponse;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
-import com.sparta.soomtut.lectureRequest.entity.LectureState;
-import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
+import com.sparta.soomtut.member.dto.response.MemberResponse;
+import com.sparta.soomtut.member.entity.Member;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,48 +18,23 @@ import java.time.LocalDateTime;
 public class ChatRoomResponse {
 
     private Long id;
-    private MemberInfoResponse tutee;
-    private MemberInfoResponse tutor;
-    private LectureResponseDto lecture;
-    private Long lecreqId;
-    private LectureState state;
-    private boolean reviewed;
-
     private LocalDateTime createdAt;
 
-    private ChatRoomResponse(
-            Long id,
-            MemberInfoResponse tutee,
-            MemberInfoResponse tutor,
-            LocalDateTime createdAt,
-            LectureRequest lecreq,
-            LectureResponseDto lecture
-    ) {
-        this.id = id;
-        this.tutee = tutee;
-        this.tutor = tutor;
-        this.createdAt = createdAt;
-        this.lecreqId = lecreq.getId();
-        this.state = lecreq.getLectureState();
-        this.lecture = lecture;
-        this.reviewed = lecreq.getReviewFilter();
-    }
+    private MemberResponse tutee;
+    private MemberResponse tutor;
+    private LectureResponseDto lecture;
+    private LectureRequestResponse lectureRequest;
 
-    public static ChatRoomResponse of(
-            ChatRoom chatRoom,
-            MemberInfoResponse tutee,
-            MemberInfoResponse tutor,
-            LectureResponseDto lecture,
-            LectureRequest lecreq
-    ) {
-        return new ChatRoomResponse(
-                chatRoom.getId(),
-                tutee,
-                tutor,
-                chatRoom.getCreatedAt(),
-                lecreq,
-                lecture
-        );
-    }
+    @Builder(builderClassName="ChatRoomResponseToDto", builderMethodName="toDto")
+    public ChatRoomResponse (ChatRoom chatRoom, Member tutee, LectureRequest lectureRequest)
+    {
+        this.id = chatRoom.getId();
+        this.createdAt = chatRoom.getCreatedAt();
 
+        this.tutee = MemberResponse.toDto().member(tutee).build();
+        this.tutor = MemberResponse.toDto().member(lectureRequest.getLecture().getMember()).build();
+
+        this.lecture = LectureResponseDto.toDto().lecture(lectureRequest.getLecture()).build();
+        this.lectureRequest = LectureRequestResponse.toDto().lectureRequest(lectureRequest).build();
+    }
 }

@@ -1,8 +1,9 @@
 package com.sparta.soomtut.member.dto.response;
 
-import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberState;
+
+import com.sparta.soomtut.location.dto.response.LocationResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,35 +16,29 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberInfoResponse {
+public class MemberResponse {
 
-    private Long memberId;
+    private Long id;
     private String email;
     private String nickname;
     private LocalDate createAt;
-    private float starRating;
-    private int level;
-    private String profileImage;
+    private float starScore;
+    private String image;
     private MemberState state;
 
-    private String address;
-    private float vectorX;
-    private float vectorY;
+    private LocationResponse location;
 
 
     @Builder(builderClassName = "MemberInfoToDto", builderMethodName = "toDto")
-    public MemberInfoResponse(Member member, Location location) {
-        this.memberId = member.getId();
+    public MemberResponse(Member member) {
+        this.id = member.getId();
         this.email = member.getEmail();
         this.nickname = member.getNickname();
         this.createAt = member.getCreatedAt();
-        this.starRating = member.getStarRating();
-        this.level = member.getLevel();
-        this.profileImage = member.getImage();
+        this.starScore = member.getStarScore();
+        this.image = member.getImage();
         this.state = member.getState();
 
-        this.address = location.getAddress();
-        this.vectorX = location.getVectorX();
-        this.vectorY = location.getVectorY();
+        this.location = LocationResponse.toDto().location(member.getLocation()).build();
     }
 }

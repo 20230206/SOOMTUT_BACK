@@ -70,6 +70,7 @@ public class SecurityConfig {
                     .requestMatchers("/static/**").permitAll()
                     .requestMatchers("/auth/**").permitAll()
                     .requestMatchers("/connect/**").permitAll()
+                    .requestMatchers("/lecture/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(jwtVerificationFilter(), UsernamePasswordAuthenticationFilter.class);
 

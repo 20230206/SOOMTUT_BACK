@@ -1,27 +1,18 @@
 package com.sparta.soomtut.member.service.impl;
 
-import com.sparta.soomtut.lecture.entity.Lecture;
-import com.sparta.soomtut.lecture.service.LectureService;
-import com.sparta.soomtut.member.dto.response.MemberInfoResponse;
+import com.sparta.soomtut.location.entity.Location;
+import com.sparta.soomtut.member.dto.response.MemberResponse;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberState;
 import com.sparta.soomtut.member.repository.MemberRepository;
 import com.sparta.soomtut.member.service.MemberService;
-import com.sparta.soomtut.review.dto.request.CreateReviewRequestDto;
-import com.sparta.soomtut.util.dto.request.PageRequestDto;
 import com.sparta.soomtut.util.response.ErrorCode;
-import com.sparta.soomtut.location.service.LocationService;
-import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
-import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.admin.service.DeleteReviewRequestService;
-import com.sparta.soomtut.review.entity.Review;
-import com.sparta.soomtut.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -30,53 +21,37 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
-    private final LectureService lectureService;
-    private final LocationService locationService;
-    private final ReviewService reviewService;
     private final DeleteReviewRequestService deleteReviewRequestService;
-    private final LectureRequestRepository lectureRequestRepository;
 
     @Override
     @Transactional
-    public MemberInfoResponse updateNickname(String nickname, Member memberId) {
+    public MemberResponse updateNickname(String nickname, Member memberId) {
         Member member = getMemberById(memberId.getId());
         member.updateNickName(nickname);
-        var location = locationService.findMemberLocation(member.getId());
-        return MemberInfoResponse.toDto().member(member).location(location).build();
+        return MemberResponse.toDto().member(member).build();
     }
 
     @Override
     public String getNickname(Member member) {
         return member.getNickname();
     }
-    @Override
-    public String getLocation(Member member) {
-        return locationService.getLocation(member).getAddress();
-    }
-
-    @Override
-    public LocalDate getSignupDate(Member member) {
-        return member.getCreatedAt();
-    }
-
-    @Override
-    public int getLevel(Member member) {
-        return member.getLevel();
-    }
-
-    @Override
-    public String getImage(Member member) {
-        return member.getImage();
-    }
     
     @Override
     @Transactional
-    public MemberInfoResponse suspendAccount(Long memberId) {
+    public MemberResponse suspendAccount(Long memberId) {
         Member member = getMemberById(memberId);
         member.changeState(MemberState.SUSPEND);
-        var location = locationService.findMemberLocation(memberId);
-        return MemberInfoResponse.toDto().member(member).location(location).build();
+        return MemberResponse.toDto().member(member).build();
     }
+
+    @Override
+    @Transactional
+    public MemberResponse getMemberInfo(Long memberId) {
+        Member member = getMemberById(memberId);
+        return MemberResponse.toDto().member(member).build();
+    }
+
+
 
     // repository 지원 함수
     @Override
@@ -114,7 +89,7 @@ public class MemberServiceImpl implements MemberService{
     @Transactional(readOnly = true)
     public Member getMemberByEmail(String email) {
         return memberRepository.findByEmail(email).orElseThrow(
-            () -> new IllegalArgumentException("등록된 사용자가 없습니다!")
+            () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage())
         );
 
     }
@@ -125,21 +100,21 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberInfoResponse getMemberInfo(Member member) {
-        return MemberInfoResponse.toDto().member(member).location(locationService.findMemberLocation(member.getId())).build();
-    }
-
-    @Override
     @Transactional
     public Optional<Member> findByProviderAndOauthEmail(String provider, String email) {
         return memberRepository.findByProviderAndOauthEmail(provider, email);
     }
 
     @Override
-    public MemberInfoResponse getMemberInfoResponseDto(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(()->new IllegalArgumentException(ErrorCode.NOT_FOUND_USER.getMessage()));
-        return MemberInfoResponse.toDto().member(member).location(locationService.findMemberLocation(memberId)).build();
+    @Transactional(readOnly=true)
+    public List<MemberResponse> getAllLocation(Location myLocation, Member member) {
+        // TODO : 변경
+        String myCitySido = myLocation.getSido();
+        List<Member> cityUserLocations = memberRepository.findAllByAddress(myCitySido,member.getId());
+
+
+
+        return cityUserLocations.stream().map(item -> MemberResponse.toDto().member(item).build()).toList();
     }
 
 }

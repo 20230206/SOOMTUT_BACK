@@ -76,7 +76,7 @@ public class LectureRequestController {
             @ModelAttribute PageRequestDto pageable)
     {
         var data = lectureRequestService.getCompleteLecture(userDetails.getMemberId(),pageable.toPageable());
-        return ToResponse.of(data, SuccessCode.LECTURE_GETDONELECUTES_OK);
+        return ToResponse.of(data, SuccessCode.LECTURE_GETDONELECTURES_OK);
     }
 
     // 완료된 수업중 리뷰작성이 안된 수업조회

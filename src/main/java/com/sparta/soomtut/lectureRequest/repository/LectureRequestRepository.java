@@ -18,7 +18,7 @@ public interface LectureRequestRepository extends JpaRepository<LectureRequest,L
     Optional<LectureRequest> findById(Long lectureRequestId);
     Optional<LectureRequest> findByLectureAndTuteeId(Lecture lecture, Long tuteeId);
     //List<LectureRequest> findAllByTuteeIdAndLectureStateAndReviewFilterIsFalse(Long TuteeId, LectureState lectureState);
-    @Query("SELECT lr FROM LectureRequest lr WHERE lr.tuteeId = :tuteeId AND lr.lectureState = 'DONE' AND lr.reviewFilter = false")
+    @Query("SELECT lr FROM LectureRequest lr WHERE lr.tuteeId = :tuteeId AND lr.lectureState = 'DONE' AND lr.reviewed = false")
     Page<LectureRequest> findAllByTuteeIdByAndStateIsDoneAndFalse(@Param("tuteeId") Long tuteeId, Pageable pageable);
     @Query("SELECT lr FROM LectureRequest lr WHERE lr.tuteeId = :tuteeId AND lr.lectureState = 'DONE'")
     Page<LectureRequest> findAllByTuteeIdByAndStateIsDone(@Param("tuteeId") Long tuteeId, Pageable pageable);

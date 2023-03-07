@@ -2,6 +2,10 @@ package com.sparta.soomtut.member.entity;
 
 import com.sparta.soomtut.member.entity.enums.MemberRole;
 import com.sparta.soomtut.member.entity.enums.MemberState;
+
+import com.sparta.soomtut.auth.dto.request.RegisterRequest;
+
+import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.util.constants.Constants;
 
 import jakarta.persistence.*;
@@ -31,9 +35,7 @@ public class Member {
     @Column(nullable = false)
     private LocalDate createdAt;
     @Column
-    private float starRating;
-    @Column
-    private int level;
+    private float starScore;
     @Column
     private String image;
     @Column 
@@ -44,34 +46,28 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberState state;
 
-    @Builder(builderClassName = "UserDetailRegister", builderMethodName = "userDetailRegister")
-    public Member(String email, String password, String nickname) {
-        this.email = email;
-        this.password = password;
-        this.nickname = nickname;
+    @OneToOne
+    @JoinColumn(name="location_id")
+    private Location location;
+
+    @Builder
+    public Member(RegisterRequest request, Location location) {
+        this.email = request.getEmail();
+        this.nickname = request.getNickname();
+     
+        this.provider = request.getProvider();
+        this.oauthEmail = request.getProviderId();
+
+        this.location = location;
+
+        this.image = Constants.STANDARD_USER_IMAGE;
         this.memberRole = MemberRole.MEMBER;
         this.createdAt = LocalDate.now();
-        this.starRating = 0.0f;
-        this.level = 0;
-        this.image = Constants.STANDARD_USER_IMAGE;
-        this.provider = null;
-        this.oauthEmail = null;
-        this.state = MemberState.ACTIVE;
+        this.starScore = 0.0f;
     }
 
-    @Builder(builderClassName = "OAuth2Register", builderMethodName = "oauth2Register")
-    public Member(String email, String password, String nickname, String provider, String oauthEmail) {
-        this.email = email;
+    public void updatePassword(String password) {
         this.password = password;
-        this.nickname = nickname;
-        this.memberRole =  MemberRole.MEMBER;
-        this.createdAt = LocalDate.now();
-        this.starRating = 0.0f;
-        this.level = 0;
-        this.image = Constants.STANDARD_USER_IMAGE;
-        this.provider = provider;
-        this.oauthEmail = oauthEmail;
-        this.state = MemberState.INIT;
     }
 
     public void updateNickName(String nickname) {
@@ -89,5 +85,4 @@ public class Member {
     public boolean isActive() {
         return MemberState.ACTIVE.equals(state);
     }
-
 }

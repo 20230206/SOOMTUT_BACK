@@ -1,22 +1,18 @@
 package com.sparta.soomtut.location.service;
 
-import com.sparta.soomtut.location.dto.request.LocationRequestDto;
-import com.sparta.soomtut.location.dto.response.LocationResponseDto;
+import com.sparta.soomtut.location.dto.request.LocationRequest;
+import com.sparta.soomtut.location.dto.response.LocationResponse;
 import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.member.entity.Member;
-import com.sparta.soomtut.auth.dto.request.RegisterRequest;
-import org.springframework.data.domain.Page;
 
-import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface LocationService {
-
-    Location findMemberLocation(Long memberId);
-    Location updateLocation(LocationRequestDto locationRequestDto, Member member);
-    Location getLocation(Member member);
-    Location saveLocation(RegisterRequest requestDto, Member member);
+    Location saveLocation(LocationRequest request);
     Location saveLocation(Location location);
-    List<LocationResponseDto> getAllLocation(Location myLocation);
-    
+
+    Location updateLocation(Long locationId, LocationRequest request);
+
+    Location getLocationById(Long memberId);
+    Location getLocation(Member member);
 }

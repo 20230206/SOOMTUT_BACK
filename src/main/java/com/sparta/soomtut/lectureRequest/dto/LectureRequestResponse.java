@@ -1,8 +1,8 @@
 package com.sparta.soomtut.lectureRequest.dto;
 
-import com.sparta.soomtut.chat.entity.ChatRoom;
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
+import com.sparta.soomtut.lectureRequest.entity.LectureState;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -12,19 +12,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class LecReqResponseDto {
+public class LectureRequestResponse {
 
     private Long id;
     private Long tuteeId;
-    private Boolean reviewFilter;
+    private Boolean reviewed;
+    private LectureState state;
     
     private Lecture lecture;
 
     @Builder(builderClassName="LectureRequestToDto", builderMethodName="toDto")
-    public LecReqResponseDto(LectureRequest lectureRequest) {
+    public LectureRequestResponse(LectureRequest lectureRequest) {
         this.id = lectureRequest.getId();
+        this.state = lectureRequest.getLectureState();
         this.tuteeId = lectureRequest.getTuteeId();
-        this.reviewFilter = lectureRequest.getReviewFilter();
+        this.reviewed = lectureRequest.getReviewed();
         this.lecture = lectureRequest.getLecture();
     }
 }

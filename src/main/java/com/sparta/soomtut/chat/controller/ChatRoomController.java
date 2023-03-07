@@ -25,7 +25,7 @@ public class ChatRoomController {
     {
         var date = chatRoomService.getChatRoomForTutee(userDetails.getMemberId(), lectureRequestId);
         // 성공 메시지 바꿔야함.
-        return ToResponse.of(date, SuccessCode.CHATROOM_GET_OK);
+        return ToResponse.of(date, SuccessCode.CHATROOM_GETTUTEE_OK);
     }
     
     @PostMapping("/{lectureRequestId}/tutor")
@@ -35,7 +35,7 @@ public class ChatRoomController {
     {
         var date = chatRoomService.getChatRoomForTutor(userDetails.getMemberId(), lectureRequestId);
         // 성공 메시지 바꿔야함.
-        return ToResponse.of(date, SuccessCode.CHATROOM_GET_OK);
+        return ToResponse.of(date, SuccessCode.CHATROOM_GETTUTOR_OK);
     }
 
     // 나의 채팅방 목록 조회 (완료)
@@ -46,7 +46,7 @@ public class ChatRoomController {
         @ModelAttribute PageRequestDto pageable) {
         var data = chatRoomService.getMyChatRooms(userDetails.getMemberId(), state, pageable.toPageable());
         // 성공 메시지 바꿔야함.
-        return ToResponse.of(data, SuccessCode.MESSGE_OK);
+        return ToResponse.of(data, SuccessCode.CHATROOM_GETMYCHATLIST_OK);
     }
 
 }

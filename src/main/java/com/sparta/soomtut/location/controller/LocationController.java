@@ -1,14 +1,13 @@
 package com.sparta.soomtut.location.controller;
 
-import com.sparta.soomtut.location.dto.request.LocationRequestDto;
-import com.sparta.soomtut.location.dto.response.LocationResponseDto;
-import com.sparta.soomtut.location.entity.Location;
+import com.sparta.soomtut.location.dto.request.LocationRequest;
+import com.sparta.soomtut.location.dto.response.LocationResponse;
 import com.sparta.soomtut.location.service.LocationService;
-import com.sparta.soomtut.util.dto.request.PageRequestDto;
+import com.sparta.soomtut.util.response.SuccessCode;
+import com.sparta.soomtut.util.response.ToResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import com.sparta.soomtut.util.security.UserDetailsImpl;
@@ -26,21 +25,11 @@ public class LocationController {
     @Transactional
     @PutMapping(value = "/updatelocation")
     public ResponseEntity<?> saveLocation(
-        @RequestBody LocationRequestDto locationRequestDto,
+        @RequestBody LocationRequest locationRequestDto,
         @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        var data = locationService.updateLocation(locationRequestDto, userDetails.getMember());
-        return ResponseEntity.ok().body(data);
-    }
-
-    @Transactional
-    @GetMapping("/showNearTutor")
-    public List<LocationResponseDto> getNearTutor(
-            @AuthenticationPrincipal UserDetailsImpl userDetails)
-    {
-        Location myLocation = locationService.getLocation(userDetails.getMember());
-        List<LocationResponseDto> otherLocation =  locationService.getAllLocation(myLocation);
-        return otherLocation;
+        var data = locationService.updateLocation(userDetails.getMember().getLocation().getId(), locationRequestDto);
+        return ToResponse.of(data, SuccessCode.LOCATION_SAVE_OK);
     }
 
 }

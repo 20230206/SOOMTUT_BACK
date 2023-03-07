@@ -1,15 +1,11 @@
 package com.sparta.soomtut.lecture.service.impl;
 
 import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
-import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lecture.entity.Category;
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.repository.LectureRepository;
 import com.sparta.soomtut.lecture.service.LectureService;
-import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
-import com.sparta.soomtut.lectureRequest.entity.LectureState;
-import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberRole;
 import com.sparta.soomtut.util.response.ErrorCode;
@@ -18,6 +14,7 @@ import com.sparta.soomtut.location.service.LocationService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
@@ -26,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -43,7 +42,7 @@ public class LectureServiceImpl implements LectureService {
     public LectureResponseDto getLecture(Long lectureId) {
         Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
             () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage()));
-        return new LectureResponseDto(lecture, locationService.findMemberLocation(lecture.getTutorId()));
+        return LectureResponseDto.toDto().lecture(lecture).build();
     }
 
     @Override
@@ -71,13 +70,13 @@ public class LectureServiceImpl implements LectureService {
         String fileName = postdir + "/" + date.format(new Date()) + "-" + file.getOriginalFilename();
         Lecture lecture = new Lecture(lectureRequestDto,CLOUD_FRONT_DOMAIN_NAME + fileName, member);
         lectureRepository.save(lecture);
-        return new LectureResponseDto(lecture, locationService.findMemberLocation(member.getId()));
+        return LectureResponseDto.toDto().lecture(lecture).build();
     }
 
     // 게시글 수정
     @Override
     @Transactional
-    public LectureResponseDto updateLecture(Long lectureId, UpdateLectureRequestDto lectureRequestDto, Member member) {
+    public LectureResponseDto updateLecture(Long lectureId, CreateLectureRequestDto postRequestDto, Member member,MultipartFile file) {
         Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
                 () -> new IllegalArgumentException(ErrorCode.NOT_FOUND_POST.getMessage())
         );
@@ -86,7 +85,18 @@ public class LectureServiceImpl implements LectureService {
             if (!lecture.getTutorId().equals(member.getId()))
                 throw new IllegalArgumentException(ErrorCode.AUTHORIZATION.getMessage());
         }
-        lecture.update(lectureRequestDto);
+        SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmss");
+        System.out.println(file);
+
+
+        if(file == null){
+            String fileName = lecture.getImage();
+            lecture.update(postRequestDto,fileName);
+        }else{
+            String fileName = postdir + "/" + date.format(new Date()) + "-" + file.getOriginalFilename();
+            lecture.update(postRequestDto,CLOUD_FRONT_DOMAIN_NAME+fileName);
+        }
+
         return new LectureResponseDto(lecture);
     }
 
@@ -121,10 +131,7 @@ public class LectureServiceImpl implements LectureService {
     public LectureResponseDto getMyLecture(Member member) {
         Lecture lecture = lectureRepository.findByMemberId(member.getId())
                 .orElseThrow(() -> new IllegalArgumentException(ErrorCode.NOT_FOUND_CLASS.getMessage()));
-        return new LectureResponseDto(
-                lecture,
-                member.getNickname(),
-                locationService.findMemberLocation(member.getId()).getAddress());
+        return LectureResponseDto.toDto().lecture(lecture).build();
     }
 
     @Override
@@ -159,10 +166,21 @@ public class LectureServiceImpl implements LectureService {
         return lectureRepository.findAllByMemberId(memberId, pageable);
     }
 
+    // TODO : 변경
     @Override
     @Transactional
     public Page<LectureResponseDto> searchByKeyword(String keyword,Pageable pageable) {
-        return lectureRepository.findLectureByKeyword(keyword,pageable);
+        Page<Lecture> lectures = lectureRepository.findLectureByKeyword(keyword,pageable);
+        return lectures.map(item -> LectureResponseDto.toDto().lecture(item).build());
+    }
+
+    @Override
+    public List<LectureResponseDto> getPopularLectures() {
+        Pageable pageable = PageRequest.of(0, 9);
+        List<Lecture> top9Lectures = lectureRepository.findTop9ByFavorite(pageable);
+        return top9Lectures.stream()
+                .map(LectureResponseDto::new)
+                .collect(Collectors.toList());
     }
 
 }

@@ -2,7 +2,6 @@ package com.sparta.soomtut.lecture.controller;
 
 import com.sparta.soomtut.image.service.S3Service;
 import com.sparta.soomtut.lecture.dto.request.CreateLectureRequestDto;
-import com.sparta.soomtut.lecture.dto.request.UpdateLectureRequestDto;
 import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lecture.service.BookmarkService;
 import com.sparta.soomtut.lecture.service.LectureService;
@@ -40,7 +39,7 @@ public class LectureController {
     {
         var data = lectureService.createLecture(userDetails.getMember(), postRequestDto,file);
         ToResponse.of(data, SuccessCode.LECTURE_CREATE_OK);
-        s3Service.uploadLectureImage(data.getLectureId(),file);
+        s3Service.uploadLectureImage(data.getId(),file);
         return ToResponse.of(data, SuccessCode.IMG_LECTUREIMG_OK);
     }
 
@@ -48,11 +47,16 @@ public class LectureController {
     @PutMapping("/{lectureid}")
     public ResponseEntity<?> updateLecture(
             @PathVariable Long lectureid,
-            @RequestBody UpdateLectureRequestDto updatePostRequestDto,
-            @AuthenticationPrincipal UserDetailsImpl userDetails)
+            @RequestPart CreateLectureRequestDto postRequestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestPart(value = "file",required = false) MultipartFile file) throws IOException
     {
-        var data = lectureService.updateLecture(lectureid, updatePostRequestDto, userDetails.getMember());
+        var data = lectureService.updateLecture(lectureid, postRequestDto, userDetails.getMember(),file);
+        if (file!=null) {
+            s3Service.uploadLectureImage(data.getId(), file);
+        }
         return ToResponse.of(data, SuccessCode.LECTURE_UPDATE_OK);
+
     }
 
     // 수업 삭제
@@ -66,7 +70,7 @@ public class LectureController {
     }
 
     // 수업 단일 조회
-    @GetMapping(value ="/{lectureid}")
+    @GetMapping(value ="/public/{lectureid}")
     public ResponseEntity<?> getLecture(
             @PathVariable Long lectureid)
     {
@@ -75,9 +79,10 @@ public class LectureController {
     }
 
     // 수업 전체 조회
-    @GetMapping
+    @GetMapping(value="/public")
     public ResponseEntity<?> getAllLeuctures(
             @RequestParam(required = false, value = "category") int category,
+            @RequestParam(required = false, value = "region") String region,
             @ModelAttribute PageRequestDto pageable)
     {
         var data = boardService.getAllPost(category, pageable.toPageable());
@@ -91,7 +96,7 @@ public class LectureController {
             @ModelAttribute PageRequestDto pageable)
     {
         var data = boardService.getLecturesByMemberId(userDetails.getMember().getId(), pageable.toPageable());
-        return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURES_OK);
+        return ToResponse.of(data, SuccessCode.LECTURE_GETMYLECTURES_OK);
     }
     
     // 나의 수업인지 확인
@@ -108,11 +113,10 @@ public class LectureController {
     @GetMapping(value = "/bookmark/{lectureId}")
     public ResponseEntity<?> getBookmarkState(
             @PathVariable Long lectureId,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
-    )
+            @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         var data = bookmarkService.getState(lectureId, userDetails.getMember());
-        return ResponseEntity.ok().body(data);
+        return ToResponse.of(data, SuccessCode.LECTURE_BOOKMARKCHECK_OK);
     }
 
     //즐겨찾기 추가 및 취소
@@ -137,7 +141,7 @@ public class LectureController {
     }
 
     //키워드로 수업 검색하기
-    @GetMapping("/search")
+    @GetMapping("/public/search")
     public Page<LectureResponseDto> searchByKeyword(
             @ModelAttribute PageRequestDto pageRequestDto,
             @RequestParam String keyword)
@@ -146,13 +150,22 @@ public class LectureController {
     }
 
     //특정 회원 수업 모두 조회
-    @GetMapping(value ="/{memberId}/all")
+    @GetMapping(value ="/public/{memberId}/all")
     public ResponseEntity<?> getMemberLecture(
             @PathVariable Long memberId,
             @RequestParam(required = false, value = "category") int category,
+            @RequestParam(required = false, value = "region") String region,
             @ModelAttribute PageRequestDto pageRequestDto)
     {
         Page<LectureResponseDto> data = lectureService.getMemberLecture(category,memberId,pageRequestDto.toPageable());
         return ToResponse.of(data, SuccessCode.LECTURE_GETLECTURES_OK);
     }
+
+
+    @GetMapping(value = "/popular")
+    public ResponseEntity<?> getPopularLectures() {
+       var date =  lectureService.getPopularLectures();
+        return ToResponse.of(date, SuccessCode.LECTURE_POPULARLECTURES_OK);
+    }
+
 }
