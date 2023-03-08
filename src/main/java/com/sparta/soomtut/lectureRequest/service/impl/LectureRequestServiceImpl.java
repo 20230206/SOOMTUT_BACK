@@ -8,7 +8,6 @@ import com.sparta.soomtut.lectureRequest.entity.LectureRequest;
 import com.sparta.soomtut.lectureRequest.entity.LectureState;
 import com.sparta.soomtut.lectureRequest.repository.LectureRequestRepository;
 import com.sparta.soomtut.lectureRequest.service.LectureRequestService;
-import com.sparta.soomtut.location.service.LocationService;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.util.response.ErrorCode;
 import com.sparta.soomtut.util.exception.CustomException;
@@ -30,6 +29,9 @@ public class LectureRequestServiceImpl implements LectureRequestService{
     @Transactional
     public LectureRequestResponse createLectureRequest(Long lectureId, Long memberId) {
         Lecture lecture = lectureService.getLectureById(lectureId);
+        if(lecture.getMember().getId().equals(memberId)) {
+            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
 
         if(this.existsLectureRequestByStateIsNotComplete(memberId, lectureId)) {
             throw new CustomException(ErrorCode.NOT_FOUND_REQUEST);
