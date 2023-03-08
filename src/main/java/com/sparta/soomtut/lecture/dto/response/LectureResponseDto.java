@@ -16,6 +16,7 @@ public class LectureResponseDto {
     private String image;
     private String title;
     private int categoryId;
+    private String categoryName;
     private String content;
     private int favorit;
     private int fee;
@@ -28,6 +29,7 @@ public class LectureResponseDto {
         this.image = lecture.getImage();
         this.title = lecture.getTitle();
         this.categoryId = lecture.getCategory().getValue();
+        this.categoryName = lecture.getCategory().getName();
         this.content = lecture.getContent();
         this.favorit = lecture.getFavorite();
         this.fee = lecture.getFee();
