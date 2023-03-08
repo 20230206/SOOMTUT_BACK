@@ -162,7 +162,7 @@ public class LectureController {
     }
 
 
-    @GetMapping(value = "/popular")
+    @GetMapping(value = "/public/popular")
     public ResponseEntity<?> getPopularLectures() {
        var date =  lectureService.getPopularLectures();
         return ToResponse.of(date, SuccessCode.LECTURE_POPULARLECTURES_OK);
