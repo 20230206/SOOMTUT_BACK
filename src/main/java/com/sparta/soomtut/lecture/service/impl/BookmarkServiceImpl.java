@@ -25,7 +25,7 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Transactional
     @Override
     public boolean getState(Long lectureId, Member member) {
-        if (!hasFavPost(lectureId, member)) {
+        if (!isBookmarked(lectureId, member)) {
             return false;
         }
         else {
@@ -60,13 +60,21 @@ public class BookmarkServiceImpl implements BookmarkService {
           -> 새로운 FavMemberPost를 생성하고, save 해주고 return true
          2. existsByPostIdAndMemberId를 통해서 return이 true 일시
           -> findByPostIdAndMemberId 통해 해당 기록을 가져오고, 해당기록의 내용을 반대로 변경시켜준다.*/
-        if(!hasFavPost(lectureId, member)) {
+        if(!isBookmarked(lectureId, member)) {
             Lecture lecture = postService.getLectureById(lectureId);
             Bookmark data = createFavPost(lecture, member);
+            lecture.incFavCount();            
             return data.isStatus();
         }
         else {
+            Lecture lecture = postService.getLectureById(lectureId);
             Bookmark data = findByLectureIdAndMemberId(lectureId, member.getId());
+            if(data.isStatus()) {
+                lecture.decFavCount();
+            }
+            else {
+                lecture.incFavCount();
+            }
             data.updateState(!data.isStatus());
             return data.isStatus();
         }
@@ -80,7 +88,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     //글과 멤버의 값을 가지고 있다면 true 아니라면 false 용도의 함수
     @Transactional(readOnly = true)
-    public boolean hasFavPost(Long lectureId, Member member) {
+    public boolean isBookmarked(Long lectureId, Member member) {
         //Optional 값을 가지고 있다면 ture 아니면 false ->existsBy로 변경
         return favMemberPostRepository.existsByLectureIdAndMemberId(lectureId, member.getId());
     }
