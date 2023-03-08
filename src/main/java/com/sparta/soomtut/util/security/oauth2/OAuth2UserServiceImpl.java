@@ -51,7 +51,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
         String nickname = provider + "_" + providerId;
         String uuid = UUID.randomUUID().toString().substring(0,6);
         String password = passwordEncoder.encode(Constants.STANDARD_OAUTH2_PASS + uuid);
-        String email = attributes.get(EMAIL).toString() + "@" + provider;
+        String email = attributes.get(EMAIL).toString();
         Member member = memberService.findByProviderAndOauthEmail(provider, email)
                         .orElseGet( () -> createNewMember(email, nickname, password, provider));
 
