@@ -57,7 +57,7 @@ public class AuthServiceImplTest {
         ReflectionTestUtils.setField(jwtProvider,
                 "secretKey", // jwtUtil의 secretKey값이 저장될 변수
                 "7ZWt7ZW0OTntmZTsnbTtjIXtlZzqta3snYTrhIjrqLjshLjqs4TroZzrgpjslYTqsIDsnpDtm4zrpa3tlZzqsJzrsJzsnpDrpbzrp4zrk6TslrTqsIDsnpA="); // secretKey의 값
-        jwtProvider.init(); // jwtUtil에서 @PostConstructor가 동작하지 않기 때문에, 임의로 실행시켜야 함
+            jwtProvider.init(); // jwtUtil에서 @PostConstructor가 동작하지 않기 때문에, 임의로 실행시켜야 함
     }
 
     @Test
