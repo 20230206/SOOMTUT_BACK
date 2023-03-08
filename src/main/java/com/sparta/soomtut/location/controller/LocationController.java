@@ -14,8 +14,6 @@ import com.sparta.soomtut.util.security.UserDetailsImpl;
 
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-
 @RequestMapping("/location")
 @RequiredArgsConstructor
 @RestController
@@ -24,7 +22,7 @@ public class LocationController {
 
     @Transactional
     @PutMapping(value = "/updatelocation")
-    public ResponseEntity<?> saveLocation(
+    public ResponseEntity<?> updateLocation(
         @RequestBody LocationRequest locationRequestDto,
         @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
