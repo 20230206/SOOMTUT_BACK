@@ -4,7 +4,6 @@ import com.sparta.soomtut.lecture.dto.response.LectureResponseDto;
 import com.sparta.soomtut.lecture.entity.Lecture;
 import com.sparta.soomtut.lecture.service.BoardService;
 import com.sparta.soomtut.lecture.service.LectureService;
-import com.sparta.soomtut.location.service.LocationService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

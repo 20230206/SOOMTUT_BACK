@@ -9,7 +9,6 @@ import com.sparta.soomtut.lecture.service.LectureService;
 import com.sparta.soomtut.member.entity.Member;
 import com.sparta.soomtut.member.entity.enums.MemberRole;
 import com.sparta.soomtut.util.response.ErrorCode;
-import com.sparta.soomtut.location.service.LocationService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,7 +33,6 @@ public class LectureServiceImpl implements LectureService {
     @Value("${cloud.aws.s3.postdir}")
     private String postdir;
     private final LectureRepository lectureRepository;
-    private final LocationService locationService;
     public static final String CLOUD_FRONT_DOMAIN_NAME = "https://d14tc44lwo36do.cloudfront.net/";
 
     @Override

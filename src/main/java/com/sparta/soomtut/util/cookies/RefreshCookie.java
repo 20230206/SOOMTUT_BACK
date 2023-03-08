@@ -15,7 +15,7 @@ public class RefreshCookie {
         .httpOnly(true)
         .maxAge(Duration.ofDays(age))
         .path("/")
-        // .sameSite("None") // https 적용 시 활성화 할것
+        .sameSite("None") // https 적용 시 활성화 할것
         .build();
         return cookie;
     }
