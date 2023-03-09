@@ -17,19 +17,21 @@ import com.sparta.soomtut.auth.dto.response.LoginResponse;
 import com.sparta.soomtut.auth.service.impl.AuthServiceImpl;
 import com.sparta.soomtut.member.dto.response.MemberResponse;
 import com.sparta.soomtut.member.entity.Member;
+import com.sparta.soomtut.member.entity.enums.MemberRole;
+import com.sparta.soomtut.member.entity.enums.MemberState;
 import com.sparta.soomtut.member.repository.MemberRepository;
 import com.sparta.soomtut.member.service.impl.MemberServiceImpl;
 import com.sparta.soomtut.location.entity.Location;
 import com.sparta.soomtut.location.dto.request.*;
-import com.sparta.soomtut.location.repository.LocationRepository;
-import com.sparta.soomtut.location.service.impl.LocationServiceImpl;
+import com.sparta.soomtut.location.service.LocationService;
+import com.sparta.soomtut.util.exception.CustomException;
 import com.sparta.soomtut.util.jwt.JwtProvider;
+import com.sparta.soomtut.util.jwt.TokenType;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthServiceImplTest {
@@ -43,7 +45,7 @@ public class AuthServiceImplTest {
     private MemberRepository memberRepository;
 
     @Mock
-    private LocationServiceImpl locationService;
+    private LocationService locationService;
 
     @Spy
     private BCryptPasswordEncoder passwordEncoder;
@@ -62,62 +64,150 @@ public class AuthServiceImplTest {
 
     @Test
     @DisplayName("회원 가입(성공)")
-    void signup() {
+    void register() {
         // given
-        // RegisterRequest request = RegisterRequest.builder()
-        //     .nickname("SignupSuccess")
-        //     .email("user@user.com")
-        //     .password("1q2w3e4r!")
-        //     .address("서울특별시 서초구 반포동")
-        //     .posX(0)
-        //     .posY(0)
-        //     .sido("서울특별시")
-        //     .sigungu("서초구")
-        //     .bname("반포동")
-        //     .build();
+        RegisterRequest request = RegisterRequest.builder()
+            .nickname("회원가입성공")
+            .email("user@user.com")
+            .password("1q2w3e4r!")
+            .address("서울특별시 서초구 반포동")
+            .posX(37.5049f)
+            .posY(127.024f)
+            .sido("서울특별시")
+            .sigungu("서초구")
+            .bname("반포동")
+            .build();
 
-        // LocationRequest locationRequest = LocationRequest.registerConvert().request(request).build();
-        // Location location = Location.builder().request(locationRequest).build();
+        LocationRequest locationRequest = LocationRequest.registerConvert().request(request).build();
+        Location location = Location.builder().request(locationRequest).build();
 
-        // Member member = Member.builder().request(request).location(location).build();
+        Member member = Member.builder().request(request).location(location).build();
 
+        // when
+        when(memberService.existsMemberByEmail(any(String.class))).thenReturn(false);
+        when(memberService.existsMemberByNickname(any(String.class))).thenReturn(false);
+        when(memberService.saveMember(any(Member.class))).thenReturn(member);
+        when(locationService.saveLocation(any(LocationRequest.class))).thenReturn(location);
 
-        // when(memberService.saveMember(any(Member.class))).thenReturn(member);
-        // when(memberService.existsMemberByEmail(any(String.class))).thenReturn(false);
-        // when(memberService.existsMemberByNickname(any(String.class))).thenReturn(false);
-        // when(locationService.saveLocation(location)).thenReturn(location);
-
-        // // when
-        // MemberResponse res = authService.register(request);
+        MemberResponse res = authService.register(request);
 
         // then
-        // Hibernate: 
-        //     insert
-        //     into
-        //         member
-        //         (created_at, email, image, level, member_role, nickname, password, star_rating)
-        //     values
-        //         (?, ?, ?, ?, ?, ?, ?, ?)
+        assertEquals(member.getEmail(), res.getEmail());
+        assertEquals(member.getNickname(), res.getNickname());
+        assertEquals(member.getLocation().getAddress(), res.getLocation().getAddress());
+        assertEquals(member.getLocation().getPosX(), res.getLocation().getPosX());
+        assertEquals(member.getLocation().getPosY(), res.getLocation().getPosY());
+        assertEquals(member.getLocation().getBname(), res.getLocation().getBname());
+        assertEquals(member.getLocation().getSido(), res.getLocation().getSido());
+        assertEquals(member.getLocation().getSigungu(), res.getLocation().getSigungu());
+        assertEquals(MemberState.ACTIVE , res.getState());
+    }
+    
+    @Test
+    @DisplayName("회원 가입(실패)-중복이메일")
+    void registerExceptionDupleEmail() {
+        // given
+        RegisterRequest request = RegisterRequest.builder()
+            .nickname("회원가입성공")
+            .email("user@user.com")
+            .password("1q2w3e4r!")
+            .address("서울특별시 서초구 반포동")
+            .posX(37.5049f)
+            .posY(127.024f)
+            .sido("서울특별시")
+            .sigungu("서초구")
+            .bname("반포동")
+            .build();
+
+        // when
+        when(memberService.existsMemberByEmail(any(String.class))).thenReturn(true);
+        
+        // then
+        assertThrows(CustomException.class, () -> {
+            authService.register(request);
+        });
+    }
+
+    @Test
+    @DisplayName("회원 가입(실패)-중복닉네임")
+    void registerExceptionDupleNickname() {
+        // given
+        RegisterRequest request = RegisterRequest.builder()
+            .nickname("회원가입성공")
+            .email("user@user.com")
+            .password("1q2w3e4r!")
+            .address("서울특별시 서초구 반포동")
+            .posX(37.5049f)
+            .posY(127.024f)
+            .sido("서울특별시")
+            .sigungu("서초구")
+            .bname("반포동")
+            .build();
+
+        // when
+        when(memberService.existsMemberByEmail(any(String.class))).thenReturn(false);
+        when(memberService.existsMemberByNickname(any(String.class))).thenReturn(true);
+
+        // then
+        assertThrows(CustomException.class, () -> {
+            authService.register(request);
+        });
     }
 
     @Test
     @DisplayName("로그인 (성공)")
-    void signin() {
+    void login() {
         // given
-        LoginRequest requestDto = LoginRequest.builder()
+        RegisterRequest registerReq = RegisterRequest.builder()
+        .nickname("로그인 성공")
+        .email("user@user.com")
+        .password(passwordEncoder.encode("1q2w3e4r!"))
+        .build();
+
+        LoginRequest loginReq = LoginRequest.builder()
             .email("user@user.com")
             .password("1q2w3e4r!")
             .build();
 
-        // Member member = new Member("user@user.com", passwordEncoder.encode("1q2w3e4r!"), "LoginTest");
-
-        // when(memberService.getMemberByEmail(any(String.class))).thenReturn(member);
-        // 패스워드 우회?
+        Member member = Member.builder().request(registerReq).build();
+        member.updatePassword(registerReq.getPassword());
+        member.changeState(MemberState.ACTIVE);
 
         // when
-        // LoginResponse res = authService.login(requestDto);
+        when(memberService.getMemberByEmail(any(String.class))).thenReturn(member);
+        LoginResponse res = authService.login(loginReq);
 
         // then
-        // verify(jwtProvider).createToken(member.getEmail(), member.getMemberRole(), TokeType.);
+        verify(jwtProvider, times(1))
+                .createToken(member.getEmail(), MemberRole.MEMBER, TokenType.REFRESH);
+        assertEquals(member.getState(), res.getState());
+    }
+
+    @Test
+    @DisplayName("로그인 (실패)-비밀번호 틀림")
+    void loginFail() {
+        // given
+        RegisterRequest registerReq = RegisterRequest.builder()
+        .nickname("로그인 실패")
+        .email("user@user.com")
+        .password(passwordEncoder.encode("1q2w3e4r!"))
+        .build();
+
+        LoginRequest loginReq = LoginRequest.builder()
+            .email("user@user.com")
+            .password("asdfasdf!")
+            .build();
+
+        Member member = Member.builder().request(registerReq).build();
+        member.updatePassword(registerReq.getPassword());
+        member.changeState(MemberState.ACTIVE);
+
+        // when
+        when(memberService.getMemberByEmail(any(String.class))).thenReturn(member);
+
+        // then
+        assertThrows(CustomException.class, () -> {
+            authService.login(loginReq);
+        });
     }
 }
