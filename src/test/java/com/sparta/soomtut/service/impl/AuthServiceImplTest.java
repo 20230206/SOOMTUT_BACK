@@ -12,8 +12,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.sparta.soomtut.auth.dto.request.LoginRequest;
+import com.sparta.soomtut.auth.dto.request.OAuthInitRequest;
+import com.sparta.soomtut.auth.dto.request.OAuthLoginRequest;
 import com.sparta.soomtut.auth.dto.request.RegisterRequest;
 import com.sparta.soomtut.auth.dto.response.LoginResponse;
+import com.sparta.soomtut.auth.entity.Auth;
+import com.sparta.soomtut.auth.repository.AuthRepository;
 import com.sparta.soomtut.auth.service.impl.AuthServiceImpl;
 import com.sparta.soomtut.member.dto.response.MemberResponse;
 import com.sparta.soomtut.member.entity.Member;
@@ -33,6 +37,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import java.util.Optional;
+
 @ExtendWith(MockitoExtension.class)
 public class AuthServiceImplTest {
     @InjectMocks
@@ -46,6 +52,9 @@ public class AuthServiceImplTest {
 
     @Mock
     private LocationService locationService;
+
+    @Mock
+    private AuthRepository authRepository;
 
     @Spy
     private BCryptPasswordEncoder passwordEncoder;
@@ -209,5 +218,89 @@ public class AuthServiceImplTest {
         assertThrows(CustomException.class, () -> {
             authService.login(loginReq);
         });
+    }
+
+    @Test
+    @DisplayName("OAuth2 로그인(성공)")
+    void oauthLogin() {
+        // given
+        OAuthLoginRequest loginRequest = OAuthLoginRequest.builder()
+                    .email("user@user.com")
+                    .role(MemberRole.MEMBER.toString())
+                    .hash(1234)
+                    .build();
+
+        Auth auth = new Auth(1L, "user@user.com", 1234);
+        
+        when(authRepository.findByEmailAndHash(any(String.class),
+            any(Integer.class).intValue())).thenReturn(Optional.of(auth));
+
+        // when
+        authService.oauthLogin(loginRequest);
+
+        // then
+        verify(jwtProvider, times(1)).createToken(loginRequest.getEmail(), MemberRole.MEMBER, TokenType.REFRESH);
+    }
+
+    @Test
+    @DisplayName("OAuth2 로그인(실패)-인증정보 없음")
+    void oauthLoginFail() {
+        // given
+        OAuthLoginRequest loginRequest = OAuthLoginRequest.builder()
+                    .email("user@user.com")
+                    .role(MemberRole.MEMBER.toString())
+                    .hash(1234)
+                    .build();
+        
+        assertThrows(CustomException.class, () -> {
+            authService.oauthLogin(loginRequest);
+        });
+    }
+
+    @Test 
+    @DisplayName("OAuth2 최초 로그인 정보 입력 성공")
+    void updateOAuthInfo() {
+        // given
+        RegisterRequest memberRequest = RegisterRequest.builder()
+                .nickname("회원가입성공")
+                .email("user@user.com")
+                .password("1q2w3e4r!")
+                .build();
+
+        Member member = Member.builder().request(memberRequest).location(new Location()).build();
+
+        OAuthInitRequest oAuthRequest = OAuthInitRequest.builder()
+                .nickname("OAuth입력성공")
+                .address("서울특별시 서초구 반포동")
+                .posX(37.5049f)
+                .posY(127.024f)
+                .sido("서울특별시")
+                .sigungu("서초구")
+                .bname("반포동")
+                .build();
+
+        LocationRequest locationRequest = LocationRequest.oauthInitconvert().request(oAuthRequest).build();
+        locationService.updateLocation(member.getLocation().getId(), locationRequest);
+
+        String token = jwtProvider.createToken(oAuthRequest.getNickname(), MemberRole.MEMBER, TokenType.REFRESH);
+
+        member.updateNickName(oAuthRequest.getNickname());
+        member.changeState(MemberState.ACTIVE);
+
+        when(jwtProvider.getEmail(token)).thenReturn(member.getEmail());
+        when(memberService.getMemberByEmail(any(String.class))).thenReturn(member);
+        when(jwtProvider.validateToken(any(String.class))).thenReturn(true);
+
+        MemberResponse res = authService.updateOAuthInfo(oAuthRequest, token);
+
+        assertEquals(member.getEmail(), res.getEmail());
+        assertEquals(member.getNickname(), res.getNickname());
+        assertEquals(member.getLocation().getAddress(), res.getLocation().getAddress());
+        assertEquals(member.getLocation().getPosX(), res.getLocation().getPosX());
+        assertEquals(member.getLocation().getPosY(), res.getLocation().getPosY());
+        assertEquals(member.getLocation().getBname(), res.getLocation().getBname());
+        assertEquals(member.getLocation().getSido(), res.getLocation().getSido());
+        assertEquals(member.getLocation().getSigungu(), res.getLocation().getSigungu());
+        assertEquals(MemberState.ACTIVE , res.getState());
     }
 }
